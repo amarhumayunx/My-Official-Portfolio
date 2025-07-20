@@ -20,6 +20,8 @@ export const projects = [
     status: "Completed",
     image: "/images/balancebite-app.png",
     githubUrl: "https://github.com/amarhumayunx/BalanceBite",
+    liveDemoUrl: "https://balancebite.vercel.app", // Example live demo URL
+    categories: ["Mobile", "AI/ML", "Health", "Android"],
   },
   {
     title: "SafeCrypt Password Manager",
@@ -41,6 +43,8 @@ export const projects = [
     status: "Active Development",
     image: "/images/safecrypt-app.png",
     githubUrl: "https://github.com/amarhumayunx/SafeCrypt",
+    liveDemoUrl: null, // No live demo for this one yet
+    categories: ["Mobile", "Security", "Cross-Platform", "Flutter"],
   },
   {
     title: "Surah Yaseen App",
@@ -62,6 +66,8 @@ export const projects = [
     status: "Completed",
     image: "/images/surah-yaseen-app.png",
     githubUrl: "https://github.com/amarhumayunx/Surah-Yaseen",
+    liveDemoUrl: "https://surahyaseen.vercel.app", // Example live demo URL
+    categories: ["Mobile", "Islamic", "Flutter"],
   },
   {
     title: "Toolkit App",
@@ -83,5 +89,7 @@ export const projects = [
     status: "Completed",
     image: "/images/toolkit-app.png",
     githubUrl: "https://github.com/amarhumayunx/ToolKit-flutter",
+    liveDemoUrl: "https://toolkit-app.vercel.app", // Example live demo URL
+    categories: ["Mobile", "Utility", "Flutter", "AI/ML"],
   },
 ]

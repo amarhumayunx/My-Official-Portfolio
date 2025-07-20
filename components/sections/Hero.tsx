@@ -1,7 +1,7 @@
 "use client"
 
 import { motion, useScroll, useTransform } from "framer-motion"
-import { ArrowDown, Github, Linkedin, Mail, MapPin, User, Code, Smartphone } from "lucide-react"
+import { ArrowDown, Github, Linkedin, Mail, MapPin, User, Code, Smartphone, Download } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { TypewriterEffect } from "@/components/ui/TypewriterEffect"
 import { useRef } from "react"
@@ -43,7 +43,7 @@ export default function Hero() {
       style={{ opacity, scale }}
     >
       {/* Enhanced animated background */}
-      <div className="absolute inset-0 -z-10">
+      <div className="absolute inset-0 -z-10" aria-hidden="true">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900/20 dark:to-purple-900/20"></div>
         <motion.div
           style={{ x: blob1X, y: blob1Y }}
@@ -115,6 +115,7 @@ export default function Hero() {
               transition: { duration: 0.3 },
             }}
             className="w-32 h-32 mx-auto rounded-full bg-gradient-to-r from-blue-500 to-purple-600 p-1 cursor-pointer relative"
+            aria-hidden="true" // Decorative element
           >
             <motion.div
               className="w-full h-full rounded-full bg-background flex items-center justify-center overflow-hidden"
@@ -180,6 +181,8 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 1, ease: "easeOut" }}
               className="text-xl sm:text-2xl lg:text-3xl text-muted-foreground"
+              aria-live="polite" // Announce changes to screen readers
+              aria-atomic="true"
             >
               <TypewriterEffect
                 words={["Flutter Developer", "Mobile App Developer", "Software Engineer", "Cross-Platform Expert"]}
@@ -196,7 +199,7 @@ export default function Hero() {
             transition={{ delay: 0.8, duration: 1, ease: "easeOut" }}
             className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
           >
-            Passionate Flutter Developer with hands-on experience in building high-performance, cross-platform mobile applications. Recently completed a successful internship at Haachi Technologies, where I contributed to innovative app solutions. Now a Computer Science graduate, ready to take on new challenges in mobile app development with a strong focus on Flutter, Firebase, and clean UI/UX.
+            Passionate Flutter Developer with hands-on experience building high-performance, cross-platform apps using Flutter and Firebase. Focused on creating clean, user-friendly interfaces and scalable mobile solutions.
           </motion.p>
 
           <motion.div
@@ -206,14 +209,18 @@ export default function Hero() {
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <motion.div whileHover={{ scale: 1.05 }} className="flex items-center gap-2 text-muted-foreground">
-              <MapPin className="w-4 h-4" />
+              <MapPin className="w-4 h-4" aria-hidden="true" />
               <span>Lahore, Pakistan</span>
             </motion.div>
             <div className="flex items-center gap-4">
               <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
                 <Button variant="outline" size="sm" asChild>
-                  <a href="mailto:amarhumayun@outlook.com" className="flex items-center gap-2">
-                    <Mail className="w-4 h-4" />
+                  <a
+                    href="mailto:amarhumayun@outlook.com"
+                    className="flex items-center gap-2"
+                    aria-label="Email Muhammad Humayun Amar"
+                  >
+                    <Mail className="w-4 h-4" aria-hidden="true" />
                     Email
                   </a>
                 </Button>
@@ -225,8 +232,9 @@ export default function Hero() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2"
+                    aria-label="View GitHub profile"
                   >
-                    <Github className="w-4 h-4" />
+                    <Github className="w-4 h-4" aria-hidden="true" />
                     GitHub
                   </a>
                 </Button>
@@ -238,9 +246,23 @@ export default function Hero() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2"
+                    aria-label="View LinkedIn profile"
                   >
-                    <Linkedin className="w-4 h-4" />
+                    <Linkedin className="w-4 h-4" aria-hidden="true" />
                     LinkedIn
+                  </a>
+                </Button>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+                <Button variant="default" size="sm" asChild>
+                  <a
+                    href="/Muhammad_Humayun_Amar_CV.pdf" // Placeholder URL for your CV
+                    download="Muhammad_Humayun_Amar_CV.pdf"
+                    className="flex items-center gap-2"
+                    aria-label="Download Muhammad Humayun Amar's CV"
+                  >
+                    <Download className="w-4 h-4" aria-hidden="true" />
+                    Download CV
                   </a>
                 </Button>
               </motion.div>
@@ -257,8 +279,14 @@ export default function Hero() {
               }}
               whileHover={{ scale: 1.1, y: -20, transition: { duration: 0.3 } }} // Larger hover effect
             >
-              <Button onClick={scrollToAbout} variant="ghost" className="hover:bg-transparent" size="lg">
-                <ArrowDown className="w-6 h-6" />
+              <Button
+                onClick={scrollToAbout}
+                variant="ghost"
+                className="hover:bg-transparent"
+                size="lg"
+                aria-label="Scroll to About section"
+              >
+                <ArrowDown className="w-6 h-6" aria-hidden="true" />
               </Button>
             </motion.div>
           </motion.div>

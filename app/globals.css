@@ -135,3 +135,33 @@ textarea {
   background-size: 200px 100%;
   animation: shimmer 1.5s infinite;
 }
+
+/* Print Styles */
+@media print {
+  body {
+    background-color: #fff !important;
+    color: #000 !important;
+  }
+  /* Hide elements not needed for print */
+  .custom-cursor-enabled,
+  .fixed /* Hide fixed elements like navigation, back-to-top, particles */,
+  .no-print {
+    /* Use this class for specific elements you want to hide */
+    display: none !important;
+  }
+  /* Ensure content is visible and readable */
+  .section-padding {
+    padding: 0 !important;
+  }
+  .max-w-4xl {
+    max-width: 100% !important;
+  }
+  .prose {
+    max-width: 100% !important;
+    color: #000 !important;
+  }
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+}

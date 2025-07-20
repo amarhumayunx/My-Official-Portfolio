@@ -1,35 +1,76 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 import { motion } from "framer-motion"
 import { ExternalLink, Github, Calendar, Search } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-// Removed Dialog imports as we are now routing to a dedicated page
 import { ParallaxSection } from "@/components/ui/ParallaxSection"
 import Image from "next/image"
 import { Input } from "@/components/ui/input"
-import { getProjectsWithSlugs } from "@/lib/project-utils" // Import from new project-utils
-import Link from "next/link" // Import Link for navigation
+import { getProjectsWithSlugs } from "@/lib/project-utils"
+import Link from "next/link"
+import { categories } from "@/data/categories" // Corrected import
+
+// Simple Skeleton component for loading states
+const ProjectCardSkeleton = () => (
+  <Card className="h-full shadow-lg border-0 overflow-hidden animate-pulse">
+    <div className="relative w-full h-48 bg-muted rounded-t-lg" />
+    <CardHeader>
+      <div className="h-4 w-24 bg-muted-foreground/20 rounded mb-2" />
+      <div className="h-6 w-3/4 bg-muted-foreground/30 rounded mb-2" />
+      <div className="h-4 w-1/2 bg-muted-foreground/20 rounded" />
+    </CardHeader>
+    <CardContent className="space-y-4">
+      <div className="h-4 w-full bg-muted-foreground/20 rounded" />
+      <div className="h-4 w-5/6 bg-muted-foreground/20 rounded" />
+      <div className="flex flex-wrap gap-2">
+        <div className="h-6 w-16 bg-muted-foreground/10 rounded-full" />
+        <div className="h-6 w-20 bg-muted-foreground/10 rounded-full" />
+        <div className="h-6 w-12 bg-muted-foreground/10 rounded-full" />
+      </div>
+      <div className="flex gap-2 pt-4">
+        <div className="h-9 w-full bg-primary/20 rounded-md" />
+        <div className="h-9 w-9 bg-muted-foreground/10 rounded-md" />
+      </div>
+    </CardContent>
+  </Card>
+)
 
 export default function Projects() {
   const [searchTerm, setSearchTerm] = useState("")
-  const allProjects = useMemo(() => getProjectsWithSlugs(), []) // Get projects with slugs once
+  const [selectedCategory, setSelectedCategory] = useState("All")
+  const [isLoading, setIsLoading] = useState(true)
+  const allProjects = useMemo(() => getProjectsWithSlugs(), [])
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 1000)
+    return () => clearTimeout(timer)
+  }, [])
 
   const filteredProjects = useMemo(() => {
-    if (!searchTerm) {
-      return allProjects
+    let filtered = allProjects
+
+    if (searchTerm) {
+      const lowerCaseSearchTerm = searchTerm.toLowerCase()
+      filtered = filtered.filter(
+        (project) =>
+          project.title.toLowerCase().includes(lowerCaseSearchTerm) ||
+          project.subtitle.toLowerCase().includes(lowerCaseSearchTerm) ||
+          project.description.toLowerCase().includes(lowerCaseSearchTerm) ||
+          project.technologies.some((tech) => tech.toLowerCase().includes(lowerCaseSearchTerm)),
+      )
     }
-    const lowerCaseSearchTerm = searchTerm.toLowerCase()
-    return allProjects.filter(
-      (project) =>
-        project.title.toLowerCase().includes(lowerCaseSearchTerm) ||
-        project.subtitle.toLowerCase().includes(lowerCaseSearchTerm) ||
-        project.description.toLowerCase().includes(lowerCaseSearchTerm) ||
-        project.technologies.some((tech) => tech.toLowerCase().includes(lowerCaseSearchTerm)),
-    )
-  }, [searchTerm, allProjects])
+
+    if (selectedCategory !== "All") {
+      filtered = filtered.filter((project) => project.categories.includes(selectedCategory))
+    }
+
+    return filtered
+  }, [searchTerm, selectedCategory, allProjects])
 
   return (
     <section id="projects" className="section-padding bg-muted/30">
@@ -50,15 +91,17 @@ export default function Projects() {
           </p>
         </motion.div>
 
-        {/* Search Input */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           viewport={{ once: true }}
-          className="relative max-w-xl mx-auto mb-12"
+          className="relative max-w-xl mx-auto mb-8"
         >
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5" />
+          <Search
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5"
+            aria-hidden="true"
+          />
           <Input
             type="text"
             placeholder="Search projects by title, tech, or description..."
@@ -69,14 +112,34 @@ export default function Projects() {
           />
         </motion.div>
 
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          viewport={{ once: true }}
+          className="flex flex-wrap justify-center gap-2 mb-12"
+        >
+          {categories.map((category) => (
+            <Button
+              key={category}
+              variant={selectedCategory === category ? "default" : "outline"}
+              size="sm"
+              onClick={() => setSelectedCategory(category)}
+              className="rounded-full"
+              aria-pressed={selectedCategory === category}
+            >
+              {category}
+            </Button>
+          ))}
+        </motion.div>
+
         <div className="grid md:grid-cols-2 gap-8">
-          {filteredProjects.length > 0 ? (
+          {isLoading ? (
+            Array.from({ length: 4 }).map((_, i) => <ProjectCardSkeleton key={i} />)
+          ) : filteredProjects.length > 0 ? (
             filteredProjects.map((project, index) => (
               <ParallaxSection key={project.slug} offset={20}>
-                {" "}
-                {/* Use project.slug as key */}
                 <motion.div
-                  key={project.slug} // Use project.slug as key
                   initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: index * 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -90,15 +153,15 @@ export default function Projects() {
                     <div className="relative overflow-hidden rounded-t-lg">
                       <motion.div
                         className="relative w-full h-48 overflow-hidden"
-                        whileHover={{ scale: 1.05 }} // Subtle scale on hover for the container
+                        whileHover={{ scale: 1.05 }}
                         transition={{ duration: 0.3, ease: "easeOut" }}
                       >
                         <Image
                           src={project.image || "/placeholder.svg"}
                           alt={project.title}
-                          fill // Use fill to cover the parent div
+                          fill
                           className="object-cover"
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // Responsive sizes
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         />
                       </motion.div>
                       <motion.div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -116,7 +179,8 @@ export default function Projects() {
                         className="flex items-center gap-2 text-sm text-muted-foreground mb-2"
                         whileHover={{ x: 5, transition: { duration: 0.2 } }}
                       >
-                        <Calendar className="w-4 h-4" />
+                        <Calendar className="w-4 h-4" aria-hidden="true" />
+                        <span className="sr-only">Project period:</span>
                         {project.period}
                       </motion.div>
                       <CardTitle className="text-xl mb-2 group-hover:text-primary transition-colors duration-300">
@@ -146,13 +210,40 @@ export default function Projects() {
                         )}
                       </div>
 
+                      {project.categories && project.categories.length > 0 && (
+                        <div className="flex flex-wrap gap-2">
+                          {project.categories.map((category) => (
+                            <Badge key={category} variant="secondary" className="text-xs">
+                              {category}
+                            </Badge>
+                          ))}
+                        </div>
+                      )}
+
                       <div className="flex gap-2 pt-4">
-                        {/* Changed to Link for routing to dedicated project page */}
                         <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="flex-1">
                           <Button variant="default" size="sm" className="w-full" asChild>
-                            <Link href={`/projects/${project.slug}`}>View Details</Link>
+                            <Link href={`/projects/${project.slug}`} aria-label={`View details for ${project.title}`}>
+                              View Details
+                            </Link>
                           </Button>
                         </motion.div>
+
+                        {project.liveDemoUrl && (
+                          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                            <Button variant="outline" size="sm" asChild>
+                              <a
+                                href={project.liveDemoUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-2"
+                                aria-label={`View live demo of ${project.title}`}
+                              >
+                                <ExternalLink className="w-4 h-4" aria-hidden="true" />
+                              </a>
+                            </Button>
+                          </motion.div>
+                        )}
 
                         <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                           <Button variant="outline" size="sm" asChild>
@@ -161,8 +252,9 @@ export default function Projects() {
                               target="_blank"
                               rel="noopener noreferrer"
                               className="flex items-center gap-2"
+                              aria-label={`View ${project.title} on GitHub`}
                             >
-                              <Github className="w-4 h-4" />
+                              <Github className="w-4 h-4" aria-hidden="true" />
                             </a>
                           </Button>
                         </motion.div>
@@ -179,7 +271,7 @@ export default function Projects() {
               transition={{ duration: 0.5 }}
               className="col-span-full text-center text-muted-foreground text-lg py-10"
             >
-              No projects found matching your search.
+              No projects found matching your search or selected category.
             </motion.div>
           )}
         </div>
@@ -197,10 +289,11 @@ export default function Projects() {
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2"
+              aria-label="View all projects on GitHub"
             >
-              <Github className="w-5 h-5" />
+              <Github className="w-5 h-5" aria-hidden="true" />
               View All Projects on GitHub
-              <ExternalLink className="w-4 h-4" />
+              <ExternalLink className="w-4 h-4" aria-hidden="true" />
             </a>
           </Button>
         </motion.div>

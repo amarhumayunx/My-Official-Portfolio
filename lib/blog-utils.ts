@@ -11,6 +11,7 @@ export interface BlogPost {
   technologies: string[]
   githubUrl: string
   features: string[]
+  readTimeMinutes: number // New: Estimated read time
 }
 
 // Function to convert title to slug
@@ -20,6 +21,13 @@ export const createSlug = (title: string): string => {
     .replace(/[^a-z0-9\s-]/g, "") // Remove non-alphanumeric characters except spaces and hyphens
     .trim()
     .replace(/\s+/g, "-") // Replace spaces with hyphens
+}
+
+// Function to calculate estimated read time
+const calculateReadTime = (text: string): number => {
+  const wordsPerMinute = 200 // Average reading speed
+  const wordCount = text.split(/\s+/).length
+  return Math.ceil(wordCount / wordsPerMinute)
 }
 
 // Function to get all blog posts (derived from projects)
@@ -34,6 +42,7 @@ export const getBlogPosts = (): BlogPost[] => {
     technologies: project.technologies,
     githubUrl: project.githubUrl,
     features: project.features,
+    readTimeMinutes: calculateReadTime(project.longDescription), // Calculate read time
   }))
 }
 

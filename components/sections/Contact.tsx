@@ -122,7 +122,7 @@ export default function Contact() {
                       <CardContent className="p-4">
                         <div className="flex items-center gap-4">
                           <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                            <info.icon className="w-5 h-5 text-primary" />
+                            <info.icon className="w-5 h-5 text-primary" aria-hidden="true" />
                           </div>
                           <div>
                             <h4 className="font-semibold">{info.title}</h4>
@@ -130,6 +130,7 @@ export default function Contact() {
                               <a
                                 href={info.href}
                                 className="text-muted-foreground hover:text-primary transition-colors"
+                                aria-label={`Contact via ${info.title}: ${info.value}`}
                               >
                                 {info.value}
                               </a>
@@ -155,8 +156,13 @@ export default function Contact() {
                       asChild
                       className="flex items-center gap-2 bg-transparent"
                     >
-                      <a href={social.href} target="_blank" rel="noopener noreferrer">
-                        <social.icon className="w-4 h-4" />
+                      <a
+                        href={social.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Follow me on ${social.name}`}
+                      >
+                        <social.icon className="w-4 h-4" aria-hidden="true" />
                         {social.username}
                       </a>
                     </Button>
@@ -181,11 +187,12 @@ export default function Contact() {
                   {submitResult && (
                     <Alert
                       className={`mb-6 ${submitResult.success ? "border-green-200 bg-green-50 dark:bg-green-950" : "border-red-200 bg-red-50 dark:bg-red-950"}`}
+                      aria-live="polite" // Announce changes to screen readers
                     >
                       {submitResult.success ? (
-                        <CheckCircle className="h-4 w-4 text-green-600" />
+                        <CheckCircle className="h-4 w-4 text-green-600" aria-hidden="true" />
                       ) : (
-                        <AlertCircle className="h-4 w-4 text-red-600" />
+                        <AlertCircle className="h-4 w-4 text-red-600" aria-hidden="true" />
                       )}
                       <AlertDescription
                         className={
@@ -209,9 +216,13 @@ export default function Contact() {
                           required
                           placeholder="Your full name"
                           className={submitResult?.errors?.name ? "border-red-500" : ""}
+                          aria-invalid={submitResult?.errors?.name ? "true" : "false"}
+                          aria-describedby={submitResult?.errors?.name ? "name-error" : undefined}
                         />
                         {submitResult?.errors?.name && (
-                          <p className="text-sm text-red-600">{submitResult.errors.name[0]}</p>
+                          <p id="name-error" className="text-sm text-red-600">
+                            {submitResult.errors.name[0]}
+                          </p>
                         )}
                       </div>
                       <div className="space-y-2">
@@ -225,9 +236,13 @@ export default function Contact() {
                           required
                           placeholder="your.email@example.com"
                           className={submitResult?.errors?.email ? "border-red-500" : ""}
+                          aria-invalid={submitResult?.errors?.email ? "true" : "false"}
+                          aria-describedby={submitResult?.errors?.email ? "email-error" : undefined}
                         />
                         {submitResult?.errors?.email && (
-                          <p className="text-sm text-red-600">{submitResult.errors.email[0]}</p>
+                          <p id="email-error" className="text-sm text-red-600">
+                            {submitResult.errors.email[0]}
+                          </p>
                         )}
                       </div>
                     </div>
@@ -242,9 +257,13 @@ export default function Contact() {
                         required
                         placeholder="What's this about?"
                         className={submitResult?.errors?.subject ? "border-red-500" : ""}
+                        aria-invalid={submitResult?.errors?.subject ? "true" : "false"}
+                        aria-describedby={submitResult?.errors?.subject ? "subject-error" : undefined}
                       />
                       {submitResult?.errors?.subject && (
-                        <p className="text-sm text-red-600">{submitResult.errors.subject[0]}</p>
+                        <p id="subject-error" className="text-sm text-red-600">
+                          {submitResult.errors.subject[0]}
+                        </p>
                       )}
                     </div>
 
@@ -259,21 +278,29 @@ export default function Contact() {
                         placeholder="Tell me about your project or inquiry..."
                         rows={6}
                         className={submitResult?.errors?.message ? "border-red-500" : ""}
+                        aria-invalid={submitResult?.errors?.message ? "true" : "false"}
+                        aria-describedby={submitResult?.errors?.message ? "message-error" : undefined}
                       />
                       {submitResult?.errors?.message && (
-                        <p className="text-sm text-red-600">{submitResult.errors.message[0]}</p>
+                        <p id="message-error" className="text-sm text-red-600">
+                          {submitResult.errors.message[0]}
+                        </p>
                       )}
                     </div>
 
                     <Button type="submit" disabled={isSubmitting} className="w-full flex items-center gap-2">
                       {isSubmitting ? (
                         <>
-                          <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                          <div
+                            className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin"
+                            role="status"
+                            aria-label="Sending message"
+                          />
                           Sending...
                         </>
                       ) : (
                         <>
-                          <Send className="w-4 h-4" />
+                          <Send className="w-4 h-4" aria-hidden="true" />
                           Send Message
                         </>
                       )}

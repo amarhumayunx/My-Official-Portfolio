@@ -7,7 +7,8 @@ import Navigation from "@/components/layout/Navigation"
 import { Toaster } from "@/components/ui/toaster"
 import { SmoothScroll } from "@/components/ui/SmoothScroll"
 import { ParticlesBackground } from "@/components/ui/ParticlesBackground"
-import { LoadingScreen } from "@/components/ui/LoadingScreen" // New import
+import { LoadingScreen } from "@/components/ui/LoadingScreen"
+// import { CustomCursor } from "@/components/ui/CustomCursor" // New import - REMOVED
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -68,13 +69,16 @@ export default function RootLayout({
         <meta name="msapplication-TileColor" content="#3b82f6" />
       </head>
       <body className={`${inter.className} antialiased`}>
-        <LoadingScreen /> {/* Placed here to cover everything initially */}
+        {" "}
+        {/* Added class - REMOVED custom-cursor-enabled */}
+        <LoadingScreen />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <ParticlesBackground />
           <SmoothScroll />
           <Navigation />
           {children}
           <Toaster />
+          {/* <CustomCursor /> New component - REMOVED */}
         </ThemeProvider>
       </body>
     </html>

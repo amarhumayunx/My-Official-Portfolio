@@ -11,7 +11,9 @@ interface BaseProject {
   status: string
   image: string
   githubUrl: string
+  liveDemoUrl: string | null // Added liveDemoUrl
   features: string[]
+  categories: string[] // Added categories
 }
 
 // Extend the base Project type to include a slug

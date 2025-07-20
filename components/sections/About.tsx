@@ -92,6 +92,7 @@ export default function About() {
                       rotate: 5,
                       transition: { duration: 0.3 },
                     }}
+                    aria-hidden="true" // Decorative element
                   >
                     <div className="w-full h-full rounded-full bg-background flex items-center justify-center overflow-hidden">
                       <div className="w-44 h-44 rounded-full bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/20 dark:to-purple-900/20 flex items-center justify-center">
@@ -111,6 +112,7 @@ export default function About() {
                       repeat: Number.POSITIVE_INFINITY,
                       ease: "easeInOut",
                     }}
+                    aria-hidden="true" // Decorative element
                   >
                     Flutter Dev
                   </motion.div>
@@ -126,6 +128,7 @@ export default function About() {
                       ease: "easeInOut",
                       delay: 0.5,
                     }}
+                    aria-hidden="true" // Decorative element
                   >
                     Mobile Expert
                   </motion.div>
@@ -156,7 +159,7 @@ export default function About() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <Calendar className="w-4 h-4 text-primary" />
+                  <Calendar className="w-4 h-4 text-primary" aria-hidden="true" />
                   <span className="text-sm font-medium">1 Year Experience</span>
                 </motion.div>
                 <motion.div
@@ -164,7 +167,7 @@ export default function About() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <Award className="w-4 h-4 text-primary" />
+                  <Award className="w-4 h-4 text-primary" aria-hidden="true" />
                   <span className="text-sm font-medium">FYP A Grade</span>
                 </motion.div>
               </div>
@@ -175,7 +178,7 @@ export default function About() {
             <FluidTransition delay={0.4} className="space-y-8">
               <div>
                 <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                  <Briefcase className="w-6 h-6 text-primary" />
+                  <Briefcase className="w-6 h-6 text-primary" aria-hidden="true" />
                   Experience
                 </h3>
                 <div className="space-y-4">
@@ -204,7 +207,7 @@ export default function About() {
 
               <div>
                 <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                  <GraduationCap className="w-6 h-6 text-primary" />
+                  <GraduationCap className="w-6 h-6 text-primary" aria-hidden="true" />
                   Education
                 </h3>
                 <div className="space-y-4">
@@ -225,7 +228,7 @@ export default function About() {
                           <p className="text-primary font-medium mb-2">{edu.institution}</p>
                           {edu.grade && (
                             <div className="flex items-center gap-2">
-                              <Award className="w-4 h-4 text-yellow-500" />
+                              <Award className="w-4 h-4 text-yellow-500" aria-hidden="true" />
                               <span className="text-sm font-medium text-yellow-600 dark:text-yellow-400">
                                 {edu.grade}
                               </span>

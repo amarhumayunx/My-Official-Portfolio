@@ -58,7 +58,7 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
   return (
     <div className="min-h-screen bg-background pt-24 pb-16 section-padding">
       <div className="max-w-4xl mx-auto">
-        <FluidTransition className="mb-8">
+        <FluidTransition className="mb-8 no-print">
           <Link
             href="/#projects"
             className="inline-flex items-center text-muted-foreground hover:text-primary transition-colors"
@@ -116,18 +116,55 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
             </div>
           </div>
 
+          {/* Display Categories */}
+          {project.categories && project.categories.length > 0 && (
+            <div>
+              <h3 className="font-semibold mb-2 flex items-center gap-2">
+                <Tag className="w-4 h-4" />
+                Categories
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {project.categories.map((category) => (
+                  <Badge key={category} variant="outline">
+                    {category}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          )}
+
           <div>
             <h3 className="font-semibold mb-2 flex items-center gap-2">
               <Github className="w-4 h-4" />
-              Repository
+              Links
             </h3>
-            <Button variant="outline" size="sm" asChild>
-              <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                <Github className="w-4 h-4" />
-                View on GitHub
-                <ExternalLink className="w-3 h-3" />
-              </a>
-            </Button>
+            <div className="flex flex-wrap gap-2">
+              <Button variant="outline" size="sm" asChild>
+                <a
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2"
+                >
+                  <Github className="w-4 h-4" />
+                  View on GitHub
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </Button>
+              {project.liveDemoUrl && ( // Conditionally render Live Demo button
+                <Button variant="default" size="sm" asChild>
+                  <a
+                    href={project.liveDemoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                    Live Demo
+                  </a>
+                </Button>
+              )}
+            </div>
           </div>
 
           <div>
@@ -144,17 +181,16 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
         </FluidTransition>
 
         {/* Social Share Buttons */}
-        <FluidTransition delay={0.5} className="mb-12">
+        <FluidTransition delay={0.5} className="mb-12 no-print">
           <SocialShareButtons url={fullUrl} title={project.title} />
         </FluidTransition>
 
         {/* Disqus Comments Section */}
-        <FluidTransition delay={0.6}>
-          {/* Using the same DisqusComments component, but passing project slug */}
+        <FluidTransition delay={0.6} className="no-print">
           <DisqusComments slug={project.slug} title={project.title} />
         </FluidTransition>
 
-        <FluidTransition delay={0.7} className="text-center mt-12">
+        <FluidTransition delay={0.7} className="text-center mt-12 no-print">
           <Link href="/#projects" className="inline-flex items-center text-primary hover:underline font-medium">
             <ArrowLeft className="w-4 h-4 mr-2" /> Back to all projects
           </Link>

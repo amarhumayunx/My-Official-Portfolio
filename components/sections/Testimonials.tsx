@@ -25,6 +25,24 @@ const testimonials = [
     name: "Mubashra Jabeen",
     title: "HR Executive, HAACHI Technologies Pvt Ltd",
   },
+  {
+    quote:
+      "I highly recommend Humayun for any mobile development needs. His dedication to clean code and efficient solutions is remarkable. He transformed our ideas into a beautiful and functional app.",
+    name: "Dr. Asif Iqbal",
+    title: "Professor of Computer Science",
+  },
+  {
+    quote:
+      "Humayun's problem-solving approach is truly commendable. He tackled complex challenges in our project with ease and delivered a robust solution that exceeded our expectations. A pleasure to work with!",
+    name: "Nida Fatima",
+    title: "Senior Software Engineer",
+  },
+  {
+    quote:
+      "His attention to detail in UI/UX implementation is outstanding. Humayun has a keen eye for design and ensures the user experience is always top-notch. Very impressed with his work ethic.",
+    name: "Kamran Khan",
+    title: "Product Designer",
+  },
 ]
 
 export default function Testimonials() {
