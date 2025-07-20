@@ -54,7 +54,7 @@ export async function sendContactMessage(formData: FormData) {
     })
     const recaptchaData = await recaptchaVerifyResponse.json()
 
-    if (!recaptchaData.success || recaptchaData.score < 0.5) {
+    if (!recaptchaData.success || recaptchaData.score < 0.7) {
       // Adjust score threshold as needed (0.0 to 1.0)
       console.warn("reCAPTCHA verification failed:", recaptchaData)
       return {

@@ -199,7 +199,8 @@ export default function Hero() {
             transition={{ delay: 0.8, duration: 1, ease: "easeOut" }}
             className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
           >
-            Passionate Flutter Developer with hands-on experience building high-performance, cross-platform apps using Flutter and Firebase. Focused on creating clean, user-friendly interfaces and scalable mobile solutions.
+            Passionate Flutter Developer with hands-on experience building high-performance, cross-platform apps using
+            Flutter and Firebase. Focused on creating clean, user-friendly interfaces and scalable mobile solutions.
           </motion.p>
 
           <motion.div
@@ -256,7 +257,7 @@ export default function Hero() {
               <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
                 <Button variant="default" size="sm" asChild>
                   <a
-                    href="/Muhammad_Humayun_Amar_CV.pdf" // Placeholder URL for your CV
+                    href="https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2IvYy9mNTJjMTI5ZjEzOWNkZjc0L0VZSndoMmN6RW9GTHBtakZSUmYtTlBvQmxlb1VjYzNCeU5VdkZPLW5XdG5pbnc%5FZT0zRXZIamM&cid=F52C129F139CDF74&id=F52C129F139CDF74%21s6787708212334b81a668c54517fe34fa&parId=F52C129F139CDF74%2162529&o=OneUp" // Replace this with your actual OneDrive link
                     download="Muhammad_Humayun_Amar_CV.pdf"
                     className="flex items-center gap-2"
                     aria-label="Download Muhammad Humayun Amar's CV"

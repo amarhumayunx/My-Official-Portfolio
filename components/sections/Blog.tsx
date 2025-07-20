@@ -1,14 +1,15 @@
 "use client"
 
-import { useState, useMemo, useEffect } from "react" // Import useMemo, useEffect
+import { useState, useMemo, useEffect } from "react"
 import { motion } from "framer-motion"
-import { Calendar, BookOpen, Search, Timer } from "lucide-react" // Import Search, Timer icon
+import { Calendar, BookOpen, Search, Timer } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { FluidTransition } from "@/components/ui/FluidTransition"
 import { ParallaxSection } from "@/components/ui/ParallaxSection"
 import Image from "next/image"
 import { getBlogPosts } from "@/lib/blog-utils"
-import { Input } from "@/components/ui/input" // Import Input
+import { Input } from "@/components/ui/input"
+import { PaginationControls } from "@/components/ui/PaginationControls" // New import
 
 // Simple Skeleton component for loading states
 const BlogCardSkeleton = () => (
@@ -32,18 +33,20 @@ const BlogCardSkeleton = () => (
 
 export default function Blog() {
   const [searchTerm, setSearchTerm] = useState("")
-  const [isLoading, setIsLoading] = useState(true) // New loading state
+  const [isLoading, setIsLoading] = useState(true)
+  const [currentPage, setCurrentPage] = useState(1) // New: current page state
+  const postsPerPage = 6 // New: posts per page
+
   const allBlogPosts = useMemo(() => getBlogPosts(), [])
 
   useEffect(() => {
-    // Simulate data fetching delay
     const timer = setTimeout(() => {
       setIsLoading(false)
-    }, 800) // Adjust delay as needed
+    }, 800)
     return () => clearTimeout(timer)
   }, [])
 
-  const filteredBlogPosts = useMemo(() => {
+  const filteredAndSearchedPosts = useMemo(() => {
     if (!searchTerm) {
       return allBlogPosts
     }
@@ -56,6 +59,30 @@ export default function Blog() {
         post.technologies.some((tech) => tech.toLowerCase().includes(lowerCaseSearchTerm)),
     )
   }, [searchTerm, allBlogPosts])
+
+  // New: Calculate total pages
+  const totalPages = useMemo(() => {
+    return Math.ceil(filteredAndSearchedPosts.length / postsPerPage)
+  }, [filteredAndSearchedPosts.length, postsPerPage])
+
+  // New: Get posts for the current page
+  const paginatedPosts = useMemo(() => {
+    const startIndex = (currentPage - 1) * postsPerPage
+    const endIndex = startIndex + postsPerPage
+    return filteredAndSearchedPosts.slice(startIndex, endIndex)
+  }, [currentPage, postsPerPage, filteredAndSearchedPosts])
+
+  // New: Handle page change
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
+    // Optional: Scroll to top of the section when page changes
+    document.getElementById("blog")?.scrollIntoView({ behavior: "smooth" })
+  }
+
+  // Reset to first page when search term changes
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [searchTerm])
 
   return (
     <section id="blog" className="section-padding">
@@ -75,7 +102,6 @@ export default function Blog() {
           </p>
         </motion.div>
 
-        {/* Search Input for Blog Posts */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -83,7 +109,10 @@ export default function Blog() {
           viewport={{ once: true }}
           className="relative max-w-xl mx-auto mb-12"
         >
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5" />
+          <Search
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5"
+            aria-hidden="true"
+          />
           <Input
             type="text"
             placeholder="Search blog posts by title, tech, or description..."
@@ -96,10 +125,9 @@ export default function Blog() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {isLoading ? (
-            // Render skeletons while loading
-            Array.from({ length: 3 }).map((_, i) => <BlogCardSkeleton key={i} />)
-          ) : filteredBlogPosts.length > 0 ? (
-            filteredBlogPosts.map((post, index) => (
+            Array.from({ length: postsPerPage }).map((_, i) => <BlogCardSkeleton key={i} />)
+          ) : paginatedPosts.length > 0 ? (
+            paginatedPosts.map((post, index) => (
               <ParallaxSection key={post.slug} offset={15}>
                 <FluidTransition delay={index * 0.1} duration={0.8}>
                   <motion.div
@@ -138,7 +166,7 @@ export default function Blog() {
                       <div className="p-6 pt-0">
                         <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                           <a
-                            href={`/blog/${post.slug}`} // Link to the dynamic route
+                            href={`/blog/${post.slug}`}
                             className="text-primary hover:underline flex items-center gap-1 text-sm font-medium"
                             aria-label={`Read more about ${post.title}`}
                           >
@@ -162,6 +190,10 @@ export default function Blog() {
             </motion.div>
           )}
         </div>
+
+        {totalPages > 1 && (
+          <PaginationControls currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+        )}
       </div>
     </section>
   )
