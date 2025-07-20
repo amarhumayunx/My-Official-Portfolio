@@ -257,10 +257,12 @@ export default function Hero() {
               <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
                 <Button variant="default" size="sm" asChild>
                   <a
-                    href="https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2IvYy9mNTJjMTI5ZjEzOWNkZjc0L0VZSndoMmN6RW9GTHBtakZSUmYtTlBvQmxlb1VjYzNCeU5VdkZPLW5XdG5pbnc%5FZT0zRXZIamM&cid=F52C129F139CDF74&id=F52C129F139CDF74%21s6787708212334b81a668c54517fe34fa&parId=F52C129F139CDF74%2162529&o=OneUp" // Replace this with your actual OneDrive link
+                    href="https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2IvYy9mNTJjMTI5ZjEzOWNkZjc0L0VZSndoMmN6RW9GTHBtakZSUmYtTlBvQmxlb1VjYzNCeU5VdkZPLW5XdG5pbnc%5FZT0zRXZIamM&cid=F52C129F139CDF74&id=F52C129F139CDF74%21s6787708212334b81a668c54517fe34fa&parId=F52C129F139CDF74%2162529&o=OneUp" // Your OneDrive link
                     download="Muhammad_Humayun_Amar_CV.pdf"
                     className="flex items-center gap-2"
                     aria-label="Download Muhammad Humayun Amar's CV"
+                    target="_blank" // Added to open in new tab
+                    rel="noopener noreferrer" // Added for security best practices
                   >
                     <Download className="w-4 h-4" aria-hidden="true" />
                     Download CV
