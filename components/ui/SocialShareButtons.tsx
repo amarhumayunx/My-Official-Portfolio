@@ -1,10 +1,10 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Twitter, Linkedin, Facebook, Share2, LinkIcon, Check } from "lucide-react" // Import LinkIcon and Check
+import { Twitter, Linkedin, Facebook, Share2, LinkIcon, Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { useToast } from "@/hooks/use-toast" // Import useToast
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/DropdownMenu" // Updated import path
+import { useToast } from "@/hooks/use-toast"
 
 interface SocialShareButtonsProps {
   url: string
