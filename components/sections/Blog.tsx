@@ -10,6 +10,8 @@ import Image from "next/image"
 import { getBlogPosts } from "@/lib/blog-utils"
 import { Input } from "@/components/ui/input"
 import { PaginationControls } from "@/components/ui/PaginationControls" // New import
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
 
 // Simple Skeleton component for loading states
 const BlogCardSkeleton = () => (
@@ -165,13 +167,15 @@ export default function Blog() {
                       </CardContent>
                       <div className="p-6 pt-0">
                         <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                          <a
-                            href={`/blog/${post.slug}`}
-                            className="text-primary hover:underline flex items-center gap-1 text-sm font-medium"
-                            aria-label={`Read more about ${post.title}`}
-                          >
-                            Read More <BookOpen className="w-4 h-4" aria-hidden="true" />
-                          </a>
+                          <Button variant="link" size="sm" asChild className="p-0 h-auto">
+                            <Link
+                              href={`/blog/${post.slug}`}
+                              className="text-primary hover:underline flex items-center gap-1 text-sm font-medium"
+                              aria-label={`Read more about ${post.title}`}
+                            >
+                              Read More <BookOpen className="w-4 h-4" aria-hidden="true" />
+                            </Link>
+                          </Button>
                         </motion.div>
                       </div>
                     </Card>
