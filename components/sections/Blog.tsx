@@ -167,6 +167,8 @@ export default function Blog() {
                               href={`/blog/${post.slug}`}
                               className="flex items-center gap-1 text-sm font-medium"
                               aria-label={`Read more about ${post.title}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
                             >
                               Read More <BookOpen className="w-4 h-4" aria-hidden="true" />
                             </Link>
