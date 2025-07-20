@@ -1,8 +1,8 @@
 "use client"
 
-import { notFound } from "next/navigation"
-import { getBlogPostBySlug } from "@/lib/blog-utils"
-import { Calendar, Tag, Github, ExternalLink, ArrowLeft, Printer, Timer } from "lucide-react" // Added Printer, Timer icon
+import { notFound } from "next/navigation" // Keep notFound for potential client-side issues, though less likely now
+import type { BlogPost } from "@/lib/blog-utils" // Import the type for BlogPost
+import { Calendar, Tag, Github, ExternalLink, ArrowLeft, Printer, Timer } from "lucide-react"
 import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -11,13 +11,21 @@ import Link from "next/link"
 import { DisqusComments } from "@/components/ui/DisqusComments"
 import { SocialShareButtons } from "@/components/ui/SocialShareButtons"
 
-export default function BlogPostPageClient({ params }: { params: { slug: string } }) {
-  console.log("Requested slug:", params.slug) // Add this line
-  const post = getBlogPostBySlug(params.slug)
-  console.log("Found post:", post ? post.title : "Not found") // Add this line
+// Update props to receive the full post object
+interface BlogPostPageClientProps {
+  post: BlogPost
+}
 
+export default function BlogPostPageClient({ post }: BlogPostPageClientProps) {
+  // Remove the console.log for params.slug and getBlogPostBySlug call
+  // console.log("Requested slug:", params.slug)
+  // const post = getBlogPostBySlug(params.slug)
+  // console.log("Found post:", post ? post.title : "Not found")
+
+  // The 'post' object is now guaranteed to be present because the Server Component
+  // already handled the notFound() logic. However, keeping a check here is harmless.
   if (!post) {
-    notFound() // Render 404 page if post not found
+    notFound()
   }
 
   // Construct the full URL for sharing

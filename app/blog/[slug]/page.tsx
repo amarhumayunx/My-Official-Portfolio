@@ -1,15 +1,16 @@
-export const dynamicParams = false // Add this line
+export const dynamicParams = false // Keep this to ensure strict static generation
 
 import { getBlogPosts, getBlogPostBySlug } from "@/lib/blog-utils"
 import BlogPostPageClient from "./BlogPostPageClient"
+import { notFound } from "next/navigation" // Import notFound
 
 // Generate static params for all blog posts at build time
 export async function generateStaticParams() {
   const posts = getBlogPosts()
   console.log(
-    "Generated slugs for blog posts:",
+    "Generated slugs for blog posts (from generateStaticParams):",
     posts.map((post) => post.slug),
-  ) // IMPORTANT: Check this log in Vercel build output
+  )
   return posts.map((post) => ({
     slug: post.slug,
   }))
@@ -17,11 +18,11 @@ export async function generateStaticParams() {
 
 // Metadata for the dynamic page
 export async function generateMetadata({ params }: { params: { slug: string } }) {
-  console.log("Generating metadata for blog slug:", params.slug) // Check this log
+  console.log("Generating metadata for blog slug:", params.slug)
   const post = getBlogPostBySlug(params.slug)
 
   if (!post) {
-    console.log("Blog post not found for metadata:", params.slug) // Check this log
+    console.log("Blog post not found for metadata:", params.slug)
     return {
       title: "Blog Post Not Found",
     }
@@ -45,7 +46,16 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   }
 }
 
+// Main page component (Server Component)
 export default function BlogPostPage({ params }: { params: { slug: string } }) {
-  console.log("Rendering BlogPostPage for slug:", params.slug) // Check this log
-  return <BlogPostPageClient params={params} />
+  console.log("Rendering BlogPostPage (Server Component) for slug:", params.slug)
+  const post = getBlogPostBySlug(params.slug) // Fetch data here in the Server Component
+
+  if (!post) {
+    console.log("Blog post not found during Server Component render:", params.slug)
+    notFound() // Trigger 404 if post is not found
+  }
+
+  // Pass the fetched post data directly to the Client Component
+  return <BlogPostPageClient post={post} />
 }
