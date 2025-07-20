@@ -12,7 +12,9 @@ import { DisqusComments } from "@/components/ui/DisqusComments"
 import { SocialShareButtons } from "@/components/ui/SocialShareButtons"
 
 export default function BlogPostPageClient({ params }: { params: { slug: string } }) {
+  console.log("Requested slug:", params.slug) // Add this line
   const post = getBlogPostBySlug(params.slug)
+  console.log("Found post:", post ? post.title : "Not found") // Add this line
 
   if (!post) {
     notFound() // Render 404 page if post not found

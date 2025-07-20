@@ -1,9 +1,15 @@
+export const dynamicParams = false // Add this line
+
 import { getBlogPosts, getBlogPostBySlug } from "@/lib/blog-utils"
 import BlogPostPageClient from "./BlogPostPageClient"
 
 // Generate static params for all blog posts at build time
 export async function generateStaticParams() {
   const posts = getBlogPosts()
+  console.log(
+    "Generated slugs for blog posts:",
+    posts.map((post) => post.slug),
+  ) // Add this line
   return posts.map((post) => ({
     slug: post.slug,
   }))
