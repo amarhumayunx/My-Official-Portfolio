@@ -9,7 +9,7 @@ import { ParallaxSection } from "@/components/ui/ParallaxSection"
 import Image from "next/image"
 import { getBlogPosts } from "@/lib/blog-utils"
 import { Input } from "@/components/ui/input"
-import { PaginationControls } from "@/components/ui/PaginationControls" // New import
+import { PaginationControls } from "@/components/ui/PaginationControls"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
@@ -36,8 +36,8 @@ const BlogCardSkeleton = () => (
 export default function Blog() {
   const [searchTerm, setSearchTerm] = useState("")
   const [isLoading, setIsLoading] = useState(true)
-  const [currentPage, setCurrentPage] = useState(1) // New: current page state
-  const postsPerPage = 6 // New: posts per page
+  const [currentPage, setCurrentPage] = useState(1)
+  const postsPerPage = 6
 
   const allBlogPosts = useMemo(() => getBlogPosts(), [])
 
@@ -62,26 +62,21 @@ export default function Blog() {
     )
   }, [searchTerm, allBlogPosts])
 
-  // New: Calculate total pages
   const totalPages = useMemo(() => {
     return Math.ceil(filteredAndSearchedPosts.length / postsPerPage)
   }, [filteredAndSearchedPosts.length, postsPerPage])
 
-  // New: Get posts for the current page
   const paginatedPosts = useMemo(() => {
     const startIndex = (currentPage - 1) * postsPerPage
     const endIndex = startIndex + postsPerPage
     return filteredAndSearchedPosts.slice(startIndex, endIndex)
   }, [currentPage, postsPerPage, filteredAndSearchedPosts])
 
-  // New: Handle page change
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
-    // Optional: Scroll to top of the section when page changes
     document.getElementById("blog")?.scrollIntoView({ behavior: "smooth" })
   }
 
-  // Reset to first page when search term changes
   useEffect(() => {
     setCurrentPage(1)
   }, [searchTerm])
@@ -167,10 +162,10 @@ export default function Blog() {
                       </CardContent>
                       <div className="p-6 pt-0">
                         <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                          <Button variant="link" size="sm" asChild className="p-0 h-auto">
+                          <Button variant="default" size="sm" asChild>
                             <Link
                               href={`/blog/${post.slug}`}
-                              className="text-primary hover:underline flex items-center gap-1 text-sm font-medium"
+                              className="flex items-center gap-1 text-sm font-medium"
                               aria-label={`Read more about ${post.title}`}
                             >
                               Read More <BookOpen className="w-4 h-4" aria-hidden="true" />
