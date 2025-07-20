@@ -2,32 +2,34 @@
 
 import { useState, useMemo } from "react"
 import { motion } from "framer-motion"
-import { ExternalLink, Github, Calendar, Tag, Search } from "lucide-react"
+import { ExternalLink, Github, Calendar, Search } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+// Removed Dialog imports as we are now routing to a dedicated page
 import { ParallaxSection } from "@/components/ui/ParallaxSection"
 import Image from "next/image"
 import { Input } from "@/components/ui/input"
-import { projects } from "@/data/projects" // Import projects from centralized data
+import { getProjectsWithSlugs } from "@/lib/project-utils" // Import from new project-utils
+import Link from "next/link" // Import Link for navigation
 
 export default function Projects() {
   const [searchTerm, setSearchTerm] = useState("")
+  const allProjects = useMemo(() => getProjectsWithSlugs(), []) // Get projects with slugs once
 
   const filteredProjects = useMemo(() => {
     if (!searchTerm) {
-      return projects
+      return allProjects
     }
     const lowerCaseSearchTerm = searchTerm.toLowerCase()
-    return projects.filter(
+    return allProjects.filter(
       (project) =>
         project.title.toLowerCase().includes(lowerCaseSearchTerm) ||
         project.subtitle.toLowerCase().includes(lowerCaseSearchTerm) ||
         project.description.toLowerCase().includes(lowerCaseSearchTerm) ||
         project.technologies.some((tech) => tech.toLowerCase().includes(lowerCaseSearchTerm)),
     )
-  }, [searchTerm])
+  }, [searchTerm, allProjects])
 
   return (
     <section id="projects" className="section-padding bg-muted/30">
@@ -70,9 +72,11 @@ export default function Projects() {
         <div className="grid md:grid-cols-2 gap-8">
           {filteredProjects.length > 0 ? (
             filteredProjects.map((project, index) => (
-              <ParallaxSection key={project.title} offset={20}>
+              <ParallaxSection key={project.slug} offset={20}>
+                {" "}
+                {/* Use project.slug as key */}
                 <motion.div
-                  key={project.title}
+                  key={project.slug} // Use project.slug as key
                   initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: index * 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -89,13 +93,12 @@ export default function Projects() {
                         whileHover={{ scale: 1.05 }} // Subtle scale on hover for the container
                         transition={{ duration: 0.3, ease: "easeOut" }}
                       >
-                        <Image // Changed from motion.img to Image
+                        <Image
                           src={project.image || "/placeholder.svg"}
                           alt={project.title}
                           fill // Use fill to cover the parent div
                           className="object-cover"
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // Responsive sizes
-                          // Framer motion animations applied to the parent motion.div
                         />
                       </motion.div>
                       <motion.div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -144,76 +147,12 @@ export default function Projects() {
                       </div>
 
                       <div className="flex gap-2 pt-4">
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="flex-1">
-                              <Button variant="default" size="sm" className="w-full">
-                                View Details
-                              </Button>
-                            </motion.div>
-                          </DialogTrigger>
-                          <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
-                            <DialogHeader>
-                              <DialogTitle className="text-2xl">{project.title}</DialogTitle>
-                              <p className="text-primary font-medium">{project.subtitle}</p>
-                            </DialogHeader>
-
-                            <div className="space-y-6">
-                              <div className="relative w-full h-64 rounded-lg overflow-hidden">
-                                <Image // Changed from img to Image
-                                  src={project.image || "/placeholder.svg"}
-                                  alt={project.title}
-                                  fill // Use fill to cover the parent div
-                                  className="object-cover"
-                                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw" // Responsive sizes
-                                />
-                              </div>
-
-                              <div className="grid md:grid-cols-2 gap-6">
-                                <div className="space-y-4">
-                                  <div>
-                                    <h4 className="font-semibold mb-2 flex items-center gap-2">
-                                      <Calendar className="w-4 h-4" />
-                                      Project Timeline
-                                    </h4>
-                                    <p className="text-muted-foreground">{project.period}</p>
-                                  </div>
-
-                                  <div>
-                                    <h4 className="font-semibold mb-2 flex items-center gap-2">
-                                      <Tag className="w-4 h-4" />
-                                      Technologies Used
-                                    </h4>
-                                    <div className="flex flex-wrap gap-2">
-                                      {project.technologies.map((tech) => (
-                                        <Badge key={tech} variant="secondary">
-                                          {tech}
-                                        </Badge>
-                                      ))}
-                                    </div>
-                                  </div>
-                                </div>
-
-                                <div>
-                                  <h4 className="font-semibold mb-2">Key Features</h4>
-                                  <ul className="space-y-1 text-sm text-muted-foreground">
-                                    {project.features.map((feature, idx) => (
-                                      <li key={idx} className="flex items-start gap-2">
-                                        <span className="text-primary mt-1">•</span>
-                                        {feature}
-                                      </li>
-                                    ))}
-                                  </ul>
-                                </div>
-                              </div>
-
-                              <div>
-                                <h4 className="font-semibold mb-2">Project Description</h4>
-                                <p className="text-muted-foreground leading-relaxed">{project.longDescription}</p>
-                              </div>
-                            </div>
-                          </DialogContent>
-                        </Dialog>
+                        {/* Changed to Link for routing to dedicated project page */}
+                        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="flex-1">
+                          <Button variant="default" size="sm" className="w-full" asChild>
+                            <Link href={`/projects/${project.slug}`}>View Details</Link>
+                          </Button>
+                        </motion.div>
 
                         <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                           <Button variant="outline" size="sm" asChild>

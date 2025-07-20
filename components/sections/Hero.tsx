@@ -196,7 +196,7 @@ export default function Hero() {
             transition={{ delay: 0.8, duration: 1, ease: "easeOut" }}
             className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
           >
-            Passionate Flutter Developer with hands-on experience building high-performance, cross-platform apps using Flutter and Firebase. Focused on creating clean, user-friendly interfaces and scalable mobile solutions.
+            Passionate Flutter Developer with hands-on experience in building high-performance, cross-platform mobile applications. Recently completed a successful internship at Haachi Technologies, where I contributed to innovative app solutions. Now a Computer Science graduate, ready to take on new challenges in mobile app development with a strong focus on Flutter, Firebase, and clean UI/UX.
           </motion.p>
 
           <motion.div

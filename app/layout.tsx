@@ -7,8 +7,7 @@ import Navigation from "@/components/layout/Navigation"
 import { Toaster } from "@/components/ui/toaster"
 import { SmoothScroll } from "@/components/ui/SmoothScroll"
 import { ParticlesBackground } from "@/components/ui/ParticlesBackground"
-import { LoadingScreen } from "@/components/ui/LoadingScreen"
-// import Script from "next/script" // No longer needed if Disqus scripts are removed for preview
+import { LoadingScreen } from "@/components/ui/LoadingScreen" // New import
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -47,7 +46,7 @@ export const metadata: Metadata = {
     icon: [
       { url: "/icon", sizes: "32x32", type: "image/png" },
       { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
-      { url: "/icon-512.png", sizes: "512x512", alt: "Muhammad Humayun Amar Portfolio" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
     ],
     apple: [{ url: "/apple-icon", sizes: "180x180", type: "image/png" }],
     shortcut: "/icon",
@@ -69,7 +68,7 @@ export default function RootLayout({
         <meta name="msapplication-TileColor" content="#3b82f6" />
       </head>
       <body className={`${inter.className} antialiased`}>
-        <LoadingScreen />
+        <LoadingScreen /> {/* Placed here to cover everything initially */}
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <ParticlesBackground />
           <SmoothScroll />
@@ -77,22 +76,6 @@ export default function RootLayout({
           {children}
           <Toaster />
         </ThemeProvider>
-        {/* 
-          Disqus scripts are commented out for v0 preview compatibility.
-          To enable comments on your deployed site, uncomment the following lines
-          and ensure your Disqus shortname ('amarhumayun') is correctly used.
-        */}
-        {/*
-        <script id="dsq-count-scr" src="https://amarhumayun.disqus.com/count.js" async></script>
-        <script>
-          {(() => {
-            var d = document, s = d.createElement("script");
-            s.src = "https://amarhumayun.disqus.com/embed.js";
-            s.setAttribute("data-timestamp", +new Date());
-            (d.head || d.body).appendChild(s);
-          })()}
-        </script>
-        */}
       </body>
     </html>
   )
