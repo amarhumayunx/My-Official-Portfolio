@@ -11,6 +11,16 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { sendContactMessage } from "@/app/actions/contact"
 import { ParallaxSection } from "@/components/ui/ParallaxSection"
 
+// Declare grecaptcha globally
+declare global {
+  interface Window {
+    grecaptcha: {
+      ready: (callback: () => void) => void
+      execute: (siteKey: string, options: { action: string }) => Promise<string>
+    }
+  }
+}
+
 const contactInfo = [
   {
     icon: Mail,
@@ -49,11 +59,34 @@ export default function Contact() {
     errors?: Record<string, string[]>
   } | null>(null)
 
+  // Placeholder for your reCAPTCHA site key
+  const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "6LeIxAcTAAAAABJcZVRqyZE8YmJwGwP_Jj6_V_87" // Replace with your actual site key
+
   const handleSubmit = async (formData: FormData) => {
     setIsSubmitting(true)
     setSubmitResult(null)
 
     try {
+      // Execute reCAPTCHA to get a token
+      let reCaptchaToken: string | null = null
+      if (typeof window !== "undefined" && window.grecaptcha) {
+        await window.grecaptcha.ready(async () => {
+          reCaptchaToken = await window.grecaptcha.execute(recaptchaSiteKey, { action: "contact_form_submit" })
+        })
+      }
+
+      if (!reCaptchaToken) {
+        setSubmitResult({
+          success: false,
+          message: "reCAPTCHA verification failed. Please try again.",
+        })
+        setIsSubmitting(false)
+        return
+      }
+
+      // Append reCAPTCHA token to form data
+      formData.append("reCaptchaToken", reCaptchaToken)
+
       const result = await sendContactMessage(formData)
       setSubmitResult(result)
 
@@ -63,9 +96,10 @@ export default function Contact() {
         form?.reset()
       }
     } catch (error) {
+      console.error("Contact form submission error:", error)
       setSubmitResult({
         success: false,
-        message: "An unexpected error occurred. Please try again.",
+        message: "Sorry, there was an unexpected error sending your message. Please try again or contact me directly.",
       })
     } finally {
       setIsSubmitting(false)
@@ -187,7 +221,7 @@ export default function Contact() {
                   {submitResult && (
                     <Alert
                       className={`mb-6 ${submitResult.success ? "border-green-200 bg-green-50 dark:bg-green-950" : "border-red-200 bg-red-50 dark:bg-red-950"}`}
-                      aria-live="polite" // Announce changes to screen readers
+                      aria-live="polite"
                     >
                       {submitResult.success ? (
                         <CheckCircle className="h-4 w-4 text-green-600" aria-hidden="true" />
@@ -287,6 +321,9 @@ export default function Contact() {
                         </p>
                       )}
                     </div>
+
+                    {/* Hidden reCAPTCHA token input */}
+                    <input type="hidden" name="reCaptchaToken" id="reCaptchaToken" />
 
                     <Button type="submit" disabled={isSubmitting} className="w-full flex items-center gap-2">
                       {isSubmitting ? (

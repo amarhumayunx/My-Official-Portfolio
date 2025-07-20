@@ -8,7 +8,7 @@ import { Toaster } from "@/components/ui/toaster"
 import { SmoothScroll } from "@/components/ui/SmoothScroll"
 import { ParticlesBackground } from "@/components/ui/ParticlesBackground"
 import { LoadingScreen } from "@/components/ui/LoadingScreen"
-// import { CustomCursor } from "@/components/ui/CustomCursor" // New import - REMOVED
+import { WebsiteReadTime } from "@/components/ui/WebsiteReadTime"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -60,6 +60,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "6LeIxAcTAAAAABJcZVRqyZE8YmJwGwP_Jj6_V_87" // Placeholder for demo
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -67,10 +69,10 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/apple-icon" sizes="180x180" type="image/png" />
         <meta name="theme-color" content="#3b82f6" />
         <meta name="msapplication-TileColor" content="#3b82f6" />
+        {/* Google reCAPTCHA v3 script */}
+        <script src={`https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}`} async defer></script>
       </head>
       <body className={`${inter.className} antialiased`}>
-        {" "}
-        {/* Added class - REMOVED custom-cursor-enabled */}
         <LoadingScreen />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <ParticlesBackground />
@@ -78,7 +80,7 @@ export default function RootLayout({
           <Navigation />
           {children}
           <Toaster />
-          {/* <CustomCursor /> New component - REMOVED */}
+          <WebsiteReadTime />
         </ThemeProvider>
       </body>
     </html>
