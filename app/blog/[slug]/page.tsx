@@ -9,7 +9,7 @@ export async function generateStaticParams() {
   console.log(
     "Generated slugs for blog posts:",
     posts.map((post) => post.slug),
-  ) // Add this line
+  ) // IMPORTANT: Check this log in Vercel build output
   return posts.map((post) => ({
     slug: post.slug,
   }))
@@ -17,9 +17,11 @@ export async function generateStaticParams() {
 
 // Metadata for the dynamic page
 export async function generateMetadata({ params }: { params: { slug: string } }) {
+  console.log("Generating metadata for blog slug:", params.slug) // Check this log
   const post = getBlogPostBySlug(params.slug)
 
   if (!post) {
+    console.log("Blog post not found for metadata:", params.slug) // Check this log
     return {
       title: "Blog Post Not Found",
     }
@@ -44,5 +46,6 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 export default function BlogPostPage({ params }: { params: { slug: string } }) {
+  console.log("Rendering BlogPostPage for slug:", params.slug) // Check this log
   return <BlogPostPageClient params={params} />
 }
