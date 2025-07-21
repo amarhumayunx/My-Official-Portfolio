@@ -8,18 +8,10 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { sendContactMessage } from "@/app/actions/contact"
+import { sendContactMessage } from "@/app/actions/contact" // Import the server action
 import { ParallaxSection } from "@/components/ui/ParallaxSection"
 
-// Declare grecaptcha globally
-declare global {
-  interface Window {
-    grecaptcha: {
-      ready: (callback: () => void) => void
-      execute: (siteKey: string, options: { action: string }) => Promise<string>
-    }
-  }
-}
+// Removed declare global for grecaptcha
 
 const contactInfo = [
   {
@@ -59,44 +51,27 @@ export default function Contact() {
     errors?: Record<string, string[]>
   } | null>(null)
 
-  // Placeholder for your reCAPTCHA site key
-  const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "6LeIxAcTAAAAABJcZVRqyZE8YmJwGwP_Jj6_V_87" // Replace with your actual site key
+  // Removed recaptchaSiteKey variable
 
   const handleSubmit = async (formData: FormData) => {
     setIsSubmitting(true)
     setSubmitResult(null)
 
     try {
-      // Execute reCAPTCHA to get a token
-      let reCaptchaToken: string | null = null
-      if (typeof window !== "undefined" && window.grecaptcha) {
-        await window.grecaptcha.ready(async () => {
-          reCaptchaToken = await window.grecaptcha.execute(recaptchaSiteKey, { action: "contact_form_submit" })
-        })
-      }
+      // Removed all reCAPTCHA execution logic
+      // No reCaptchaToken needed in formData
 
-      if (!reCaptchaToken) {
-        setSubmitResult({
-          success: false,
-          message: "reCAPTCHA verification failed. Please try again.",
-        })
-        setIsSubmitting(false)
-        return
-      }
-
-      // Append reCAPTCHA token to form data
-      formData.append("reCaptchaToken", reCaptchaToken)
-
+      // Call the server action to send the message
       const result = await sendContactMessage(formData)
       setSubmitResult(result)
 
-      // Reset form if successful
+      // Reset form if submission was successful
       if (result.success) {
         const form = document.getElementById("contact-form") as HTMLFormElement
         form?.reset()
       }
     } catch (error) {
-      console.error("Contact form submission error:", error)
+      console.error("Contact form submission caught an unexpected error:", error)
       setSubmitResult({
         success: false,
         message: "Sorry, there was an unexpected error sending your message. Please try again or contact me directly.",
@@ -322,8 +297,7 @@ export default function Contact() {
                       )}
                     </div>
 
-                    {/* Hidden reCAPTCHA token input */}
-                    <input type="hidden" name="reCaptchaToken" id="reCaptchaToken" />
+                    {/* Hidden reCAPTCHA token input removed */}
 
                     <Button type="submit" disabled={isSubmitting} className="w-full flex items-center gap-2">
                       {isSubmitting ? (

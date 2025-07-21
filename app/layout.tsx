@@ -60,8 +60,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "6LeIxAcTAAAAABJcZVRqyZE8YmJwGwP_Jj6_V_87" // Placeholder for demo
-
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -69,8 +67,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/apple-icon" sizes="180x180" type="image/png" />
         <meta name="theme-color" content="#3b82f6" />
         <meta name="msapplication-TileColor" content="#3b82f6" />
-        {/* Google reCAPTCHA v3 script */}
-        <script src={`https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}`} async defer></script>
+        {/* reCAPTCHA script removed */}
       </head>
       <body className={`${inter.className} antialiased`}>
         <LoadingScreen />

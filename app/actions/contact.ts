@@ -3,6 +3,8 @@
 import { z } from "zod"
 import { Resend } from "resend"
 
+// IMPORTANT: In a real production environment, you would use process.env.RESEND_API_KEY
+// For this demo, a placeholder key is used.
 const RESEND_API_KEY_DEMO = "re_6NDc9ymU_9sLrmCNYgQK5p4d8nWGJU4wg"
 
 const resend = new Resend(RESEND_API_KEY_DEMO) // Using the hardcoded key for demo
@@ -12,17 +14,13 @@ const contactSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
   subject: z.string().min(5, "Subject must be at least 5 characters"),
   message: z.string().min(10, "Message must be at least 10 characters"),
-  reCaptchaToken: z.string().min(1, "reCAPTCHA token is missing."), // New: reCAPTCHA token
+  // reCaptchaToken field removed from schema
 })
 
 export async function sendContactMessage(formData: FormData) {
-  // In a production environment, you would use:
-  // const resendApiKey = process.env.RESEND_API_KEY;
-  // if (!resendApiKey) { /* handle missing key error */ }
-  // const resend = new Resend(resendApiKey);
+  // Removed recaptchaSecretKey variable and its check
 
-  // Placeholder for your reCAPTCHA secret key
-  const recaptchaSecretKey = process.env.RECAPTCHA_SECRET_KEY || "6LeIxAcTAAAAABJcZVRqyZE8YmJwGwP_Jj6_V_87" // Replace with your actual secret key
+  console.log("Server Action: sendContactMessage started (without reCAPTCHA).")
 
   try {
     // Validate form data
@@ -31,10 +29,13 @@ export async function sendContactMessage(formData: FormData) {
       email: formData.get("email"),
       subject: formData.get("subject"),
       message: formData.get("message"),
-      reCaptchaToken: formData.get("reCaptchaToken"), // Get the token
+      // reCaptchaToken is no longer expected in formData
     })
 
+    console.log("Server Action: Form data validation result:", validatedFields.success)
+
     if (!validatedFields.success) {
+      console.error("Server Action: Form data validation failed.", validatedFields.error.flatten().fieldErrors)
       return {
         success: false,
         message: "Please check your form data and try again.",
@@ -42,31 +43,16 @@ export async function sendContactMessage(formData: FormData) {
       }
     }
 
-    const { name, email, subject, message, reCaptchaToken } = validatedFields.data
+    const { name, email, subject, message } = validatedFields.data
+    console.log("Server Action: Extracted form data:", { name, email, subject, message })
 
-    // Verify reCAPTCHA token
-    const recaptchaVerifyResponse = await fetch("https://www.google.com/recaptcha/api/siteverify", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: `secret=${recaptchaSecretKey}&response=${reCaptchaToken}`,
-    })
-    const recaptchaData = await recaptchaVerifyResponse.json()
+    // Removed reCAPTCHA verification logic
 
-    if (!recaptchaData.success || recaptchaData.score < 0.7) {
-      // Adjust score threshold as needed (0.0 to 1.0)
-      console.warn("reCAPTCHA verification failed:", recaptchaData)
-      return {
-        success: false,
-        message: "Spam detection failed. Please try again.",
-      }
-    }
-
-    // Send email using Resend
+    // Send the email using Resend
+    console.log("Server Action: Attempting to send email via Resend...")
     const { data, error } = await resend.emails.send({
-      from: "Portfolio Contact <onboarding@resend.dev>", // or your verified email
-      to: "amarhumayun@outlook.com", // your email
+      from: "Portfolio Contact <onboarding@resend.dev>", // Replace with your verified Resend domain email
+      to: "amarhumayun@outlook.com", // Replace with your actual recipient email
       subject: `Portfolio Contact: ${subject}`,
       html: `
         <p><strong>New Contact Form Submission</strong></p>
@@ -82,24 +68,25 @@ export async function sendContactMessage(formData: FormData) {
     })
 
     if (error) {
-      console.error("Resend email error:", error)
+      console.error("Server Action: Resend email error:", error)
       return {
         success: false,
         message: `Failed to send message: ${error.message || "Unknown error"}`,
       }
     }
 
-    console.log("Email sent successfully:", data)
+    console.log("Server Action: Email sent successfully:", data)
 
     return {
       success: true,
       message: "Thank you for your message! I'll get back to you soon.",
     }
   } catch (error) {
-    console.error("Contact form error:", error)
+    console.error("Server Action: Caught an unexpected error during contact form processing:", error)
+    const errorMessage = error instanceof Error ? error.message : String(error)
     return {
       success: false,
-      message: "Sorry, there was an unexpected error sending your message. Please try again or contact me directly.",
+      message: `Sorry, there was an unexpected error sending your message: ${errorMessage}. Please try again or contact me directly.`,
     }
   }
 }

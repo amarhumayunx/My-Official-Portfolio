@@ -91,11 +91,20 @@ export function WebsiteReadTime() {
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: 50 }}
         transition={{ duration: 0.5 }}
-        className="fixed top-4 right-4 z-50 bg-card/80 backdrop-blur-md border border-border rounded-full px-4 py-2 flex items-center gap-2 shadow-lg text-sm font-medium text-foreground"
+        className="fixed top-20 right-4 z-50 bg-background/70 backdrop-blur-md border border-primary/30 rounded-full px-5 py-2.5 flex items-center gap-2 shadow-xl text-base font-semibold text-foreground"
         aria-live="off" // This is a continuous update, not critical for screen readers to announce every second
       >
         <Clock className="w-4 h-4 text-primary" aria-hidden="true" />
         <span className="tabular-nums">{formatTime(timeInSeconds)}</span>
+        <motion.span
+          className="relative flex h-2 w-2"
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ delay: 0.5, duration: 0.3 }}
+        >
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+        </motion.span>
         <span className="sr-only">Total time spent on website</span>
       </motion.div>
     </AnimatePresence>
