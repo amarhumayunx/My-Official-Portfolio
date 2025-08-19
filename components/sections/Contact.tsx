@@ -1,17 +1,11 @@
 "use client"
 
-import { useState } from "react"
 import { motion } from "framer-motion"
-import { Mail, MapPin, Send, Github, Linkedin, CheckCircle, AlertCircle } from "lucide-react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Mail, MapPin, Github, Linkedin, MessageSquare, Calendar, Zap } from "lucide-react"
+import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { sendContactMessage } from "@/app/actions/contact" // Import the server action
 import { ParallaxSection } from "@/components/ui/ParallaxSection"
-
-// Removed declare global for grecaptcha
+import { MultiStepForm } from "@/components/ui/MultiStepForm"
 
 const contactInfo = [
   {
@@ -19,12 +13,21 @@ const contactInfo = [
     title: "Email",
     value: "amarhumayun@outlook.com",
     href: "mailto:amarhumayun@outlook.com",
+    description: "For quick questions and direct communication",
   },
   {
     icon: MapPin,
     title: "Location",
     value: "Lahore, Pakistan",
     href: "#",
+    description: "Available for local meetings and remote work",
+  },
+  {
+    icon: Calendar,
+    title: "Response Time",
+    value: "Within 24 hours",
+    href: "#",
+    description: "I typically respond to all inquiries within one business day",
   },
 ]
 
@@ -34,53 +37,42 @@ const socialLinks = [
     name: "GitHub",
     href: "https://github.com/amarhumayunx",
     username: "@amarhumayunx",
+    description: "View my code and open source contributions",
   },
   {
     icon: Linkedin,
     name: "LinkedIn",
     href: "https://linkedin.com/in/amarhumayun",
     username: "@amarhumayun",
+    description: "Connect with me professionally",
+  },
+]
+
+const quickActions = [
+  {
+    icon: MessageSquare,
+    title: "Quick Question",
+    description: "Have a simple question? Send me a direct email",
+    action: "Email Me",
+    href: "mailto:amarhumayun@outlook.com?subject=Quick Question",
+  },
+  {
+    icon: Calendar,
+    title: "Schedule a Call",
+    description: "Want to discuss your project in detail?",
+    action: "Book a Call",
+    href: "mailto:amarhumayun@outlook.com?subject=Schedule a Call&body=I'd like to schedule a call to discuss my project.",
+  },
+  {
+    icon: Zap,
+    title: "Urgent Project",
+    description: "Need immediate assistance with your project?",
+    action: "Priority Contact",
+    href: "mailto:amarhumayun@outlook.com?subject=Urgent Project Request&body=This is an urgent project request.",
   },
 ]
 
 export default function Contact() {
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submitResult, setSubmitResult] = useState<{
-    success: boolean
-    message: string
-    errors?: Record<string, string[]>
-  } | null>(null)
-
-  // Removed recaptchaSiteKey variable
-
-  const handleSubmit = async (formData: FormData) => {
-    setIsSubmitting(true)
-    setSubmitResult(null)
-
-    try {
-      // Removed all reCAPTCHA execution logic
-      // No reCaptchaToken needed in formData
-
-      // Call the server action to send the message
-      const result = await sendContactMessage(formData)
-      setSubmitResult(result)
-
-      // Reset form if submission was successful
-      if (result.success) {
-        const form = document.getElementById("contact-form") as HTMLFormElement
-        form?.reset()
-      }
-    } catch (error) {
-      console.error("Contact form submission caught an unexpected error:", error)
-      setSubmitResult({
-        success: false,
-        message: "Sorry, there was an unexpected error sending your message. Please try again or contact me directly.",
-      })
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
-
   return (
     <section id="contact" className="section-padding">
       <div className="max-w-7xl mx-auto">
@@ -92,15 +84,40 @@ export default function Contact() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-            Get In <span className="gradient-text">Touch</span>
+            Let's Build Something <span className="gradient-text">Amazing Together</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            Ready to collaborate on your next project? Let's discuss how we can bring your mobile app ideas to life with
-            cutting-edge Flutter development.
+            Ready to bring your mobile app vision to life? I'm here to help you create exceptional digital experiences
+            with cutting-edge Flutter development.
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
+        {/* Quick Actions */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          viewport={{ once: true }}
+          className="grid md:grid-cols-3 gap-6 mb-16"
+        >
+          {quickActions.map((action, index) => (
+            <motion.div key={action.title} whileHover={{ y: -5 }} transition={{ duration: 0.2 }}>
+              <Card className="h-full hover:shadow-lg transition-all duration-300 border-0 shadow-md">
+                <CardContent className="p-6 text-center">
+                  <action.icon className="w-8 h-8 text-primary mx-auto mb-4" />
+                  <h3 className="font-semibold mb-2">{action.title}</h3>
+                  <p className="text-sm text-muted-foreground mb-4">{action.description}</p>
+                  <Button variant="outline" size="sm" asChild>
+                    <a href={action.href}>{action.action}</a>
+                  </Button>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        <div className="grid lg:grid-cols-3 gap-12">
+          {/* Contact Information */}
           <ParallaxSection offset={30}>
             <motion.div
               initial={{ opacity: 0, x: -50 }}
@@ -110,15 +127,15 @@ export default function Contact() {
               className="space-y-8"
             >
               <div>
-                <h3 className="text-2xl font-bold mb-6">Let's Connect</h3>
+                <h3 className="text-2xl font-bold mb-6">Get In Touch</h3>
                 <p className="text-muted-foreground mb-8 leading-relaxed">
-                  I'm always excited to discuss new opportunities, collaborate on interesting projects, or simply chat
-                  about the latest in mobile development. Whether you're looking for a Flutter developer, need
-                  consultation on your app idea, or want to explore potential partnerships, I'd love to hear from you.
+                  Whether you're a startup looking to build your first app, an established business wanting to expand
+                  digitally, or an entrepreneur with a groundbreaking idea, I'm here to help turn your vision into
+                  reality.
                 </p>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-6">
                 {contactInfo.map((info, index) => (
                   <motion.div
                     key={info.title}
@@ -129,23 +146,20 @@ export default function Contact() {
                   >
                     <Card className="hover:shadow-md transition-shadow duration-300">
                       <CardContent className="p-4">
-                        <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                            <info.icon className="w-5 h-5 text-primary" aria-hidden="true" />
+                        <div className="flex items-start gap-4">
+                          <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                            <info.icon className="w-5 h-5 text-primary" />
                           </div>
-                          <div>
-                            <h4 className="font-semibold">{info.title}</h4>
+                          <div className="flex-1">
+                            <h4 className="font-semibold mb-1">{info.title}</h4>
                             {info.href !== "#" ? (
-                              <a
-                                href={info.href}
-                                className="text-muted-foreground hover:text-primary transition-colors"
-                                aria-label={`Contact via ${info.title}: ${info.value}`}
-                              >
+                              <a href={info.href} className="text-primary hover:underline font-medium block mb-1">
                                 {info.value}
                               </a>
                             ) : (
-                              <p className="text-muted-foreground">{info.value}</p>
+                              <p className="font-medium mb-1">{info.value}</p>
                             )}
+                            <p className="text-sm text-muted-foreground">{info.description}</p>
                           </div>
                         </div>
                       </CardContent>
@@ -155,173 +169,90 @@ export default function Contact() {
               </div>
 
               <div>
-                <h4 className="font-semibold mb-4">Follow Me</h4>
-                <div className="flex gap-4">
+                <h4 className="font-semibold mb-4">Connect With Me</h4>
+                <div className="space-y-3">
                   {socialLinks.map((social) => (
-                    <Button
-                      key={social.name}
-                      variant="outline"
-                      size="sm"
-                      asChild
-                      className="flex items-center gap-2 bg-transparent"
-                    >
-                      <a
-                        href={social.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={`Follow me on ${social.name}`}
-                      >
-                        <social.icon className="w-4 h-4" aria-hidden="true" />
-                        {social.username}
-                      </a>
-                    </Button>
+                    <Card key={social.name} className="hover:shadow-md transition-shadow duration-300">
+                      <CardContent className="p-4">
+                        <div className="flex items-center gap-4">
+                          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                            <social.icon className="w-5 h-5 text-primary" />
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2">
+                              <span className="font-medium">{social.name}</span>
+                              <a
+                                href={social.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-sm text-primary hover:underline"
+                              >
+                                {social.username}
+                              </a>
+                            </div>
+                            <p className="text-sm text-muted-foreground">{social.description}</p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
                   ))}
                 </div>
               </div>
             </motion.div>
           </ParallaxSection>
 
-          <ParallaxSection offset={-30}>
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-2xl">Send a Message</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  {submitResult && (
-                    <Alert
-                      className={`mb-6 ${submitResult.success ? "border-green-200 bg-green-50 dark:bg-green-950" : "border-red-200 bg-red-50 dark:bg-red-950"}`}
-                      aria-live="polite"
-                    >
-                      {submitResult.success ? (
-                        <CheckCircle className="h-4 w-4 text-green-600" aria-hidden="true" />
-                      ) : (
-                        <AlertCircle className="h-4 w-4 text-red-600" aria-hidden="true" />
-                      )}
-                      <AlertDescription
-                        className={
-                          submitResult.success ? "text-green-800 dark:text-green-200" : "text-red-800 dark:text-red-200"
-                        }
-                      >
-                        {submitResult.message}
-                      </AlertDescription>
-                    </Alert>
-                  )}
-
-                  <form id="contact-form" action={handleSubmit} className="space-y-6">
-                    <div className="grid sm:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <label htmlFor="name" className="text-sm font-medium">
-                          Name *
-                        </label>
-                        <Input
-                          id="name"
-                          name="name"
-                          required
-                          placeholder="Your full name"
-                          className={submitResult?.errors?.name ? "border-red-500" : ""}
-                          aria-invalid={submitResult?.errors?.name ? "true" : "false"}
-                          aria-describedby={submitResult?.errors?.name ? "name-error" : undefined}
-                        />
-                        {submitResult?.errors?.name && (
-                          <p id="name-error" className="text-sm text-red-600">
-                            {submitResult.errors.name[0]}
-                          </p>
-                        )}
-                      </div>
-                      <div className="space-y-2">
-                        <label htmlFor="email" className="text-sm font-medium">
-                          Email *
-                        </label>
-                        <Input
-                          id="email"
-                          name="email"
-                          type="email"
-                          required
-                          placeholder="your.email@example.com"
-                          className={submitResult?.errors?.email ? "border-red-500" : ""}
-                          aria-invalid={submitResult?.errors?.email ? "true" : "false"}
-                          aria-describedby={submitResult?.errors?.email ? "email-error" : undefined}
-                        />
-                        {submitResult?.errors?.email && (
-                          <p id="email-error" className="text-sm text-red-600">
-                            {submitResult.errors.email[0]}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <label htmlFor="subject" className="text-sm font-medium">
-                        Subject *
-                      </label>
-                      <Input
-                        id="subject"
-                        name="subject"
-                        required
-                        placeholder="What's this about?"
-                        className={submitResult?.errors?.subject ? "border-red-500" : ""}
-                        aria-invalid={submitResult?.errors?.subject ? "true" : "false"}
-                        aria-describedby={submitResult?.errors?.subject ? "subject-error" : undefined}
-                      />
-                      {submitResult?.errors?.subject && (
-                        <p id="subject-error" className="text-sm text-red-600">
-                          {submitResult.errors.subject[0]}
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="space-y-2">
-                      <label htmlFor="message" className="text-sm font-medium">
-                        Message *
-                      </label>
-                      <Textarea
-                        id="message"
-                        name="message"
-                        required
-                        placeholder="Tell me about your project or inquiry..."
-                        rows={6}
-                        className={submitResult?.errors?.message ? "border-red-500" : ""}
-                        aria-invalid={submitResult?.errors?.message ? "true" : "false"}
-                        aria-describedby={submitResult?.errors?.message ? "message-error" : undefined}
-                      />
-                      {submitResult?.errors?.message && (
-                        <p id="message-error" className="text-sm text-red-600">
-                          {submitResult.errors.message[0]}
-                        </p>
-                      )}
-                    </div>
-
-                    {/* Hidden reCAPTCHA token input removed */}
-
-                    <Button type="submit" disabled={isSubmitting} className="w-full flex items-center gap-2">
-                      {isSubmitting ? (
-                        <>
-                          <div
-                            className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin"
-                            role="status"
-                            aria-label="Sending message"
-                          />
-                          Sending...
-                        </>
-                      ) : (
-                        <>
-                          <Send className="w-4 h-4" aria-hidden="true" />
-                          Send Message
-                        </>
-                      )}
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
-            </motion.div>
-          </ParallaxSection>
+          {/* Multi-Step Form */}
+          <div className="lg:col-span-2">
+            <ParallaxSection offset={-30}>
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+              >
+                <MultiStepForm />
+              </motion.div>
+            </ParallaxSection>
+          </div>
         </div>
+
+        {/* Additional Information */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          viewport={{ once: true }}
+          className="mt-16 text-center"
+        >
+          <Card className="bg-primary/5 border-primary/20">
+            <CardContent className="p-8">
+              <h3 className="text-xl font-bold mb-4">What Happens Next?</h3>
+              <div className="grid md:grid-cols-3 gap-6 text-sm">
+                <div className="flex flex-col items-center">
+                  <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold mb-2">
+                    1
+                  </div>
+                  <p className="font-medium mb-1">Review & Analysis</p>
+                  <p className="text-muted-foreground">I'll review your request and analyze your requirements</p>
+                </div>
+                <div className="flex flex-col items-center">
+                  <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold mb-2">
+                    2
+                  </div>
+                  <p className="font-medium mb-1">Initial Consultation</p>
+                  <p className="text-muted-foreground">We'll schedule a call to discuss your project in detail</p>
+                </div>
+                <div className="flex flex-col items-center">
+                  <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold mb-2">
+                    3
+                  </div>
+                  <p className="font-medium mb-1">Proposal & Timeline</p>
+                  <p className="text-muted-foreground">You'll receive a detailed proposal with timeline and pricing</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
       </div>
     </section>
   )

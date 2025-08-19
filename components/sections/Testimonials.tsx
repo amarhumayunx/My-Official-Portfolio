@@ -28,8 +28,8 @@ const testimonials = [
   {
     quote:
       "I highly recommend Humayun for any mobile development needs. His dedication to clean code and efficient solutions is remarkable. He transformed our ideas into a beautiful and functional app.",
-    name: "Dr. Asif Iqbal",
-    title: "Professor of Computer Science",
+    name: "Hafiz Muhammad Bilal Shahid",
+    title: "Senior Lecturer of Computer Science (UCP)",
   },
   {
     quote:
