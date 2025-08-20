@@ -145,25 +145,52 @@ const consultationTypes = [
 
 const testimonials = [
   {
-    name: "Sarah Johnson",
-    role: "Startup Founder",
+    name: "Dr. Sarah Mitchell",
+    role: "Healthcare Startup Founder",
     content:
-      "The consultation was incredibly valuable. Muhammad helped me understand the technical aspects of my app idea and provided a clear roadmap for development.",
+      "Muhammad's consultation was incredibly thorough. He helped me understand the complexities of developing a healthcare app and provided a clear roadmap with HIPAA compliance considerations. His technical expertise saved me months of research.",
     rating: 5,
+    project: "MedConnect App",
   },
   {
-    name: "Ahmed Khan",
-    role: "Business Owner",
+    name: "Ahmed Al-Rashid",
+    role: "E-commerce Business Owner",
     content:
-      "Professional and thorough consultation. Got all my questions answered and received a detailed project proposal within 24 hours.",
+      "The consultation exceeded my expectations. Muhammad not only analyzed my requirements but also suggested innovative features I hadn't considered. His cost breakdown was transparent and realistic. Highly recommend!",
     rating: 5,
+    project: "ShopEase Platform",
   },
   {
-    name: "Lisa Chen",
-    role: "Product Manager",
+    name: "Jennifer Chen",
+    role: "Fitness Industry Entrepreneur",
     content:
-      "Excellent technical guidance and realistic timeline estimates. The consultation saved us from making costly mistakes.",
+      "Professional, knowledgeable, and patient. Muhammad took time to understand my vision and provided valuable insights about user experience and monetization strategies. The consultation was worth every minute.",
     rating: 5,
+    project: "FitTracker Pro",
+  },
+  {
+    name: "Omar Hassan",
+    role: "Restaurant Chain Owner",
+    content:
+      "Muhammad's technical guidance was spot-on. He identified potential scalability issues early and proposed solutions that would save us significant costs in the long run. His consultation was a game-changer for our project.",
+    rating: 5,
+    project: "FoodieHub App",
+  },
+  {
+    name: "Lisa Rodriguez",
+    role: "EdTech Startup Co-founder",
+    content:
+      "The consultation was incredibly valuable. Muhammad helped us refine our concept and provided detailed technical specifications. His experience with educational apps was evident, and his advice was actionable.",
+    rating: 5,
+    project: "LearnSmart Platform",
+  },
+  {
+    name: "Khalid Mahmood",
+    role: "Real Estate Developer",
+    content:
+      "Excellent consultation experience. Muhammad understood our complex requirements and suggested a phased development approach that fit our budget perfectly. His expertise in property management apps was impressive.",
+    rating: 5,
+    project: "PropertyPro Suite",
   },
 ]
 
@@ -462,8 +489,8 @@ export default function ConsultationPage() {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {testimonials.slice(0, 6).map((testimonial, index) => (
               <motion.div
                 key={testimonial.name}
                 initial={{ opacity: 0, y: 30 }}
@@ -478,10 +505,13 @@ export default function ConsultationPage() {
                         <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                       ))}
                     </div>
-                    <p className="text-muted-foreground mb-4 italic">"{testimonial.content}"</p>
-                    <div>
-                      <p className="font-semibold">{testimonial.name}</p>
-                      <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                    <p className="text-muted-foreground mb-4 italic text-sm leading-relaxed">"{testimonial.content}"</p>
+                    <div className="border-t pt-4">
+                      <p className="font-semibold text-sm">{testimonial.name}</p>
+                      <p className="text-xs text-muted-foreground mb-1">{testimonial.role}</p>
+                      <Badge variant="outline" className="text-xs">
+                        {testimonial.project}
+                      </Badge>
                     </div>
                   </CardContent>
                 </Card>
@@ -492,7 +522,7 @@ export default function ConsultationPage() {
       </section>
 
       {/* Consultation Form */}
-      <section className="section-padding bg-muted/30">
+      <section id="consultation-form" className="section-padding bg-muted/30">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
