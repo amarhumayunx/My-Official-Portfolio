@@ -1,18 +1,11 @@
-import type React from "react"
-import type { Metadata } from "next"
+import type { ReactNode } from "react"
 import Suggestions from "@/components/ui/Suggestions"
 
-export const metadata: Metadata = {
-  title: "Services - Muhammad Humayun Amar | Professional Mobile Development",
-  description:
-    "Comprehensive mobile development services including Flutter, Android, Firebase, AI/ML integration, security solutions, and ongoing support.",
+interface ServicesLayoutProps {
+  children: ReactNode
 }
 
-export default function ServicesLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function ServicesLayout({ children }: ServicesLayoutProps) {
   return (
     <>
       {children}
