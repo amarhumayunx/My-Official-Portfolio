@@ -3,8 +3,9 @@ import About from "@/components/sections/About"
 import Skills from "@/components/sections/Skills"
 import Projects from "@/components/sections/Projects"
 import Testimonials from "@/components/sections/Testimonials"
-import Blog from "@/components/sections/Blog" // New import
+import Blog from "@/components/sections/Blog"
 import Contact from "@/components/sections/Contact"
+import Footer from "@/components/layout/Footer" // Added Footer import
 import BackToTop from "@/components/ui/BackToTop"
 
 export default function Home() {
@@ -15,8 +16,9 @@ export default function Home() {
       <Skills />
       <Projects />
       <Testimonials />
-      <Blog /> {/* New section */}
+      <Blog />
       <Contact />
+      <Footer /> {/* Added Footer component */}
       <BackToTop />
     </main>
   )

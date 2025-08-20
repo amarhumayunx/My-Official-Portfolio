@@ -140,7 +140,7 @@ export async function sendMultiStepContactMessage(formData: FormData) {
       other: "Other",
     }
 
-    // Create the email HTML content with proper escaping
+    // Create the enhanced email HTML content for light mode
     const createEmailHTML = () => {
       const currentDate = new Date()
       const formattedDate = currentDate.toLocaleDateString()
@@ -156,7 +156,6 @@ export async function sendMultiStepContactMessage(formData: FormData) {
 
       // Helper function to escape HTML
       const escapeHtml = (text: string) => {
-        const div = { innerHTML: text }
         return text
           .replace(/&/g, "&amp;")
           .replace(/</g, "&lt;")
@@ -177,233 +176,537 @@ export async function sendMultiStepContactMessage(formData: FormData) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>New Project Request</title>
   <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-      line-height: 1.6;
-      color: #333;
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 20px;
-      background-color: #f8fafc;
-    }
-    .container {
-      background: white;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    .header {
-      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-      color: white;
-      padding: 30px;
-      text-align: center;
-    }
-    .header h1 {
+    * {
       margin: 0;
-      font-size: 28px;
-      font-weight: 700;
+      padding: 0;
+      box-sizing: border-box;
     }
-    .header p {
-      margin: 10px 0 0 0;
-      opacity: 0.9;
-      font-size: 16px;
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.7;
+      color: #1a202c;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 20px;
+      min-height: 100vh;
     }
+    
+    .email-wrapper {
+      max-width: 700px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+      position: relative;
+    }
+    
+    .email-wrapper::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    }
+    
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 40px 35px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+    }
+    
+    .header-content {
+      position: relative;
+      z-index: 2;
+    }
+    
+    .header h1 {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      letter-spacing: -0.5px;
+    }
+    
+    .header .subtitle {
+      font-size: 18px;
+      opacity: 0.95;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    
+    .header .date-badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 8px 16px;
+      border-radius: 25px;
+      font-size: 14px;
+      font-weight: 600;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    
     .section {
-      padding: 25px 30px;
+      padding: 35px 40px;
       border-bottom: 1px solid #e2e8f0;
+      position: relative;
     }
-    .section:last-child {
+    
+    .section:last-of-type {
       border-bottom: none;
     }
-    .section-title {
-      color: #1e293b;
-      font-size: 20px;
-      font-weight: 600;
-      margin: 0 0 20px 0;
+    
+    .section-header {
       display: flex;
       align-items: center;
-      gap: 10px;
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #f7fafc;
     }
+    
+    .section-icon {
+      font-size: 24px;
+      margin-right: 12px;
+      padding: 12px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+    
+    .section-title {
+      color: #2d3748;
+      font-size: 22px;
+      font-weight: 700;
+      margin: 0;
+      letter-spacing: -0.3px;
+    }
+    
     .info-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-      margin-bottom: 15px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 20px;
     }
-    .info-item {
-      background: #f8fafc;
-      padding: 15px;
-      border-radius: 8px;
-      border-left: 4px solid #3b82f6;
+    
+    .info-card {
+      background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+      padding: 24px;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      position: relative;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     }
+    
+    .info-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 2px;
+    }
+    
+    .info-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+    
     .info-label {
       font-weight: 600;
-      color: #475569;
-      font-size: 14px;
-      margin-bottom: 5px;
+      color: #4a5568;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
     }
+    
+    .info-label::before {
+      content: '●';
+      color: #667eea;
+      margin-right: 6px;
+      font-size: 8px;
+    }
+    
     .info-value {
-      color: #1e293b;
+      color: #1a202c;
+      font-size: 17px;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+    
+    .description-container {
+      background: linear-gradient(135deg, #ebf8ff 0%, #f0fff4 100%);
+      padding: 28px;
+      border-radius: 16px;
+      border: 1px solid #bee3f8;
+      margin: 20px 0;
+      position: relative;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+    }
+    
+    .description-container::before {
+      content: '💬';
+      position: absolute;
+      top: -12px;
+      left: 20px;
+      background: #ffffff;
+      padding: 8px;
+      border-radius: 50%;
       font-size: 16px;
-      font-weight: 500;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
-    .description-box {
-      background: #f0f9ff;
-      padding: 20px;
-      border-radius: 8px;
-      border-left: 4px solid #0ea5e9;
-      margin: 15px 0;
+    
+    .description-text {
+      color: #2d3748;
+      font-size: 16px;
+      line-height: 1.7;
+      margin-top: 8px;
     }
+    
     .badge-container {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      margin: 15px 0;
+      gap: 12px;
+      margin: 20px 0;
     }
+    
     .badge {
-      background: #dcfce7;
-      color: #166534;
-      padding: 6px 12px;
-      border-radius: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 10px 18px;
+      border-radius: 25px;
       font-size: 14px;
-      font-weight: 500;
-      border: 1px solid #bbf7d0;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
     }
+    
+    .badge::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+    
+    .badge:hover::before {
+      left: 100%;
+    }
+    
     .badge-tech {
-      background: #dbeafe;
-      color: #1e40af;
-      border: 1px solid #bfdbfe;
+      background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+      box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
     }
-    .file-list {
-      background: #fefce8;
-      padding: 15px;
-      border-radius: 8px;
-      border-left: 4px solid #eab308;
+    
+    .badge-feature {
+      background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+      box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
     }
+    
+    .file-container {
+      background: linear-gradient(135deg, #fffbeb 0%, #fef5e7 100%);
+      padding: 25px;
+      border-radius: 16px;
+      border: 1px solid #fed7aa;
+      margin: 20px 0;
+      box-shadow: 0 4px 12px rgba(251, 191, 36, 0.1);
+    }
+    
+    .file-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      color: #92400e;
+      font-weight: 600;
+    }
+    
     .file-item {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 8px 0;
-      border-bottom: 1px solid #fef3c7;
+      justify-content: space-between;
+      padding: 15px 0;
+      border-bottom: 1px solid #fed7aa;
     }
+    
     .file-item:last-child {
       border-bottom: none;
     }
-    .priority-high {
-      background: #fef2f2;
-      border-left-color: #ef4444;
+    
+    .file-info {
+      display: flex;
+      align-items: center;
     }
-    .priority-urgent {
-      background: #fef2f2;
-      border-left-color: #dc2626;
+    
+    .file-icon {
+      margin-right: 12px;
+      font-size: 20px;
     }
-    .footer {
-      background: #1e293b;
+    
+    .file-details h4 {
+      color: #92400e;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    
+    .file-meta {
+      color: #a0aec0;
+      font-size: 13px;
+    }
+    
+    .priority-indicator {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: bold;
       color: white;
-      padding: 30px;
+      animation: pulse 2s infinite;
+    }
+    
+    .priority-high .priority-indicator {
+      background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+    }
+    
+    .priority-urgent .priority-indicator {
+      background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+      animation: urgentPulse 1s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.8; }
+    }
+    
+    @keyframes urgentPulse {
+      0%, 100% { transform: scale(1) rotate(0deg); }
+      25% { transform: scale(1.2) rotate(90deg); }
+      50% { transform: scale(1.1) rotate(180deg); }
+      75% { transform: scale(1.2) rotate(270deg); }
+    }
+    
+    .footer {
+      background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+      color: white;
+      padding: 40px 35px;
       text-align: center;
+      position: relative;
     }
+    
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    }
+    
     .footer h3 {
-      color: #f1f5f9;
-      margin-top: 0;
+      color: #ffffff;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
+    
+    .footer-description {
+      font-size: 16px;
+      opacity: 0.9;
+      margin-bottom: 25px;
+      line-height: 1.6;
+    }
+    
+    .action-container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 25px;
+      border-radius: 16px;
+      margin: 20px auto;
+      max-width: 500px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .action-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #ffffff;
+    }
+    
     .action-list {
       list-style: none;
       padding: 0;
-      margin: 15px 0;
+      margin: 0;
     }
+    
     .action-list li {
-      padding: 8px 0;
-      padding-left: 20px;
+      padding: 12px 0;
+      padding-left: 30px;
       position: relative;
+      font-size: 15px;
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.95);
     }
-    .action-list li:before {
-      content: "✓";
+    
+    .action-list li::before {
+      content: '✨';
       position: absolute;
       left: 0;
-      color: #10b981;
-      font-weight: bold;
+      top: 12px;
+      font-size: 16px;
     }
+    
     .timestamp {
       text-align: center;
-      color: #64748b;
+      background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+      color: #4a5568;
       font-size: 14px;
-      padding: 20px;
+      padding: 25px;
       border-top: 1px solid #e2e8f0;
-      background: #f8fafc;
+      position: relative;
+    }
+    
+    .timestamp::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      border-radius: 2px;
+    }
+    
+    .timestamp-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .timestamp-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 500;
     }
     
     /* Mobile Portrait Styles */
     @media (max-width: 600px) {
       body { 
         padding: 10px; 
-        font-size: 14px;
       }
-      .container {
+      
+      .email-wrapper {
+        border-radius: 12px;
         margin: 0;
-        border-radius: 8px;
       }
+      
       .header {
-        padding: 20px 15px;
+        padding: 30px 20px;
       }
+      
       .header h1 {
-        font-size: 22px;
+        font-size: 26px;
         line-height: 1.2;
       }
-      .header p {
-        font-size: 14px;
+      
+      .header .subtitle {
+        font-size: 16px;
       }
+      
       .section { 
-        padding: 20px 15px; 
+        padding: 25px 20px; 
       }
+      
       .section-title {
-        font-size: 18px;
-        margin-bottom: 15px;
+        font-size: 20px;
       }
+      
       .info-grid { 
         grid-template-columns: 1fr;
-        gap: 10px;
+        gap: 15px;
       }
-      .info-item {
-        padding: 12px;
+      
+      .info-card {
+        padding: 20px;
       }
-      .info-label {
+      
+      .info-value {
+        font-size: 16px;
+      }
+      
+      .description-container {
+        padding: 20px;
+      }
+      
+      .badge-container {
+        gap: 8px;
+      }
+      
+      .badge {
+        padding: 8px 14px;
         font-size: 13px;
       }
-      .info-value {
-        font-size: 15px;
-      }
-      .description-box {
-        padding: 15px;
-        font-size: 14px;
-      }
-      .badge-container {
-        gap: 6px;
-      }
-      .badge {
-        padding: 4px 8px;
-        font-size: 12px;
-      }
+      
       .footer {
-        padding: 20px 15px;
+        padding: 30px 20px;
       }
+      
       .footer h3 {
-        font-size: 18px;
+        font-size: 20px;
       }
-      .action-list {
-        font-size: 14px;
+      
+      .action-container {
+        padding: 20px;
+        margin: 15px auto;
       }
-      .file-list {
-        padding: 12px;
-      }
-      .file-item {
-        padding: 6px 0;
-        font-size: 14px;
-      }
+      
       .timestamp {
-        padding: 15px;
-        font-size: 12px;
+        padding: 20px;
+        font-size: 13px;
       }
     }
     
@@ -411,118 +714,107 @@ export async function sendMultiStepContactMessage(formData: FormData) {
     @media (max-width: 900px) and (orientation: landscape) {
       body {
         padding: 15px 20px;
-        font-size: 15px;
       }
-      .container {
+      
+      .email-wrapper {
         max-width: 100%;
         margin: 0;
       }
+      
       .header {
-        padding: 25px 20px;
+        padding: 25px 30px;
       }
+      
       .header h1 {
-        font-size: 24px;
+        font-size: 28px;
       }
+      
       .section {
-        padding: 20px 25px;
+        padding: 25px 30px;
       }
+      
       .section-title {
-        font-size: 19px;
-        margin-bottom: 18px;
+        font-size: 21px;
       }
+      
       .info-grid {
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 12px;
+        gap: 15px;
       }
-      .info-item {
-        padding: 14px;
+      
+      .info-card {
+        padding: 20px;
       }
-      .info-label {
-        font-size: 13px;
+      
+      .description-container {
+        padding: 24px;
       }
-      .info-value {
-        font-size: 15px;
-      }
-      .description-box {
-        padding: 18px;
-        font-size: 15px;
-      }
+      
       .badge {
-        padding: 5px 10px;
+        padding: 8px 16px;
         font-size: 13px;
       }
+      
       .footer {
-        padding: 25px 20px;
+        padding: 30px;
       }
-      .footer h3 {
-        font-size: 19px;
+      
+      .action-container {
+        padding: 20px;
       }
-      .action-list {
-        font-size: 15px;
-      }
-      .badge-container {
-        justify-content: flex-start;
-        gap: 8px;
-      }
-      .file-list {
-        padding: 15px;
-      }
+      
       .timestamp {
-        padding: 18px;
-        font-size: 13px;
+        padding: 20px;
       }
     }
     
     /* Tablet Landscape Styles */
     @media (min-width: 601px) and (max-width: 1024px) and (orientation: landscape) {
-      body {
-        padding: 20px 30px;
-        max-width: 100%;
-      }
-      .container {
+      .email-wrapper {
         max-width: 900px;
         margin: 0 auto;
       }
+      
       .header {
-        padding: 30px 25px;
+        padding: 35px 30px;
       }
-      .header h1 {
-        font-size: 26px;
-      }
+      
       .section {
-        padding: 25px 30px;
+        padding: 30px 35px;
       }
+      
       .info-grid {
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 15px;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 18px;
       }
+      
       .badge-container {
         gap: 10px;
       }
-      .badge {
-        padding: 6px 12px;
-        font-size: 14px;
-      }
+      
       .footer {
-        padding: 30px 25px;
+        padding: 35px 30px;
       }
     }
     
     /* Small Mobile Landscape */
     @media (max-width: 480px) and (orientation: landscape) {
       .header h1 {
-        font-size: 20px;
+        font-size: 22px;
       }
+      
       .section-title {
-        font-size: 16px;
+        font-size: 18px;
       }
+      
       .info-grid {
-        gap: 8px;
+        gap: 12px;
         grid-template-columns: 1fr;
       }
+      
       .badge {
-        font-size: 11px;
-        padding: 3px 6px;
+        font-size: 12px;
+        padding: 6px 12px;
       }
     }
     
@@ -530,36 +822,68 @@ export async function sendMultiStepContactMessage(formData: FormData) {
     @media (min-width: 481px) and (max-width: 600px) and (orientation: landscape) {
       .info-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
+        gap: 12px;
       }
-      .info-item {
-        padding: 12px;
+      
+      .info-card {
+        padding: 18px;
+      }
+    }
+    
+    /* Print Styles */
+    @media print {
+      body {
+        background: white !important;
+        padding: 0 !important;
+      }
+      
+      .email-wrapper {
+        box-shadow: none !important;
+        border: 1px solid #ccc !important;
+      }
+      
+      .header::before,
+      .badge::before,
+      .priority-indicator {
+        display: none !important;
+      }
+      
+      .badge {
+        background: #f0f0f0 !important;
+        color: #333 !important;
+        box-shadow: none !important;
       }
     }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="email-wrapper">
     <div class="header">
-      <h1>🚀 New Project Request</h1>
-      <p>From ${escapeHtml(data.name)} • ${formattedDate}</p>
+      <div class="header-content">
+        <h1>🚀 New Project Request</h1>
+        <div class="subtitle">Professional Inquiry Received</div>
+        <div class="date-badge">📅 ${formattedDate}</div>
+      </div>
     </div>
     
     <div class="section">
-      <h3 class="section-title">👤 Contact Information</h3>
+      <div class="section-header">
+        <div class="section-icon">👤</div>
+        <h3 class="section-title">Contact Information</h3>
+      </div>
       <div class="info-grid">
-        <div class="info-item">
+        <div class="info-card">
           <div class="info-label">Full Name</div>
           <div class="info-value">${escapeHtml(data.name)}</div>
         </div>
-        <div class="info-item">
+        <div class="info-card">
           <div class="info-label">Email Address</div>
           <div class="info-value">${escapeHtml(data.email)}</div>
         </div>
         ${
           data.company
             ? `
-        <div class="info-item">
+        <div class="info-card">
           <div class="info-label">Company</div>
           <div class="info-value">${escapeHtml(data.company)}</div>
         </div>
@@ -569,7 +893,7 @@ export async function sendMultiStepContactMessage(formData: FormData) {
         ${
           data.phone
             ? `
-        <div class="info-item">
+        <div class="info-card">
           <div class="info-label">Phone Number</div>
           <div class="info-value">${escapeHtml(data.phone)}</div>
         </div>
@@ -580,25 +904,30 @@ export async function sendMultiStepContactMessage(formData: FormData) {
     </div>
 
     <div class="section">
-      <h3 class="section-title">🚀 Project Details</h3>
+      <div class="section-header">
+        <div class="section-icon">🚀</div>
+        <h3 class="section-title">Project Details</h3>
+      </div>
       <div class="info-grid">
-        <div class="info-item">
+        <div class="info-card">
           <div class="info-label">Project Type</div>
           <div class="info-value">${escapeHtml(projectTypeMap[data.projectType] || data.projectType)}</div>
         </div>
-        <div class="info-item">
+        <div class="info-card">
           <div class="info-label">Budget Range</div>
           <div class="info-value">${escapeHtml(budgetMap[data.budget] || data.budget)}</div>
         </div>
-        <div class="info-item">
+        <div class="info-card">
           <div class="info-label">Timeline</div>
           <div class="info-value">${escapeHtml(timelineMap[data.timeline] || data.timeline)}</div>
         </div>
       </div>
       
-      <div class="info-label" style="margin-top: 20px; margin-bottom: 10px;">Project Description</div>
-      <div class="description-box">
-        ${formatDescription(data.description)}
+      <div class="description-container">
+        <div class="info-label" style="margin-bottom: 12px;">Project Description</div>
+        <div class="description-text">
+          ${formatDescription(data.description)}
+        </div>
       </div>
     </div>
 
@@ -606,11 +935,14 @@ export async function sendMultiStepContactMessage(formData: FormData) {
       technologies.length > 0 || features.length > 0 || data.additionalInfo
         ? `
     <div class="section">
-      <h3 class="section-title">⚙️ Technical Requirements</h3>
+      <div class="section-header">
+        <div class="section-icon">⚙️</div>
+        <h3 class="section-title">Technical Requirements</h3>
+      </div>
       ${
         technologies.length > 0
           ? `
-      <div class="info-label">Preferred Technologies</div>
+      <div class="info-label" style="margin-bottom: 15px;">Preferred Technologies</div>
       <div class="badge-container">
         ${technologies.map((tech: string) => `<span class="badge badge-tech">${escapeHtml(tech)}</span>`).join("")}
       </div>
@@ -621,9 +953,9 @@ export async function sendMultiStepContactMessage(formData: FormData) {
       ${
         features.length > 0
           ? `
-      <div class="info-label">Required Features</div>
+      <div class="info-label" style="margin-bottom: 15px;">Required Features</div>
       <div class="badge-container">
-        ${features.map((feature: string) => `<span class="badge">${escapeHtml(feature)}</span>`).join("")}
+        ${features.map((feature: string) => `<span class="badge badge-feature">${escapeHtml(feature)}</span>`).join("")}
       </div>
       `
           : ""
@@ -632,9 +964,11 @@ export async function sendMultiStepContactMessage(formData: FormData) {
       ${
         data.additionalInfo
           ? `
-      <div class="info-label" style="margin-top: 20px;">Additional Information</div>
-      <div class="description-box">
-        ${formatDescription(data.additionalInfo)}
+      <div class="description-container" style="margin-top: 25px;">
+        <div class="info-label" style="margin-bottom: 12px;">Additional Information</div>
+        <div class="description-text">
+          ${formatDescription(data.additionalInfo)}
+        </div>
       </div>
       `
           : ""
@@ -648,20 +982,28 @@ export async function sendMultiStepContactMessage(formData: FormData) {
       fileInfo.length > 0 || data.preferredContact || data.urgency || data.hearAbout
         ? `
     <div class="section">
-      <h3 class="section-title">📋 Additional Details</h3>
+      <div class="section-header">
+        <div class="section-icon">📋</div>
+        <h3 class="section-title">Additional Details</h3>
+      </div>
       
       ${
         fileInfo.length > 0
           ? `
-      <div class="info-label">Uploaded Files (${fileInfo.length})</div>
-      <div class="file-list">
+      <div class="file-container">
+        <div class="file-header">
+          📎 Uploaded Files (${fileInfo.length})
+        </div>
         ${fileInfo
           .map(
             (file) => `
         <div class="file-item">
-          <div>
-            <strong>📎 ${escapeHtml(file.name)}</strong><br>
-            <small style="color: #6b7280;">${(file.size / 1024 / 1024).toFixed(2)} MB • ${escapeHtml(file.type)}</small>
+          <div class="file-info">
+            <div class="file-icon">📄</div>
+            <div class="file-details">
+              <h4>${escapeHtml(file.name)}</h4>
+              <div class="file-meta">${(file.size / 1024 / 1024).toFixed(2)} MB • ${escapeHtml(file.type)}</div>
+            </div>
           </div>
         </div>
         `,
@@ -672,11 +1014,11 @@ export async function sendMultiStepContactMessage(formData: FormData) {
           : ""
       }
       
-      <div class="info-grid" style="margin-top: 20px;">
+      <div class="info-grid" style="margin-top: 25px;">
         ${
           data.preferredContact
             ? `
-        <div class="info-item">
+        <div class="info-card">
           <div class="info-label">Preferred Contact</div>
           <div class="info-value">${escapeHtml(contactMap[data.preferredContact] || data.preferredContact)}</div>
         </div>
@@ -687,9 +1029,14 @@ export async function sendMultiStepContactMessage(formData: FormData) {
         ${
           data.urgency
             ? `
-        <div class="info-item ${data.urgency === "urgent" ? "priority-urgent" : data.urgency === "high" ? "priority-high" : ""}">
+        <div class="info-card ${data.urgency === "urgent" ? "priority-urgent" : data.urgency === "high" ? "priority-high" : ""}">
           <div class="info-label">Urgency Level</div>
           <div class="info-value">${escapeHtml(urgencyMap[data.urgency] || data.urgency)}</div>
+          ${
+            data.urgency === "urgent" || data.urgency === "high"
+              ? `<div class="priority-indicator">${data.urgency === "urgent" ? "🚨" : "⚡"}</div>`
+              : ""
+          }
         </div>
         `
             : ""
@@ -698,7 +1045,7 @@ export async function sendMultiStepContactMessage(formData: FormData) {
         ${
           data.hearAbout
             ? `
-        <div class="info-item">
+        <div class="info-card">
           <div class="info-label">How They Found You</div>
           <div class="info-value">${escapeHtml(hearAboutMap[data.hearAbout] || data.hearAbout)}</div>
         </div>
@@ -713,22 +1060,34 @@ export async function sendMultiStepContactMessage(formData: FormData) {
 
     <div class="footer">
       <h3>📞 Next Steps</h3>
-      <p>This is a comprehensive project request that requires your attention. Please respond within 24 hours to maintain your professional reputation.</p>
+      <div class="footer-description">
+        This is a comprehensive project request that requires your professional attention. 
+        Respond promptly to maintain your excellent reputation and secure this opportunity.
+      </div>
       
-      <div style="text-align: left; max-width: 400px; margin: 0 auto;">
-        <p><strong>Recommended Actions:</strong></p>
+      <div class="action-container">
+        <div class="action-title">🎯 Recommended Actions</div>
         <ul class="action-list">
-          <li>Review the project requirements carefully</li>
-          <li>Prepare initial questions for the client</li>
-          <li>Schedule a consultation call if needed</li>
-          <li>Provide a detailed proposal with timeline and pricing</li>
+          <li>Review all project requirements and technical specifications</li>
+          <li>Prepare thoughtful questions for the initial consultation</li>
+          <li>Schedule a discovery call within 24-48 hours</li>
+          <li>Create a detailed proposal with timeline and investment</li>
+          <li>Send a professional follow-up acknowledging receipt</li>
         </ul>
       </div>
     </div>
 
     <div class="timestamp">
-      <em>📧 Sent from Muhammad Humayun Amar's Portfolio Website</em><br>
-      <em>⏰ Submitted on ${formattedDateTime}</em>
+      <div class="timestamp-content">
+        <div class="timestamp-line">
+          <span>📧</span>
+          <em>Sent from Muhammad Humayun Amar's Portfolio Website</em>
+        </div>
+        <div class="timestamp-line">
+          <span>⏰</span>
+          <em>Submitted on ${formattedDateTime}</em>
+        </div>
+      </div>
     </div>
   </div>
 </body>
