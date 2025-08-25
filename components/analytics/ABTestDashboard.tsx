@@ -2,170 +2,196 @@
 
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { TrendingUp, Users, Target, RefreshCw, Download, Eye, CheckCircle, AlertTriangle, Trophy } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  PieChart,
+  Pie,
+  Cell,
+} from "recharts"
+import {
+  TrendingUp,
+  TrendingDown,
+  Users,
+  Target,
+  Award,
+  RefreshCw,
+  Download,
+  AlertTriangle,
+  CheckCircle,
+  Clock,
+  BarChart3,
+} from "lucide-react"
+import { getABTestData, resetABTest } from "@/hooks/useABTest"
 
 interface ABTestData {
-  testName: string
-  variants: {
-    A: {
-      views: number
-      conversions: number
-      conversionRate: number
-    }
-    B: {
-      views: number
-      conversions: number
-      conversionRate: number
-    }
-  }
-  winner?: "A" | "B" | null
+  variant: string
+  views: number
+  conversions: number
+  conversionRate: number
   confidence: number
-  improvement: number
-  isSignificant: boolean
+  isWinner: boolean
 }
 
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"]
+interface TestMetrics {
+  testName: string
+  data: Record<string, ABTestData>
+  totalViews: number
+  totalConversions: number
+  overallConversionRate: number
+  winner: string | null
+  confidence: number
+  status: "running" | "winner_declared" | "insufficient_data"
+}
+
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884D8"]
 
 export default function ABTestDashboard() {
-  const [testData, setTestData] = useState<ABTestData[]>([])
+  const [testMetrics, setTestMetrics] = useState<TestMetrics[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date())
 
-  const fetchTestData = () => {
-    setIsLoading(true)
-
-    // Simulate fetching data from localStorage and analytics
-    const assignments = JSON.parse(localStorage.getItem("ab_test_assignments") || "{}")
-    const conversions = JSON.parse(localStorage.getItem("ab_test_conversions") || "{}")
-
+  const loadTestData = () => {
     const tests = ["consultation_hero", "consultation_cta", "consultation_form"]
+    const metrics: TestMetrics[] = []
 
-    const data: ABTestData[] = tests.map((testName) => {
-      // Count assignments for each variant
-      const variantCounts = { A: 0, B: 0 }
-      Object.values(assignments).forEach((assignment: any) => {
-        if (assignment.testName === testName) {
-          variantCounts[assignment.variant as "A" | "B"]++
-        }
-      })
+    tests.forEach((testName) => {
+      const data = getABTestData(testName)
+      const variants = Object.values(data)
 
-      // Get conversion data
-      const testConversions = conversions[testName] || { A: 0, B: 0 }
-
-      const variantA = {
-        views: variantCounts.A,
-        conversions: testConversions.A,
-        conversionRate: variantCounts.A > 0 ? (testConversions.A / variantCounts.A) * 100 : 0,
-      }
-
-      const variantB = {
-        views: variantCounts.B,
-        conversions: testConversions.B,
-        conversionRate: variantCounts.B > 0 ? (testConversions.B / variantCounts.B) * 100 : 0,
-      }
-
-      // Calculate statistical significance (simplified)
-      const totalSamples = variantA.views + variantB.views
-      const isSignificant = totalSamples >= 100 // Minimum sample size
+      const totalViews = variants.reduce((sum, variant) => sum + variant.views, 0)
+      const totalConversions = variants.reduce((sum, variant) => sum + variant.conversions, 0)
+      const overallConversionRate = totalViews > 0 ? (totalConversions / totalViews) * 100 : 0
 
       // Determine winner
-      let winner: "A" | "B" | null = null
-      let improvement = 0
+      let winner: string | null = null
+      let confidence = 0
+      let status: "running" | "winner_declared" | "insufficient_data" = "insufficient_data"
 
-      if (isSignificant) {
-        if (variantA.conversionRate > variantB.conversionRate) {
-          winner = "A"
-          improvement =
-            variantB.conversionRate > 0
-              ? ((variantA.conversionRate - variantB.conversionRate) / variantB.conversionRate) * 100
-              : 0
-        } else if (variantB.conversionRate > variantA.conversionRate) {
-          winner = "B"
-          improvement =
-            variantA.conversionRate > 0
-              ? ((variantB.conversionRate - variantA.conversionRate) / variantA.conversionRate) * 100
-              : 0
+      if (variants.length >= 2 && totalViews >= 100) {
+        const sortedVariants = variants.sort((a, b) => b.conversionRate - a.conversionRate)
+        const topVariant = sortedVariants[0]
+
+        if (topVariant.confidence >= 95) {
+          winner = topVariant.variant
+          confidence = topVariant.confidence
+          status = "winner_declared"
+        } else if (totalViews >= 30) {
+          status = "running"
+          confidence = topVariant.confidence
         }
       }
 
-      // Calculate confidence (simplified)
-      const confidence = Math.min(95, (totalSamples / 100) * 95)
-
-      return {
+      metrics.push({
         testName,
-        variants: { A: variantA, B: variantB },
+        data,
+        totalViews,
+        totalConversions,
+        overallConversionRate,
         winner,
         confidence,
-        improvement,
-        isSignificant,
-      }
+        status,
+      })
     })
 
-    setTestData(data)
+    setTestMetrics(metrics)
     setLastUpdated(new Date())
     setIsLoading(false)
   }
 
   useEffect(() => {
-    fetchTestData()
+    loadTestData()
 
     // Auto-refresh every 10 seconds
-    const interval = setInterval(fetchTestData, 10000)
+    const interval = setInterval(loadTestData, 10000)
     return () => clearInterval(interval)
   }, [])
 
+  const handleRefresh = () => {
+    setIsLoading(true)
+    setTimeout(loadTestData, 500) // Small delay for UX
+  }
+
+  const handleReset = (testName: string) => {
+    if (confirm(`Are you sure you want to reset the test "${testName}"? This will clear all data.`)) {
+      resetABTest(testName)
+      loadTestData()
+    }
+  }
+
   const exportData = () => {
-    const dataStr = JSON.stringify(testData, null, 2)
-    const dataUri = "data:application/json;charset=utf-8," + encodeURIComponent(dataStr)
+    const exportData = {
+      timestamp: new Date().toISOString(),
+      tests: testMetrics,
+    }
 
-    const exportFileDefaultName = `ab-test-data-${new Date().toISOString().split("T")[0]}.json`
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], {
+      type: "application/json",
+    })
 
-    const linkElement = document.createElement("a")
-    linkElement.setAttribute("href", dataUri)
-    linkElement.setAttribute("download", exportFileDefaultName)
-    linkElement.click()
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = `ab-test-data-${new Date().toISOString().split("T")[0]}.json`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
   }
 
-  const getTestDisplayName = (testName: string) => {
-    switch (testName) {
-      case "consultation_hero":
-        return "Hero Section"
-      case "consultation_cta":
-        return "CTA Section"
-      case "consultation_form":
-        return "Form Section"
+  const getStatusBadge = (status: TestMetrics["status"], confidence: number) => {
+    switch (status) {
+      case "winner_declared":
+        return (
+          <Badge className="bg-green-500 text-white">
+            <CheckCircle className="w-3 h-3 mr-1" />
+            Winner ({confidence}% confidence)
+          </Badge>
+        )
+      case "running":
+        return (
+          <Badge variant="secondary">
+            <Clock className="w-3 h-3 mr-1" />
+            Running ({confidence}% confidence)
+          </Badge>
+        )
       default:
-        return testName
+        return (
+          <Badge variant="outline">
+            <AlertTriangle className="w-3 h-3 mr-1" />
+            Insufficient Data
+          </Badge>
+        )
     }
   }
 
-  const getTotalMetrics = () => {
-    const totals = testData.reduce(
-      (acc, test) => ({
-        views: acc.views + test.variants.A.views + test.variants.B.views,
-        conversions: acc.conversions + test.variants.A.conversions + test.variants.B.conversions,
-      }),
-      { views: 0, conversions: 0 },
-    )
-
-    return {
-      ...totals,
-      conversionRate: totals.views > 0 ? (totals.conversions / totals.views) * 100 : 0,
-    }
+  const formatTestName = (testName: string) => {
+    return testName
+      .split("_")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ")
   }
-
-  const totalMetrics = getTotalMetrics()
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <RefreshCw className="w-8 h-8 animate-spin mx-auto mb-4" />
-          <p>Loading A/B test data...</p>
+      <div className="min-h-screen bg-background p-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-center h-64">
+            <div className="flex items-center gap-2">
+              <RefreshCw className="w-6 h-6 animate-spin" />
+              <span>Loading test data...</span>
+            </div>
+          </div>
         </div>
       </div>
     )
@@ -173,218 +199,271 @@ export default function ABTestDashboard() {
 
   return (
     <div className="min-h-screen bg-background p-6">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
             <h1 className="text-3xl font-bold">A/B Test Dashboard</h1>
-            <p className="text-muted-foreground">Real-time performance monitoring for consultation page variants</p>
+            <p className="text-muted-foreground">Real-time monitoring of consultation page variants</p>
           </div>
 
-          <div className="flex items-center gap-4">
-            <div className="text-sm text-muted-foreground">Last updated: {lastUpdated.toLocaleTimeString()}</div>
-            <Button onClick={fetchTestData} variant="outline" size="sm">
-              <RefreshCw className="w-4 h-4 mr-2" />
+          <div className="flex items-center gap-2">
+            <Button variant="outline" onClick={handleRefresh} disabled={isLoading}>
+              <RefreshCw className={`w-4 h-4 mr-2 ${isLoading ? "animate-spin" : ""}`} />
               Refresh
             </Button>
-            <Button onClick={exportData} variant="outline" size="sm">
+            <Button variant="outline" onClick={exportData}>
               <Download className="w-4 h-4 mr-2" />
-              Export
+              Export Data
             </Button>
           </div>
         </div>
 
+        {/* Last Updated */}
+        <div className="text-sm text-muted-foreground">Last updated: {lastUpdated.toLocaleString()}</div>
+
         {/* Overview Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">Total Views</p>
-                  <p className="text-2xl font-bold">{totalMetrics.views.toLocaleString()}</p>
-                </div>
-                <Eye className="w-8 h-8 text-blue-500" />
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total Views</CardTitle>
+              <Users className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">
+                {testMetrics.reduce((sum, test) => sum + test.totalViews, 0).toLocaleString()}
               </div>
             </CardContent>
           </Card>
 
           <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">Total Conversions</p>
-                  <p className="text-2xl font-bold">{totalMetrics.conversions.toLocaleString()}</p>
-                </div>
-                <Target className="w-8 h-8 text-green-500" />
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total Conversions</CardTitle>
+              <Target className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">
+                {testMetrics.reduce((sum, test) => sum + test.totalConversions, 0).toLocaleString()}
               </div>
             </CardContent>
           </Card>
 
           <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">Overall Conversion Rate</p>
-                  <p className="text-2xl font-bold">{totalMetrics.conversionRate.toFixed(2)}%</p>
-                </div>
-                <TrendingUp className="w-8 h-8 text-purple-500" />
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Overall Conversion Rate</CardTitle>
+              <BarChart3 className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">
+                {(
+                  (testMetrics.reduce((sum, test) => sum + test.totalConversions, 0) /
+                    Math.max(
+                      testMetrics.reduce((sum, test) => sum + test.totalViews, 0),
+                      1,
+                    )) *
+                  100
+                ).toFixed(2)}
+                %
               </div>
             </CardContent>
           </Card>
 
           <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">Active Tests</p>
-                  <p className="text-2xl font-bold">{testData.length}</p>
-                </div>
-                <Users className="w-8 h-8 text-orange-500" />
-              </div>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Active Tests</CardTitle>
+              <Award className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{testMetrics.length}</div>
             </CardContent>
           </Card>
         </div>
 
-        {/* Test Results */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          {testData.map((test, index) => (
-            <motion.div
-              key={test.testName}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-            >
-              <Card>
-                <CardHeader>
-                  <div className="flex items-center justify-between">
+        {/* Individual Test Results */}
+        {testMetrics.map((test, index) => (
+          <motion.div
+            key={test.testName}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+          >
+            <Card>
+              <CardHeader>
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                  <div>
                     <CardTitle className="flex items-center gap-2">
-                      {getTestDisplayName(test.testName)}
-                      {test.winner && (
-                        <Badge variant="default" className="ml-2">
-                          <Trophy className="w-3 h-3 mr-1" />
-                          Winner: {test.winner}
-                        </Badge>
-                      )}
+                      {formatTestName(test.testName)}
+                      {getStatusBadge(test.status, test.confidence)}
                     </CardTitle>
-
-                    <div className="flex items-center gap-2">
-                      {test.isSignificant ? (
-                        <Badge variant="default" className="bg-green-500">
-                          <CheckCircle className="w-3 h-3 mr-1" />
-                          Significant
-                        </Badge>
-                      ) : (
-                        <Badge variant="secondary">
-                          <AlertTriangle className="w-3 h-3 mr-1" />
-                          Need More Data
-                        </Badge>
+                    <CardDescription>
+                      {test.totalViews} views • {test.totalConversions} conversions •{" "}
+                      {test.overallConversionRate.toFixed(2)}% rate
+                      {test.winner && (
+                        <span className="ml-2 text-green-600 font-medium">Winner: Variant {test.winner}</span>
                       )}
+                    </CardDescription>
+                  </div>
+
+                  <Button variant="outline" size="sm" onClick={() => handleReset(test.testName)}>
+                    Reset Test
+                  </Button>
+                </div>
+              </CardHeader>
+
+              <CardContent>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {/* Variant Performance Table */}
+                  <div>
+                    <h4 className="font-semibold mb-4">Variant Performance</h4>
+                    <div className="space-y-3">
+                      {Object.values(test.data).map((variant, idx) => (
+                        <div
+                          key={variant.variant}
+                          className={`p-4 rounded-lg border ${
+                            variant.isWinner ? "border-green-500 bg-green-50 dark:bg-green-950/20" : "border-border"
+                          }`}
+                        >
+                          <div className="flex justify-between items-center mb-2">
+                            <span className="font-medium">Variant {variant.variant}</span>
+                            {variant.isWinner && (
+                              <Badge className="bg-green-500 text-white">
+                                <Award className="w-3 h-3 mr-1" />
+                                Winner
+                              </Badge>
+                            )}
+                          </div>
+
+                          <div className="grid grid-cols-3 gap-4 text-sm">
+                            <div>
+                              <div className="text-muted-foreground">Views</div>
+                              <div className="font-semibold">{variant.views}</div>
+                            </div>
+                            <div>
+                              <div className="text-muted-foreground">Conversions</div>
+                              <div className="font-semibold">{variant.conversions}</div>
+                            </div>
+                            <div>
+                              <div className="text-muted-foreground">Rate</div>
+                              <div className="font-semibold flex items-center gap-1">
+                                {variant.conversionRate.toFixed(2)}%
+                                {variant.conversionRate > test.overallConversionRate ? (
+                                  <TrendingUp className="w-3 h-3 text-green-500" />
+                                ) : (
+                                  <TrendingDown className="w-3 h-3 text-red-500" />
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                </CardHeader>
 
-                <CardContent>
-                  <div className="space-y-6">
-                    {/* Variant Comparison */}
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="text-center p-4 bg-blue-50 dark:bg-blue-950/20 rounded-lg">
-                        <h4 className="font-semibold text-blue-700 dark:text-blue-300 mb-2">Variant A</h4>
-                        <div className="space-y-1">
-                          <p className="text-2xl font-bold">{test.variants.A.conversionRate.toFixed(2)}%</p>
-                          <p className="text-sm text-muted-foreground">
-                            {test.variants.A.conversions} / {test.variants.A.views} conversions
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="text-center p-4 bg-green-50 dark:bg-green-950/20 rounded-lg">
-                        <h4 className="font-semibold text-green-700 dark:text-green-300 mb-2">Variant B</h4>
-                        <div className="space-y-1">
-                          <p className="text-2xl font-bold">{test.variants.B.conversionRate.toFixed(2)}%</p>
-                          <p className="text-sm text-muted-foreground">
-                            {test.variants.B.conversions} / {test.variants.B.views} conversions
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Performance Chart */}
-                    <div className="h-48">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <BarChart
-                          data={[
-                            {
-                              name: "Variant A",
-                              conversionRate: test.variants.A.conversionRate,
-                              views: test.variants.A.views,
-                            },
-                            {
-                              name: "Variant B",
-                              conversionRate: test.variants.B.conversionRate,
-                              views: test.variants.B.views,
-                            },
-                          ]}
-                        >
-                          <CartesianGrid strokeDasharray="3 3" />
-                          <XAxis dataKey="name" />
-                          <YAxis />
-                          <Tooltip
-                            formatter={(value: any, name: string) => [
-                              name === "conversionRate" ? `${value.toFixed(2)}%` : value,
-                              name === "conversionRate" ? "Conversion Rate" : "Views",
-                            ]}
-                          />
-                          <Bar dataKey="conversionRate" fill="#8884d8" />
-                        </BarChart>
-                      </ResponsiveContainer>
-                    </div>
-
-                    {/* Statistics */}
-                    <div className="grid grid-cols-2 gap-4 text-sm">
-                      <div>
-                        <span className="text-muted-foreground">Confidence:</span>
-                        <span className="ml-2 font-semibold">{test.confidence.toFixed(1)}%</span>
-                      </div>
-                      <div>
-                        <span className="text-muted-foreground">Improvement:</span>
-                        <span
-                          className={`ml-2 font-semibold ${test.improvement > 0 ? "text-green-600" : "text-red-600"}`}
-                        >
-                          {test.improvement > 0 ? "+" : ""}
-                          {test.improvement.toFixed(1)}%
-                        </span>
-                      </div>
-                    </div>
+                  {/* Conversion Rate Chart */}
+                  <div>
+                    <h4 className="font-semibold mb-4">Conversion Rate Comparison</h4>
+                    <ResponsiveContainer width="100%" height={200}>
+                      <BarChart data={Object.values(test.data)}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="variant" />
+                        <YAxis />
+                        <Tooltip formatter={(value: number) => [`${value.toFixed(2)}%`, "Conversion Rate"]} />
+                        <Bar dataKey="conversionRate" fill="#8884d8" />
+                      </BarChart>
+                    </ResponsiveContainer>
                   </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
+                </div>
 
-        {/* Overall Performance Chart */}
+                {/* Views vs Conversions Chart */}
+                {Object.values(test.data).length > 0 && (
+                  <div className="mt-6">
+                    <h4 className="font-semibold mb-4">Views vs Conversions</h4>
+                    <ResponsiveContainer width="100%" height={300}>
+                      <LineChart data={Object.values(test.data)}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="variant" />
+                        <YAxis />
+                        <Tooltip />
+                        <Line type="monotone" dataKey="views" stroke="#8884d8" strokeWidth={2} name="Views" />
+                        <Line
+                          type="monotone"
+                          dataKey="conversions"
+                          stroke="#82ca9d"
+                          strokeWidth={2}
+                          name="Conversions"
+                        />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </motion.div>
+        ))}
+
+        {/* Summary Statistics */}
         <Card>
           <CardHeader>
-            <CardTitle>Overall Test Performance</CardTitle>
+            <CardTitle>Test Summary</CardTitle>
+            <CardDescription>Overall performance across all running tests</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  data={testData.map((test) => ({
-                    name: getTestDisplayName(test.testName),
-                    "Variant A": test.variants.A.conversionRate,
-                    "Variant B": test.variants.B.conversionRate,
-                  }))}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip formatter={(value: any) => `${value.toFixed(2)}%`} />
-                  <Bar dataKey="Variant A" fill="#8884d8" />
-                  <Bar dataKey="Variant B" fill="#82ca9d" />
-                </BarChart>
-              </ResponsiveContainer>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Test Status Distribution */}
+              <div>
+                <h4 className="font-semibold mb-4">Test Status Distribution</h4>
+                <ResponsiveContainer width="100%" height={200}>
+                  <PieChart>
+                    <Pie
+                      data={[
+                        {
+                          name: "Winner Declared",
+                          value: testMetrics.filter((t) => t.status === "winner_declared").length,
+                        },
+                        {
+                          name: "Running",
+                          value: testMetrics.filter((t) => t.status === "running").length,
+                        },
+                        {
+                          name: "Insufficient Data",
+                          value: testMetrics.filter((t) => t.status === "insufficient_data").length,
+                        },
+                      ]}
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={80}
+                      dataKey="value"
+                    >
+                      {testMetrics.map((_, index) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+
+              {/* Performance Metrics */}
+              <div>
+                <h4 className="font-semibold mb-4">Key Insights</h4>
+                <div className="space-y-4">
+                  {testMetrics.map((test) => (
+                    <div key={test.testName} className="flex justify-between items-center">
+                      <span className="text-sm">{formatTestName(test.testName)}</span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-medium">{test.overallConversionRate.toFixed(2)}%</span>
+                        {test.status === "winner_declared" ? (
+                          <CheckCircle className="w-4 h-4 text-green-500" />
+                        ) : test.status === "running" ? (
+                          <Clock className="w-4 h-4 text-yellow-500" />
+                        ) : (
+                          <AlertTriangle className="w-4 h-4 text-red-500" />
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>
