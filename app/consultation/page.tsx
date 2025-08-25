@@ -1,20 +1,24 @@
 import type { Metadata } from "next"
-import ConsultationPage from "@/components/pages/ConsultationPage"
+import { ConsultationPageWithABTest } from "@/components/pages/ConsultationPageWithABTest"
 
 export const metadata: Metadata = {
-  title: "Free Consultation - Muhammad Humayun Amar | Flutter Developer",
+  title: "Free App Development Consultation | Expert Mobile App Strategy",
   description:
-    "Get a free consultation for your mobile app project. Discuss your requirements, get expert advice, and receive a detailed project proposal.",
-  keywords:
-    "free consultation, mobile app consultation, Flutter developer consultation, project planning, app development advice",
+    "Get a free consultation for your mobile app project. Expert guidance on development strategy, timeline, and budget. Book your session today.",
+  keywords: "app development consultation, mobile app strategy, free consultation, app development expert",
   openGraph: {
-    title: "Free Consultation - Muhammad Humayun Amar",
-    description: "Get expert advice for your mobile app project with a free consultation",
+    title: "Free App Development Consultation",
+    description: "Get expert guidance on your mobile app project. Free consultation available.",
     type: "website",
-    url: "https://amarhumayun.vercel.app/consultation",
+    url: "https://yoursite.com/consultation",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Free App Development Consultation",
+    description: "Get expert guidance on your mobile app project. Free consultation available.",
   },
 }
 
-export default function Consultation() {
-  return <ConsultationPage />
+export default function ConsultationPage() {
+  return <ConsultationPageWithABTest />
 }

@@ -16,6 +16,14 @@ const experiences = [
       "Designing and building high-performance, cross-platform mobile apps using Flutter and Dart. Collaborating with UI/UX designers and working in agile environments.",
     icon: Briefcase,
   },
+  {
+    title: "Flutter Developer",
+    company: "Zee Palm",
+    period: "Aug 2025 - Present",
+    description:
+      "Designing and building high-performance, cross-platform mobile apps using Flutter and Dart. Collaborating with UI/UX designers and working in agile environments.",
+    icon: Briefcase,
+  }
 ]
 
 const education = [
