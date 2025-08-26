@@ -1,5 +1,7 @@
 "use client"
 
+import type React from "react"
+
 import { motion } from "framer-motion"
 import { useState, useEffect } from "react"
 import {
@@ -420,38 +422,47 @@ const FloatingCTA = () => {
   )
 }
 
-const heroTestConfig = {
-  testId: "consultation-hero",
+const HERO_TEST_CONFIG = {
+  testId: "consultation_hero_test",
   variants: [
-    { id: "hero-a", name: "Professional Hero", weight: 50 },
-    { id: "hero-b", name: "Urgency Hero", weight: 50 },
+    { id: "hero_a", name: "Professional Hero", weight: 50 },
+    { id: "hero_b", name: "Urgency Hero", weight: 50 },
   ],
 }
 
-const ctaTestConfig = {
-  testId: "consultation-cta",
+const CTA_TEST_CONFIG = {
+  testId: "consultation_cta_test",
   variants: [
-    { id: "cta-a", name: "Simple CTA", weight: 50 },
-    { id: "cta-b", name: "High-Pressure CTA", weight: 50 },
+    { id: "cta_a", name: "Simple CTA", weight: 50 },
+    { id: "cta_b", name: "High-pressure CTA", weight: 50 },
   ],
 }
 
-const formTestConfig = {
-  testId: "consultation-form",
+const FORM_TEST_CONFIG = {
+  testId: "consultation_form_test",
   variants: [
-    { id: "form-a", name: "Standard Form", weight: 50 },
-    { id: "form-b", name: "Enhanced Form", weight: 50 },
+    { id: "form_a", name: "Standard Form", weight: 50 },
+    { id: "form_b", name: "Enhanced Form", weight: 50 },
   ],
 }
 
-export default function ConsultationPageWithABTest() {
-  const heroTest = useABTest(heroTestConfig)
-  const ctaTest = useABTest(ctaTestConfig)
-  const formTest = useABTest(formTestConfig)
+export const ConsultationPageWithABTest: React.FC = () => {
+  const heroTest = useABTest(HERO_TEST_CONFIG)
+  const ctaTest = useABTest(CTA_TEST_CONFIG)
+  const formTest = useABTest(FORM_TEST_CONFIG)
+
+  // Track page views when component mounts
+  useEffect(() => {
+    if (!heroTest.isLoading && !ctaTest.isLoading && !formTest.isLoading) {
+      heroTest.trackView()
+      ctaTest.trackView()
+      formTest.trackView()
+    }
+  }, [heroTest.isLoading, ctaTest.isLoading, formTest.isLoading])
 
   const handleCTAClick = () => {
-    heroTest.trackConversion("cta-click")
-    ctaTest.trackConversion("cta-click")
+    heroTest.trackConversion("cta_click")
+    ctaTest.trackConversion("cta_click")
 
     // Scroll to form
     const formElement = document.getElementById("consultation-form")
@@ -463,26 +474,38 @@ export default function ConsultationPageWithABTest() {
   const handleFormSubmit = async (formData: any) => {
     try {
       // Track conversions for all tests
-      heroTest.trackConversion("form-submit")
-      ctaTest.trackConversion("form-submit")
-      formTest.trackConversion("form-submit")
+      heroTest.trackConversion("form_submit")
+      ctaTest.trackConversion("form_submit")
+      formTest.trackConversion("form_submit")
 
-      // Submit form data (you can integrate with your backend here)
+      // Here you would typically send the form data to your backend
       console.log("Form submitted:", formData)
 
-      // Show success message
-      alert("Thank you! I'll get back to you within 24 hours.")
+      // Show success message or redirect
+      alert("Thank you! We'll get back to you within 24 hours.")
     } catch (error) {
       console.error("Form submission error:", error)
       alert("There was an error submitting your form. Please try again.")
     }
   }
 
+  // Show loading state while tests are initializing
+  if (heroTest.isLoading || ctaTest.isLoading || formTest.isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen">
       {/* Hero Section A/B Test */}
-      {heroTest.isVariant("hero-a") && <HeroVariantA onCTAClick={handleCTAClick} />}
-      {heroTest.isVariant("hero-b") && <HeroVariantB onCTAClick={handleCTAClick} />}
+      {heroTest.variant === "hero_a" ? (
+        <HeroVariantA onCTAClick={handleCTAClick} />
+      ) : (
+        <HeroVariantB onCTAClick={handleCTAClick} />
+      )}
 
       {/* Consultation Types */}
       <section className="section-padding">
@@ -810,13 +833,19 @@ export default function ConsultationPageWithABTest() {
 
       {/* Form Section A/B Test */}
       <div id="consultation-form">
-        {formTest.isVariant("form-a") && <FormVariantA onSubmit={handleFormSubmit} />}
-        {formTest.isVariant("form-b") && <FormVariantB onSubmit={handleFormSubmit} />}
+        {formTest.variant === "form_a" ? (
+          <FormVariantA onSubmit={handleFormSubmit} />
+        ) : (
+          <FormVariantB onSubmit={handleFormSubmit} />
+        )}
       </div>
 
       {/* CTA Section A/B Test */}
-      {ctaTest.isVariant("cta-a") && <CTAVariantA onCTAClick={handleCTAClick} />}
-      {ctaTest.isVariant("cta-b") && <CTAVariantB onCTAClick={handleCTAClick} />}
+      {ctaTest.variant === "cta_a" ? (
+        <CTAVariantA onCTAClick={handleCTAClick} />
+      ) : (
+        <CTAVariantB onCTAClick={handleCTAClick} />
+      )}
 
       {/* Floating CTA */}
       <FloatingCTA />
@@ -824,5 +853,5 @@ export default function ConsultationPageWithABTest() {
   )
 }
 
-// Export the component as both default and named export
-export { ConsultationPageWithABTest }
+// Named export for the component
+export { ConsultationPageWithABTest as default }

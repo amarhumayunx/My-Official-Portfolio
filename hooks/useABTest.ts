@@ -2,99 +2,44 @@
 
 import { useState, useEffect, useCallback } from "react"
 
-interface ABTestVariant {
+export interface ABTestVariant {
   id: string
   name: string
   weight: number
 }
 
-interface ABTestConfig {
+export interface ABTestConfig {
   testId: string
   variants: ABTestVariant[]
+  cookieName?: string
 }
 
-interface ABTestData {
+export interface ABTestData {
   testId: string
   variant: string
   views: number
   conversions: number
   conversionRate: number
-  startTime: number
+  lastUpdated: Date
 }
 
-interface ABTestResult {
+export interface ABTestResult {
   variant: string
-  isVariant: (variantId: string) => boolean
+  trackView: () => void
   trackConversion: (eventType?: string) => void
-  getTestData: () => ABTestData | null
-}
-
-// Statistical significance calculation
-const calculateStatisticalSignificance = (
-  controlViews: number,
-  controlConversions: number,
-  testViews: number,
-  testConversions: number,
-): { isSignificant: boolean; confidence: number; pValue: number } => {
-  if (controlViews === 0 || testViews === 0) {
-    return { isSignificant: false, confidence: 0, pValue: 1 }
-  }
-
-  const p1 = controlConversions / controlViews
-  const p2 = testConversions / testViews
-  const pooledP = (controlConversions + testConversions) / (controlViews + testViews)
-
-  const se = Math.sqrt(pooledP * (1 - pooledP) * (1 / controlViews + 1 / testViews))
-
-  if (se === 0) {
-    return { isSignificant: false, confidence: 0, pValue: 1 }
-  }
-
-  const zScore = Math.abs(p1 - p2) / se
-
-  // Approximate p-value calculation (two-tailed test)
-  const pValue = 2 * (1 - normalCDF(Math.abs(zScore)))
-  const confidence = (1 - pValue) * 100
-  const isSignificant = pValue < 0.05 // 95% confidence level
-
-  return { isSignificant, confidence, pValue }
-}
-
-// Normal cumulative distribution function approximation
-const normalCDF = (x: number): number => {
-  return 0.5 * (1 + erf(x / Math.sqrt(2)))
-}
-
-// Error function approximation
-const erf = (x: number): number => {
-  const a1 = 0.254829592
-  const a2 = -0.284496736
-  const a3 = 1.421413741
-  const a4 = -1.453152027
-  const a5 = 1.061405429
-  const p = 0.3275911
-
-  const sign = x >= 0 ? 1 : -1
-  x = Math.abs(x)
-
-  const t = 1.0 / (1.0 + p * x)
-  const y = 1.0 - ((((a5 * t + a4) * t + a3) * t + a2) * t + a1) * t * Math.exp(-x * x)
-
-  return sign * y
+  isLoading: boolean
 }
 
 // Cookie utilities
 const setCookie = (name: string, value: string, days = 30) => {
   if (typeof window === "undefined") return
-
   const expires = new Date()
   expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000)
-  document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/;SameSite=Lax`
+  document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`
 }
 
 const getCookie = (name: string): string | null => {
   if (typeof window === "undefined") return null
-
   const nameEQ = name + "="
   const ca = document.cookie.split(";")
   for (let i = 0; i < ca.length; i++) {
@@ -105,25 +50,21 @@ const getCookie = (name: string): string | null => {
   return null
 }
 
-// Local storage utilities
-const getStorageKey = (testId: string) => `abtest_${testId}`
-
-const getTestDataFromStorage = (testId: string): ABTestData | null => {
+// Local storage utilities for test data
+const getTestData = (testId: string): ABTestData | null => {
   if (typeof window === "undefined") return null
-
   try {
-    const data = localStorage.getItem(getStorageKey(testId))
+    const data = localStorage.getItem(`abtest_${testId}`)
     return data ? JSON.parse(data) : null
   } catch {
     return null
   }
 }
 
-const saveTestDataToStorage = (data: ABTestData) => {
+const saveTestData = (data: ABTestData) => {
   if (typeof window === "undefined") return
-
   try {
-    localStorage.setItem(getStorageKey(data.testId), JSON.stringify(data))
+    localStorage.setItem(`abtest_${data.testId}`, JSON.stringify(data))
   } catch {
     // Handle storage errors silently
   }
@@ -141,77 +82,82 @@ const selectVariant = (variants: ABTestVariant[]): string => {
     }
   }
 
-  return variants[0]?.id || ""
+  return variants[0].id // Fallback
 }
 
 export const useABTest = (config: ABTestConfig): ABTestResult => {
   const [variant, setVariant] = useState<string>("")
-  const [isInitialized, setIsInitialized] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
-  // Initialize variant selection
+  const cookieName = config.cookieName || `abtest_${config.testId}`
+
   useEffect(() => {
-    if (typeof window === "undefined" || isInitialized) return
+    // Get existing variant from cookie or assign new one
+    let assignedVariant = getCookie(cookieName)
 
-    const cookieKey = `abtest_variant_${config.testId}`
-    let selectedVariant = getCookie(cookieKey)
-
-    if (!selectedVariant) {
-      selectedVariant = selectVariant(config.variants)
-      setCookie(cookieKey, selectedVariant, 30)
+    if (!assignedVariant) {
+      assignedVariant = selectVariant(config.variants)
+      setCookie(cookieName, assignedVariant)
     }
 
-    setVariant(selectedVariant)
-    setIsInitialized(true)
+    setVariant(assignedVariant)
+    setIsLoading(false)
+  }, [config.testId, config.variants, cookieName])
 
-    // Track view
-    const existingData = getTestDataFromStorage(config.testId)
-    const updatedData: ABTestData = {
+  const trackView = useCallback(() => {
+    if (!variant) return
+
+    const existingData = getTestData(config.testId) || {
       testId: config.testId,
-      variant: selectedVariant,
-      views: (existingData?.views || 0) + 1,
-      conversions: existingData?.conversions || 0,
+      variant,
+      views: 0,
+      conversions: 0,
       conversionRate: 0,
-      startTime: existingData?.startTime || Date.now(),
+      lastUpdated: new Date(),
+    }
+
+    const updatedData: ABTestData = {
+      ...existingData,
+      views: existingData.views + 1,
+      lastUpdated: new Date(),
     }
 
     updatedData.conversionRate = updatedData.views > 0 ? (updatedData.conversions / updatedData.views) * 100 : 0
 
-    saveTestDataToStorage(updatedData)
+    saveTestData(updatedData)
 
     // Track with Google Analytics if available
     if (typeof window !== "undefined" && (window as any).gtag) {
       ;(window as any).gtag("event", "ab_test_view", {
         test_id: config.testId,
-        variant: selectedVariant,
-        event_category: "A/B Test",
-        event_label: `${config.testId}_${selectedVariant}`,
+        variant: variant,
+        event_category: "AB Test",
       })
     }
-  }, [config.testId, config.variants, isInitialized])
-
-  const isVariant = useCallback(
-    (variantId: string): boolean => {
-      return variant === variantId
-    },
-    [variant],
-  )
+  }, [variant, config.testId])
 
   const trackConversion = useCallback(
     (eventType = "conversion") => {
-      if (!isInitialized || !variant) return
+      if (!variant) return
 
-      const existingData = getTestDataFromStorage(config.testId)
-      if (!existingData) return
+      const existingData = getTestData(config.testId) || {
+        testId: config.testId,
+        variant,
+        views: 0,
+        conversions: 0,
+        conversionRate: 0,
+        lastUpdated: new Date(),
+      }
 
       const updatedData: ABTestData = {
         ...existingData,
         conversions: existingData.conversions + 1,
-        conversionRate: 0,
+        lastUpdated: new Date(),
       }
 
       updatedData.conversionRate = updatedData.views > 0 ? (updatedData.conversions / updatedData.views) * 100 : 0
 
-      saveTestDataToStorage(updatedData)
+      saveTestData(updatedData)
 
       // Track with Google Analytics if available
       if (typeof window !== "undefined" && (window as any).gtag) {
@@ -219,42 +165,122 @@ export const useABTest = (config: ABTestConfig): ABTestResult => {
           test_id: config.testId,
           variant: variant,
           event_type: eventType,
-          event_category: "A/B Test",
-          event_label: `${config.testId}_${variant}_${eventType}`,
-          value: 1,
+          event_category: "AB Test",
         })
       }
     },
-    [config.testId, variant, isInitialized],
+    [variant, config.testId],
   )
-
-  const getTestData = useCallback((): ABTestData | null => {
-    return getTestDataFromStorage(config.testId)
-  }, [config.testId])
 
   return {
     variant,
-    isVariant,
+    trackView,
     trackConversion,
-    getTestData,
+    isLoading,
   }
 }
 
-// Utility function to track A/B test conversions (for backward compatibility)
+// Utility function for getting all test data
+export const getAllTestData = (): ABTestData[] => {
+  if (typeof window === "undefined") return []
+
+  const testData: ABTestData[] = []
+
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i)
+    if (key && key.startsWith("abtest_")) {
+      try {
+        const data = localStorage.getItem(key)
+        if (data) {
+          testData.push(JSON.parse(data))
+        }
+      } catch {
+        // Skip invalid data
+      }
+    }
+  }
+
+  return testData
+}
+
+// Statistical significance calculation
+export const calculateStatisticalSignificance = (
+  controlViews: number,
+  controlConversions: number,
+  testViews: number,
+  testConversions: number,
+): { isSignificant: boolean; confidence: number } => {
+  if (controlViews === 0 || testViews === 0) {
+    return { isSignificant: false, confidence: 0 }
+  }
+
+  const controlRate = controlConversions / controlViews
+  const testRate = testConversions / testViews
+
+  const pooledRate = (controlConversions + testConversions) / (controlViews + testViews)
+  const standardError = Math.sqrt(pooledRate * (1 - pooledRate) * (1 / controlViews + 1 / testViews))
+
+  if (standardError === 0) {
+    return { isSignificant: false, confidence: 0 }
+  }
+
+  const zScore = Math.abs(testRate - controlRate) / standardError
+
+  // Approximate confidence calculation
+  const confidence = Math.min(99.9, Math.max(0, (1 - 2 * (1 - normalCDF(Math.abs(zScore)))) * 100))
+
+  return {
+    isSignificant: confidence >= 95,
+    confidence: Math.round(confidence * 10) / 10,
+  }
+}
+
+// Normal CDF approximation
+function normalCDF(x: number): number {
+  return 0.5 * (1 + erf(x / Math.sqrt(2)))
+}
+
+// Error function approximation
+function erf(x: number): number {
+  const a1 = 0.254829592
+  const a2 = -0.284496736
+  const a3 = 1.421413741
+  const a4 = -1.453152027
+  const a5 = 1.061405429
+  const p = 0.3275911
+
+  const sign = x >= 0 ? 1 : -1
+  x = Math.abs(x)
+
+  const t = 1.0 / (1.0 + p * x)
+  const y = 1.0 - ((((a5 * t + a4) * t + a3) * t + a2) * t + a1) * t * Math.exp(-x * x)
+
+  return sign * y
+}
+
+// Export the trackABTestConversion function
 export const trackABTestConversion = (testId: string, eventType = "conversion") => {
-  if (typeof window === "undefined") return
+  // This is a standalone function that can be called from anywhere
+  const existingData = getTestData(testId)
+  if (!existingData) return
+
+  const updatedData: ABTestData = {
+    ...existingData,
+    conversions: existingData.conversions + 1,
+    lastUpdated: new Date(),
+  }
+
+  updatedData.conversionRate = updatedData.views > 0 ? (updatedData.conversions / updatedData.views) * 100 : 0
+
+  saveTestData(updatedData)
 
   // Track with Google Analytics if available
-  if ((window as any).gtag) {
+  if (typeof window !== "undefined" && (window as any).gtag) {
     ;(window as any).gtag("event", "ab_test_conversion", {
       test_id: testId,
+      variant: existingData.variant,
       event_type: eventType,
-      event_category: "A/B Test",
-      event_label: `${testId}_${eventType}`,
-      value: 1,
+      event_category: "AB Test",
     })
   }
 }
-
-// Export statistical functions for dashboard use
-export { calculateStatisticalSignificance, getTestDataFromStorage, saveTestDataToStorage }

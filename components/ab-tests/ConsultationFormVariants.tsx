@@ -2,24 +2,18 @@
 
 import type React from "react"
 
-import { motion } from "framer-motion"
 import { useState } from "react"
-import { Calendar, CheckCircle, Star, Zap, Timer, ArrowRight, Shield, Award, TrendingUp } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
+import { motion } from "framer-motion"
+import { CheckCircle, Clock, DollarSign, Mail, Phone, Star, User, Zap } from "lucide-react"
 import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
 
 interface FormVariantProps {
-  onSubmit: (formData: any) => void
+  onSubmit: (data: any) => void
 }
 
-// Variant A: Standard Consultation Form
-export const FormVariantA = ({ onSubmit }: FormVariantProps) => {
+export const FormVariantA: React.FC<FormVariantProps> = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -29,648 +23,203 @@ export const FormVariantA = ({ onSubmit }: FormVariantProps) => {
     budget: "",
     timeline: "",
     description: "",
-    consultationType: "",
-    preferredTime: "",
-    agreeToTerms: false,
+    newsletter: false,
   })
 
-  const [isSubmitting, setIsSubmitting] = useState(false)
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    setIsSubmitting(true)
-
-    try {
-      await onSubmit(formData)
-    } finally {
-      setIsSubmitting(false)
-    }
+    onSubmit(formData)
   }
 
-  const handleInputChange = (field: string, value: any) => {
+  const handleInputChange = (field: string, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
   return (
-    <section className="section-padding bg-muted/30">
-      <div className="max-w-4xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Book Your Free <span className="gradient-text">Consultation</span>
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Fill out the form below and I'll get back to you within 24 hours to schedule your consultation.
-          </p>
-        </motion.div>
+    <section className="py-20 bg-gray-50 dark:bg-gray-900">
+      <div className="container mx-auto px-4">
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+              Let's Discuss Your Project
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              Fill out the form below and we'll get back to you within 24 hours with a detailed proposal.
+            </p>
+          </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          viewport={{ once: true }}
-        >
-          <Card className="shadow-lg">
-            <CardHeader>
-              <CardTitle className="text-center">Consultation Request Form</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="name">Full Name *</Label>
-                    <Input
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8"
+          >
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <Label htmlFor="name" className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
+                    Full Name *
+                  </Label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    <input
+                      type="text"
                       id="name"
+                      required
                       value={formData.name}
                       onChange={(e) => handleInputChange("name", e.target.value)}
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                       placeholder="Enter your full name"
-                      required
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email Address *</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) => handleInputChange("email", e.target.value)}
-                      placeholder="your.email@example.com"
-                      required
                     />
                   </div>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="phone">Phone Number</Label>
-                    <Input
+                <div>
+                  <Label htmlFor="email" className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
+                    Email Address *
+                  </Label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    <input
+                      type="email"
+                      id="email"
+                      required
+                      value={formData.email}
+                      onChange={(e) => handleInputChange("email", e.target.value)}
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                      placeholder="Enter your email address"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <Label htmlFor="phone" className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
+                    Phone Number
+                  </Label>
+                  <div className="relative">
+                    <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    <input
+                      type="tel"
                       id="phone"
                       value={formData.phone}
                       onChange={(e) => handleInputChange("phone", e.target.value)}
-                      placeholder="+1 (555) 123-4567"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="company">Company/Organization</Label>
-                    <Input
-                      id="company"
-                      value={formData.company}
-                      onChange={(e) => handleInputChange("company", e.target.value)}
-                      placeholder="Your company name"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                      placeholder="Enter your phone number"
                     />
                   </div>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="projectType">Project Type *</Label>
-                    <Select
-                      value={formData.projectType}
-                      onValueChange={(value) => handleInputChange("projectType", value)}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select project type" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="mobile-app">Mobile App</SelectItem>
-                        <SelectItem value="web-app">Web Application</SelectItem>
-                        <SelectItem value="e-commerce">E-commerce Platform</SelectItem>
-                        <SelectItem value="saas">SaaS Product</SelectItem>
-                        <SelectItem value="other">Other</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="budget">Budget Range</Label>
-                    <Select value={formData.budget} onValueChange={(value) => handleInputChange("budget", value)}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select budget range" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="under-10k">Under $10,000</SelectItem>
-                        <SelectItem value="10k-25k">$10,000 - $25,000</SelectItem>
-                        <SelectItem value="25k-50k">$25,000 - $50,000</SelectItem>
-                        <SelectItem value="50k-100k">$50,000 - $100,000</SelectItem>
-                        <SelectItem value="over-100k">Over $100,000</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="timeline">Project Timeline</Label>
-                    <Select value={formData.timeline} onValueChange={(value) => handleInputChange("timeline", value)}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="When do you want to start?" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="asap">As soon as possible</SelectItem>
-                        <SelectItem value="1-month">Within 1 month</SelectItem>
-                        <SelectItem value="3-months">Within 3 months</SelectItem>
-                        <SelectItem value="6-months">Within 6 months</SelectItem>
-                        <SelectItem value="flexible">Flexible</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="consultationType">Consultation Type</Label>
-                    <Select
-                      value={formData.consultationType}
-                      onValueChange={(value) => handleInputChange("consultationType", value)}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select consultation type" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="quick">Quick Consultation (30 min)</SelectItem>
-                        <SelectItem value="detailed">Detailed Consultation (60 min)</SelectItem>
-                        <SelectItem value="follow-up">Follow-up Session (30 min)</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="description">Project Description *</Label>
-                  <Textarea
-                    id="description"
-                    value={formData.description}
-                    onChange={(e) => handleInputChange("description", e.target.value)}
-                    placeholder="Please describe your project idea, goals, and any specific requirements..."
-                    rows={4}
-                    required
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="preferredTime">Preferred Time for Consultation</Label>
-                  <Textarea
-                    id="preferredTime"
-                    value={formData.preferredTime}
-                    onChange={(e) => handleInputChange("preferredTime", e.target.value)}
-                    placeholder="Let me know your preferred days and times (including timezone)..."
-                    rows={2}
-                  />
-                </div>
-
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="terms"
-                    checked={formData.agreeToTerms}
-                    onCheckedChange={(checked) => handleInputChange("agreeToTerms", checked)}
-                  />
-                  <Label htmlFor="terms" className="text-sm">
-                    I agree to the terms and conditions and privacy policy *
+                <div>
+                  <Label htmlFor="company" className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
+                    Company Name
                   </Label>
+                  <input
+                    type="text"
+                    id="company"
+                    value={formData.company}
+                    onChange={(e) => handleInputChange("company", e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                    placeholder="Enter your company name"
+                  />
                 </div>
 
-                <Button
-                  type="submit"
-                  size="lg"
-                  className="w-full py-4 text-lg font-semibold"
-                  disabled={isSubmitting || !formData.agreeToTerms}
+                <div>
+                  <Label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
+                    Project Type *
+                  </Label>
+                  <Select
+                    value={formData.projectType}
+                    onValueChange={(value) => handleInputChange("projectType", value)}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select project type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="mobile-app">Mobile App Development</SelectItem>
+                      <SelectItem value="web-app">Web Application</SelectItem>
+                      <SelectItem value="ai-integration">AI/ML Integration</SelectItem>
+                      <SelectItem value="consultation">Technical Consultation</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <Label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
+                    Budget Range
+                  </Label>
+                  <Select value={formData.budget} onValueChange={(value) => handleInputChange("budget", value)}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select budget range" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="under-10k">Under $10,000</SelectItem>
+                      <SelectItem value="10k-25k">$10,000 - $25,000</SelectItem>
+                      <SelectItem value="25k-50k">$25,000 - $50,000</SelectItem>
+                      <SelectItem value="50k-100k">$50,000 - $100,000</SelectItem>
+                      <SelectItem value="over-100k">Over $100,000</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              <div>
+                <Label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">Timeline</Label>
+                <Select value={formData.timeline} onValueChange={(value) => handleInputChange("timeline", value)}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select timeline" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="asap">ASAP</SelectItem>
+                    <SelectItem value="1-3-months">1-3 months</SelectItem>
+                    <SelectItem value="3-6-months">3-6 months</SelectItem>
+                    <SelectItem value="6-12-months">6-12 months</SelectItem>
+                    <SelectItem value="flexible">Flexible</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label
+                  htmlFor="description"
+                  className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block"
                 >
-                  {isSubmitting ? (
-                    <>
-                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2" />
-                      Submitting...
-                    </>
-                  ) : (
-                    <>
-                      <Calendar className="w-5 h-5 mr-2" />
-                      Book Free Consultation
-                      <ArrowRight className="w-5 h-5 ml-2" />
-                    </>
-                  )}
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
-        </motion.div>
-      </div>
-    </section>
-  )
-}
+                  Project Description *
+                </Label>
+                <textarea
+                  id="description"
+                  required
+                  rows={4}
+                  value={formData.description}
+                  onChange={(e) => handleInputChange("description", e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white resize-none"
+                  placeholder="Tell us about your project, goals, and any specific requirements..."
+                />
+              </div>
 
-// Variant B: Enhanced Form with Value Proposition Sidebar
-export const FormVariantB = ({ onSubmit }: FormVariantProps) => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    company: "",
-    projectType: "",
-    budget: "",
-    timeline: "",
-    description: "",
-    consultationType: "",
-    preferredTime: "",
-    agreeToTerms: false,
-  })
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="newsletter"
+                  checked={formData.newsletter}
+                  onCheckedChange={(checked) => handleInputChange("newsletter", checked as boolean)}
+                />
+                <Label htmlFor="newsletter" className="text-sm text-gray-600 dark:text-gray-300">
+                  Subscribe to our newsletter for updates and tips
+                </Label>
+              </div>
 
-  const [isSubmitting, setIsSubmitting] = useState(false)
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-
-    try {
-      await onSubmit(formData)
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
-
-  const handleInputChange = (field: string, value: any) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
-  }
-
-  return (
-    <section className="section-padding bg-gradient-to-br from-red-50 via-orange-50 to-yellow-50 dark:from-red-950/20 dark:via-orange-950/20 dark:to-yellow-950/20">
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
-        >
-          <Badge className="mb-4 px-4 py-2 text-sm font-bold bg-red-600 text-white animate-pulse">
-            <Timer className="w-4 h-4 mr-2" />
-            URGENT: Only 2 Slots Left This Week!
-          </Badge>
-          <h2 className="text-3xl sm:text-4xl font-black mb-4">
-            <span className="text-red-600">LAST CHANCE!</span> Secure Your <span className="gradient-text">FREE</span>{" "}
-            Consultation
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Don't let this opportunity slip away! Fill out the form now and get expert guidance worth Rs 12,000
-            absolutely FREE.
-          </p>
-        </motion.div>
-
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Value Proposition Sidebar */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            viewport={{ once: true }}
-            className="lg:col-span-1"
-          >
-            <div className="sticky top-8 space-y-6">
-              {/* Urgency Card */}
-              <Card className="border-4 border-red-500 bg-red-50 dark:bg-red-950/20">
-                <CardContent className="p-6">
-                  <div className="text-center">
-                    <Timer className="w-12 h-12 text-red-600 mx-auto mb-4" />
-                    <h3 className="font-bold text-red-600 mb-2">⚠️ URGENT NOTICE ⚠️</h3>
-                    <p className="text-sm mb-4">
-                      This free consultation offer is ending soon. Only{" "}
-                      <span className="font-bold text-red-600">2 slots remaining</span> this week!
-                    </p>
-                    <div className="bg-yellow-200 dark:bg-yellow-900/30 p-3 rounded-lg">
-                      <div className="text-xs font-bold text-yellow-800 dark:text-yellow-200">
-                        🔥 Last booking: 3 hours ago
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Value Proposition */}
-              <Card className="border-2 border-green-300 bg-green-50 dark:bg-green-950/20">
-                <CardHeader>
-                  <CardTitle className="text-center text-green-700 dark:text-green-300">
-                    What You'll Get (Worth Rs 12,000)
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {[
-                    {
-                      icon: CheckCircle,
-                      title: "Project Validation",
-                      value: "Rs 3,000",
-                      description: "Comprehensive feasibility analysis",
-                    },
-                    {
-                      icon: TrendingUp,
-                      title: "Technical Roadmap",
-                      value: "Rs 4,000",
-                      description: "Detailed development strategy",
-                    },
-                    {
-                      icon: Award,
-                      title: "Cost Breakdown",
-                      value: "Rs 2,500",
-                      description: "Accurate pricing estimation",
-                    },
-                    {
-                      icon: Shield,
-                      title: "Risk Assessment",
-                      value: "Rs 2,500",
-                      description: "Identify potential challenges",
-                    },
-                  ].map((item, index) => (
-                    <motion.div
-                      key={item.title}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      className="flex items-start gap-3 p-3 bg-white dark:bg-gray-800 rounded-lg border"
-                    >
-                      <item.icon className="w-5 h-5 text-green-600 mt-0.5" />
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between">
-                          <h4 className="font-semibold text-sm">{item.title}</h4>
-                          <Badge variant="outline" className="text-xs text-green-600">
-                            {item.value}
-                          </Badge>
-                        </div>
-                        <p className="text-xs text-muted-foreground">{item.description}</p>
-                      </div>
-                    </motion.div>
-                  ))}
-
-                  <div className="border-t pt-4">
-                    <div className="flex items-center justify-between font-bold">
-                      <span>Total Value:</span>
-                      <span className="text-green-600">Rs 12,000</span>
-                    </div>
-                    <div className="flex items-center justify-between text-lg font-black">
-                      <span>Your Price:</span>
-                      <span className="text-red-600">FREE!</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Social Proof */}
-              <Card className="bg-blue-50 dark:bg-blue-950/20 border-blue-200">
-                <CardContent className="p-6 text-center">
-                  <div className="flex justify-center mb-3">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                    ))}
-                  </div>
-                  <p className="text-sm font-semibold mb-2">50+ Success Stories</p>
-                  <p className="text-xs text-muted-foreground">
-                    "Muhammad's consultation saved us $15,000 and 3 months of development time!"
-                  </p>
-                  <p className="text-xs font-semibold mt-2">- Sarah K., Startup Founder</p>
-                </CardContent>
-              </Card>
-
-              {/* Guarantee */}
-              <Card className="bg-purple-50 dark:bg-purple-950/20 border-purple-200">
-                <CardContent className="p-6 text-center">
-                  <Shield className="w-8 h-8 text-purple-600 mx-auto mb-3" />
-                  <h4 className="font-bold text-purple-700 dark:text-purple-300 mb-2">100% Risk-Free Guarantee</h4>
-                  <p className="text-xs text-muted-foreground">
-                    If you're not completely satisfied with the consultation, we'll provide additional follow-up
-                    sessions at no cost.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          </motion.div>
-
-          {/* Enhanced Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="lg:col-span-2"
-          >
-            <Card className="shadow-2xl border-4 border-orange-300">
-              <CardHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white">
-                <CardTitle className="text-center text-xl font-black">🚀 SECURE YOUR FREE CONSULTATION NOW!</CardTitle>
-                <p className="text-center text-orange-100 text-sm">
-                  Fill out this form in under 2 minutes and get instant access to expert guidance
-                </p>
-              </CardHeader>
-              <CardContent className="p-8">
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="name" className="font-semibold">
-                        Full Name *
-                      </Label>
-                      <Input
-                        id="name"
-                        value={formData.name}
-                        onChange={(e) => handleInputChange("name", e.target.value)}
-                        placeholder="Enter your full name"
-                        className="border-2 focus:border-orange-500"
-                        required
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="email" className="font-semibold">
-                        Email Address *
-                      </Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={(e) => handleInputChange("email", e.target.value)}
-                        placeholder="your.email@example.com"
-                        className="border-2 focus:border-orange-500"
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="phone" className="font-semibold">
-                        Phone Number *
-                      </Label>
-                      <Input
-                        id="phone"
-                        value={formData.phone}
-                        onChange={(e) => handleInputChange("phone", e.target.value)}
-                        placeholder="+1 (555) 123-4567"
-                        className="border-2 focus:border-orange-500"
-                        required
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="company" className="font-semibold">
-                        Company/Organization
-                      </Label>
-                      <Input
-                        id="company"
-                        value={formData.company}
-                        onChange={(e) => handleInputChange("company", e.target.value)}
-                        placeholder="Your company name"
-                        className="border-2 focus:border-orange-500"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="projectType" className="font-semibold">
-                        Project Type *
-                      </Label>
-                      <Select
-                        value={formData.projectType}
-                        onValueChange={(value) => handleInputChange("projectType", value)}
-                      >
-                        <SelectTrigger className="border-2 focus:border-orange-500">
-                          <SelectValue placeholder="Select project type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="mobile-app">📱 Mobile App</SelectItem>
-                          <SelectItem value="web-app">💻 Web Application</SelectItem>
-                          <SelectItem value="e-commerce">🛒 E-commerce Platform</SelectItem>
-                          <SelectItem value="saas">☁️ SaaS Product</SelectItem>
-                          <SelectItem value="other">🔧 Other</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="budget" className="font-semibold">
-                        Budget Range *
-                      </Label>
-                      <Select value={formData.budget} onValueChange={(value) => handleInputChange("budget", value)}>
-                        <SelectTrigger className="border-2 focus:border-orange-500">
-                          <SelectValue placeholder="Select budget range" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="under-10k">💰 Under $10,000</SelectItem>
-                          <SelectItem value="10k-25k">💰💰 $10,000 - $25,000</SelectItem>
-                          <SelectItem value="25k-50k">💰💰💰 $25,000 - $50,000</SelectItem>
-                          <SelectItem value="50k-100k">💰💰💰💰 $50,000 - $100,000</SelectItem>
-                          <SelectItem value="over-100k">💰💰💰💰💰 Over $100,000</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="timeline" className="font-semibold">
-                        Project Timeline *
-                      </Label>
-                      <Select value={formData.timeline} onValueChange={(value) => handleInputChange("timeline", value)}>
-                        <SelectTrigger className="border-2 focus:border-orange-500">
-                          <SelectValue placeholder="When do you want to start?" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="asap">🚀 As soon as possible</SelectItem>
-                          <SelectItem value="1-month">📅 Within 1 month</SelectItem>
-                          <SelectItem value="3-months">📅 Within 3 months</SelectItem>
-                          <SelectItem value="6-months">📅 Within 6 months</SelectItem>
-                          <SelectItem value="flexible">🤝 Flexible</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="consultationType" className="font-semibold">
-                        Consultation Type *
-                      </Label>
-                      <Select
-                        value={formData.consultationType}
-                        onValueChange={(value) => handleInputChange("consultationType", value)}
-                      >
-                        <SelectTrigger className="border-2 focus:border-orange-500">
-                          <SelectValue placeholder="Select consultation type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="quick">⚡ Quick Consultation (30 min)</SelectItem>
-                          <SelectItem value="detailed">🎯 Detailed Consultation (60 min)</SelectItem>
-                          <SelectItem value="follow-up">🔄 Follow-up Session (30 min)</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="description" className="font-semibold">
-                      Project Description *
-                    </Label>
-                    <Textarea
-                      id="description"
-                      value={formData.description}
-                      onChange={(e) => handleInputChange("description", e.target.value)}
-                      placeholder="🚀 Describe your amazing project idea! Include your goals, target audience, key features, and any specific requirements. The more details you provide, the better I can help you!"
-                      rows={4}
-                      className="border-2 focus:border-orange-500"
-                      required
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="preferredTime" className="font-semibold">
-                      Preferred Time for Consultation
-                    </Label>
-                    <Textarea
-                      id="preferredTime"
-                      value={formData.preferredTime}
-                      onChange={(e) => handleInputChange("preferredTime", e.target.value)}
-                      placeholder="🕐 Let me know your preferred days and times (including timezone). I'm flexible and will work around your schedule!"
-                      rows={2}
-                      className="border-2 focus:border-orange-500"
-                    />
-                  </div>
-
-                  <div className="bg-yellow-100 dark:bg-yellow-900/20 p-4 rounded-lg border-2 border-yellow-400">
-                    <div className="flex items-center space-x-2">
-                      <Checkbox
-                        id="terms"
-                        checked={formData.agreeToTerms}
-                        onCheckedChange={(checked) => handleInputChange("agreeToTerms", checked)}
-                        className="border-2"
-                      />
-                      <Label htmlFor="terms" className="text-sm font-semibold">
-                        ✅ I agree to receive my FREE consultation (worth Rs 12,000) and understand this is completely
-                        risk-free with no obligations *
-                      </Label>
-                    </div>
-                  </div>
-
-                  <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                    <Button
-                      type="submit"
-                      size="lg"
-                      className="w-full py-6 text-xl font-black bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white shadow-2xl border-4 border-yellow-400"
-                      disabled={isSubmitting || !formData.agreeToTerms}
-                    >
-                      {isSubmitting ? (
-                        <>
-                          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white mr-3" />
-                          SECURING YOUR SLOT...
-                        </>
-                      ) : (
-                        <>
-                          <Zap className="w-6 h-6 mr-3" />🚀 CLAIM MY FREE Rs 12,000 CONSULTATION NOW!
-                          <motion.div
-                            className="ml-3"
-                            animate={{ x: [0, 10, 0] }}
-                            transition={{ repeat: Number.POSITIVE_INFINITY, duration: 1 }}
-                          >
-                            ⚡
-                          </motion.div>
-                        </>
-                      )}
-                    </Button>
-                  </motion.div>
-
-                  <div className="text-center text-xs text-muted-foreground">
-                    🔒 Your information is 100% secure and will never be shared with third parties
-                  </div>
-                </form>
-              </CardContent>
-            </Card>
+              <button
+                type="submit"
+                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-4 px-6 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+              >
+                Send Consultation Request
+              </button>
+            </form>
           </motion.div>
         </div>
       </div>
@@ -678,13 +227,348 @@ export const FormVariantB = ({ onSubmit }: FormVariantProps) => {
   )
 }
 
-// Export both variants with proper names
-export const ConsultationFormVariants = ({
-  variant,
-  onSubmit,
-}: { variant: string; onSubmit: (formData: any) => void }) => {
-  if (variant === "form-b") {
-    return <FormVariantB onSubmit={onSubmit} />
+export const FormVariantB: React.FC<FormVariantProps> = ({ onSubmit }) => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    company: "",
+    projectType: "",
+    budget: "",
+    timeline: "",
+    description: "",
+    newsletter: false,
+    urgentProject: false,
+  })
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    onSubmit(formData)
   }
-  return <FormVariantA onSubmit={onSubmit} />
+
+  const handleInputChange = (field: string, value: string | boolean) => {
+    setFormData((prev) => ({ ...prev, [field]: value }))
+  }
+
+  return (
+    <section className="py-20 bg-gradient-to-br from-orange-50 via-red-50 to-pink-50 dark:from-gray-900 dark:via-red-900 dark:to-pink-900">
+      <div className="container mx-auto px-4">
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12"
+          >
+            <div className="inline-flex items-center gap-2 bg-red-500 text-white px-6 py-3 rounded-full text-lg font-bold mb-6 animate-pulse">
+              <Zap className="w-5 h-5" />
+              PRIORITY BOOKING - SKIP THE QUEUE!
+            </div>
+
+            <h2 className="text-4xl md:text-6xl font-black text-gray-900 dark:text-white mb-6">
+              🚀 CLAIM YOUR <span className="text-red-600">$15,000 BONUS</span> NOW!
+            </h2>
+            <p className="text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto">
+              <strong>WARNING:</strong> This exclusive offer expires in{" "}
+              <strong className="text-red-600">23:47:12</strong>. Fill out the form below to secure your spot and unlock
+              massive savings!
+            </p>
+          </motion.div>
+
+          <div className="grid lg:grid-cols-3 gap-8">
+            {/* Form Section */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="lg:col-span-2"
+            >
+              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 border-4 border-yellow-400">
+                <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white p-4 rounded-lg mb-6">
+                  <h3 className="text-2xl font-bold flex items-center gap-2">
+                    <CheckCircle className="w-6 h-6" />
+                    INSTANT PRIORITY ACCESS FORM
+                  </h3>
+                  <p className="text-green-100">Complete in 2 minutes to claim your bonuses!</p>
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <Label htmlFor="name" className="text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 block">
+                        Full Name * (Required for Bonus)
+                      </Label>
+                      <div className="relative">
+                        <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-red-500 w-5 h-5" />
+                        <input
+                          type="text"
+                          id="name"
+                          required
+                          value={formData.name}
+                          onChange={(e) => handleInputChange("name", e.target.value)}
+                          className="w-full pl-10 pr-4 py-3 border-2 border-red-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:text-white"
+                          placeholder="Enter your full name"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <Label htmlFor="email" className="text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 block">
+                        Email * (For Instant Confirmation)
+                      </Label>
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-red-500 w-5 h-5" />
+                        <input
+                          type="email"
+                          id="email"
+                          required
+                          value={formData.email}
+                          onChange={(e) => handleInputChange("email", e.target.value)}
+                          className="w-full pl-10 pr-4 py-3 border-2 border-red-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:text-white"
+                          placeholder="Enter your email address"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <Label htmlFor="phone" className="text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 block">
+                        Phone * (For Priority Contact)
+                      </Label>
+                      <div className="relative">
+                        <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-red-500 w-5 h-5" />
+                        <input
+                          type="tel"
+                          id="phone"
+                          required
+                          value={formData.phone}
+                          onChange={(e) => handleInputChange("phone", e.target.value)}
+                          className="w-full pl-10 pr-4 py-3 border-2 border-red-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:text-white"
+                          placeholder="Enter your phone number"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <Label
+                        htmlFor="company"
+                        className="text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 block"
+                      >
+                        Company Name
+                      </Label>
+                      <input
+                        type="text"
+                        id="company"
+                        value={formData.company}
+                        onChange={(e) => handleInputChange("company", e.target.value)}
+                        className="w-full px-4 py-3 border-2 border-red-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:text-white"
+                        placeholder="Enter your company name"
+                      />
+                    </div>
+
+                    <div>
+                      <Label className="text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 block">
+                        Project Type * (Affects Bonus Amount)
+                      </Label>
+                      <Select
+                        value={formData.projectType}
+                        onValueChange={(value) => handleInputChange("projectType", value)}
+                      >
+                        <SelectTrigger className="w-full border-2 border-red-300">
+                          <SelectValue placeholder="Select for maximum bonus" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="mobile-app">📱 Mobile App (+$5K bonus)</SelectItem>
+                          <SelectItem value="web-app">💻 Web Application (+$3K bonus)</SelectItem>
+                          <SelectItem value="ai-integration">🤖 AI/ML Integration (+$7K bonus)</SelectItem>
+                          <SelectItem value="consultation">💡 Technical Consultation (+$1K bonus)</SelectItem>
+                          <SelectItem value="other">🔧 Other (Custom bonus)</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div>
+                      <Label className="text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 block">
+                        Budget Range * (Higher = More Bonuses!)
+                      </Label>
+                      <Select value={formData.budget} onValueChange={(value) => handleInputChange("budget", value)}>
+                        <SelectTrigger className="w-full border-2 border-red-300">
+                          <SelectValue placeholder="Select for bonus calculation" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="under-10k">💰 Under $10K (+$2K bonus)</SelectItem>
+                          <SelectItem value="10k-25k">💰💰 $10K-$25K (+$5K bonus)</SelectItem>
+                          <SelectItem value="25k-50k">💰💰💰 $25K-$50K (+$10K bonus)</SelectItem>
+                          <SelectItem value="50k-100k">💰💰💰💰 $50K-$100K (+$15K bonus)</SelectItem>
+                          <SelectItem value="over-100k">🏆 Over $100K (+$25K bonus)</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <Label className="text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 block">
+                      Timeline * (Urgent = Priority Treatment)
+                    </Label>
+                    <Select value={formData.timeline} onValueChange={(value) => handleInputChange("timeline", value)}>
+                      <SelectTrigger className="w-full border-2 border-red-300">
+                        <SelectValue placeholder="When do you need this done?" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="asap">🔥 ASAP (Priority Queue)</SelectItem>
+                        <SelectItem value="1-3-months">⚡ 1-3 months (Fast Track)</SelectItem>
+                        <SelectItem value="3-6-months">📅 3-6 months (Standard)</SelectItem>
+                        <SelectItem value="6-12-months">🗓️ 6-12 months (Planned)</SelectItem>
+                        <SelectItem value="flexible">🤝 Flexible (Best Bonus)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <Label
+                      htmlFor="description"
+                      className="text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 block"
+                    >
+                      Project Description * (More Details = Bigger Bonus!)
+                    </Label>
+                    <textarea
+                      id="description"
+                      required
+                      rows={4}
+                      value={formData.description}
+                      onChange={(e) => handleInputChange("description", e.target.value)}
+                      className="w-full px-4 py-3 border-2 border-red-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:text-white resize-none"
+                      placeholder="Describe your project in detail to maximize your bonus package..."
+                    />
+                  </div>
+
+                  <div className="space-y-3">
+                    <div className="flex items-center space-x-2">
+                      <Checkbox
+                        id="urgentProject"
+                        checked={formData.urgentProject}
+                        onCheckedChange={(checked) => handleInputChange("urgentProject", checked as boolean)}
+                      />
+                      <Label htmlFor="urgentProject" className="text-sm font-bold text-red-600">
+                        🚨 This is an URGENT project (Jump to front of queue!)
+                      </Label>
+                    </div>
+
+                    <div className="flex items-center space-x-2">
+                      <Checkbox
+                        id="newsletter"
+                        checked={formData.newsletter}
+                        onCheckedChange={(checked) => handleInputChange("newsletter", checked as boolean)}
+                      />
+                      <Label htmlFor="newsletter" className="text-sm text-gray-600 dark:text-gray-300">
+                        📧 Get exclusive deals and insider tips (Recommended!)
+                      </Label>
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="w-full bg-gradient-to-r from-red-600 via-orange-600 to-yellow-600 hover:from-red-700 hover:via-orange-700 hover:to-yellow-700 text-white py-6 px-6 rounded-xl text-xl font-black transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-3xl animate-pulse"
+                  >
+                    🎁 CLAIM MY $15,000 BONUS PACKAGE NOW! 🎁
+                  </button>
+
+                  <p className="text-center text-sm text-gray-600 dark:text-gray-400">
+                    ⏰ <strong>HURRY!</strong> Only <span className="text-red-600 font-bold">47 minutes</span> left to
+                    claim this offer!
+                  </p>
+                </form>
+              </div>
+            </motion.div>
+
+            {/* Value Proposition Sidebar */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="space-y-6"
+            >
+              {/* Bonus Package */}
+              <div className="bg-gradient-to-br from-green-500 to-emerald-600 text-white p-6 rounded-2xl shadow-xl">
+                <h3 className="text-2xl font-bold mb-4 flex items-center gap-2">
+                  <DollarSign className="w-6 h-6" />
+                  YOUR BONUS PACKAGE
+                </h3>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span>Free App Store Optimization</span>
+                    <span className="font-bold">$3,000</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span>6-Month Free Maintenance</span>
+                    <span className="font-bold">$7,000</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span>Marketing Strategy Session</span>
+                    <span className="font-bold">$2,500</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span>Priority Support Access</span>
+                    <span className="font-bold">$2,500</span>
+                  </div>
+                  <hr className="border-green-300" />
+                  <div className="flex justify-between items-center text-xl font-black">
+                    <span>TOTAL VALUE:</span>
+                    <span>$15,000</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Social Proof */}
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-xl border-2 border-yellow-400">
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                  <Star className="w-5 h-5 text-yellow-500" />
+                  WHAT CLIENTS SAY
+                </h3>
+                <div className="space-y-4">
+                  <div className="bg-yellow-50 dark:bg-yellow-900 p-4 rounded-lg">
+                    <p className="text-sm text-gray-700 dark:text-gray-300 italic">
+                      "Got my app built in 6 weeks and made $50K in the first month!"
+                    </p>
+                    <p className="text-xs text-gray-500 mt-2">- Sarah M., CEO</p>
+                  </div>
+                  <div className="bg-blue-50 dark:bg-blue-900 p-4 rounded-lg">
+                    <p className="text-sm text-gray-700 dark:text-gray-300 italic">
+                      "Best investment I ever made. ROI was 400% in year one!"
+                    </p>
+                    <p className="text-xs text-gray-500 mt-2">- Mike R., Founder</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Urgency Counter */}
+              <div className="bg-red-500 text-white p-6 rounded-2xl shadow-xl animate-pulse">
+                <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                  <Clock className="w-5 h-5" />
+                  OFFER EXPIRES IN:
+                </h3>
+                <div className="text-center">
+                  <div className="text-3xl font-black font-mono">23:47:12</div>
+                  <p className="text-red-200 text-sm mt-2">Don't miss out on $15,000 in bonuses!</p>
+                </div>
+              </div>
+
+              {/* Guarantee */}
+              <div className="bg-blue-500 text-white p-6 rounded-2xl shadow-xl">
+                <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5" />
+                  100% GUARANTEE
+                </h3>
+                <ul className="space-y-2 text-sm">
+                  <li>✅ Money-back guarantee</li>
+                  <li>✅ No hidden fees</li>
+                  <li>✅ Free revisions included</li>
+                  <li>✅ 24/7 priority support</li>
+                </ul>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
 }
