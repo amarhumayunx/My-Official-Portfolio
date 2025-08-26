@@ -25,11 +25,10 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import Link from "next/link"
-import { useABTest, trackABTestConversion } from "@/hooks/useABTest"
-import { ConsultationHeroVariants } from "@/components/ab-tests/ConsultationHeroVariants"
-import { ConsultationCTAVariants } from "@/components/ab-tests/ConsultationCTAVariants"
-import { ConsultationFormVariants } from "@/components/ab-tests/ConsultationFormVariants"
+import { useABTest } from "@/hooks/useABTest"
+import { HeroVariantA, HeroVariantB } from "@/components/ab-tests/ConsultationHeroVariants"
+import { CTAVariantA, CTAVariantB } from "@/components/ab-tests/ConsultationCTAVariants"
+import { FormVariantA, FormVariantB } from "@/components/ab-tests/ConsultationFormVariants"
 
 const consultationBenefits = [
   {
@@ -389,7 +388,14 @@ const FloatingCTA = () => {
   }, [])
 
   const handleClick = () => {
-    trackABTestConversion("floating_cta", "click")
+    // Track conversion for floating CTA
+    console.log("Floating CTA clicked")
+
+    // Scroll to form
+    const formElement = document.getElementById("consultation-form")
+    if (formElement) {
+      formElement.scrollIntoView({ behavior: "smooth" })
+    }
   }
 
   return (
@@ -405,69 +411,67 @@ const FloatingCTA = () => {
       <Button
         size="lg"
         className="rounded-full shadow-lg hover:shadow-xl transition-all duration-300 px-6"
-        asChild
         onClick={handleClick}
       >
-        <Link href="#consultation-form">
-          <Calendar className="w-5 h-5 mr-2" />
-          Book Now
-        </Link>
+        <Calendar className="w-5 h-5 mr-2" />
+        Book Now
       </Button>
     </motion.div>
   )
 }
 
+const heroTestConfig = {
+  testId: "consultation-hero",
+  variants: [
+    { id: "hero-a", name: "Professional Hero", weight: 50 },
+    { id: "hero-b", name: "Urgency Hero", weight: 50 },
+  ],
+}
+
+const ctaTestConfig = {
+  testId: "consultation-cta",
+  variants: [
+    { id: "cta-a", name: "Simple CTA", weight: 50 },
+    { id: "cta-b", name: "High-Pressure CTA", weight: 50 },
+  ],
+}
+
+const formTestConfig = {
+  testId: "consultation-form",
+  variants: [
+    { id: "form-a", name: "Standard Form", weight: 50 },
+    { id: "form-b", name: "Enhanced Form", weight: 50 },
+  ],
+}
+
 export default function ConsultationPageWithABTest() {
-  const heroTest = useABTest({
-    testName: "consultation_hero",
-    variants: { A: { weight: 50 }, B: { weight: 50 } },
-  })
-  const ctaTest = useABTest({
-    testName: "consultation_cta",
-    variants: { A: { weight: 50 }, B: { weight: 50 } },
-  })
-  const formTest = useABTest({
-    testName: "consultation_form",
-    variants: { A: { weight: 50 }, B: { weight: 50 } },
-  })
-
-  useEffect(() => {
-    // Track page view
-    if (typeof window !== "undefined" && (window as any).gtag) {
-      ;(window as any).gtag("event", "page_view", {
-        page_title: "Consultation Page",
-        page_location: window.location.href,
-        hero_variant: heroTest,
-        cta_variant: ctaTest,
-        form_variant: formTest,
-      })
-    }
-  }, [heroTest, ctaTest, formTest])
-
-  const handleHeroCTA = () => {
-    trackABTestConversion("consultation_hero", "hero_cta_click")
-    // Scroll to form
-    document.getElementById("consultation-form")?.scrollIntoView({ behavior: "smooth" })
-  }
+  const heroTest = useABTest(heroTestConfig)
+  const ctaTest = useABTest(ctaTestConfig)
+  const formTest = useABTest(formTestConfig)
 
   const handleCTAClick = () => {
-    trackABTestConversion("consultation_cta", "cta_click")
+    heroTest.trackConversion("cta-click")
+    ctaTest.trackConversion("cta-click")
+
     // Scroll to form
-    document.getElementById("consultation-form")?.scrollIntoView({ behavior: "smooth" })
+    const formElement = document.getElementById("consultation-form")
+    if (formElement) {
+      formElement.scrollIntoView({ behavior: "smooth" })
+    }
   }
 
   const handleFormSubmit = async (formData: any) => {
     try {
-      // Track conversion for all tests
-      trackABTestConversion("consultation_hero", "form_submit")
-      trackABTestConversion("consultation_cta", "form_submit")
-      trackABTestConversion("consultation_form", "form_submit")
+      // Track conversions for all tests
+      heroTest.trackConversion("form-submit")
+      ctaTest.trackConversion("form-submit")
+      formTest.trackConversion("form-submit")
 
-      // Submit form (implement your form submission logic here)
+      // Submit form data (you can integrate with your backend here)
       console.log("Form submitted:", formData)
 
-      // Show success message or redirect
-      alert("Thank you! We'll be in touch within 24 hours.")
+      // Show success message
+      alert("Thank you! I'll get back to you within 24 hours.")
     } catch (error) {
       console.error("Form submission error:", error)
       alert("There was an error submitting your form. Please try again.")
@@ -476,8 +480,9 @@ export default function ConsultationPageWithABTest() {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <ConsultationHeroVariants variant={heroTest} onCTAClick={handleHeroCTA} />
+      {/* Hero Section A/B Test */}
+      {heroTest.isVariant("hero-a") && <HeroVariantA onCTAClick={handleCTAClick} />}
+      {heroTest.isVariant("hero-b") && <HeroVariantB onCTAClick={handleCTAClick} />}
 
       {/* Consultation Types */}
       <section className="section-padding">
@@ -567,18 +572,12 @@ export default function ConsultationPageWithABTest() {
 
                     <Button
                       className="w-full mt-6 group"
-                      asChild
                       onClick={() =>
-                        trackABTestConversion(
-                          "consultation_types",
-                          `select_${consultation.type.toLowerCase().replace(" ", "_")}`,
-                        )
+                        heroTest.trackConversion(`select_${consultation.type.toLowerCase().replace(" ", "_")}`)
                       }
                     >
-                      <Link href="#consultation-form">
-                        Select This Plan
-                        <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                      </Link>
+                      Select This Plan
+                      <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                     </Button>
                   </CardContent>
                 </Card>
@@ -809,13 +808,15 @@ export default function ConsultationPageWithABTest() {
         </div>
       </section>
 
-      {/* Form Section */}
+      {/* Form Section A/B Test */}
       <div id="consultation-form">
-        <ConsultationFormVariants variant={formTest} onSubmit={handleFormSubmit} />
+        {formTest.isVariant("form-a") && <FormVariantA onSubmit={handleFormSubmit} />}
+        {formTest.isVariant("form-b") && <FormVariantB onSubmit={handleFormSubmit} />}
       </div>
 
-      {/* CTA Section */}
-      <ConsultationCTAVariants variant={ctaTest} onCTAClick={handleCTAClick} />
+      {/* CTA Section A/B Test */}
+      {ctaTest.isVariant("cta-a") && <CTAVariantA onCTAClick={handleCTAClick} />}
+      {ctaTest.isVariant("cta-b") && <CTAVariantB onCTAClick={handleCTAClick} />}
 
       {/* Floating CTA */}
       <FloatingCTA />
@@ -823,4 +824,5 @@ export default function ConsultationPageWithABTest() {
   )
 }
 
+// Export the component as both default and named export
 export { ConsultationPageWithABTest }
