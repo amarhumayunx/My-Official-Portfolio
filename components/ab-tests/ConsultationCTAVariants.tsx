@@ -1,189 +1,345 @@
 "use client"
 
 import type React from "react"
-
 import { motion } from "framer-motion"
-import { ArrowRight, CheckCircle, Clock, Shield, Star, Users, Zap } from "lucide-react"
+import { Calendar, ArrowRight, Star, Zap, Clock, CheckCircle, Award, Timer } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 
 interface CTAVariantProps {
   onCTAClick: () => void
 }
 
+// Enhanced animations
+const fadeInUp = {
+  initial: { opacity: 0, y: 40 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] },
+}
+
+const staggerContainer = {
+  animate: {
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
+    },
+  },
+}
+
+const staggerItem = {
+  initial: { opacity: 0, y: 20 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] },
+  },
+}
+
+// Variant A: Simple CTA
 export const CTAVariantA: React.FC<CTAVariantProps> = ({ onCTAClick }) => {
   return (
-    <section className="py-20 bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-800 dark:to-indigo-800">
-      <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Ready to Start Your Project?</h2>
+    <section className="section-padding py-20 bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900">
+      <div className="max-w-4xl mx-auto px-4 text-center">
+        <motion.div
+          variants={staggerContainer}
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true }}
+          className="space-y-8"
+        >
+          {/* Simple Badge */}
+          <motion.div variants={staggerItem}>
+            <Badge className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-2 text-sm font-medium shadow-lg">
+              <Star className="w-4 h-4 mr-2" />
+              Ready to Get Started?
+            </Badge>
+          </motion.div>
 
-            <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-              Let's discuss your vision and create a roadmap for success. Book a free consultation to get started.
+          {/* Simple Heading */}
+          <motion.div variants={staggerItem}>
+            <h2 className="text-3xl md:text-5xl font-bold leading-tight">
+              <span className="bg-gradient-to-r from-gray-900 to-blue-800 dark:from-white dark:to-blue-200 bg-clip-text text-transparent">
+                Let's Discuss Your
+              </span>
+              <br />
+              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                Project Today
+              </span>
+            </h2>
+          </motion.div>
+
+          {/* Simple Description */}
+          <motion.div variants={staggerItem}>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
+              Schedule your free consultation and get expert guidance for your mobile app project. No commitment
+              required.
             </p>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="grid md:grid-cols-3 gap-6 mb-12"
-          >
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
-              <CheckCircle className="w-8 h-8 text-green-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-white mb-2">Free Consultation</h3>
-              <p className="text-blue-100 text-sm">No commitment, just valuable insights</p>
-            </div>
-
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
-              <Clock className="w-8 h-8 text-yellow-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-white mb-2">Quick Response</h3>
-              <p className="text-blue-100 text-sm">Get back to you within 24 hours</p>
-            </div>
-
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
-              <Shield className="w-8 h-8 text-blue-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-white mb-2">Expert Guidance</h3>
-              <p className="text-blue-100 text-sm">Professional advice tailored to you</p>
+          {/* Simple Features */}
+          <motion.div variants={staggerItem}>
+            <div className="flex flex-wrap justify-center gap-6 text-sm md:text-base">
+              {[
+                { icon: CheckCircle, text: "Free Consultation" },
+                { icon: Clock, text: "30-60 Minutes" },
+                { icon: Award, text: "Expert Guidance" },
+              ].map((feature, index) => (
+                <motion.div
+                  key={feature.text}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: index * 0.1, duration: 0.5 }}
+                  viewport={{ once: true }}
+                  className="flex items-center gap-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg border border-gray-200/50 dark:border-gray-700/50"
+                >
+                  <feature.icon className="w-5 h-5 text-blue-600" />
+                  <span className="text-gray-700 dark:text-gray-300 font-medium">{feature.text}</span>
+                </motion.div>
+              ))}
             </div>
           </motion.div>
 
-          <motion.button
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            onClick={onCTAClick}
-            className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl inline-flex items-center gap-2"
-          >
-            Schedule Consultation
-            <ArrowRight className="w-5 h-5" />
-          </motion.button>
-        </div>
+          {/* Simple CTA Button */}
+          <motion.div variants={staggerItem}>
+            <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }} transition={{ duration: 0.2 }}>
+              <Button
+                size="lg"
+                onClick={onCTAClick}
+                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-12 py-4 text-lg font-semibold rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 group"
+              >
+                <Calendar className="w-5 h-5 mr-3 group-hover:rotate-12 transition-transform duration-200" />
+                Schedule Free Consultation
+                <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform duration-200" />
+              </Button>
+            </motion.div>
+          </motion.div>
+
+          {/* Simple Trust Indicator */}
+          <motion.div variants={staggerItem}>
+            <div className="flex items-center justify-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+              <div className="flex items-center gap-1">
+                {[...Array(5)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, scale: 0 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: i * 0.1, duration: 0.3 }}
+                    viewport={{ once: true }}
+                  >
+                    <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                  </motion.div>
+                ))}
+              </div>
+              <span className="font-medium">Trusted by 100+ entrepreneurs</span>
+            </div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   )
 }
 
+// Variant B: High-pressure CTA
 export const CTAVariantB: React.FC<CTAVariantProps> = ({ onCTAClick }) => {
   return (
-    <section className="py-20 bg-gradient-to-r from-red-600 via-orange-600 to-yellow-600 dark:from-red-800 dark:via-orange-800 dark:to-yellow-800 relative overflow-hidden">
-      <div className="absolute inset-0 bg-black/20"></div>
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-5xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mb-8"
-          >
-            <div className="inline-flex items-center gap-2 bg-red-500 text-white px-6 py-3 rounded-full text-lg font-bold mb-6 animate-bounce">
-              <Zap className="w-5 h-5" />
-              LAST CHANCE - OFFER EXPIRES TONIGHT!
-            </div>
+    <section className="section-padding py-20 bg-gradient-to-br from-red-50 via-orange-50 to-yellow-50 dark:from-gray-900 dark:via-red-900/20 dark:to-orange-900/20 relative overflow-hidden">
+      {/* Animated background */}
+      <div className="absolute inset-0">
+        <motion.div
+          animate={{
+            scale: [1, 1.1, 1],
+            rotate: [0, 5, 0],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Number.POSITIVE_INFINITY,
+            ease: "linear",
+          }}
+          className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-red-400/20 to-orange-600/20 rounded-full blur-3xl"
+        />
+      </div>
 
-            <h2 className="text-5xl md:text-6xl font-black text-white mb-6">🚨 DON'T MISS OUT! 🚨</h2>
-
-            <p className="text-2xl text-yellow-100 mb-4 font-bold">
-              Your competitors are booking consultations RIGHT NOW!
-            </p>
-
-            <p className="text-xl text-orange-100 mb-8 max-w-3xl mx-auto">
-              <strong>WARNING:</strong> Every day you wait is another day your competition gets ahead. Book NOW and get
-              a <strong className="text-yellow-300">$5,000 development credit</strong>
-              absolutely FREE!
-            </p>
+      <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
+        <motion.div
+          variants={staggerContainer}
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true }}
+          className="space-y-8"
+        >
+          {/* Urgent Badge */}
+          <motion.div variants={staggerItem}>
+            <motion.div
+              animate={{ scale: [1, 1.05, 1] }}
+              transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
+            >
+              <Badge className="bg-gradient-to-r from-red-500 to-orange-600 text-white px-8 py-3 text-base font-bold shadow-xl animate-pulse">
+                <Zap className="w-5 h-5 mr-2" />
+                ⚠️ DON'T WAIT - ACT NOW!
+              </Badge>
+            </motion.div>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="bg-white/95 backdrop-blur-sm rounded-2xl p-8 mb-8 max-w-4xl mx-auto shadow-2xl"
-          >
-            <h3 className="text-3xl font-bold text-gray-900 mb-6">🎁 EXCLUSIVE BONUS PACKAGE (Worth $15,000)</h3>
+          {/* Urgent Heading */}
+          <motion.div variants={staggerItem}>
+            <h2 className="text-4xl md:text-6xl font-black leading-tight">
+              <span className="bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">
+                Last Chance to Save
+              </span>
+              <br />
+              <span className="bg-gradient-to-r from-gray-900 to-red-800 dark:from-white dark:to-red-200 bg-clip-text text-transparent">
+                Your Project!
+              </span>
+            </h2>
+          </motion.div>
 
-            <div className="grid md:grid-cols-2 gap-6 mb-8">
-              <div className="flex items-start gap-4">
-                <div className="bg-green-500 rounded-full p-2">
-                  <CheckCircle className="w-6 h-6 text-white" />
-                </div>
-                <div className="text-left">
-                  <h4 className="font-bold text-gray-900">FREE App Store Optimization</h4>
-                  <p className="text-gray-600">$3,000 value - Get your app discovered</p>
-                </div>
-              </div>
+          {/* Urgent Description */}
+          <motion.div variants={staggerItem}>
+            <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl p-6 shadow-2xl border-2 border-red-200 dark:border-red-800">
+              <p className="text-xl text-gray-700 dark:text-gray-200 font-bold leading-relaxed">
+                <span className="text-red-600 dark:text-red-400">🚨 URGENT:</span> Every day you delay costs you money!
+                Don't join the 90% of failed app projects. Get expert consultation NOW before it's too late!
+              </p>
+            </div>
+          </motion.div>
 
-              <div className="flex items-start gap-4">
-                <div className="bg-green-500 rounded-full p-2">
-                  <CheckCircle className="w-6 h-6 text-white" />
-                </div>
-                <div className="text-left">
-                  <h4 className="font-bold text-gray-900">FREE 6-Month Maintenance</h4>
-                  <p className="text-gray-600">$7,000 value - Keep your app running smooth</p>
-                </div>
-              </div>
+          {/* Scarcity Indicators */}
+          <motion.div variants={staggerItem}>
+            <div className="grid md:grid-cols-3 gap-4">
+              {[
+                { icon: Timer, text: "Only 3 Slots Left Today", color: "text-red-600" },
+                { icon: Zap, text: "Free Offer Ends Soon", color: "text-orange-600" },
+                { icon: Award, text: "Save $10,000+ in Mistakes", color: "text-green-600" },
+              ].map((item, index) => (
+                <motion.div
+                  key={item.text}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: index * 0.1, duration: 0.5 }}
+                  viewport={{ once: true }}
+                  className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-lg border-l-4 border-l-red-500"
+                >
+                  <item.icon className={`w-6 h-6 ${item.color} mx-auto mb-2`} />
+                  <p className="text-sm font-bold text-gray-700 dark:text-gray-300">{item.text}</p>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
 
-              <div className="flex items-start gap-4">
-                <div className="bg-green-500 rounded-full p-2">
-                  <CheckCircle className="w-6 h-6 text-white" />
+          {/* Countdown Effect */}
+          <motion.div variants={staggerItem}>
+            <div className="bg-gradient-to-r from-red-500 to-orange-500 text-white rounded-2xl p-6 shadow-2xl max-w-md mx-auto">
+              <p className="text-lg font-black mb-3">⏰ FREE CONSULTATION EXPIRES IN:</p>
+              <div className="flex justify-center gap-4 text-3xl font-black">
+                <div className="text-center">
+                  <motion.div
+                    animate={{ scale: [1, 1.2, 1] }}
+                    transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY }}
+                    className="bg-white/20 rounded-lg p-2 mb-1"
+                  >
+                    23
+                  </motion.div>
+                  <p className="text-xs">HOURS</p>
                 </div>
-                <div className="text-left">
-                  <h4 className="font-bold text-gray-900">FREE Marketing Strategy</h4>
-                  <p className="text-gray-600">$2,500 value - Launch with impact</p>
+                <div className="text-center">
+                  <motion.div
+                    animate={{ scale: [1, 1.2, 1] }}
+                    transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, delay: 0.3 }}
+                    className="bg-white/20 rounded-lg p-2 mb-1"
+                  >
+                    47
+                  </motion.div>
+                  <p className="text-xs">MINUTES</p>
                 </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="bg-green-500 rounded-full p-2">
-                  <CheckCircle className="w-6 h-6 text-white" />
-                </div>
-                <div className="text-left">
-                  <h4 className="font-bold text-gray-900">FREE Priority Support</h4>
-                  <p className="text-gray-600">$2,500 value - 24/7 dedicated help</p>
+                <div className="text-center">
+                  <motion.div
+                    animate={{ scale: [1, 1.2, 1] }}
+                    transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, delay: 0.6 }}
+                    className="bg-white/20 rounded-lg p-2 mb-1"
+                  >
+                    32
+                  </motion.div>
+                  <p className="text-xs">SECONDS</p>
                 </div>
               </div>
             </div>
+          </motion.div>
 
-            <div className="bg-red-100 border-2 border-red-400 rounded-lg p-6 mb-6">
-              <div className="flex items-center justify-center gap-4 mb-4">
-                <Users className="w-8 h-8 text-red-600" />
-                <div className="text-left">
-                  <p className="text-red-800 font-bold text-lg">127 people viewed this page today</p>
-                  <p className="text-red-600">Only 2 consultation slots remaining!</p>
-                </div>
-              </div>
+          {/* High-pressure CTA */}
+          <motion.div variants={staggerItem}>
+            <motion.div
+              whileHover={{ scale: 1.05, y: -3 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              animate={{
+                boxShadow: [
+                  "0 0 0 0 rgba(239, 68, 68, 0.7)",
+                  "0 0 0 15px rgba(239, 68, 68, 0)",
+                  "0 0 0 0 rgba(239, 68, 68, 0)",
+                ],
+              }}
+              style={{
+                animationDuration: "2s",
+                animationIterationCount: "infinite",
+              }}
+            >
+              <Button
+                size="lg"
+                onClick={onCTAClick}
+                className="bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white px-12 py-6 text-xl font-black rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 group relative overflow-hidden"
+              >
+                <motion.div
+                  animate={{ x: ["-100%", "100%"] }}
+                  transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                />
+                <Zap className="w-6 h-6 mr-3 group-hover:rotate-12 transition-transform duration-200" />
+                CLAIM YOUR FREE CONSULTATION NOW!
+                <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-1 transition-transform duration-200" />
+              </Button>
+            </motion.div>
+          </motion.div>
 
-              <div className="flex items-center justify-center gap-4">
-                <Star className="w-6 h-6 text-yellow-500" />
-                <p className="text-gray-700">
-                  <strong>"Best decision I ever made for my business!"</strong> - Sarah M., CEO
+          {/* Urgent Social Proof */}
+          <motion.div variants={staggerItem}>
+            <div className="space-y-4">
+              <div className="flex justify-center items-center gap-2 bg-green-100 dark:bg-green-900/30 px-6 py-3 rounded-full">
+                <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                <p className="text-sm text-green-700 dark:text-green-300 font-bold">
+                  🔥 Sarah just booked her consultation 2 minutes ago!
                 </p>
               </div>
+
+              <div className="flex items-center justify-center gap-2">
+                <div className="flex items-center gap-1">
+                  {[...Array(5)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, scale: 0 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: i * 0.1, duration: 0.3 }}
+                      viewport={{ once: true }}
+                    >
+                      <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                    </motion.div>
+                  ))}
+                </div>
+                <span className="text-sm text-gray-600 dark:text-gray-400 font-bold">
+                  4.9/5 - "This saved my startup $50K!" - Mike T.
+                </span>
+              </div>
             </div>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="space-y-4"
-          >
-            <button
-              onClick={onCTAClick}
-              className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-16 py-6 rounded-2xl text-2xl font-black transition-all duration-300 transform hover:scale-110 shadow-2xl hover:shadow-3xl animate-pulse inline-flex items-center gap-4"
-            >
-              💰 CLAIM $15,000 BONUS NOW! 💰
-              <ArrowRight className="w-8 h-8" />
-            </button>
-
-            <p className="text-white text-lg">
-              ⏰ <strong>HURRY!</strong> Timer: <span className="text-yellow-300 font-mono text-xl">23:47:12</span>
-            </p>
-
-            <p className="text-orange-200 text-sm">
-              * Limited to first 50 customers. No credit card required. 100% satisfaction guaranteed.
-            </p>
+          {/* Risk Reversal */}
+          <motion.div variants={staggerItem}>
+            <div className="bg-yellow-100 dark:bg-yellow-900/30 border-2 border-yellow-300 dark:border-yellow-700 rounded-xl p-4 max-w-2xl mx-auto">
+              <p className="text-sm text-yellow-800 dark:text-yellow-200 font-bold">
+                ⚡ 100% FREE - No Credit Card Required - No Strings Attached ⚡
+              </p>
+            </div>
           </motion.div>
-        </div>
+        </motion.div>
       </div>
     </section>
   )

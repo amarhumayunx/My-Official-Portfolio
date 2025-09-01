@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { useState, useEffect } from "react"
 import {
   Calendar,
@@ -23,6 +23,7 @@ import {
   Mail,
   ChevronDown,
   Timer,
+  Loader2,
 } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -32,6 +33,68 @@ import { HeroVariantA, HeroVariantB } from "@/components/ab-tests/ConsultationHe
 import { CTAVariantA, CTAVariantB } from "@/components/ab-tests/ConsultationCTAVariants"
 import { FormVariantA, FormVariantB } from "@/components/ab-tests/ConsultationFormVariants"
 
+// Smooth loading component
+const SmoothLoader = () => (
+  <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900">
+    <motion.div
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className="text-center"
+    >
+      <motion.div
+        animate={{ rotate: 360 }}
+        transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+        className="w-16 h-16 mx-auto mb-4"
+      >
+        <Loader2 className="w-16 h-16 text-blue-600" />
+      </motion.div>
+      <motion.h2
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2, duration: 0.5 }}
+        className="text-2xl font-bold text-gray-900 dark:text-white mb-2"
+      >
+        Optimizing Your Experience
+      </motion.h2>
+      <motion.p
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4, duration: 0.5 }}
+        className="text-gray-600 dark:text-gray-300"
+      >
+        Personalizing content just for you...
+      </motion.p>
+    </motion.div>
+  </div>
+)
+
+// Enhanced smooth animations for sections
+const fadeInUp = {
+  initial: { opacity: 0, y: 60 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] },
+}
+
+const staggerContainer = {
+  animate: {
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
+    },
+  },
+}
+
+const staggerItem = {
+  initial: { opacity: 0, y: 30 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] },
+  },
+}
+
+// Rest of the consultation data remains the same...
 const consultationBenefits = [
   {
     icon: Target,
@@ -287,92 +350,131 @@ const faqs = [
   },
 ]
 
-// Enhanced FAQ Component
+// Enhanced FAQ Component with smoother animations
 const FAQItem = ({ faq, index }: { faq: any; index: number }) => {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      viewport={{ once: true }}
-      className="border border-border rounded-lg overflow-hidden"
+      variants={staggerItem}
+      className="border border-border rounded-xl overflow-hidden bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-shadow duration-300"
     >
-      <button
+      <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full p-4 text-left flex items-center justify-between hover:bg-muted/50 transition-colors"
+        className="w-full p-6 text-left flex items-center justify-between hover:bg-muted/30 transition-colors duration-200"
+        whileHover={{ backgroundColor: "rgba(0,0,0,0.02)" }}
+        whileTap={{ scale: 0.995 }}
       >
-        <span className="font-medium">{faq.question}</span>
-        <motion.div animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
+        <span className="font-semibold text-gray-900 dark:text-white">{faq.question}</span>
+        <motion.div
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+        >
           <ChevronDown className="w-5 h-5 text-muted-foreground" />
         </motion.div>
-      </button>
-      <motion.div
-        initial={false}
-        animate={{ height: isOpen ? "auto" : 0 }}
-        transition={{ duration: 0.3 }}
-        className="overflow-hidden"
-      >
-        <div className="p-4 pt-0 text-muted-foreground">{faq.answer}</div>
-      </motion.div>
+      </motion.button>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="overflow-hidden"
+          >
+            <div className="px-6 pb-6 text-muted-foreground leading-relaxed">{faq.answer}</div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   )
 }
 
-// Enhanced Testimonial Card
+// Enhanced Testimonial Card with smoother hover effects
 const TestimonialCard = ({ testimonial, index }: { testimonial: any; index: number }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
-      viewport={{ once: true }}
-      whileHover={{ y: -5, transition: { duration: 0.2 } }}
+      variants={staggerItem}
+      whileHover={{
+        y: -8,
+        scale: 1.02,
+        transition: { duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] },
+      }}
+      className="h-full"
     >
-      <Card className="h-full hover:shadow-xl transition-all duration-300 border-l-4 border-l-primary">
+      <Card className="h-full hover:shadow-2xl transition-all duration-500 border-l-4 border-l-primary bg-white dark:bg-gray-800 overflow-hidden">
         <CardContent className="p-6">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold">
+          <motion.div
+            className="flex items-center gap-3 mb-4"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: index * 0.1 + 0.2 }}
+          >
+            <motion.div
+              className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary/80 text-primary-foreground flex items-center justify-center font-bold shadow-lg"
+              whileHover={{ scale: 1.1, rotate: 5 }}
+              transition={{ duration: 0.2 }}
+            >
               {testimonial.avatar}
-            </div>
+            </motion.div>
             <div>
-              <p className="font-semibold text-sm">{testimonial.name}</p>
+              <p className="font-semibold text-sm text-gray-900 dark:text-white">{testimonial.name}</p>
               <p className="text-xs text-muted-foreground">{testimonial.role}</p>
-              <Badge variant="outline" className="text-xs mt-1">
+              <Badge variant="outline" className="text-xs mt-1 border-primary/20 text-primary">
                 {testimonial.industry}
               </Badge>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="flex mb-4">
+          <motion.div
+            className="flex mb-4"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: index * 0.1 + 0.3 }}
+          >
             {[...Array(testimonial.rating)].map((_, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: i * 0.1 }}
+                initial={{ opacity: 0, scale: 0, rotate: -180 }}
+                animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                transition={{
+                  delay: index * 0.1 + 0.4 + i * 0.1,
+                  duration: 0.4,
+                  ease: [0.25, 0.46, 0.45, 0.94],
+                }}
               >
                 <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
               </motion.div>
             ))}
-          </div>
+          </motion.div>
 
-          <p className="text-muted-foreground mb-4 italic text-sm leading-relaxed">"{testimonial.content}"</p>
+          <motion.p
+            className="text-muted-foreground mb-4 italic text-sm leading-relaxed"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 + 0.5 }}
+          >
+            "{testimonial.content}"
+          </motion.p>
 
-          <div className="border-t pt-4">
-            <Badge variant="secondary" className="text-xs">
+          <motion.div
+            className="border-t pt-4"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 + 0.6 }}
+          >
+            <Badge variant="secondary" className="text-xs bg-primary/10 text-primary border-primary/20">
               <Award className="w-3 h-3 mr-1" />
               {testimonial.project}
             </Badge>
-          </div>
+          </motion.div>
         </CardContent>
       </Card>
     </motion.div>
   )
 }
 
-// Floating Action Button
+// Enhanced Floating Action Button with smoother animations
 const FloatingCTA = () => {
   const [isVisible, setIsVisible] = useState(false)
 
@@ -390,38 +492,50 @@ const FloatingCTA = () => {
   }, [])
 
   const handleClick = () => {
-    // Track conversion for floating CTA
-    console.log("Floating CTA clicked")
-
-    // Scroll to form
     const formElement = document.getElementById("consultation-form")
     if (formElement) {
-      formElement.scrollIntoView({ behavior: "smooth" })
+      formElement.scrollIntoView({ behavior: "smooth", block: "start" })
     }
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0 }}
-      animate={{
-        opacity: isVisible ? 1 : 0,
-        scale: isVisible ? 1 : 0,
-      }}
-      transition={{ duration: 0.3 }}
-      className="fixed bottom-6 right-6 z-40"
-    >
-      <Button
-        size="lg"
-        className="rounded-full shadow-lg hover:shadow-xl transition-all duration-300 px-6"
-        onClick={handleClick}
-      >
-        <Calendar className="w-5 h-5 mr-2" />
-        Book Now
-      </Button>
-    </motion.div>
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0, y: 100 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0, y: 100 }}
+          transition={{
+            duration: 0.4,
+            ease: [0.25, 0.46, 0.45, 0.94],
+            type: "spring",
+            stiffness: 300,
+            damping: 30,
+          }}
+          className="fixed bottom-6 right-6 z-50"
+        >
+          <motion.div whileHover={{ scale: 1.1, y: -2 }} whileTap={{ scale: 0.95 }} transition={{ duration: 0.2 }}>
+            <Button
+              size="lg"
+              className="rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 px-6 py-3 bg-gradient-to-r from-primary to-primary/80 border-2 border-white/20 backdrop-blur-sm"
+              onClick={handleClick}
+            >
+              <motion.div
+                animate={{ rotate: [0, 10, -10, 0] }}
+                transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+              >
+                <Calendar className="w-5 h-5 mr-2" />
+              </motion.div>
+              Book Now
+            </Button>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   )
 }
 
+// Test configurations
 const HERO_TEST_CONFIG = {
   testId: "consultation_hero_test",
   variants: [
@@ -451,37 +565,47 @@ export const ConsultationPageWithABTest: React.FC = () => {
   const ctaTest = useABTest(CTA_TEST_CONFIG)
   const formTest = useABTest(FORM_TEST_CONFIG)
 
-  // Track page views when component mounts
+  // Track page views when tests are ready
   useEffect(() => {
-    if (!heroTest.isLoading && !ctaTest.isLoading && !formTest.isLoading) {
-      heroTest.trackView()
-      ctaTest.trackView()
-      formTest.trackView()
+    if (heroTest.isReady && ctaTest.isReady && formTest.isReady) {
+      // Smooth tracking with slight delays
+      setTimeout(() => heroTest.trackView(), 100)
+      setTimeout(() => ctaTest.trackView(), 200)
+      setTimeout(() => formTest.trackView(), 300)
     }
-  }, [heroTest.isLoading, ctaTest.isLoading, formTest.isLoading])
+  }, [heroTest.isReady, ctaTest.isReady, formTest.isReady])
 
   const handleCTAClick = () => {
-    heroTest.trackConversion("cta_click")
-    ctaTest.trackConversion("cta_click")
+    // Smooth conversion tracking
+    requestAnimationFrame(() => {
+      heroTest.trackConversion("cta_click")
+      ctaTest.trackConversion("cta_click")
+    })
 
-    // Scroll to form
+    // Smooth scroll to form
     const formElement = document.getElementById("consultation-form")
     if (formElement) {
-      formElement.scrollIntoView({ behavior: "smooth" })
+      formElement.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+        inline: "nearest",
+      })
     }
   }
 
   const handleFormSubmit = async (formData: any) => {
     try {
-      // Track conversions for all tests
-      heroTest.trackConversion("form_submit")
-      ctaTest.trackConversion("form_submit")
-      formTest.trackConversion("form_submit")
+      // Smooth conversion tracking
+      requestAnimationFrame(() => {
+        heroTest.trackConversion("form_submit")
+        ctaTest.trackConversion("form_submit")
+        formTest.trackConversion("form_submit")
+      })
 
-      // Here you would typically send the form data to your backend
+      // Simulate form submission with smooth feedback
       console.log("Form submitted:", formData)
 
-      // Show success message or redirect
+      // Show smooth success message
       alert("Thank you! We'll get back to you within 24 hours.")
     } catch (error) {
       console.error("Form submission error:", error)
@@ -489,76 +613,104 @@ export const ConsultationPageWithABTest: React.FC = () => {
     }
   }
 
-  // Show loading state while tests are initializing
-  if (heroTest.isLoading || ctaTest.isLoading || formTest.isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
-      </div>
-    )
+  // Show smooth loading state while tests are initializing
+  if (!heroTest.isReady || !ctaTest.isReady || !formTest.isReady) {
+    return <SmoothLoader />
   }
 
   return (
-    <div className="min-h-screen">
-      {/* Hero Section A/B Test */}
-      {heroTest.variant === "hero_a" ? (
-        <HeroVariantA onCTAClick={handleCTAClick} />
-      ) : (
-        <HeroVariantB onCTAClick={handleCTAClick} />
-      )}
-
-      {/* Consultation Types */}
-      <section className="section-padding">
-        <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen overflow-x-hidden">
+      {/* Hero Section A/B Test with smooth transitions */}
+      <AnimatePresence mode="wait">
+        {heroTest.variant === "hero_a" ? (
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
+            key="hero-a"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
+            <HeroVariantA onCTAClick={handleCTAClick} />
+          </motion.div>
+        ) : (
+          <motion.div
+            key="hero-b"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+          >
+            <HeroVariantB onCTAClick={handleCTAClick} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Consultation Types with enhanced animations */}
+      <section className="section-padding py-20">
+        <div className="max-w-7xl mx-auto px-4">
+          <motion.div {...fadeInUp} className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-              Choose Your <span className="gradient-text">Consultation Type</span>
+              Choose Your{" "}
+              <span className="gradient-text bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                Consultation Type
+              </span>
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Select the consultation format that best fits your needs and project complexity
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <motion.div
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, margin: "-100px" }}
+            className="grid md:grid-cols-3 gap-8"
+          >
             {consultationTypes.map((consultation, index) => (
               <motion.div
                 key={consultation.type}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                whileHover={{ y: -10, transition: { duration: 0.2 } }}
+                variants={staggerItem}
+                whileHover={{
+                  y: -12,
+                  scale: 1.02,
+                  transition: { duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] },
+                }}
                 className="relative"
               >
-                {consultation.popular && (
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ delay: 0.5 + index * 0.1, type: "spring" }}
-                    className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10"
-                  >
-                    <Badge className="bg-primary text-primary-foreground px-4 py-1">
-                      <Star className="w-3 h-3 mr-1" />
-                      Most Popular
-                    </Badge>
-                  </motion.div>
-                )}
+                <AnimatePresence>
+                  {consultation.popular && (
+                    <motion.div
+                      initial={{ scale: 0, y: 20 }}
+                      animate={{ scale: 1, y: 0 }}
+                      transition={{
+                        delay: 0.5 + index * 0.1,
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 20,
+                      }}
+                      className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10"
+                    >
+                      <Badge className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground px-4 py-1 shadow-lg">
+                        <Star className="w-3 h-3 mr-1" />
+                        Most Popular
+                      </Badge>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
 
                 <Card
-                  className={`h-full ${consultation.popular ? "border-primary shadow-lg scale-105" : consultation.color} hover:shadow-xl transition-all duration-300`}
+                  className={`h-full ${consultation.popular ? "border-primary shadow-xl scale-105 bg-gradient-to-br from-white to-primary/5 dark:from-gray-800 dark:to-primary/10" : consultation.color} hover:shadow-2xl transition-all duration-500 overflow-hidden`}
                 >
                   <CardHeader className="text-center relative">
-                    <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.5 }}>
+                    <motion.div
+                      whileHover={{ rotate: 360, scale: 1.1 }}
+                      transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+                    >
                       <consultation.icon className="w-12 h-12 text-primary mx-auto mb-4" />
                     </motion.div>
 
-                    <CardTitle className="text-xl">{consultation.type}</CardTitle>
+                    <CardTitle className="text-xl font-bold">{consultation.type}</CardTitle>
 
                     <div className="space-y-2">
                       <div className="flex items-center justify-center gap-2">
@@ -569,21 +721,24 @@ export const ConsultationPageWithABTest: React.FC = () => {
                         <Timer className="w-3 h-3 mr-1" />
                         {consultation.duration}
                       </Badge>
-                      <Badge variant="outline" className="text-xs text-green-600 border-green-200">
+                      <Badge
+                        variant="outline"
+                        className="text-xs text-green-600 border-green-200 bg-green-50 dark:bg-green-900/20"
+                      >
                         {consultation.savings}
                       </Badge>
                     </div>
                   </CardHeader>
 
                   <CardContent>
-                    <p className="text-muted-foreground mb-6 text-center">{consultation.description}</p>
+                    <p className="text-muted-foreground mb-6 text-center leading-relaxed">{consultation.description}</p>
                     <ul className="space-y-3">
                       {consultation.features.map((feature, idx) => (
                         <motion.li
                           key={idx}
                           initial={{ opacity: 0, x: -10 }}
                           whileInView={{ opacity: 1, x: 0 }}
-                          transition={{ delay: idx * 0.1 }}
+                          transition={{ delay: idx * 0.1, duration: 0.4 }}
                           viewport={{ once: true }}
                           className="flex items-start gap-2"
                         >
@@ -593,261 +748,326 @@ export const ConsultationPageWithABTest: React.FC = () => {
                       ))}
                     </ul>
 
-                    <Button
-                      className="w-full mt-6 group"
-                      onClick={() =>
-                        heroTest.trackConversion(`select_${consultation.type.toLowerCase().replace(" ", "_")}`)
-                      }
-                    >
-                      Select This Plan
-                      <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                    </Button>
+                    <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} transition={{ duration: 0.2 }}>
+                      <Button
+                        className="w-full mt-6 group bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary shadow-lg hover:shadow-xl transition-all duration-300"
+                        onClick={() =>
+                          heroTest.trackConversion(`select_${consultation.type.toLowerCase().replace(" ", "_")}`)
+                        }
+                      >
+                        Select This Plan
+                        <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
+                      </Button>
+                    </motion.div>
                   </CardContent>
                 </Card>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Benefits Section */}
-      <section className="section-padding bg-muted/30">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
+      {/* Benefits Section with enhanced animations */}
+      <section className="section-padding py-20 bg-gradient-to-br from-muted/30 via-background to-muted/20">
+        <div className="max-w-7xl mx-auto px-4">
+          <motion.div {...fadeInUp} className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-              What You'll <span className="gradient-text">Get</span>
+              What You'll{" "}
+              <span className="gradient-text bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                Get
+              </span>
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Every consultation is designed to provide maximum value and actionable insights for your project
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <motion.div
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, margin: "-100px" }}
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
             {consultationBenefits.map((benefit, index) => (
               <motion.div
                 key={benefit.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                whileHover={{ scale: 1.02 }}
+                variants={staggerItem}
+                whileHover={{
+                  scale: 1.05,
+                  y: -5,
+                  transition: { duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] },
+                }}
               >
-                <Card className={`h-full hover:shadow-lg transition-all duration-300 ${benefit.hoverColor} group`}>
+                <Card
+                  className={`h-full hover:shadow-2xl transition-all duration-500 ${benefit.hoverColor} group overflow-hidden bg-white dark:bg-gray-800`}
+                >
                   <CardContent className="p-6">
-                    <div
-                      className={`w-16 h-16 rounded-full ${benefit.bgColor} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}
+                    <motion.div
+                      className={`w-16 h-16 rounded-full ${benefit.bgColor} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg`}
+                      whileHover={{ rotate: 10 }}
                     >
                       <benefit.icon className={`w-8 h-8 ${benefit.color}`} />
-                    </div>
-                    <h3 className="text-xl font-semibold mb-3">{benefit.title}</h3>
-                    <p className="text-muted-foreground">{benefit.description}</p>
+                    </motion.div>
+                    <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white">{benefit.title}</h3>
+                    <p className="text-muted-foreground leading-relaxed">{benefit.description}</p>
                   </CardContent>
                 </Card>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Process Section */}
-      <section id="process" className="section-padding">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
+      {/* Process Section with enhanced step animations */}
+      <section id="process" className="section-padding py-20">
+        <div className="max-w-7xl mx-auto px-4">
+          <motion.div {...fadeInUp} className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-              Consultation <span className="gradient-text">Process</span>
+              Consultation{" "}
+              <span className="gradient-text bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                Process
+              </span>
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               A structured approach to understand your needs and provide valuable insights
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <motion.div
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, margin: "-100px" }}
+            className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
+          >
             {consultationProcess.map((step, index) => (
               <motion.div
                 key={step.step}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                whileHover={{ y: -5 }}
+                variants={staggerItem}
+                whileHover={{ y: -8, transition: { duration: 0.3 } }}
                 className="relative"
               >
-                <Card className="h-full text-center hover:shadow-lg transition-all duration-300 group">
+                <Card className="h-full text-center hover:shadow-2xl transition-all duration-500 group bg-white dark:bg-gray-800 overflow-hidden">
                   <CardContent className="p-6">
                     <motion.div
-                      className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-lg mx-auto mb-4 group-hover:scale-110 transition-transform duration-300"
+                      className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary/80 text-primary-foreground flex items-center justify-center font-bold text-lg mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg"
                       whileHover={{ rotate: 360 }}
-                      transition={{ duration: 0.5 }}
+                      transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
                     >
                       {step.step}
                     </motion.div>
 
-                    <step.icon className="w-8 h-8 text-primary mx-auto mb-3" />
-                    <h3 className="font-semibold mb-2">{step.title}</h3>
+                    <motion.div whileHover={{ scale: 1.1, rotate: 5 }} transition={{ duration: 0.2 }}>
+                      <step.icon className="w-8 h-8 text-primary mx-auto mb-3" />
+                    </motion.div>
+                    <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">{step.title}</h3>
 
-                    <Badge variant="outline" className="mb-3">
+                    <Badge variant="outline" className="mb-3 border-primary/20 text-primary">
                       <Clock className="w-3 h-3 mr-1" />
                       {step.duration}
                     </Badge>
 
-                    <p className="text-sm text-muted-foreground mb-4">{step.description}</p>
+                    <p className="text-sm text-muted-foreground mb-4 leading-relaxed">{step.description}</p>
 
                     <div className="space-y-1">
                       {step.details.map((detail, idx) => (
-                        <div key={idx} className="text-xs text-muted-foreground flex items-center gap-1">
+                        <motion.div
+                          key={idx}
+                          className="text-xs text-muted-foreground flex items-center gap-1"
+                          initial={{ opacity: 0, x: -10 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          transition={{ delay: idx * 0.1 }}
+                          viewport={{ once: true }}
+                        >
                           <div className="w-1 h-1 bg-primary rounded-full" />
                           {detail}
-                        </div>
+                        </motion.div>
                       ))}
                     </div>
                   </CardContent>
                 </Card>
 
                 {index < consultationProcess.length - 1 && (
-                  <div className="hidden lg:block absolute top-1/2 -right-4 transform -translate-y-1/2">
+                  <div className="hidden lg:block absolute top-1/2 -right-4 transform -translate-y-1/2 z-10">
                     <motion.div
-                      animate={{ x: [0, 5, 0] }}
-                      transition={{ repeat: Number.POSITIVE_INFINITY, duration: 2 }}
+                      animate={{ x: [0, 8, 0] }}
+                      transition={{ repeat: Number.POSITIVE_INFINITY, duration: 2, ease: "easeInOut" }}
                     >
-                      <ArrowRight className="w-6 h-6 text-muted-foreground" />
+                      <ArrowRight className="w-6 h-6 text-primary/60" />
                     </motion.div>
                   </div>
                 )}
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Contact Methods */}
-      <section className="section-padding bg-muted/30">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
+      {/* Contact Methods with smooth hover effects */}
+      <section className="section-padding py-20 bg-gradient-to-br from-muted/30 via-background to-muted/20">
+        <div className="max-w-4xl mx-auto px-4">
+          <motion.div {...fadeInUp} className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-              How We'll <span className="gradient-text">Connect</span>
+              How We'll{" "}
+              <span className="gradient-text bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                Connect
+              </span>
             </h2>
             <p className="text-lg text-muted-foreground">
               Choose your preferred method of communication for the consultation
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <motion.div
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            className="grid md:grid-cols-3 gap-6"
+          >
             {contactMethods.map((method, index) => (
               <motion.div
                 key={method.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                whileHover={{ scale: 1.05 }}
+                variants={staggerItem}
+                whileHover={{
+                  scale: 1.05,
+                  y: -5,
+                  transition: { duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] },
+                }}
               >
-                <Card className="text-center h-full hover:shadow-lg transition-all duration-300 group">
+                <Card className="text-center h-full hover:shadow-2xl transition-all duration-500 group bg-white dark:bg-gray-800 overflow-hidden">
                   <CardContent className="p-6">
-                    <div
-                      className={`w-16 h-16 rounded-full ${method.bgColor} flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}
+                    <motion.div
+                      className={`w-16 h-16 rounded-full ${method.bgColor} flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg`}
+                      whileHover={{ rotate: 10 }}
                     >
                       <method.icon className={`w-8 h-8 ${method.color}`} />
-                    </div>
-                    <h3 className="font-semibold mb-2">{method.title}</h3>
+                    </motion.div>
+                    <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">{method.title}</h3>
                     <p className="text-sm text-muted-foreground mb-2">{method.description}</p>
-                    <Badge variant="outline" className="text-xs">
+                    <Badge variant="outline" className="text-xs border-primary/20 text-primary">
                       {method.availability}
                     </Badge>
                   </CardContent>
                 </Card>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section id="testimonials" className="section-padding">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
+      {/* Testimonials with enhanced animations */}
+      <section id="testimonials" className="section-padding py-20">
+        <div className="max-w-6xl mx-auto px-4">
+          <motion.div {...fadeInUp} className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-              What Clients <span className="gradient-text">Say</span>
+              What Clients{" "}
+              <span className="gradient-text bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                Say
+              </span>
             </h2>
             <p className="text-lg text-muted-foreground">
               Hear from entrepreneurs and businesses who benefited from our consultations
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <motion.div
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, margin: "-100px" }}
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
             {testimonials.slice(0, 6).map((testimonial, index) => (
               <TestimonialCard key={testimonial.name} testimonial={testimonial} index={index} />
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section className="section-padding bg-muted/30">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
+      {/* FAQ Section with smooth animations */}
+      <section className="section-padding py-20 bg-gradient-to-br from-muted/30 via-background to-muted/20">
+        <div className="max-w-4xl mx-auto px-4">
+          <motion.div {...fadeInUp} className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-              Frequently Asked <span className="gradient-text">Questions</span>
+              Frequently Asked{" "}
+              <span className="gradient-text bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                Questions
+              </span>
             </h2>
             <p className="text-lg text-muted-foreground">
               Get answers to common questions about the consultation process
             </p>
           </motion.div>
 
-          <div className="space-y-4">
+          <motion.div
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            className="space-y-4"
+          >
             {faqs.map((faq, index) => (
               <FAQItem key={index} faq={faq} index={index} />
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Form Section A/B Test */}
+      {/* Form Section A/B Test with smooth transitions */}
       <div id="consultation-form">
-        {formTest.variant === "form_a" ? (
-          <FormVariantA onSubmit={handleFormSubmit} />
-        ) : (
-          <FormVariantB onSubmit={handleFormSubmit} />
-        )}
+        <AnimatePresence mode="wait">
+          {formTest.variant === "form_a" ? (
+            <motion.div
+              key="form-a"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+            >
+              <FormVariantA onSubmit={handleFormSubmit} />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="form-b"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+            >
+              <FormVariantB onSubmit={handleFormSubmit} />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
-      {/* CTA Section A/B Test */}
-      {ctaTest.variant === "cta_a" ? (
-        <CTAVariantA onCTAClick={handleCTAClick} />
-      ) : (
-        <CTAVariantB onCTAClick={handleCTAClick} />
-      )}
+      {/* CTA Section A/B Test with smooth transitions */}
+      <AnimatePresence mode="wait">
+        {ctaTest.variant === "cta_a" ? (
+          <motion.div
+            key="cta-a"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+          >
+            <CTAVariantA onCTAClick={handleCTAClick} />
+          </motion.div>
+        ) : (
+          <motion.div
+            key="cta-b"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+          >
+            <CTAVariantB onCTAClick={handleCTAClick} />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {/* Floating CTA */}
+      {/* Enhanced Floating CTA */}
       <FloatingCTA />
     </div>
   )
