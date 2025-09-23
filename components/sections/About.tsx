@@ -154,20 +154,25 @@ export default function About() {
 
               <div className="prose prose-lg dark:prose-invert max-w-none" style={{ y: proseY }}>
                 <p className="text-muted-foreground leading-relaxed">
-                  I'm a dedicated Flutter developer currently working at Haachi Technologies, where I design and build
-                  high-performance, cross-platform mobile applications. My journey in software development has been
-                  driven by a passion for creating intuitive user experiences and robust backend solutions.
+                  I'm a Full Stack Flutter Developer currently working at Haachi Technologies, where I design and build
+                  high-performance, cross-platform mobile applications. My work involves collaborating with UI/UX designers,
+                  developing responsive user interfaces, and ensuring smooth backend integrations — contributing to all stages
+                  of the mobile app lifecycle, from conceptualization and prototyping to deployment and maintenance.
                 </p>
                 <p className="text-muted-foreground leading-relaxed">
-                  With expertise in Flutter, Dart, Kotlin, and various modern frameworks, I contribute to all stages of
-                  the mobile app lifecycle—from conceptualization and prototyping to deployment and maintenance. I
-                  thrive in agile environments and enjoy collaborating with UI/UX designers to bring ideas to life.
+                  Beyond my current role, I have also worked with ZeePalm Pvt. Ltd. and continue to freelance on Fiverr,
+                  building custom mobile solutions, optimizing performance, and delivering high-quality applications that
+                  solve real-world problems. My expertise spans Flutter, Dart, Kotlin, Firebase, and modern frameworks, and
+                  I thrive in agile, fast-paced environments.
                 </p>
                 <p className="text-muted-foreground leading-relaxed">
-                  I have completed my Bachelor's in Computer Science, maintaining academic excellence throughout my
-                  studies while gaining hands-on industry experience. My final year project, BalanceBite, showcased my
-                  ability to integrate AI and machine learning into practical applications.
+                  I hold a Bachelor's degree in Computer Science from the University of Central Punjab, where I achieved an
+                  A grade for my Final Year Project, BalanceBite — a personalized health and nutrition app integrating AI and
+                  machine learning. I have also developed projects like SafeCrypt (a secure password manager with AES-256
+                  encryption), Surah Yaseen App, and Toolkit App, demonstrating my ability to create scalable, user-focused
+                  solutions.
                 </p>
+
               </div>
 
               <div className="flex flex-wrap gap-4">
