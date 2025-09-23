@@ -215,6 +215,7 @@ export default function Navigation() {
             <div className="hidden lg:flex flex-1 justify-center">
               <div
                 ref={containerRef}
+                data-testid="nav-container"
                 className="relative flex items-center gap-1 rounded-full border border-zinc-200/30 dark:border-zinc-800/30 bg-zinc-50/60 dark:bg-zinc-800/60 px-2 py-1"
               >
                 {/* Active pill background - never overlaps hover bg due to z-index */}
@@ -227,18 +228,21 @@ export default function Navigation() {
                       transition={{ type: "spring", stiffness: 400, damping: 30 }}
                       className="absolute top-1 bottom-1 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 shadow-sm z-10"
                       aria-hidden="true"
+                      data-testid="active-pill"
                     />
                   )}
                 </AnimatePresence>
 
                 {navItems.map((item, idx) => {
                   const active = isActive(item.href)
+                  const testId = item.href === "/" ? "home" : item.href.replace(/^\/|^#/, "")
                   return (
                     <button
                       key={item.name}
                       ref={(el) => (itemRefs.current[idx] = el)}
                       onClick={() => handleNavClick(item.href)}
                       disabled={isNavigating}
+                      data-testid={`nav-btn-${testId}`}
                       className={[
                         "relative z-20 px-3 py-1.5 rounded-full text-sm font-medium transition-colors whitespace-nowrap",
                         active
@@ -345,11 +349,13 @@ export default function Navigation() {
               <div className="p-2">
                 {navItems.map((item) => {
                   const active = isActive(item.href)
+                  const testId = item.href === "/" ? "home" : item.href.replace(/^\/|^#/, "")
                   return (
                     <button
                       key={item.name}
                       onClick={() => handleNavClick(item.href)}
                       disabled={isNavigating}
+                      data-testid={`nav-btn-${testId}-mobile`}
                       className={[
                         "w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-colors",
                         active
