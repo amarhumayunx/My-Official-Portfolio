@@ -185,7 +185,7 @@ export default function Hero() {
               aria-atomic="true"
             >
               <TypewriterEffect
-                words={["Flutter Developer", "Mobile App Developer", "Software Engineer", "Cross-Platform Expert"]}
+                words={["Full Stack Flutter Developer", "Mobile App Developer", "Software Engineer", "Software Developer"]}
                 typeSpeed={80}
                 deleteSpeed={40}
                 delayBetweenWords={1500}
@@ -257,7 +257,7 @@ export default function Hero() {
               <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
                 <Button variant="default" size="sm" asChild>
                   <a
-                    href="https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2IvYy9mNTJjMTI5ZjEzOWNkZjc0L0VZSndoMmN6RW9GTHBtakZSUmYtTlBvQmxlb1VjYzNCeU5VdkZPLW5XdG5pbnc%5FZT0zRXZIamM&cid=F52C129F139CDF74&id=F52C129F139CDF74%21s6787708212334b81a668c54517fe34fa&parId=F52C129F139CDF74%2162529&o=OneUp" // Your OneDrive link
+                    href="https://1drv.ms/b/c/f52c129f139cdf74/EQwjXMFFgbBLmqfJFSRJ-AYBMongYaCUsS2hpllsTSK0hg?e=RKM7HU" // Your OneDrive link
                     download="Muhammad_Humayun_Amar_CV.pdf"
                     className="flex items-center gap-2"
                     aria-label="Download Muhammad Humayun Amar's CV"
