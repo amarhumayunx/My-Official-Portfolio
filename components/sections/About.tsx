@@ -153,25 +153,24 @@ export default function About() {
               </motion.div>
 
               <div className="prose prose-lg dark:prose-invert max-w-none" style={{ y: proseY }}>
-                <p className="text-muted-foreground leading-relaxed">
-                  I'm a Full Stack Flutter Developer currently working at Haachi Technologies, where I design and build
-                  high-performance, cross-platform mobile applications. My work involves collaborating with UI/UX designers,
-                  developing responsive user interfaces, and ensuring smooth backend integrations — contributing to all stages
-                  of the mobile app lifecycle, from conceptualization and prototyping to deployment and maintenance.
-                </p>
-                <p className="text-muted-foreground leading-relaxed">
-                  Beyond my current role, I have also worked with ZeePalm Pvt. Ltd. and continue to freelance on Fiverr,
-                  building custom mobile solutions, optimizing performance, and delivering high-quality applications that
-                  solve real-world problems. My expertise spans Flutter, Dart, Kotlin, Firebase, and modern frameworks, and
-                  I thrive in agile, fast-paced environments.
-                </p>
-                <p className="text-muted-foreground leading-relaxed">
-                  I hold a Bachelor's degree in Computer Science from the University of Central Punjab, where I achieved an
-                  A grade for my Final Year Project, BalanceBite — a personalized health and nutrition app integrating AI and
-                  machine learning. I have also developed projects like SafeCrypt (a secure password manager with AES-256
-                  encryption), Surah Yaseen App, and Toolkit App, demonstrating my ability to create scalable, user-focused
-                  solutions.
-                </p>
+               <p className="text-muted-foreground leading-relaxed">
+                    I'm a passionate freelance Full Stack Flutter Developer, working exclusively on Fiverr where I help clients
+                    worldwide build robust, high-performance, cross-platform mobile applications. From brainstorming ideas
+                    with clients to designing intuitive UIs and integrating secure, scalable backends, I take ownership of the
+                    entire development process. My approach focuses on understanding client needs, delivering on time,
+                    and maintaining long-term relationships by ensuring code quality and performance optimization.
+                  </p>
+                  <p className="text-muted-foreground leading-relaxed">
+                    My technical expertise includes Flutter, Dart, Kotlin, and Firebase, enabling me to handle both front-end
+                    and back-end aspects of app development. Whether it’s creating responsive user interfaces, integrating
+                    real-time databases, or deploying apps to production, I aim to deliver seamless, bug-free experiences.
+                  </p>
+                  <p className="text-muted-foreground leading-relaxed">
+                    I hold a Bachelor's degree in Computer Science from the University of Central Punjab, where I earned an
+                    A grade for my Final Year Project, BalanceBite — a smart health and nutrition app powered by AI. In
+                    addition, I have developed projects like SafeCrypt (an AES-256 encrypted password manager), Surah
+                    Yaseen App, and Toolkit App, all of which reflect my ability to merge creativity with technical excellence.
+                  </p>
 
               </div>
 
