@@ -9,21 +9,30 @@ import { ParallaxSection } from "@/components/ui/ParallaxSection"
 
 const experiences = [
   {
-    title: "Flutter Developer",
+    title: "Full Stack Flutter Developer",
     company: "Haachi Technologies Pvt. Ltd.",
     period: "Jan 2025 - Jul 2025",
     description:
-      "Designing and building high-performance, cross-platform mobile apps using Flutter and Dart. Collaborating with UI/UX designers and working in agile environments.",
+      "Developed scalable, cross-platform mobile applications with Flutter & Dart, optimized performance, and integrated RESTful APIs. Collaborated closely with designers and product managers to deliver polished, user-friendly apps.",
     icon: Briefcase,
   },
   {
-    title: "Flutter Developer",
+    title: "Full Stack Flutter Developer",
     company: "Zee Palm",
-    period: "Aug 2025 - Present",
+    period: "Aug 2025 - Sep 2025",
     description:
-      "Designing and building high-performance, cross-platform mobile apps using Flutter and Dart. Collaborating with UI/UX designers and working in agile environments.",
+      "Engineered feature-rich Flutter applications with a focus on clean architecture and maintainable code. Implemented state management solutions and worked in agile sprints to meet strict deadlines.",
+    icon: Briefcase,
+  },
+  {
+    title: "Full Stack Flutter Developer",
+    company: "Fiverr.co",
+    period: "Sep 2025 - Present",
+    description:
+      "Providing freelance Flutter development services, creating custom mobile apps tailored to client needs. Managing end-to-end delivery including planning, coding, testing, and deployment.",
     icon: Briefcase,
   }
+
 ]
 
 const education = [
