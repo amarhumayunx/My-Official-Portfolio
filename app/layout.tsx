@@ -52,6 +52,7 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-icon", sizes: "180x180", type: "image/png" }],
     shortcut: "/icon",
   },
+  themeColor: "#3b82f6",
     generator: 'v0.app'
 }
 
@@ -60,16 +61,43 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        url: "https://amarhumayun.vercel.app/",
+        name: "Muhammad Humayun Amar - Flutter Developer & Software Engineer",
+        description:
+          "Experienced Flutter developer and software engineer specializing in cross-platform mobile applications.",
+        publisher: {
+          "@id": "https://amarhumayun.vercel.app/#person",
+        },
+      },
+      {
+        "@type": "Person",
+        "@id": "https://amarhumayun.vercel.app/#person",
+        name: "Muhammad Humayun Amar",
+        url: "https://amarhumayun.vercel.app/",
+        sameAs: [
+          "https://github.com/amarhumayunx",
+          "https://linkedin.com/in/amarhumayun",
+          "mailto:amarhumayun@outlook.com",
+        ],
+        jobTitle: "Flutter Developer & Software Engineer",
+        alumniOf: "University of Engineering and Technology, Lahore", // Example, adjust as needed
+        worksFor: {
+          "@type": "Organization",
+          name: "Freelance", // Or your company name
+        },
+      },
+    ],
+  }
+
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <link rel="icon" href="/icon" sizes="32x32" type="image/png" />
-        <link rel="apple-touch-icon" href="/apple-icon" sizes="180x180" type="image/png" />
-        <meta name="theme-color" content="#3b82f6" />
-        <meta name="msapplication-TileColor" content="#3b82f6" />
-        {/* reCAPTCHA script removed */}
-      </head>
       <body className={`${inter.className} antialiased`}>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <LoadingScreen />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <ParticlesBackground />
