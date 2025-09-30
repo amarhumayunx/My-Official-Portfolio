@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useCallback, useEffect, useRef, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useTheme } from "next-themes"
@@ -50,12 +49,12 @@ export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState("home")
-  const [isNavigating, setIsNavigating] = useState(false)
 
   // Active pill background measurement
   const containerRef = useRef<HTMLDivElement | null>(null)
   const itemRefs = useRef<(HTMLButtonElement | null)[]>([])
   const [activeRect, setActiveRect] = useState<{ left: number; width: number } | null>(null)
+  const observersRef = useRef<IntersectionObserver[]>([])
 
   useEffect(() => {
     setMounted(true)
@@ -71,28 +70,36 @@ export default function Navigation() {
 
   // Observe sections only on home page
   useEffect(() => {
+    // Cleanup previous observers
+    observersRef.current.forEach((obs) => obs.disconnect())
+    observersRef.current = []
+
     if (pathname !== "/") return
 
     const sectionIds = navItems.filter((i) => i.href.startsWith("#")).map((i) => i.href.replace("#", ""))
 
-    const observers: IntersectionObserver[] = []
     sectionIds.forEach((id) => {
       const el = document.getElementById(id)
       if (!el) return
+
       const obs = new IntersectionObserver(
         ([entry]) => {
-          if (entry.isIntersecting && !isNavigating) {
+          if (entry.isIntersecting) {
             setActiveSection(id)
           }
         },
-        { threshold: 0.35 },
+        { threshold: 0.35, rootMargin: "-80px 0px -40% 0px" },
       )
+
       obs.observe(el)
-      observers.push(obs)
+      observersRef.current.push(obs)
     })
 
-    return () => observers.forEach((o) => o.disconnect())
-  }, [pathname, isNavigating])
+    return () => {
+      observersRef.current.forEach((obs) => obs.disconnect())
+      observersRef.current = []
+    }
+  }, [pathname])
 
   // Determine active item
   const isActive = useCallback(
@@ -106,7 +113,7 @@ export default function Navigation() {
 
   const activeIndex = navItems.findIndex((i) => isActive(i.href))
 
-  // Measure and position the active pill under the correct item
+  // Measure and position the active pill
   const measureActive = useCallback(() => {
     if (activeIndex < 0 || !containerRef.current) {
       setActiveRect(null)
@@ -131,40 +138,47 @@ export default function Navigation() {
     const onResize = () => measureActive()
     window.addEventListener("resize", onResize)
     return () => window.removeEventListener("resize", onResize)
-  }, [mounted, activeIndex, measureActive, pathname])
+  }, [mounted, activeIndex, measureActive])
 
-  // Smooth navigation handler with double-click prevention
+  // Simple navigation handler
   const handleNavClick = useCallback(
-    (href: string) => {
-      if (isNavigating) return
-      setIsNavigating(true)
+    (e: React.MouseEvent, href: string) => {
+      e.preventDefault()
       setIsOpen(false)
 
-      // Page routes
+      // Page routes - navigate to different page
       if (href.startsWith("/")) {
         router.push(href)
-        setTimeout(() => setIsNavigating(false), 450)
         return
       }
 
-      // Hash routes
+      // Hash routes - scroll to section
       const id = href.slice(1)
+
+      // If not on home page, navigate to home first
       if (pathname !== "/") {
-        // Navigate to home with hash so browser default scroll kicks in
         router.push(`/${href}`)
-        setTimeout(() => setIsNavigating(false), 650)
         return
       }
 
-      // Already on home: do smooth scroll and set active immediately
-      setActiveSection(id)
-      const el = document.getElementById(id)
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "start" })
+      // Already on home - scroll to section
+      const element = document.getElementById(id)
+      if (element) {
+        // Temporarily set active section
+        setActiveSection(id)
+
+        // Calculate offset for fixed navbar
+        const navbarHeight = 80
+        const elementPosition = element.getBoundingClientRect().top + window.pageYOffset
+        const offsetPosition = elementPosition - navbarHeight
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth",
+        })
       }
-      setTimeout(() => setIsNavigating(false), 450)
     },
-    [isNavigating, pathname, router],
+    [pathname, router],
   )
 
   if (!mounted) {
@@ -200,10 +214,9 @@ export default function Navigation() {
             {/* Logo */}
             <button
               type="button"
-              onClick={() => handleNavClick("/")}
+              onClick={(e) => handleNavClick(e, "/")}
               className="flex items-center gap-2 group"
               aria-label="Go to home"
-              disabled={isNavigating}
             >
               <Sparkles className="w-5 h-5 text-blue-600 group-hover:rotate-180 transition-transform duration-500" />
               <span className="text-lg font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
@@ -218,12 +231,17 @@ export default function Navigation() {
                 data-testid="nav-container"
                 className="relative flex items-center gap-1 rounded-full border border-zinc-200/30 dark:border-zinc-800/30 bg-zinc-50/60 dark:bg-zinc-800/60 px-2 py-1"
               >
-                {/* Active pill background - never overlaps hover bg due to z-index */}
+                {/* Active pill background */}
                 <AnimatePresence>
                   {activeRect && (
                     <motion.div
                       initial={{ opacity: 0, scale: 0.98 }}
-                      animate={{ opacity: 1, scale: 1, left: activeRect.left, width: activeRect.width }}
+                      animate={{
+                        opacity: 1,
+                        scale: 1,
+                        left: activeRect.left,
+                        width: activeRect.width,
+                      }}
                       exit={{ opacity: 0, scale: 0.98 }}
                       transition={{ type: "spring", stiffness: 400, damping: 30 }}
                       className="absolute top-1 bottom-1 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 shadow-sm z-10"
@@ -240,19 +258,17 @@ export default function Navigation() {
                     <button
                       key={item.name}
                       ref={(el) => (itemRefs.current[idx] = el)}
-                      onClick={() => handleNavClick(item.href)}
-                      disabled={isNavigating}
+                      onClick={(e) => handleNavClick(e, item.href)}
                       data-testid={`nav-btn-${testId}`}
                       className={[
                         "relative z-20 px-3 py-1.5 rounded-full text-sm font-medium transition-colors whitespace-nowrap",
                         active
                           ? "text-white"
                           : "text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white",
-                        "disabled:opacity-60 disabled:cursor-not-allowed",
                         "flex items-center gap-2",
                       ].join(" ")}
                     >
-                      {/* Hover background sits below content and below active pill to avoid overlap */}
+                      {/* Hover background */}
                       {!active && (
                         <span
                           className="absolute inset-0 rounded-full bg-zinc-200/60 dark:bg-zinc-700/60 opacity-0 hover:opacity-100 transition-opacity z-0"
@@ -353,15 +369,13 @@ export default function Navigation() {
                   return (
                     <button
                       key={item.name}
-                      onClick={() => handleNavClick(item.href)}
-                      disabled={isNavigating}
+                      onClick={(e) => handleNavClick(e, item.href)}
                       data-testid={`nav-btn-${testId}-mobile`}
                       className={[
                         "w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-colors",
                         active
                           ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white"
                           : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100/70 dark:hover:bg-zinc-800/70",
-                        "disabled:opacity-60 disabled:cursor-not-allowed",
                       ].join(" ")}
                     >
                       <span
