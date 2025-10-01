@@ -1,45 +1,55 @@
 import { projects } from "@/data/projects"
 
-// Define the base Project type (from components/ui/ProjectCard.tsx)
-interface BaseProject {
+export interface ProjectWithSlug {
   title: string
   subtitle: string
   period: string
   description: string
   longDescription: string
   technologies: string[]
+  features: string[]
   status: string
   image: string
   githubUrl: string
-  liveDemoUrl: string | null // Added liveDemoUrl
-  features: string[]
-  categories: string[] // Added categories
-}
-
-// Extend the base Project type to include a slug
-export interface ProjectWithSlug extends BaseProject {
+  liveDemoUrl: string | null
+  categories: string[]
   slug: string
 }
 
-// Function to convert title to slug (reused from blog-utils)
-export const createSlug = (title: string): string => {
+// Generate slug from title
+function generateSlug(title: string): string {
   return title
     .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, "") // Remove non-alphanumeric characters except spaces and hyphens
-    .trim()
-    .replace(/\s+/g, "-") // Replace spaces with hyphens
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "")
 }
 
-// Function to get all projects with generated slugs
-export const getProjectsWithSlugs = (): ProjectWithSlug[] => {
+// Get all projects with slugs
+export function getProjectsWithSlugs(): ProjectWithSlug[] {
   return projects.map((project) => ({
     ...project,
-    slug: createSlug(project.title),
+    slug: generateSlug(project.title),
   }))
 }
 
-// Function to get a single project by slug
-export const getProjectBySlug = (slug: string): ProjectWithSlug | undefined => {
-  const allProjects = getProjectsWithSlugs()
-  return allProjects.find((project) => project.slug === slug)
+// Get a single project by slug
+export function getProjectBySlug(slug: string): ProjectWithSlug | undefined {
+  const projectsWithSlugs = getProjectsWithSlugs()
+  return projectsWithSlugs.find((project) => project.slug === slug)
+}
+
+// Get all project slugs for static generation
+export function getAllProjectSlugs(): string[] {
+  return projects.map((project) => generateSlug(project.title))
+}
+
+// Filter projects by category
+export function getProjectsByCategory(category: string): ProjectWithSlug[] {
+  const projectsWithSlugs = getProjectsWithSlugs()
+
+  if (category === "All") {
+    return projectsWithSlugs
+  }
+
+  return projectsWithSlugs.filter((project) => project.categories && project.categories.includes(category))
 }

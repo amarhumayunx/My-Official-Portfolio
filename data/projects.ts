@@ -1,13 +1,78 @@
 // Centralized project data
 export const projects = [
   {
+    title: "Pet Marketplace App",
+    subtitle: "Flutter Multi-Platform Application",
+    period: "Aug 2024 - Nov 2024",
+    description:
+      "A comprehensive pet marketplace and community app built with Flutter, enabling pet discovery, listings, and management across mobile, web, and desktop platforms.",
+    longDescription:
+      "Pet Marketplace App is a full-featured Flutter application designed to connect pet lovers, breeders, and pet service providers in a unified platform. The app provides a seamless experience for discovering pets, listing pets for sale or adoption, and managing pet-related items and services. Built with Flutter's cross-platform capabilities, the app runs smoothly on iOS, Android, Web, and Desktop environments. The application features an intuitive onboarding process with user verification to ensure trust and safety within the community. Users can browse a home feed showcasing featured pets, explore different categories, apply advanced filters, and use powerful search functionality to find exactly what they're looking for. The app includes a robust posting system where users can list pets and related items with detailed descriptions, photos, and pricing. An integrated in-app chat system enables direct communication between buyers and sellers, with real-time notifications keeping users informed of messages, new listings, and updates. Admin screens provide comprehensive management capabilities for moderating content, managing users, and maintaining platform quality.",
+    technologies: ["Flutter", "Dart", "Firebase", "Cloud Firestore", "Push Notifications", "Multi-Platform"],
+    features: [
+      "User onboarding and verification system",
+      "Home feed with featured pets and categories",
+      "Advanced filtering and search functionality",
+      "Pet and item listing with photo uploads",
+      "Real-time in-app chat messaging",
+      "Push notifications for messages and updates",
+      "Admin dashboard for content management",
+      "Cross-platform support (Mobile, Web, Desktop)",
+      "User profiles and favorites",
+      "Responsive and intuitive UI design",
+    ],
+    status: "Completed",
+    image: "/modern-pet-marketplace-app-with-flutter-showing-pe.jpg",
+    githubUrl: "https://github.com/amarhumayunx/pet-marketplace",
+    liveDemoUrl: null,
+    categories: ["Mobile", "Flutter", "Cross-Platform", "E-Commerce"],
+  },
+  {
+    title: "Office Attendance Management System",
+    subtitle: "Full-Stack Flutter & Node.js Application",
+    period: "May 2024 - Sep 2024",
+    description:
+      "A QR-based attendance and employee management system with Flutter frontend and Node.js backend, featuring comprehensive leave management and policy workflows.",
+    longDescription:
+      "The Office Attendance Management System is a complete enterprise solution designed to modernize and streamline workplace attendance tracking and employee management. This full-stack application combines a Flutter mobile app with a robust Node.js backend to deliver a seamless, efficient experience for both employees and administrators. The core functionality revolves around QR code-based check-in and checkout, making attendance tracking quick, contactless, and accurate. Employees can simply scan a QR code to log their arrival and departure times, with the system automatically calculating attendance statistics, work hours, and overtime. The app provides detailed attendance reports with visual charts and analytics, helping both employees and managers monitor attendance patterns over time. Beyond attendance, the system includes comprehensive employee management features with secure authentication, role-based access control, and profile management. The leave management module allows employees to submit leave requests, view leave balances, and track approval status, while managers can review and approve requests through an intuitive interface.",
+    technologies: [
+      "Flutter",
+      "Dart",
+      "Node.js",
+      "RESTful APIs",
+      "Firebase",
+      "Supabase",
+      "QR Code Integration",
+      "PDF Handling",
+    ],
+    features: [
+      "QR code check-in/checkout system",
+      "Real-time attendance tracking and statistics",
+      "Employee/user management with authentication",
+      "Leave request and approval workflows",
+      "Leave balance tracking and history",
+      "Policy and document viewing (PDF)",
+      "Push notifications and reminders",
+      "Admin dashboard for management",
+      "Attendance reports and analytics",
+      "Role-based access control",
+      "Responsive UI with reusable widgets",
+      "Node.js backend with RESTful APIs",
+    ],
+    status: "Completed",
+    image: "/professional-office-attendance-app-with-qr-code-sc.jpg",
+    githubUrl: "https://github.com/amarhumayunx/attendance-management",
+    liveDemoUrl: null,
+    categories: ["Mobile", "Flutter", "Full-Stack", "Enterprise"],
+  },
+  {
     title: "BalanceBite Mobile App",
     subtitle: "Final Year Project",
     period: "Jan 2024 - Feb 2025",
     description:
       "A comprehensive nutritional application developed using Kotlin in Android Studio, featuring personalized nutrition plans and exercise routines.",
     longDescription:
-      "BalanceBite is my final year project that combines nutrition science with modern mobile technology. The app provides users with personalized nutrition plans based on their health goals, dietary preferences, and lifestyle. It features an integrated AI chatbot for personalized assistance, meal tracking, exercise routines, and progress monitoring. The application uses machine learning algorithms to adapt recommendations based on user behavior and feedback. This project was a significant undertaking, involving extensive research into dietary guidelines, user behavior patterns, and the implementation of a robust backend to support real-time data synchronization. The AI chatbot was developed using a custom NLP model trained on nutritional datasets, providing intelligent and context-aware responses to user queries. The UI/UX was meticulously designed to be intuitive and engaging, ensuring a seamless user experience. Challenges included optimizing performance for large datasets and ensuring data privacy compliance, which were overcome through careful database design and secure API integrations.",
+      "BalanceBite is my final year project that combines nutrition science with modern mobile technology. The app provides users with personalized nutrition plans based on their health goals, dietary preferences, and lifestyle. It features an integrated AI chatbot for personalized assistance, meal tracking, exercise routines, and progress monitoring. The application uses machine learning algorithms to adapt recommendations based on user behavior and feedback. This project was a significant undertaking, involving extensive research into dietary guidelines, user behavior patterns, and the implementation of a robust backend to support real-time data synchronization. The AI chatbot was developed using a custom NLP model trained on nutritional datasets, providing intelligent and context-aware responses to user queries.",
     technologies: ["Kotlin", "Android Studio", "AI/ML", "Firebase", "Material Design"],
     features: [
       "Personalized nutrition plans",
@@ -20,7 +85,7 @@ export const projects = [
     status: "Completed",
     image: "/images/balancebite-app.png",
     githubUrl: "https://github.com/amarhumayunx/BalanceBite",
-    liveDemoUrl: "https://balancebite.vercel.app", // Example live demo URL
+    liveDemoUrl: "https://balancebite.vercel.app",
     categories: ["Mobile", "AI/ML", "Health", "Android"],
   },
   {
@@ -30,7 +95,7 @@ export const projects = [
     description:
       "A secure, cross-platform password manager built with Flutter and Firebase, featuring AES-256 encryption and biometric authentication.",
     longDescription:
-      "SafeCrypt is a comprehensive password management solution designed with security as the top priority. Built using Flutter for cross-platform compatibility, it runs seamlessly on mobile, desktop, and web platforms. The app implements AES-256 encryption to protect user credentials and features biometric authentication for enhanced security. Users can generate strong passwords, organize credentials by categories, and sync data securely across devices. Developing SafeCrypt involved deep dives into cryptographic best practices and secure data storage. We utilized Flutter's robust ecosystem to ensure a consistent experience across various platforms, while Firebase provided a scalable and secure backend for data synchronization. A key challenge was balancing strong encryption with user convenience, which was addressed by integrating native biometric authentication methods. The project also focused on a modular architecture to allow for future expansion, such as multi-factor authentication and secure sharing features.",
+      "SafeCrypt is a comprehensive password management solution designed with security as the top priority. Built using Flutter for cross-platform compatibility, it runs seamlessly on mobile, desktop, and web platforms. The app implements AES-256 encryption to protect user credentials and features biometric authentication for enhanced security. Users can generate strong passwords, organize credentials by categories, and sync data securely across devices. Developing SafeCrypt involved deep dives into cryptographic best practices and secure data storage.",
     technologies: ["Flutter", "Firebase", "AES-256 Encryption", "Biometric Auth", "Cross-platform"],
     features: [
       "AES-256 encryption for data security",
@@ -43,7 +108,7 @@ export const projects = [
     status: "Active Development",
     image: "/images/safecrypt-app.png",
     githubUrl: "https://github.com/amarhumayunx/SafeCrypt",
-    liveDemoUrl: null, // No live demo for this one yet
+    liveDemoUrl: null,
     categories: ["Mobile", "Security", "Cross-Platform", "Flutter"],
   },
   {
@@ -53,7 +118,7 @@ export const projects = [
     description:
       "An Islamic app for reading, listening, and learning Surah Yaseen with ruku-by-ruku division and audio playback features.",
     longDescription:
-      "The Surah Yaseen App is designed to help Muslims engage with one of the most beloved chapters of the Quran. The app features a clean, intuitive interface that allows users to read, listen, and learn Surah Yaseen with ruku-by-ruku divisions for better comprehension. It includes high-quality audio recitations, bookmarking functionality, and visual highlights that sync with the audio playback for an immersive experience. This project emphasized meticulous attention to detail in UI/UX to create a serene and focused reading environment. Integrating audio playback with text highlighting required precise synchronization algorithms. The app was designed for offline functionality, ensuring users could access content without an internet connection. Challenges included optimizing audio file sizes for mobile devices and ensuring accurate Arabic text rendering across various screen sizes and densities.",
+      "The Surah Yaseen App is designed to help Muslims engage with one of the most beloved chapters of the Quran. The app features a clean, intuitive interface that allows users to read, listen, and learn Surah Yaseen with ruku-by-ruku divisions for better comprehension. It includes high-quality audio recitations, bookmarking functionality, and visual highlights that sync with the audio playback for an immersive experience.",
     technologies: ["Flutter", "Audio Processing", "UI/UX Design", "Local Storage"],
     features: [
       "Ruku-by-ruku text division",
@@ -66,7 +131,7 @@ export const projects = [
     status: "Completed",
     image: "/images/surah-yaseen-app.png",
     githubUrl: "https://github.com/amarhumayunx/Surah-Yaseen",
-    liveDemoUrl: "https://surahyaseen.vercel.app", // Example live demo URL
+    liveDemoUrl: "https://surahyaseen.vercel.app",
     categories: ["Mobile", "Islamic", "Flutter"],
   },
   {
@@ -76,7 +141,7 @@ export const projects = [
     description:
       "A powerful utility app for document management, OCR text recognition, and PDF operations with image processing capabilities.",
     longDescription:
-      "Toolkit App is a comprehensive utility application that combines multiple document management and processing tools into a single, user-friendly interface. The app leverages OCR technology to extract text from images with high accuracy, supports multiple languages, and provides extensive PDF manipulation capabilities. Users can split, merge, compress, and rearrange PDF documents, as well as convert images to PDFs seamlessly. The development of Toolkit App involved integrating several complex third-party libraries for OCR and PDF processing. A significant challenge was ensuring cross-platform compatibility and performance for these computationally intensive tasks. The user interface was designed to be highly modular, allowing for easy addition of new utility features in the future. This project honed my skills in handling large files, optimizing image processing workflows, and creating a robust, extensible application architecture.",
+      "Toolkit App is a comprehensive utility application that combines multiple document management and processing tools into a single, user-friendly interface. The app leverages OCR technology to extract text from images with high accuracy, supports multiple languages, and provides extensive PDF manipulation capabilities. Users can split, merge, compress, and rearrange PDF documents, as well as convert images to PDFs seamlessly.",
     technologies: ["Flutter", "OCR Technology", "PDF Processing", "Image Processing", "Multi-language Support"],
     features: [
       "Optical Character Recognition (OCR)",
@@ -89,7 +154,7 @@ export const projects = [
     status: "Completed",
     image: "/images/toolkit-app.png",
     githubUrl: "https://github.com/amarhumayunx/ToolKit-flutter",
-    liveDemoUrl: "https://toolkit-app.vercel.app", // Example live demo URL
+    liveDemoUrl: "https://toolkit-app.vercel.app",
     categories: ["Mobile", "Utility", "Flutter", "AI/ML"],
   },
 ]
