@@ -18,7 +18,7 @@ const experiences = [
   },
   {
     title: "Full Stack Flutter Developer",
-    company: "Zee Palm",
+    company: "Zee Palm Pvt. Ltd.",
     period: "Aug 2025 - Sep 2025",
     description:
       "Engineered feature-rich Flutter applications with a focus on clean architecture and maintainable code. Implemented state management solutions and worked in agile sprints to meet strict deadlines.",
@@ -65,12 +65,9 @@ export default function About() {
   })
   const proseY = useTransform(proseScrollYProgress, [0, 1], ["-10%", "10%"])
 
-  const experienceTransform = useTransform(profileScrollYProgress, [0, 1], ["-5%", "5%"])
-  const educationTransform = useTransform(profileScrollYProgress, [0, 1], ["-5%", "5%"])
-
   return (
-    <section id="about" className="section-padding bg-muted/30">
-      <div ref={sectionRef} className="max-w-7xl mx-auto px-4">
+    <section id="about" ref={sectionRef} className="section-padding bg-muted/30">
+      <div className="max-w-7xl mx-auto px-4">
         <FluidTransition className="text-center mb-12 sm:mb-16">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
             About <span className="gradient-text">Me</span>
@@ -81,10 +78,10 @@ export default function About() {
           </p>
         </FluidTransition>
 
-        <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-start">
+        {/* Profile and Description */}
+        <div className="mb-12 sm:mb-16">
           <ParallaxSection offset={30}>
-            <FluidTransition delay={0.2} className="space-y-6">
-              {/* Profile Image Section */}
+            <FluidTransition delay={0.2} className="max-w-4xl mx-auto">
               <motion.div
                 className="flex justify-center mb-8"
                 initial={{ scale: 0, rotate: -180 }}
@@ -117,7 +114,6 @@ export default function About() {
                     </div>
                   </motion.div>
 
-                  {/* Floating badges around the profile */}
                   <motion.div
                     className="absolute -top-2 -right-2 bg-primary text-primary-foreground px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium"
                     animate={{
@@ -175,7 +171,7 @@ export default function About() {
                 </p>
               </div>
 
-              <div className="flex flex-wrap gap-3 sm:gap-4 justify-center lg:justify-start px-4">
+              <div className="flex flex-wrap gap-3 sm:gap-4 justify-center mt-6 px-4">
                 <motion.div
                   className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-primary/10 rounded-full"
                   whileHover={{ scale: 1.05 }}
@@ -195,30 +191,37 @@ export default function About() {
               </div>
             </FluidTransition>
           </ParallaxSection>
+        </div>
 
+        {/* Experience and Education in separate sections */}
+        <div className="space-y-12 sm:space-y-16">
+          {/* Experience Section */}
           <ParallaxSection offset={20}>
-            <FluidTransition delay={0.4} className="space-y-6 sm:space-y-8">
-              <div>
-                <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 flex items-center gap-2 px-4 lg:px-0">
-                  <Briefcase className="w-5 h-5 sm:w-6 sm:h-6 text-primary" aria-hidden="true" />
-                  Experience
+            <FluidTransition delay={0.4}>
+              <div className="max-w-4xl mx-auto">
+                <h3 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 flex items-center gap-3 px-4 lg:px-0">
+                  <Briefcase className="w-6 h-6 sm:w-7 sm:h-7 text-primary" aria-hidden="true" />
+                  Professional Experience
                 </h3>
-                <div className="space-y-4 px-4 lg:px-0">
+                <div className="space-y-4 sm:space-y-5 px-4 lg:px-0">
                   {experiences.map((exp, index) => (
                     <motion.div
                       key={index}
-                      whileHover={{ x: 5, transition: { duration: 0.2 } }}
-                      style={{ y: experienceTransform }}
+                      initial={{ opacity: 0, x: -30 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1, duration: 0.5 }}
+                      viewport={{ once: true }}
+                      whileHover={{ x: 8, transition: { duration: 0.2 } }}
                     >
-                      <Card className="border-l-4 border-l-primary hover:shadow-md transition-shadow duration-300">
-                        <CardContent className="p-4 sm:p-6">
-                          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-2 gap-2">
+                      <Card className="border-l-4 border-l-primary hover:shadow-lg transition-all duration-300">
+                        <CardContent className="p-5 sm:p-6">
+                          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-3 gap-2">
                             <h4 className="font-semibold text-base sm:text-lg">{exp.title}</h4>
-                            <span className="text-xs sm:text-sm text-muted-foreground bg-muted px-2 py-1 rounded whitespace-nowrap self-start">
+                            <span className="text-xs sm:text-sm text-muted-foreground bg-muted px-3 py-1 rounded-full whitespace-nowrap self-start">
                               {exp.period}
                             </span>
                           </div>
-                          <p className="text-primary font-medium mb-2 sm:mb-3 text-sm sm:text-base">{exp.company}</p>
+                          <p className="text-primary font-medium mb-3 text-sm sm:text-base">{exp.company}</p>
                           <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed">{exp.description}</p>
                         </CardContent>
                       </Card>
@@ -226,31 +229,39 @@ export default function About() {
                   ))}
                 </div>
               </div>
+            </FluidTransition>
+          </ParallaxSection>
 
-              <div>
-                <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 flex items-center gap-2 px-4 lg:px-0">
-                  <GraduationCap className="w-5 h-5 sm:w-6 sm:h-6 text-primary" aria-hidden="true" />
+          {/* Education Section */}
+          <ParallaxSection offset={20}>
+            <FluidTransition delay={0.5}>
+              <div className="max-w-4xl mx-auto">
+                <h3 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 flex items-center gap-3 px-4 lg:px-0">
+                  <GraduationCap className="w-6 h-6 sm:w-7 sm:h-7 text-primary" aria-hidden="true" />
                   Education
                 </h3>
-                <div className="space-y-4 px-4 lg:px-0">
+                <div className="space-y-4 sm:space-y-5 px-4 lg:px-0">
                   {education.map((edu, index) => (
                     <motion.div
                       key={index}
-                      whileHover={{ x: 5, transition: { duration: 0.2 } }}
-                      style={{ y: educationTransform }}
+                      initial={{ opacity: 0, x: -30 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1, duration: 0.5 }}
+                      viewport={{ once: true }}
+                      whileHover={{ x: 8, transition: { duration: 0.2 } }}
                     >
-                      <Card className="border-l-4 border-l-secondary hover:shadow-md transition-shadow duration-300">
-                        <CardContent className="p-4 sm:p-6">
-                          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-2 gap-2">
+                      <Card className="border-l-4 border-l-secondary hover:shadow-lg transition-all duration-300">
+                        <CardContent className="p-5 sm:p-6">
+                          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-3 gap-2">
                             <h4 className="font-semibold text-base sm:text-lg">{edu.degree}</h4>
-                            <span className="text-xs sm:text-sm text-muted-foreground bg-muted px-2 py-1 rounded whitespace-nowrap self-start">
+                            <span className="text-xs sm:text-sm text-muted-foreground bg-muted px-3 py-1 rounded-full whitespace-nowrap self-start">
                               {edu.period}
                             </span>
                           </div>
-                          <p className="text-primary font-medium mb-2 text-sm sm:text-base">{edu.institution}</p>
+                          <p className="text-primary font-medium mb-3 text-sm sm:text-base">{edu.institution}</p>
                           {edu.grade && (
                             <div className="flex items-center gap-2">
-                              <Award className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-yellow-500" aria-hidden="true" />
+                              <Award className="w-4 h-4 text-yellow-500" aria-hidden="true" />
                               <span className="text-xs sm:text-sm font-medium text-yellow-600 dark:text-yellow-400">
                                 {edu.grade}
                               </span>

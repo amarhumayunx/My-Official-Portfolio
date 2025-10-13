@@ -1,4 +1,5 @@
 import { ABTestDashboard } from "@/components/analytics/ABTestDashboard"
+import GitHubCharts from "@/components/analytics/GitHubCharts"
 
 export default function AnalyticsPage() {
   return (
@@ -14,6 +15,10 @@ export default function AnalyticsPage() {
           </p>
         </div>
         <ABTestDashboard />
+        <div className="mt-12">
+          <h2 className="text-2xl font-semibold mb-4">GitHub Insights</h2>
+          <GitHubCharts />
+        </div>
       </div>
     </div>
   )

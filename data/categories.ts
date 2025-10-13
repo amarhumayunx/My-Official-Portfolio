@@ -1,25 +1,23 @@
 import { projects } from "./projects"
 
-// Extract unique categories from all projects
-export const categories = ["All", ...Array.from(new Set(projects.flatMap((p) => p.categories || [])))]
-
-// Helper function to get unique categories
 export function getUniqueCategories(): string[] {
-  if (!projects || projects.length === 0) {
+  if (!projects || !Array.isArray(projects)) {
     return ["All"]
   }
 
-  const uniqueCategories = new Set<string>()
+  const categoriesSet = new Set<string>(["All"])
 
   projects.forEach((project) => {
     if (project.categories && Array.isArray(project.categories)) {
       project.categories.forEach((category) => {
         if (category && typeof category === "string") {
-          uniqueCategories.add(category)
+          categoriesSet.add(category)
         }
       })
     }
   })
 
-  return ["All", ...Array.from(uniqueCategories).sort()]
+  return Array.from(categoriesSet)
 }
+
+export const categories = getUniqueCategories()

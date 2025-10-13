@@ -7,20 +7,7 @@ import { useTheme } from "next-themes"
 import { usePathname, useRouter } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import {
-  BarChart3,
-  Briefcase,
-  Code,
-  FileText,
-  Home,
-  Menu,
-  MessageCircle,
-  Moon,
-  Sparkles,
-  Sun,
-  User,
-  X,
-} from "lucide-react"
+import { Briefcase, Code, FileText, Home, Menu, MessageCircle, Moon, Sparkles, Sun, User, X } from "lucide-react"
 
 type NavItem = {
   name: string
@@ -36,7 +23,6 @@ const navItems: NavItem[] = [
   { name: "Services", href: "/services", icon: Briefcase },
   { name: "Testimonials", href: "#testimonials", icon: MessageCircle },
   { name: "Blog", href: "#blog", icon: FileText },
-  { name: "Analytics", href: "/analytics", icon: BarChart3 },
   { name: "Contact", href: "#contact", icon: MessageCircle },
 ]
 
@@ -50,7 +36,6 @@ export default function Navigation() {
   const [scrolled, setScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState("home")
 
-  // Active pill background measurement
   const containerRef = useRef<HTMLDivElement | null>(null)
   const itemRefs = useRef<(HTMLButtonElement | null)[]>([])
   const [activeRect, setActiveRect] = useState<{ left: number; width: number } | null>(null)
@@ -60,7 +45,6 @@ export default function Navigation() {
     setMounted(true)
   }, [])
 
-  // Scroll state for navbar style
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50)
     onScroll()
@@ -68,9 +52,7 @@ export default function Navigation() {
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
-  // Observe sections only on home page
   useEffect(() => {
-    // Cleanup previous observers
     observersRef.current.forEach((obs) => obs.disconnect())
     observersRef.current = []
 
@@ -101,7 +83,6 @@ export default function Navigation() {
     }
   }, [pathname])
 
-  // Determine active item
   const isActive = useCallback(
     (href: string) => {
       if (href.startsWith("/")) return pathname === href
@@ -113,7 +94,6 @@ export default function Navigation() {
 
   const activeIndex = navItems.findIndex((i) => isActive(i.href))
 
-  // Measure and position the active pill
   const measureActive = useCallback(() => {
     if (activeIndex < 0 || !containerRef.current) {
       setActiveRect(null)
@@ -140,34 +120,27 @@ export default function Navigation() {
     return () => window.removeEventListener("resize", onResize)
   }, [mounted, activeIndex, measureActive])
 
-  // Simple navigation handler
   const handleNavClick = useCallback(
     (e: React.MouseEvent, href: string) => {
       e.preventDefault()
       setIsOpen(false)
 
-      // Page routes - navigate to different page
       if (href.startsWith("/")) {
         router.push(href)
         return
       }
 
-      // Hash routes - scroll to section
       const id = href.slice(1)
 
-      // If not on home page, navigate to home first
       if (pathname !== "/") {
         router.push(`/${href}`)
         return
       }
 
-      // Already on home - scroll to section
       const element = document.getElementById(id)
       if (element) {
-        // Temporarily set active section
         setActiveSection(id)
 
-        // Calculate offset for fixed navbar
         const navbarHeight = 80
         const elementPosition = element.getBoundingClientRect().top + window.pageYOffset
         const offsetPosition = elementPosition - navbarHeight
@@ -211,7 +184,6 @@ export default function Navigation() {
       >
         <div className="px-4 md:px-5">
           <div className="h-14 flex items-center justify-between">
-            {/* Logo */}
             <button
               type="button"
               onClick={(e) => handleNavClick(e, "/")}
@@ -224,14 +196,12 @@ export default function Navigation() {
               </span>
             </button>
 
-            {/* Center desktop nav */}
             <div className="hidden lg:flex flex-1 justify-center">
               <div
                 ref={containerRef}
                 data-testid="nav-container"
                 className="relative flex items-center gap-1 rounded-full border border-zinc-200/30 dark:border-zinc-800/30 bg-zinc-50/60 dark:bg-zinc-800/60 px-2 py-1"
               >
-                {/* Active pill background */}
                 <AnimatePresence>
                   {activeRect && (
                     <motion.div
@@ -268,7 +238,6 @@ export default function Navigation() {
                         "flex items-center gap-2",
                       ].join(" ")}
                     >
-                      {/* Hover background */}
                       {!active && (
                         <span
                           className="absolute inset-0 rounded-full bg-zinc-200/60 dark:bg-zinc-700/60 opacity-0 hover:opacity-100 transition-opacity z-0"
@@ -283,7 +252,6 @@ export default function Navigation() {
               </div>
             </div>
 
-            {/* Right controls */}
             <div className="flex items-center gap-2">
               <Button
                 asChild
@@ -293,7 +261,6 @@ export default function Navigation() {
                 <Link href="/consultation">Consultation</Link>
               </Button>
 
-              {/* Theme toggle */}
               <Button
                 variant="ghost"
                 size="sm"
@@ -320,7 +287,6 @@ export default function Navigation() {
                 </AnimatePresence>
               </Button>
 
-              {/* Mobile menu */}
               <Button
                 variant="ghost"
                 size="sm"
@@ -335,7 +301,6 @@ export default function Navigation() {
         </div>
       </div>
 
-      {/* Mobile drawer */}
       <AnimatePresence>
         {isOpen && (
           <motion.div

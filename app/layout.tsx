@@ -1,111 +1,133 @@
 import type React from "react"
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/providers/ThemeProvider"
-import Navigation from "@/components/layout/Navigation"
 import { Toaster } from "@/components/ui/toaster"
-import { SmoothScroll } from "@/components/ui/SmoothScroll"
-import { ParticlesBackground } from "@/components/ui/ParticlesBackground"
-import { LoadingScreen } from "@/components/ui/LoadingScreen"
-import { WebsiteReadTime } from "@/components/ui/WebsiteReadTime"
+import Navigation from "@/components/layout/Navigation"
+import Footer from "@/components/layout/Footer"
+import BackToTop from "@/components/ui/BackToTop"
+import PerformanceMonitor from "@/components/debug/PerformanceMonitor"
 
 const inter = Inter({ subsets: ["latin"] })
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+  ],
+}
+
 export const metadata: Metadata = {
-  title: "Muhammad Humayun Amar - Flutter Developer & Software Engineer",
+  metadataBase: new URL("https://amarhumayun.com"),
+  title: {
+    default: "Amar Humayun - Mobile App Developer | Flutter & Android Expert",
+    template: "%s | Amar Humayun",
+  },
   description:
-    "Experienced Flutter developer and software engineer specializing in cross-platform mobile applications, with expertise in Dart, Kotlin, and modern development frameworks.",
-  keywords: "Flutter Developer, Mobile App Developer, Software Engineer, Dart, Kotlin, Cross-platform Development",
-  authors: [{ name: "Muhammad Humayun Amar" }],
-  creator: "Muhammad Humayun Amar",
-  metadataBase: new URL("https://amarhumayun.vercel.app"),
+    "Professional mobile app developer specializing in Flutter, Android, and cross-platform solutions. Expert in Firebase, AI/ML integration, and modern app development.",
+  keywords: [
+    "Mobile App Developer",
+    "Flutter Developer",
+    "Android Developer",
+    "Cross-platform Development",
+    "Firebase Integration",
+    "AI ML Integration",
+    "App Development",
+    "Amar Humayun",
+  ],
+  authors: [{ name: "Amar Humayun", url: "https://amarhumayun.com" }],
+  creator: "Amar Humayun",
+  publisher: "Amar Humayun",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://amarhumayun.vercel.app",
-    title: "Muhammad Humayun Amar - Flutter Developer",
-    description: "Experienced Flutter developer and software engineer",
-    siteName: "Muhammad Humayun Amar Portfolio",
+    url: "https://amarhumayun.com",
+    siteName: "Amar Humayun - Mobile App Developer",
+    title: "Amar Humayun - Mobile App Developer | Flutter & Android Expert",
+    description:
+      "Professional mobile app developer specializing in Flutter, Android, and cross-platform solutions. Expert in Firebase, AI/ML integration, and modern app development.",
     images: [
       {
-        url: "/icon-512.png",
-        width: 512,
-        height: 512,
-        alt: "Muhammad Humayun Amar Portfolio",
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Amar Humayun - Mobile App Developer",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Muhammad Humayun Amar - Flutter Developer",
-    description: "Experienced Flutter developer and software engineer",
+    title: "Amar Humayun - Mobile App Developer | Flutter & Android Expert",
+    description:
+      "Professional mobile app developer specializing in Flutter, Android, and cross-platform solutions. Expert in Firebase, AI/ML integration, and modern app development.",
     creator: "@amarhumayunx",
-    images: ["/icon-512.png"],
+    images: ["/og-image.jpg"],
   },
-  icons: {
-    icon: [
-      { url: "/icon", sizes: "32x32", type: "image/png" },
-      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
-      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
-    ],
-    apple: [{ url: "/apple-icon", sizes: "180x180", type: "image/png" }],
-    shortcut: "/icon",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
-  themeColor: "#3b82f6",
+  verification: {
+    google: "your-google-verification-code",
+  },
     generator: 'v0.app'
 }
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode
-}) {
+}>) {
   const jsonLd = {
     "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "WebSite",
-        url: "https://amarhumayun.vercel.app/",
-        name: "Muhammad Humayun Amar - Flutter Developer & Software Engineer",
-        description:
-          "Experienced Flutter developer and software engineer specializing in cross-platform mobile applications.",
-        publisher: {
-          "@id": "https://amarhumayun.vercel.app/#person",
-        },
-      },
-      {
-        "@type": "Person",
-        "@id": "https://amarhumayun.vercel.app/#person",
-        name: "Muhammad Humayun Amar",
-        url: "https://amarhumayun.vercel.app/",
-        sameAs: [
-          "https://github.com/amarhumayunx",
-          "https://linkedin.com/in/amarhumayun",
-          "mailto:amarhumayun@outlook.com",
-        ],
-        jobTitle: "Flutter Developer & Software Engineer",
-        alumniOf: "University of Engineering and Technology, Lahore", // Example, adjust as needed
-        worksFor: {
-          "@type": "Organization",
-          name: "Freelance", // Or your company name
-        },
-      },
+    "@type": "Person",
+    name: "Amar Humayun",
+    url: "https://amarhumayun.com",
+    jobTitle: "Mobile App Developer",
+    description: "Professional mobile app developer specializing in Flutter, Android, and cross-platform solutions.",
+    sameAs: [
+      "https://github.com/amarhumayunx",
+      "https://linkedin.com/in/amarhumayunx",
+      "https://twitter.com/amarhumayunx",
+    ],
+    knowsAbout: [
+      "Flutter Development",
+      "Android Development",
+      "Cross-platform Development",
+      "Firebase Integration",
+      "AI/ML Integration",
+      "Mobile App Development",
     ],
   }
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} antialiased`}>
+      <body className={inter.className}>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-        <LoadingScreen />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <ParticlesBackground />
-          <SmoothScroll />
           <Navigation />
-          {children}
+          <main className="min-h-screen">{children}</main>
+          <Footer />
+          <BackToTop />
+          <PerformanceMonitor />
           <Toaster />
-          <WebsiteReadTime />
         </ThemeProvider>
       </body>
     </html>
