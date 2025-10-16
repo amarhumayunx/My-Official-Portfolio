@@ -25,8 +25,8 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://amarhumayun.com"),
   title: {
-    default: "Amar Humayun - Mobile App Developer | Flutter & Android Expert",
-    template: "%s | Amar Humayun",
+    default: "Muhammad Humayun Amar - Mobile App Developer | Flutter & Android Expert",
+    template: "%s | Muhammad Humayun Amar",
   },
   description:
     "Professional mobile app developer specializing in Flutter, Android, and cross-platform solutions. Expert in Firebase, AI/ML integration, and modern app development.",
@@ -40,9 +40,9 @@ export const metadata: Metadata = {
     "App Development",
     "Amar Humayun",
   ],
-  authors: [{ name: "Amar Humayun", url: "https://amarhumayun.com" }],
-  creator: "Amar Humayun",
-  publisher: "Amar Humayun",
+  authors: [{ name: "Muhammad Humayun Amar", url: "https://amarhumayun.com" }],
+  creator: "Muhammad Humayun Amar",
+  publisher: "Muhammad Humayun Amar",
   formatDetection: {
     email: false,
     address: false,
@@ -52,8 +52,8 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://amarhumayun.com",
-    siteName: "Amar Humayun - Mobile App Developer",
-    title: "Amar Humayun - Mobile App Developer | Flutter & Android Expert",
+    siteName: "Muhammad Humayun Amar - Mobile App Developer",
+    title: "Muhammad Humayun Amar - Mobile App Developer | Flutter & Android Expert",
     description:
       "Professional mobile app developer specializing in Flutter, Android, and cross-platform solutions. Expert in Firebase, AI/ML integration, and modern app development.",
     images: [
@@ -61,13 +61,13 @@ export const metadata: Metadata = {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Amar Humayun - Mobile App Developer",
+        alt: "Muhammad Humayun Amar - Mobile App Developer",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Amar Humayun - Mobile App Developer | Flutter & Android Expert",
+    title: "Muhammad Humayun Amar - Mobile App Developer | Flutter & Android Expert",
     description:
       "Professional mobile app developer specializing in Flutter, Android, and cross-platform solutions. Expert in Firebase, AI/ML integration, and modern app development.",
     creator: "@amarhumayunx",
@@ -98,7 +98,7 @@ export default function RootLayout({
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
-    name: "Amar Humayun",
+    name: "Muhammad Humayun Amar",
     url: "https://amarhumayun.com",
     jobTitle: "Mobile App Developer",
     description: "Professional mobile app developer specializing in Flutter, Android, and cross-platform solutions.",
