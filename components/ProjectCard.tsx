@@ -27,13 +27,13 @@ export type Project = {
  - A reusable card used to display a project in a grid.
  - Matches the visual style used in components/sections/Projects.tsx
  */
-export default function ProjectCard({
+const ProjectCard = ({
   project,
   index = 0,
 }: {
   project: Project
   index?: number
-}) {
+}) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 40, scale: 0.95 }}
@@ -218,3 +218,5 @@ export default function ProjectCard({
     </motion.div>
   )
 }
+
+export default ProjectCard
