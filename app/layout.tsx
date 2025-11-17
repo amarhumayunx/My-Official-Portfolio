@@ -10,6 +10,7 @@ import BackToTop from "@/components/ui/BackToTop"
 import PerformanceMonitor from "@/components/debug/PerformanceMonitor"
 import { ScrollIndicator } from "@/components/layout/ScrollIndicator"
 import { ScrollToTop } from "@/components/ui/ScrollToTop"
+import { PageLoadingBar } from "@/components/ui/PageLoadingBar"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -124,6 +125,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <PageLoadingBar />
           <ScrollIndicator />
           <ScrollToTop />
           <Navigation />
