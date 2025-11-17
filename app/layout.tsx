@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
-import { Inter } from "next/font/google"
+import { Inter } from 'next/font/google'
 import "./globals.css"
 import { ThemeProvider } from "@/components/providers/ThemeProvider"
 import { Toaster } from "@/components/ui/toaster"
@@ -8,6 +8,8 @@ import Navigation from "@/components/layout/Navigation"
 import Footer from "@/components/layout/Footer"
 import BackToTop from "@/components/ui/BackToTop"
 import PerformanceMonitor from "@/components/debug/PerformanceMonitor"
+import { ScrollIndicator } from "@/components/layout/ScrollIndicator"
+import { ScrollToTop } from "@/components/ui/ScrollToTop"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -104,8 +106,8 @@ export default function RootLayout({
     description: "Professional mobile app developer specializing in Flutter, Android, and cross-platform solutions.",
     sameAs: [
       "https://github.com/amarhumayunx",
-      "https://linkedin.com/in/amarhumayunx",
-      "https://twitter.com/amarhumayunx",
+      "https://linkedin.com/in/amarhumayun",
+      "https://twitter.com/amarhumayun",
     ],
     knowsAbout: [
       "Flutter Development",
@@ -122,6 +124,8 @@ export default function RootLayout({
       <body className={inter.className}>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <ScrollIndicator />
+          <ScrollToTop />
           <Navigation />
           <main className="min-h-screen">{children}</main>
           <Footer />

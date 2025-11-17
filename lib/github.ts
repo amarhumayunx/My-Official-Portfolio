@@ -50,7 +50,9 @@ export async function fetchAllRepos(username: string, token?: string): Promise<T
     Accept: "application/vnd.github+json",
     "X-GitHub-Api-Version": "2022-11-28",
   }
-  if (token) headers.Authorization = `Bearer ${token}`
+  if (token && token.trim()) {
+    headers.Authorization = `token ${token}`
+  }
 
   while (page <= 10) {
     const url = `https://api.github.com/users/${encodeURIComponent(
@@ -59,6 +61,7 @@ export async function fetchAllRepos(username: string, token?: string): Promise<T
     const res = await fetch(url, { headers, cache: "no-store" })
     if (!res.ok) {
       const text = await res.text()
+      console.log("[v0] GitHub API error:", res.status, text)
       throw new Error(`GitHub API error (${res.status}): ${text}`)
     }
     const batch = (await res.json()) as GitHubRepo[]
