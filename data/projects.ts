@@ -326,6 +326,65 @@ export const projects: Project[] = [
       "High satisfaction from HR team and employees",
     ],
   },
+  {
+    title: "Love Connect",
+    subtitle:
+      "Full-Stack Flutter and Mobile App Developer | FlutterFlow | GetX | RESTful APIs | Android and iOS Expert",
+    period: "Feb 2025 - Present",
+    description:
+      "A feature-rich Flutter application designed to bring couples closer together. It provides a dedicated space for couples to plan dates, share memories, and stay connected with an intuitive user interface.",
+    longDescription:
+      "Love Connect is a comprehensive dating and social connection platform featuring smart date planning, inspiration hub with curated ideas, surprise features with mystery wheels and scratch cards, shared journal for memories, smart notifications with daily quotes, and powerful settings. Built with Flutter and GetX for state management, it integrates Firebase for authentication and real-time database, uses shared_preferences for offline syncing, and features interactive UI components like flutter_fortune_wheel and scratcher. The app provides a beautiful, responsive experience on both iOS and Android.",
+    technologies: [
+      "Flutter",
+      "Dart",
+      "Firebase",
+      "Cloud Firestore",
+      "Firebase Auth",
+      "Firebase Storage",
+      "GetX",
+      "shared_preferences",
+      "flutter_fortune_wheel",
+      "scratcher",
+      "google_fonts",
+      "flutter_svg",
+    ],
+    features: [
+      "Smart date planning with visual countdown",
+      "Curated date ideas library with categories",
+      "Mystery Date Wheel for random date selection",
+      "Lucky Love Coupons with interactive scratch cards",
+      "Shared digital journal for memories and love notes",
+      "Smart reminders and daily romantic quotes",
+      "User profile customization",
+      "Data management and privacy controls",
+      "Cross-platform support (iOS, Android)",
+      "Offline syncing with shared_preferences",
+    ],
+    status: "In Development",
+    image:
+      "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&h=600&q=80",
+    githubUrl: "https://github.com/amarhumayunx/Love-Connect",
+    categories: ["Mobile App", "Social", "Dating"],
+    challenges: [
+      "Building interactive UI components for engaging user experience",
+      "Managing real-time data synchronization for couple activities",
+      "Implementing smooth animations and transitions",
+      "Ensuring privacy and security for sensitive relationship data",
+    ],
+    solutions: [
+      "Integrated Framer Motion and custom animations for fluid UX",
+      "Leveraged Firebase Firestore for real-time couple sync",
+      "Implemented GetX for efficient state management",
+      "Applied encryption and secure authentication with Firebase Auth",
+    ],
+    results: [
+      "Successfully deployed on both iOS and Android platforms",
+      "Real-time features with <500ms latency",
+      "Smooth animations and interactive UI elements",
+      "Positive user feedback on couple connectivity features",
+    ],
+  },
 ]
 
 export default projects

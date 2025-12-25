@@ -41,6 +41,7 @@ const projects = [
   { name: "SafeCrypt Manager", href: "/projects/safecrypt-password-manager" },
   { name: "Surah Yaseen App", href: "/projects/surah-yaseen-app" },
   { name: "Toolkit Collection", href: "/projects/toolkit-mobile-app" },
+  { name: "Love Connect", href: "/projects/love-connect" },
 ]
 
 export default function Footer() {

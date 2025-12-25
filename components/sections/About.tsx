@@ -73,8 +73,8 @@ export default function About() {
             About <span className="gradient-text">Me</span>
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground max-w-3xl mx-auto px-4">
-            A passionate software developer with a focus on creating innovative mobile solutions that make a difference
-            in people's lives.
+            Full-Stack Flutter and Mobile App Developer | FlutterFlow | GetX | RESTful APIs | Android and iOS Expert |
+            Software Developer | Software Engineer
           </p>
         </FluidTransition>
 
@@ -149,25 +149,32 @@ export default function About() {
 
               <div className="prose prose-sm sm:prose-lg dark:prose-invert max-w-none px-4" style={{ y: proseY }}>
                 <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">
-                  I'm a passionate freelance Full Stack Flutter Developer, working exclusively on Fiverr where I help
-                  clients worldwide build robust, high-performance, cross-platform mobile applications. From
-                  brainstorming ideas with clients to designing intuitive UIs and integrating secure, scalable backends,
-                  I take ownership of the entire development process. My approach focuses on understanding client needs,
-                  delivering on time, and maintaining long-term relationships by ensuring code quality and performance
-                  optimization.
+                  My name is Muhammad Humayun Amar, a dedicated Flutter & Mobile App Developer with hands-on experience
+                  in designing and developing multiple real-world mobile applications. I specialize in building
+                  high-performance, cross-platform apps using Flutter, Dart, Kotlin, and Firebase, with a strong focus
+                  on clean UI/UX, app security, and scalable architecture.
                 </p>
                 <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">
-                  My technical expertise includes Flutter, Dart, Kotlin, and Firebase, enabling me to handle both
-                  front-end and back-end aspects of app development. Whether it's creating responsive user interfaces,
-                  integrating real-time databases, or deploying apps to production, I aim to deliver seamless, bug-free
-                  experiences.
+                  I have successfully developed 4–5 complete mobile applications, covering areas such as health &
+                  nutrition, security, Islamic content, and utility tools. These projects demonstrate my ability to
+                  handle the full app development lifecycle, from idea validation and UI design to backend integration,
+                  testing, and deployment.
+                </p>
+                <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">
+                  I work as a freelance Full Stack Flutter Developer, collaborating with clients worldwide to deliver
+                  reliable and user-focused mobile solutions. I take full ownership of projects, ensuring timely
+                  delivery, optimized performance, and maintainable, clean code.
                 </p>
                 <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">
                   I hold a Bachelor's degree in Computer Science from the University of Central Punjab, where I earned
-                  an A grade for my Final Year Project, BalanceBite — a smart health and nutrition app powered by AI. In
-                  addition, I have developed projects like SafeCrypt (an AES-256 encrypted password manager), Surah
-                  Yaseen App, and Toolkit App, all of which reflect my ability to merge creativity with technical
-                  excellence.
+                  an A grade in my Final Year Project, BalanceBite — an AI-powered health and nutrition mobile
+                  application. My project portfolio also includes applications such as SafeCrypt (an AES-256 encrypted
+                  password manager), the Surah Yaseen App, and other utility-based mobile applications, highlighting my
+                  versatility and problem-solving skills.
+                </p>
+                <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">
+                  I am continuously expanding my expertise in modern mobile technologies and enjoy working on innovative
+                  ideas that solve real problems and create meaningful user experiences.
                 </p>
               </div>
 
