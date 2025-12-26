@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
-import { Inter } from 'next/font/google'
+import { Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/providers/ThemeProvider"
 import { Toaster } from "@/components/ui/toaster"
@@ -11,6 +11,8 @@ import PerformanceMonitor from "@/components/debug/PerformanceMonitor"
 import { ScrollIndicator } from "@/components/layout/ScrollIndicator"
 import { ScrollToTop } from "@/components/ui/ScrollToTop"
 import { PageLoadingBar } from "@/components/ui/PageLoadingBar"
+import { ScrollEnhancer } from "@/components/providers/ScrollEnhancer"
+import { FloatingActionButton } from "@/components/ui/FloatingActionButton"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -125,11 +127,13 @@ export default function RootLayout({
       <body className={inter.className}>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <ScrollEnhancer />
           <PageLoadingBar />
           <ScrollIndicator />
           <ScrollToTop />
           <Navigation />
           <main className="min-h-screen">{children}</main>
+          <FloatingActionButton />
           <Footer />
           <BackToTop />
           <PerformanceMonitor />

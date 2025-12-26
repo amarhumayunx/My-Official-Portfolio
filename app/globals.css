@@ -58,15 +58,74 @@
   }
 }
 
+/* Enhanced smooth scrolling with momentum and physics */
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 80px;
 }
 
-/* Enhanced smooth scrolling */
-@media (prefers-reduced-motion: no-preference) {
+@supports (scroll-behavior: smooth) {
   html {
     scroll-behavior: smooth;
   }
+}
+
+/* Optimize for high refresh rate displays */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+  }
+
+  * {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Smooth transitions for scroll-linked animations */
+.scroll-smooth {
+  scroll-behavior: smooth;
+}
+
+/* Performance optimization for scroll animations */
+body {
+  overflow-x: hidden;
+}
+
+/* Improved momentum scrolling on mobile */
+@supports (overscroll-behavior: contain) {
+  html {
+    overscroll-behavior: auto;
+  }
+}
+
+/* Better scrollbar appearance with smooth transitions */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-background;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-primary/40 rounded-full hover:bg-primary/60;
+  transition: background-color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-primary/70;
+}
+
+/* Firefox scrollbar styling */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--primary) / 0.4) transparent;
+}
+
+*:hover {
+  scrollbar-color: hsl(var(--primary) / 0.6) transparent;
 }
 
 /* Enhanced gradient and effect classes */
@@ -180,7 +239,8 @@ a:active {
 }
 
 @keyframes pulse-glow {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -235,11 +295,21 @@ a:active {
   animation: slideInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
 }
 
-.stagger-item:nth-child(1) { animation-delay: 0.1s; }
-.stagger-item:nth-child(2) { animation-delay: 0.2s; }
-.stagger-item:nth-child(3) { animation-delay: 0.3s; }
-.stagger-item:nth-child(4) { animation-delay: 0.4s; }
-.stagger-item:nth-child(5) { animation-delay: 0.5s; }
+.stagger-item:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.stagger-item:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.stagger-item:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.stagger-item:nth-child(4) {
+  animation-delay: 0.4s;
+}
+.stagger-item:nth-child(5) {
+  animation-delay: 0.5s;
+}
 
 /* Print Styles */
 @media print {
