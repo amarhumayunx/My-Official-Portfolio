@@ -16,6 +16,13 @@ const contactInfo = [
     description: "For quick questions and direct communication",
   },
   {
+    icon: MessageSquare,
+    title: "Phone",
+    value: "+92-348-5856797",
+    href: "tel:+923485856797",
+    description: "Call me directly for urgent matters",
+  },
+  {
     icon: MapPin,
     title: "Location",
     value: "Lahore, Pakistan",
