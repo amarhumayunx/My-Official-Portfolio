@@ -9,7 +9,6 @@ import Footer from "@/components/layout/Footer"
 import BackToTop from "@/components/ui/BackToTop"
 import PerformanceMonitor from "@/components/debug/PerformanceMonitor"
 import { ScrollIndicator } from "@/components/layout/ScrollIndicator"
-import { ScrollToTop } from "@/components/ui/ScrollToTop"
 import { PageLoadingBar } from "@/components/ui/PageLoadingBar"
 import { ScrollEnhancer } from "@/components/providers/ScrollEnhancer"
 import { FloatingActionButton } from "@/components/ui/FloatingActionButton"
@@ -130,7 +129,6 @@ export default function RootLayout({
           <ScrollEnhancer />
           <PageLoadingBar />
           <ScrollIndicator />
-          <ScrollToTop />
           <Navigation />
           <main className="min-h-screen">{children}</main>
           <FloatingActionButton />

@@ -41,7 +41,7 @@ export function FloatingActionButton() {
         initial="hidden"
         animate="visible"
         variants={containerVariants}
-        className="fixed bottom-6 right-6 z-40"
+        className="fixed bottom-6 left-6 z-40"
       >
         <motion.button
           onClick={() => setIsOpen(!isOpen)}
@@ -60,7 +60,7 @@ export function FloatingActionButton() {
         </motion.button>
 
         {isOpen && (
-          <motion.div className="absolute bottom-20 right-0 flex flex-col gap-3" initial="hidden" animate="visible">
+          <motion.div className="absolute bottom-20 left-0 flex flex-col gap-3" initial="hidden" animate="visible">
             {[
               { label: "Email", href: "mailto:amarhumayun@outlook.com", icon: "📧" },
               { label: "WhatsApp", href: "https://wa.me/1234567890", icon: "💬" },
