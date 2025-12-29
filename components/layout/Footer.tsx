@@ -46,25 +46,26 @@ const projects = [
 
 export default function Footer() {
   return (
-    <footer className="bg-muted/30 border-t border-border">
+    <footer className="bg-gradient-to-b from-muted/50 to-muted/80 border-t border-border/50 backdrop-blur-sm">
       <div className="max-w-7xl mx-auto section-padding py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Brand Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+          {/* Brand Section - Enhanced */}
           <FluidTransition className="lg:col-span-1">
-            <div className="space-y-4">
+            <motion.div className="space-y-4" whileHover={{ y: -5 }} transition={{ duration: 0.3 }}>
               <h3 className="text-xl font-bold gradient-text">Muhammad Humayun Amar</h3>
               <p className="text-muted-foreground text-sm leading-relaxed">
                 Professional mobile app developer specializing in Flutter, Android, and modern backend solutions.
-                Creating innovative digital experiences with cutting-edge technology.
+                Creating innovative digital experiences.
               </p>
-              <div className="flex space-x-4">
+              <div className="flex space-x-3 pt-2">
                 <motion.a
                   href="https://github.com/amarhumayunx"
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="w-10 h-10 bg-primary/10 hover:bg-primary/20 rounded-full flex items-center justify-center transition-colors"
+                  whileHover={{ scale: 1.15, rotate: 5 }}
+                  whileTap={{ scale: 0.9 }}
+                  className="w-10 h-10 bg-primary/15 hover:bg-primary/30 rounded-full flex items-center justify-center transition-all duration-300"
+                  aria-label="GitHub"
                 >
                   <Github className="w-5 h-5" />
                 </motion.a>
@@ -72,28 +73,30 @@ export default function Footer() {
                   href="https://linkedin.com/in/amarhumayun"
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="w-10 h-10 bg-primary/10 hover:bg-primary/20 rounded-full flex items-center justify-center transition-colors"
+                  whileHover={{ scale: 1.15, rotate: -5 }}
+                  whileTap={{ scale: 0.9 }}
+                  className="w-10 h-10 bg-primary/15 hover:bg-primary/30 rounded-full flex items-center justify-center transition-all duration-300"
+                  aria-label="LinkedIn"
                 >
                   <Linkedin className="w-5 h-5" />
                 </motion.a>
                 <motion.a
                   href="mailto:amarhumayun@outlook.com"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="w-10 h-10 bg-primary/10 hover:bg-primary/20 rounded-full flex items-center justify-center transition-colors"
+                  whileHover={{ scale: 1.15 }}
+                  whileTap={{ scale: 0.9 }}
+                  className="w-10 h-10 bg-primary/15 hover:bg-primary/30 rounded-full flex items-center justify-center transition-all duration-300"
+                  aria-label="Email"
                 >
                   <Mail className="w-5 h-5" />
                 </motion.a>
               </div>
-            </div>
+            </motion.div>
           </FluidTransition>
 
-          {/* Services Section */}
+          {/* Services Section - Enhanced */}
           <FluidTransition delay={0.1} className="lg:col-span-1">
-            <div className="space-y-4">
-              <h4 className="font-semibold text-lg">Services</h4>
+            <motion.div className="space-y-4" whileHover={{ y: -5 }} transition={{ duration: 0.3 }}>
+              <h4 className="font-semibold text-lg gradient-text">Services</h4>
               <div className="space-y-2">
                 {services.map((service, index) => (
                   <motion.div
@@ -104,12 +107,12 @@ export default function Footer() {
                   >
                     <Link
                       href={service.href}
-                      className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/50 transition-colors group"
+                      className="flex items-center gap-3 p-2 rounded-lg hover:bg-primary/10 transition-all duration-300 group"
                     >
                       <div className="w-6 h-6 flex items-center justify-center">
-                        <service.icon className="w-3 h-3 text-primary" />
+                        <service.icon className="w-4 h-4 text-primary group-hover:scale-110 transition-transform" />
                       </div>
-                      <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors leading-tight">
+                      <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
                         {service.name}
                       </span>
                     </Link>
@@ -117,100 +120,128 @@ export default function Footer() {
                 ))}
                 <Link
                   href="/services"
-                  className="inline-flex items-center gap-2 text-sm text-primary hover:text-primary/80 transition-colors mt-2"
+                  className="inline-flex items-center gap-2 text-sm text-primary hover:text-primary/80 transition-colors mt-3 group"
                 >
                   View all services
-                  <ArrowRight className="w-3 h-3" />
+                  <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
-            </div>
+            </motion.div>
           </FluidTransition>
 
-          {/* Quick Links & Projects */}
+          {/* Quick Links - Enhanced */}
           <FluidTransition delay={0.2} className="lg:col-span-1">
-            <div className="space-y-4">
-              <h4 className="font-semibold text-lg">Quick Links</h4>
+            <motion.div className="space-y-4" whileHover={{ y: -5 }} transition={{ duration: 0.3 }}>
+              <h4 className="font-semibold text-lg gradient-text">Quick Links</h4>
               <div className="space-y-2">
-                {quickLinks.map((link) => (
-                  <Link
+                {quickLinks.map((link, index) => (
+                  <motion.div
                     key={link.name}
-                    href={link.href}
-                    className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.05 }}
                   >
-                    {link.name}
-                  </Link>
+                    <Link
+                      href={link.href}
+                      className="block text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all duration-300"
+                    >
+                      {link.name}
+                    </Link>
+                  </motion.div>
                 ))}
               </div>
+            </motion.div>
+          </FluidTransition>
 
-              <div className="pt-4">
-                <h5 className="font-medium mb-2">Featured Projects</h5>
-                <div className="space-y-2">
-                  {projects.map((project) => (
+          {/* Featured Projects - Enhanced */}
+          <FluidTransition delay={0.3} className="lg:col-span-1">
+            <motion.div className="space-y-4" whileHover={{ y: -5 }} transition={{ duration: 0.3 }}>
+              <h5 className="font-semibold text-lg gradient-text">Featured Projects</h5>
+              <div className="space-y-2">
+                {projects.map((project, index) => (
+                  <motion.div
+                    key={project.name}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.05 }}
+                  >
                     <Link
-                      key={project.name}
                       href={project.href}
-                      className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
+                      className="block text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all duration-300"
                     >
                       {project.name}
                     </Link>
-                  ))}
-                </div>
+                  </motion.div>
+                ))}
               </div>
-            </div>
+            </motion.div>
           </FluidTransition>
 
-          {/* Contact Section */}
-          <FluidTransition delay={0.3} className="lg:col-span-1">
-            <div className="space-y-4">
-              <h4 className="font-semibold text-lg">Get In Touch</h4>
+          {/* Contact Section - Enhanced */}
+          <FluidTransition delay={0.4} className="lg:col-span-1">
+            <motion.div className="space-y-4" whileHover={{ y: -5 }} transition={{ duration: 0.3 }}>
+              <h4 className="font-semibold text-lg gradient-text">Get In Touch</h4>
               <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <Mail className="w-4 h-4 text-primary" />
+                <motion.div
+                  className="flex items-center gap-3 hover:translate-x-1 transition-transform"
+                  whileHover={{ x: 5 }}
+                >
+                  <Mail className="w-4 h-4 text-primary flex-shrink-0" />
                   <a
                     href="mailto:amarhumayun@outlook.com"
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors truncate"
                   >
                     amarhumayun@outlook.com
                   </a>
-                </div>
-                <div className="flex items-center gap-3">
-                  <MapPin className="w-4 h-4 text-primary" />
+                </motion.div>
+                <motion.div
+                  className="flex items-center gap-3 hover:translate-x-1 transition-transform"
+                  whileHover={{ x: 5 }}
+                >
+                  <MapPin className="w-4 h-4 text-primary flex-shrink-0" />
                   <span className="text-sm text-muted-foreground">Lahore, Pakistan</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Clock className="w-4 h-4 text-primary" />
-                  <span className="text-sm text-muted-foreground">Available 24/7</span>
-                </div>
+                </motion.div>
+                <motion.div
+                  className="flex items-center gap-3 hover:translate-x-1 transition-transform"
+                  whileHover={{ x: 5 }}
+                >
+                  <Clock className="w-4 h-4 text-primary flex-shrink-0" />
+                  <span className="text-sm text-muted-foreground">24/7 Available</span>
+                </motion.div>
               </div>
 
-              <div className="pt-4">
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="pt-4">
                 <Link
                   href="/#contact"
-                  className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors"
+                  className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary/90 transition-all duration-300 group"
                 >
                   Start Your Project
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </FluidTransition>
         </div>
 
-        {/* Bottom Section */}
-        <FluidTransition delay={0.4} className="mt-12 pt-8 border-t border-border">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+        {/* Bottom Section - Enhanced */}
+        <FluidTransition delay={0.5} className="mt-12 pt-8 border-t border-border/50">
+          <motion.div
+            className="flex flex-col md:flex-row justify-between items-center gap-4"
+            whileHover={{ scale: 1.01 }}
+            transition={{ duration: 0.3 }}
+          >
             <p className="text-sm text-muted-foreground">
               © {new Date().getFullYear()} Muhammad Humayun Amar. All rights reserved.
             </p>
             <div className="flex items-center gap-6">
-              <Link href="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <Link href="/privacy" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                 Privacy Policy
               </Link>
-              <Link href="/terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <Link href="/terms" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                 Terms of Service
               </Link>
             </div>
-          </div>
+          </motion.div>
         </FluidTransition>
       </div>
     </footer>

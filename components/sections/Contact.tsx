@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 import { Mail, MapPin, Github, Linkedin, MessageSquare, Calendar, Zap } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ParallaxSection } from "@/components/ui/ParallaxSection"
+import ParallaxSection from "@/components/ui/ParallaxSection"
 import { MultiStepForm } from "@/components/ui/MultiStepForm"
 
 const contactInfo = [
@@ -14,13 +14,6 @@ const contactInfo = [
     value: "amarhumayun@outlook.com",
     href: "mailto:amarhumayun@outlook.com",
     description: "For quick questions and direct communication",
-  },
-  {
-    icon: MessageSquare,
-    title: "Phone",
-    value: "+92-348-5856797",
-    href: "tel:+923485856797",
-    description: "Call me directly for urgent matters",
   },
   {
     icon: MapPin,
@@ -180,16 +173,16 @@ export default function Contact() {
 
               <div>
                 <h4 className="font-semibold mb-3 sm:mb-4 text-sm sm:text-base">Connect With Me</h4>
-                <div className="space-y-3">
+                <div className="flex gap-3 flex-wrap">
                   {socialLinks.map((social) => (
-                    <Card key={social.name} className="hover:shadow-md transition-shadow duration-300">
+                    <Card key={social.name} className="hover:shadow-md transition-shadow duration-300 flex-1 min-w-max">
                       <CardContent className="p-3 sm:p-4">
-                        <div className="flex items-center gap-3 sm:gap-4">
+                        <div className="flex items-center gap-2 sm:gap-3">
                           <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                             <social.icon className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <div className="flex flex-wrap items-center gap-2">
+                            <div className="flex flex-col">
                               <span className="font-medium text-sm sm:text-base">{social.name}</span>
                               <a
                                 href={social.href}
@@ -200,7 +193,6 @@ export default function Contact() {
                                 {social.username}
                               </a>
                             </div>
-                            <p className="text-xs sm:text-sm text-muted-foreground">{social.description}</p>
                           </div>
                         </div>
                       </CardContent>

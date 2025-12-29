@@ -171,36 +171,36 @@ export default function Navigation() {
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 lg:px-8 py-3"
+      className="fixed top-0 left-0 right-0 z-50 px-3 sm:px-4 md:px-6 lg:px-8 py-2 sm:py-3"
       aria-label="Primary"
     >
       <div
         className={[
-          "max-w-7xl mx-auto border rounded-2xl backdrop-blur-xl transition-all",
+          "max-w-7xl mx-auto border rounded-xl sm:rounded-2xl backdrop-blur-xl transition-all duration-300",
           scrolled
             ? "bg-white/85 dark:bg-zinc-900/85 border-zinc-200/30 dark:border-zinc-800/30 shadow-md"
             : "bg-white/70 dark:bg-zinc-900/70 border-zinc-200/20 dark:border-zinc-800/20",
         ].join(" ")}
       >
-        <div className="px-4 md:px-5">
-          <div className="h-14 flex items-center justify-between">
+        <div className="px-3 sm:px-4 md:px-5">
+          <div className="h-12 sm:h-14 flex items-center justify-between">
             <button
               type="button"
               onClick={(e) => handleNavClick(e, "/")}
-              className="flex items-center gap-2 group"
+              className="flex items-center gap-1.5 sm:gap-2 group"
               aria-label="Go to home"
             >
-              <Sparkles className="w-5 h-5 text-blue-600 group-hover:rotate-180 transition-transform duration-500" />
-              <span className="text-lg font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 group-hover:rotate-180 transition-transform duration-500" />
+              <span className="text-base sm:text-lg font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
                 MHA
               </span>
             </button>
 
-            <div className="hidden lg:flex flex-1 justify-center">
+            <div className="hidden lg:flex flex-1 justify-center px-2">
               <div
                 ref={containerRef}
                 data-testid="nav-container"
-                className="relative flex items-center gap-1 rounded-full border border-zinc-200/30 dark:border-zinc-800/30 bg-zinc-50/60 dark:bg-zinc-800/60 px-2 py-1"
+                className="relative flex items-center gap-0.5 sm:gap-1 rounded-full border border-zinc-200/30 dark:border-zinc-800/30 bg-zinc-50/60 dark:bg-zinc-800/60 px-1.5 sm:px-2 py-1"
               >
                 <AnimatePresence>
                   {activeRect && (
@@ -231,11 +231,11 @@ export default function Navigation() {
                       onClick={(e) => handleNavClick(e, item.href)}
                       data-testid={`nav-btn-${testId}`}
                       className={[
-                        "relative z-20 px-3 py-1.5 rounded-full text-sm font-medium transition-colors whitespace-nowrap",
+                        "relative z-20 px-2 sm:px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-colors whitespace-nowrap",
                         active
                           ? "text-white"
                           : "text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white",
-                        "flex items-center gap-2",
+                        "flex items-center gap-1.5 sm:gap-2",
                       ].join(" ")}
                     >
                       {!active && (
@@ -244,7 +244,7 @@ export default function Navigation() {
                           aria-hidden="true"
                         />
                       )}
-                      <item.icon className="w-4 h-4" />
+                      <item.icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                       <span className="hidden xl:inline">{item.name}</span>
                     </button>
                   )
@@ -252,11 +252,11 @@ export default function Navigation() {
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 sm:gap-2">
               <Button
                 asChild
                 size="sm"
-                className="hidden md:inline-flex rounded-full px-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700"
+                className="hidden md:inline-flex rounded-full px-3 sm:px-4 text-xs sm:text-sm bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700"
               >
                 <Link href="/consultation">Consultation</Link>
               </Button>
@@ -265,7 +265,7 @@ export default function Navigation() {
                 variant="ghost"
                 size="sm"
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="relative w-10 h-10 rounded-full border border-zinc-200/40 dark:border-zinc-800/40 bg-zinc-100/60 dark:bg-zinc-800/60"
+                className="relative w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-zinc-200/40 dark:border-zinc-800/40 bg-zinc-100/60 dark:bg-zinc-800/60"
                 aria-label="Toggle theme"
               >
                 <AnimatePresence mode="wait" initial={false}>
@@ -279,9 +279,9 @@ export default function Navigation() {
                     aria-hidden="true"
                   >
                     {theme === "dark" ? (
-                      <Sun className="w-5 h-5 text-amber-400" />
+                      <Sun className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400" />
                     ) : (
-                      <Moon className="w-5 h-5 text-blue-600" />
+                      <Moon className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
                     )}
                   </motion.span>
                 </AnimatePresence>
@@ -291,10 +291,10 @@ export default function Navigation() {
                 variant="ghost"
                 size="sm"
                 onClick={() => setIsOpen((v) => !v)}
-                className="lg:hidden w-10 h-10 rounded-full border border-zinc-200/40 dark:border-zinc-800/40"
+                className="lg:hidden w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-zinc-200/40 dark:border-zinc-800/40"
                 aria-label="Toggle navigation"
               >
-                {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                {isOpen ? <X className="w-4 h-4 sm:w-5 sm:h-5" /> : <Menu className="w-4 h-4 sm:w-5 sm:h-5" />}
               </Button>
             </div>
           </div>
@@ -320,12 +320,12 @@ export default function Navigation() {
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: "100%", opacity: 0 }}
               transition={{ type: "spring", stiffness: 380, damping: 34 }}
-              className="absolute right-4 top-[4.5rem] w-80 max-w-[calc(100vw-2rem)] rounded-2xl border border-zinc-200/40 dark:border-zinc-800/40 bg-white/95 dark:bg-zinc-900/95 shadow-xl overflow-hidden"
+              className="absolute right-3 sm:right-4 top-16 sm:top-[4.5rem] w-72 sm:w-80 max-w-[calc(100vw-1.5rem)] rounded-xl sm:rounded-2xl border border-zinc-200/40 dark:border-zinc-800/40 bg-white/95 dark:bg-zinc-900/95 shadow-xl overflow-hidden"
               role="dialog"
               aria-modal="true"
             >
-              <div className="p-4 border-b border-zinc-200/40 dark:border-zinc-800/40">
-                <p className="text-sm font-semibold">Navigation</p>
+              <div className="p-3 sm:p-4 border-b border-zinc-200/40 dark:border-zinc-800/40">
+                <p className="text-xs sm:text-sm font-semibold">Navigation</p>
               </div>
               <div className="p-2">
                 {navItems.map((item) => {
@@ -337,29 +337,30 @@ export default function Navigation() {
                       onClick={(e) => handleNavClick(e, item.href)}
                       data-testid={`nav-btn-${testId}-mobile`}
                       className={[
-                        "w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-colors",
+                        "w-full flex items-center gap-2.5 sm:gap-3 px-2.5 sm:px-3 py-2.5 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-colors",
                         active
                           ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white"
                           : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100/70 dark:hover:bg-zinc-800/70",
                       ].join(" ")}
                     >
                       <span
-                        className={["p-2 rounded-lg", active ? "bg-white/20" : "bg-zinc-100 dark:bg-zinc-800"].join(
-                          " ",
-                        )}
+                        className={[
+                          "p-1.5 sm:p-2 rounded-lg",
+                          active ? "bg-white/20" : "bg-zinc-100 dark:bg-zinc-800",
+                        ].join(" ")}
                         aria-hidden="true"
                       >
-                        <item.icon className="w-4 h-4" />
+                        <item.icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                       </span>
                       {item.name}
                     </button>
                   )
                 })}
 
-                <div className="pt-2">
+                <div className="pt-2 mt-2 border-t border-zinc-200/40 dark:border-zinc-800/40">
                   <Button
                     asChild
-                    className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700"
+                    className="w-full rounded-lg sm:rounded-xl text-xs sm:text-sm bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700"
                   >
                     <Link href="/consultation" onClick={() => setIsOpen(false)}>
                       Free Consultation

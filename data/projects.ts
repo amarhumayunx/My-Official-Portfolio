@@ -97,7 +97,7 @@ export const projects: Project[] = [
       "Secure notes storage",
       "Offline access",
     ],
-    status: "Completed",
+    status: "In Development",
     image: "/images/safecrypt-app.png",
     githubUrl: "https://github.com/amarhumayunx/safecrypt",
     categories: ["Mobile App", "Security", "Utility"],

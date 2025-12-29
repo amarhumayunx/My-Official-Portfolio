@@ -63,8 +63,6 @@ export function FloatingActionButton() {
           <motion.div className="absolute bottom-20 left-0 flex flex-col gap-3" initial="hidden" animate="visible">
             {[
               { label: "Email", href: "mailto:amarhumayun@outlook.com", icon: "📧" },
-              { label: "WhatsApp", href: "https://wa.me/923485856797", icon: "💬" },
-              { label: "Phone", href: "tel:+923485856797", icon: "☎️" },
               { label: "LinkedIn", href: "https://linkedin.com/in/amarhumayun", icon: "💼" },
             ].map((item, i) => (
               <motion.div key={item.label} custom={i} variants={menuVariants}>

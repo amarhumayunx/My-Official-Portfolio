@@ -9,37 +9,37 @@ import { ParallaxSection } from "@/components/ui/ParallaxSection"
 
 const experiences = [
   {
-  title: "Flutter Developer Intern",
-  company: "Haachi Technologies Pvt. Ltd.",
-  period: "Jan 2025 - Mar 2025",
-  description:
-    "Completed a Flutter Developer internship at Haachi Technologies Pvt. Ltd., contributing to the development of cross-platform mobile applications using Flutter and Dart. Designed and implemented responsive UI components to ensure smooth user experiences, assisted in developing and enhancing app features, and performed debugging, testing, and performance optimization across multiple devices. Integrated Firebase services for authentication and data storage, and collaborated with UI/UX designers and backend developers in an agile environment. Actively participated in stand-up meetings, sprint planning, and code reviews, gaining hands-on experience with Flutter, Firebase, UI/UX practices, and agile workflows.",
-  icon: Briefcase,
+    title: "Flutter Developer Intern",
+    company: "Haachi Technologies Pvt. Ltd.",
+    period: "Jan 2025 - Mar 2025",
+    description:
+      "Completed a Flutter Developer internship at Haachi Technologies Pvt. Ltd., contributing to the development of cross-platform mobile applications using Flutter and Dart. Designed and implemented responsive UI components to ensure smooth user experiences, assisted in developing and enhancing app features, and performed debugging, testing, and performance optimization across multiple devices. Integrated Firebase services for authentication and data storage, and collaborated with UI/UX designers and backend developers in an agile environment. Actively participated in stand-up meetings, sprint planning, and code reviews, gaining hands-on experience with Flutter, Firebase, UI/UX practices, and agile workflows.",
+    icon: Briefcase,
   },
   {
-  title: "Full Stack Flutter Developer",
-  company: "Haachi Technologies Pvt. Ltd.",
-  period: "Jan 2025 - Jul 2025",
-  description:
-    "Worked as a Full Stack Flutter Developer at Haachi Technologies Pvt. Ltd., responsible for designing and developing high-quality cross-platform mobile applications using Flutter and Dart. Created responsive and visually appealing user interfaces, wrote clean and efficient Dart code, and developed new features for ongoing applications. Handled debugging, testing, and performance optimization across multiple devices, and integrated Firebase services for authentication and data management. Collaborated closely with UI/UX designers and backend developers within an agile framework, actively participating in daily stand-ups, sprint planning, and code reviews. This role provided end-to-end experience across the mobile app development lifecycle and strengthened expertise in Flutter, Firebase, UI/UX principles, and agile methodologies.",
-  icon: Briefcase,
+    title: "Full Stack Flutter Developer",
+    company: "Haachi Technologies Pvt. Ltd.",
+    period: "Jan 2025 - Jul 2025",
+    description:
+      "Worked as a Full Stack Flutter Developer at Haachi Technologies Pvt. Ltd., responsible for designing and developing high-quality cross-platform mobile applications using Flutter and Dart. Created responsive and visually appealing user interfaces, wrote clean and efficient Dart code, and developed new features for ongoing applications. Handled debugging, testing, and performance optimization across multiple devices, and integrated Firebase services for authentication and data management. Collaborated closely with UI/UX designers and backend developers within an agile framework, actively participating in daily stand-ups, sprint planning, and code reviews. This role provided end-to-end experience across the mobile app development lifecycle and strengthened expertise in Flutter, Firebase, UI/UX principles, and agile methodologies.",
+    icon: Briefcase,
   },
   {
-  title: "Full Stack Flutter Developer",
-  company: "Zee Palm Pvt. Ltd.",
-  period: "Aug 2025 - Sep 2025",
-  description:
-    "Worked as a Flutter Developer, designing and developing high-performance, cross-platform mobile applications using Flutter and Dart. Focused on building responsive, user-friendly interfaces and robust application architectures to deliver seamless experiences across both Android and iOS platforms. Collaborated closely with cross-functional teams, including UI/UX designers and backend developers, to implement new features, optimize application performance, and maintain high code quality through clean, scalable, and maintainable code. Actively contributed to improving existing applications through iterative updates, bug fixes, and the integration of modern development best practices.",
-  icon: Briefcase,
+    title: "Full Stack Flutter Developer",
+    company: "Zee Palm Pvt. Ltd.",
+    period: "Aug 2025 - Sep 2025",
+    description:
+      "Worked as a Flutter Developer, designing and developing high-performance, cross-platform mobile applications using Flutter and Dart. Focused on building responsive, user-friendly interfaces and robust application architectures to deliver seamless experiences across both Android and iOS platforms. Collaborated closely with cross-functional teams, including UI/UX designers and backend developers, to implement new features, optimize application performance, and maintain high code quality through clean, scalable, and maintainable code. Actively contributed to improving existing applications through iterative updates, bug fixes, and the integration of modern development best practices.",
+    icon: Briefcase,
   },
   {
-  title: "Freelance Full Stack Flutter Developer",
-  company: "Fiverr",
-  period: "Sep 2025 - Present",
-  description:
-    "Working as a freelance Flutter developer, delivering custom cross-platform mobile applications using Flutter and Dart. Specializing in building scalable, high-performance apps, optimizing UI/UX and application performance, and collaborating closely with clients to transform ideas into functional, production-ready solutions. Responsible for requirement analysis, implementation, testing, and ongoing support to ensure high-quality outcomes.",
-  icon: Briefcase,
-  }
+    title: "Freelance Full Stack Flutter Developer",
+    company: "Fiverr",
+    period: "Sep 2025 - Present",
+    description:
+      "Working as a freelance Flutter developer, delivering custom cross-platform mobile applications using Flutter and Dart. Specializing in building scalable, high-performance apps, optimizing UI/UX and application performance, and collaborating closely with clients to transform ideas into functional, production-ready solutions. Responsible for requirement analysis, implementation, testing, and ongoing support to ensure high-quality outcomes.",
+    icon: Briefcase,
+  },
 ]
 
 const education = [
@@ -48,12 +48,16 @@ const education = [
     institution: "University of Central Punjab, Lahore",
     period: "Oct 2019 - Feb 2025",
     grade: "FYP A Grade",
+    description:
+      "Acquired comprehensive knowledge in Programming Fundamentals, Object-Oriented Programming, Data Structures, and Algorithms. Gained hands-on experience in Mobile Application Development, Artificial Intelligence, and Machine Learning, with a strong focus on creating innovative and impactful software solutions. Developed key projects like BalanceBite and SafeCrypt Password Manager, showcasing expertise in Kotlin, Flutter, and Firebase.",
     icon: GraduationCap,
   },
   {
     degree: "F.Sc (Pre-Engineering)",
     institution: "Punjab College, Multan",
     period: "May 2017 - June 2019",
+    description:
+      "Built a solid foundation in Mathematics, Physics, and Chemistry, with a focus on analytical problem-solving and logical thinking. This period nurtured my interest in technology and inspired my pursuit of a career in Computer Science.",
     icon: GraduationCap,
   },
 ]
@@ -275,13 +279,14 @@ export default function About() {
                           </div>
                           <p className="text-primary font-medium mb-3 text-sm sm:text-base">{edu.institution}</p>
                           {edu.grade && (
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2 mb-3">
                               <Award className="w-4 h-4 text-yellow-500" aria-hidden="true" />
                               <span className="text-xs sm:text-sm font-medium text-yellow-600 dark:text-yellow-400">
                                 {edu.grade}
                               </span>
                             </div>
                           )}
+                          <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed">{edu.description}</p>
                         </CardContent>
                       </Card>
                     </motion.div>

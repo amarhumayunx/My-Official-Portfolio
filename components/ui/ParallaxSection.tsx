@@ -24,3 +24,5 @@ export function ParallaxSection({ children, offset = 50, className = "" }: Paral
     </motion.div>
   )
 }
+
+export default ParallaxSection
