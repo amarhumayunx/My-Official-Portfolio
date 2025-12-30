@@ -2,6 +2,8 @@
 
 > A stunning, interactive portfolio website showcasing expertise in cross-platform mobile development with Flutter, Firebase, and modern UI/UX practices.
 
+![GitHub stars](https://img.shields.io/github/stars/amarhumayunx/portfolio?style=social)
+![GitHub forks](https://img.shields.io/github/forks/amarhumayunx/portfolio?style=social)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
 ## 📋 Table of Contents

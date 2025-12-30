@@ -20,7 +20,7 @@ const navItems: NavItem[] = [
   { name: "About", href: "#about", icon: User },
   { name: "Skills", href: "#skills", icon: Code },
   { name: "Projects", href: "#projects", icon: Briefcase },
-  { name: "Services", href: "/services", icon: Briefcase },
+  { name: "Services", href: "#services", icon: Briefcase }, // Changed from "/services" to "#services" to scroll to homepage section
   { name: "Testimonials", href: "#testimonials", icon: MessageCircle },
   { name: "Blog", href: "#blog", icon: FileText },
   { name: "Contact", href: "#contact", icon: MessageCircle },
@@ -41,12 +41,18 @@ export default function Navigation() {
   const [activeRect, setActiveRect] = useState<{ left: number; width: number } | null>(null)
   const observersRef = useRef<IntersectionObserver[]>([])
 
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const isScrollingRef = useRef(true)
+
   useEffect(() => {
     setMounted(true)
   }, [])
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50)
+    const onScroll = () => {
+      setScrolled(window.scrollY > 50)
+      isScrollingRef.current = true
+    }
     onScroll()
     window.addEventListener("scroll", onScroll, { passive: true })
     return () => window.removeEventListener("scroll", onScroll)
@@ -66,11 +72,16 @@ export default function Navigation() {
 
       const obs = new IntersectionObserver(
         ([entry]) => {
-          if (entry.isIntersecting) {
-            setActiveSection(id)
+          if (entry.isIntersecting && isScrollingRef.current) {
+            if (scrollTimeoutRef.current) {
+              clearTimeout(scrollTimeoutRef.current)
+            }
+            scrollTimeoutRef.current = setTimeout(() => {
+              setActiveSection(id)
+            }, 10)
           }
         },
-        { threshold: 0.35, rootMargin: "-80px 0px -40% 0px" },
+        { threshold: 0.3, rootMargin: "-60px 0px -60% 0px" },
       )
 
       obs.observe(el)
@@ -80,6 +91,9 @@ export default function Navigation() {
     return () => {
       observersRef.current.forEach((obs) => obs.disconnect())
       observersRef.current = []
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current)
+      }
     }
   }, [pathname])
 
@@ -99,16 +113,18 @@ export default function Navigation() {
       setActiveRect(null)
       return
     }
-    const btn = itemRefs.current[activeIndex]
-    if (!btn) {
-      setActiveRect(null)
-      return
-    }
-    const containerRect = containerRef.current.getBoundingClientRect()
-    const btnRect = btn.getBoundingClientRect()
-    setActiveRect({
-      left: btnRect.left - containerRect.left,
-      width: btnRect.width,
+    requestAnimationFrame(() => {
+      const btn = itemRefs.current[activeIndex]
+      if (!btn || !containerRef.current) {
+        setActiveRect(null)
+        return
+      }
+      const containerRect = containerRef.current.getBoundingClientRect()
+      const btnRect = btn.getBoundingClientRect()
+      setActiveRect({
+        left: btnRect.left - containerRect.left,
+        width: btnRect.width,
+      })
     })
   }, [activeIndex])
 
@@ -139,6 +155,10 @@ export default function Navigation() {
 
       const element = document.getElementById(id)
       if (element) {
+        if (scrollTimeoutRef.current) {
+          clearTimeout(scrollTimeoutRef.current)
+        }
+        isScrollingRef.current = false
         setActiveSection(id)
 
         const navbarHeight = 80
@@ -149,6 +169,10 @@ export default function Navigation() {
           top: offsetPosition,
           behavior: "smooth",
         })
+
+        setTimeout(() => {
+          isScrollingRef.current = true
+        }, 500)
       }
     },
     [pathname, router],
