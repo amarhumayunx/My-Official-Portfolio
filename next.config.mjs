@@ -7,15 +7,55 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    unoptimized: true,
+    unoptimized: false,
     formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 60,
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
   compress: true,
   poweredByHeader: false,
   productionBrowserSourceMaps: false,
   swcMinify: true,
+  experimental: {
+    optimizePackageImports: [
+      "@radix-ui/react-dialog",
+      "@radix-ui/react-progress",
+      "lucide-react",
+      "framer-motion",
+    ],
+  },
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.optimization = {
+        ...config.optimization,
+        splitChunks: {
+          chunks: "all",
+          cacheGroups: {
+            default: false,
+            vendors: false,
+            // Vendor chunk for node_modules
+            vendor: {
+              filename: "chunks/vendor.js",
+              test: /node_modules/,
+              priority: 10,
+              reuseExistingChunk: true,
+            },
+            // Common chunk for shared code
+            common: {
+              minChunks: 2,
+              priority: 5,
+              reuseExistingChunk: true,
+              filename: "chunks/common.js",
+            },
+          },
+        },
+      }
+    }
+    return config
+  },
 }
 
 export default nextConfig

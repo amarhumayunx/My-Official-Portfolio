@@ -12,6 +12,8 @@ import { ScrollIndicator } from "@/components/layout/ScrollIndicator"
 import { PageLoadingBar } from "@/components/ui/PageLoadingBar"
 import { ScrollEnhancer } from "@/components/providers/ScrollEnhancer"
 import { FloatingActionButton } from "@/components/ui/FloatingActionButton"
+import { ErrorBoundary } from "@/components/providers/ErrorBoundary"
+import { SkipNav } from "@/components/layout/SkipNav"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -58,24 +60,34 @@ export const metadata: Metadata = {
     url: "https://amarhumayun.com",
     siteName: "Muhammad Humayun Amar - Mobile App Developer",
     title: "Muhammad Humayun Amar - Mobile App Developer | Flutter & Android Expert",
-    description:
-      "Professional mobile app developer specializing in Flutter, Android, and cross-platform solutions. Expert in Firebase, AI/ML integration, and modern app development.",
+    description: "Professional mobile app developer specializing in Flutter, Android, and cross-platform solutions.",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "Muhammad Humayun Amar - Mobile App Developer",
+        type: "image/jpeg",
+      },
+      {
+        url: "/og-image-square.jpg",
+        width: 800,
+        height: 800,
+        alt: "Muhammad Humayun Amar Profile",
+        type: "image/jpeg",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Muhammad Humayun Amar - Mobile App Developer | Flutter & Android Expert",
-    description:
-      "Professional mobile app developer specializing in Flutter, Android, and cross-platform solutions. Expert in Firebase, AI/ML integration, and modern app development.",
+    description: "Professional mobile app developer specializing in Flutter, Android, and cross-platform solutions.",
     creator: "@amarhumayunx",
-    images: ["/og-image.jpg"],
+    site: "@amarhumayunx",
+    images: {
+      url: "/og-image.jpg",
+      alt: "Muhammad Humayun Amar - Mobile App Developer",
+    },
   },
   robots: {
     index: true,
@@ -90,6 +102,9 @@ export const metadata: Metadata = {
   },
   verification: {
     google: "your-google-verification-code",
+  },
+  alternates: {
+    canonical: "https://amarhumayun.com",
   },
     generator: 'v0.app'
 }
@@ -126,16 +141,21 @@ export default function RootLayout({
       <body className={inter.className}>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <ScrollEnhancer />
-          <PageLoadingBar />
-          <ScrollIndicator />
-          <Navigation />
-          <main className="min-h-screen">{children}</main>
-          <FloatingActionButton />
-          <Footer />
-          <BackToTop />
-          <PerformanceMonitor />
-          <Toaster />
+          <ErrorBoundary>
+            <SkipNav />
+            <ScrollEnhancer />
+            <PageLoadingBar />
+            <ScrollIndicator />
+            <Navigation />
+            <main id="main-content" className="min-h-screen">
+              {children}
+            </main>
+            <FloatingActionButton />
+            <Footer />
+            <BackToTop />
+            <PerformanceMonitor />
+            <Toaster />
+          </ErrorBoundary>
         </ThemeProvider>
       </body>
     </html>
