@@ -18,7 +18,6 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   productionBrowserSourceMaps: false,
-  swcMinify: true,
   experimental: {
     optimizePackageImports: [
       "@radix-ui/react-dialog",
@@ -38,17 +37,19 @@ const nextConfig = {
             vendors: false,
             // Vendor chunk for node_modules
             vendor: {
-              filename: "chunks/vendor.js",
-              test: /node_modules/,
+              test: /[\\/]node_modules[\\/]/,
+              name: "vendor",
               priority: 10,
               reuseExistingChunk: true,
+              enforce: true,
             },
             // Common chunk for shared code
             common: {
               minChunks: 2,
               priority: 5,
               reuseExistingChunk: true,
-              filename: "chunks/common.js",
+              name: "common",
+              enforce: true,
             },
           },
         },
