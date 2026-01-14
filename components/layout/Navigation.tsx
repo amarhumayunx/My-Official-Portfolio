@@ -24,6 +24,7 @@ import {
   Github,
   Zap,
   Mail,
+  Search,
 } from "lucide-react"
 
 type NavItem = {
