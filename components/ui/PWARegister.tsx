@@ -14,8 +14,10 @@ export function PWARegister() {
       // Register service worker
       const registerServiceWorker = async () => {
         try {
-          // Use API route at /sw.js which ensures correct MIME type
-          const registration = await navigator.serviceWorker.register("/sw.js", {
+          // Try registering the service worker
+          // On Vercel, the rewrite rule maps /sw.js to /sw API route
+          const swPath = "/sw.js"
+          const registration = await navigator.serviceWorker.register(swPath, {
             scope: "/",
           })
 
