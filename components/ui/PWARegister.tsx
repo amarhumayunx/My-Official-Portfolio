@@ -14,14 +14,23 @@ export function PWARegister() {
       // Register service worker
       const registerServiceWorker = async () => {
         try {
-          // Try registering the service worker
-          // On Vercel, the rewrite rule maps /sw.js to /sw API route
-          const swPath = "/sw.js"
-          const registration = await navigator.serviceWorker.register(swPath, {
-            scope: "/",
-          })
+          // Try API route first (works better on Vercel with correct MIME type)
+          // The rewrite rule maps /sw.js to /sw API route
+          let registration
+          try {
+            registration = await navigator.serviceWorker.register("/sw.js", {
+              scope: "/",
+            })
+          } catch (apiError) {
+            // Fallback: try direct public file (if rewrite doesn't work)
+            console.warn("API route failed, trying public file:", apiError)
+            registration = await navigator.serviceWorker.register("/sw.js", {
+              scope: "/",
+            })
+          }
 
           setIsRegistered(true)
+          console.log("Service Worker registered successfully")
 
           // Check for updates
           registration.addEventListener("updatefound", () => {
@@ -40,8 +49,12 @@ export function PWARegister() {
           navigator.serviceWorker.addEventListener("controllerchange", () => {
             window.location.reload()
           })
-        } catch (error) {
+        } catch (error: any) {
           console.error("Service Worker registration failed:", error)
+          // Log more details for debugging
+          if (error.message) {
+            console.error("Error message:", error.message)
+          }
           setIsRegistered(false)
         }
       }
