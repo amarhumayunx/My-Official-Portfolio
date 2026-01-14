@@ -78,7 +78,7 @@ export default function About() {
   const proseY = useTransform(proseScrollYProgress, [0, 1], ["-10%", "10%"])
 
   return (
-    <section id="about" ref={sectionRef} className="section-padding bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900/20 dark:to-purple-900/20">
+    <section id="about" ref={sectionRef} className="section-padding section-bg">
       <div className="max-w-7xl mx-auto px-4">
         <FluidTransition className="text-center mb-12 sm:mb-16">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
