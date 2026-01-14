@@ -16,10 +16,10 @@ This guide shows you exactly where and how to add environment variables for both
 
 ```env
 # Required - Contact Form
-RESEND_API_KEY=re_your_actual_api_key_here
+RESEND_API_KEY=your_resend_api_key_here
 
 # Optional - GitHub Integration
-GITHUB_TOKEN=ghp_your_github_token_here
+GITHUB_TOKEN=your_github_token_here
 NEXT_PUBLIC_GITHUB_USERNAME=amarhumayunx
 
 # Optional - Analytics
