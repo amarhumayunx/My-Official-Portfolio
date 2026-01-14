@@ -151,7 +151,7 @@ New utility classes in `app/globals.css`:
 
 ### Integration Examples
 
-```tsx
+\`\`\`tsx
 // Replace buttons
 import { EnhancedButton } from "@/components/ui/EnhancedButton"
 <EnhancedButton ripple gradient loading={isLoading}>Click</EnhancedButton>
@@ -163,7 +163,7 @@ import { Tooltip } from "@/components/ui/Tooltip"
 // Add animations
 import { StaggerContainer } from "@/components/ui/AnimationUtils"
 <StaggerContainer>{items}</StaggerContainer>
-```
+\`\`\`
 
 ## 📚 Documentation
 

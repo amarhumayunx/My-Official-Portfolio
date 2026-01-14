@@ -11,7 +11,7 @@
 ## 🎨 Component Quick Reference
 
 ### Buttons
-```tsx
+\`\`\`tsx
 // Enhanced button with ripple and loading
 <EnhancedButton 
   loading={isLoading}
@@ -20,10 +20,10 @@
 >
   Submit
 </EnhancedButton>
-```
+\`\`\`
 
 ### Cards
-```tsx
+\`\`\`tsx
 // Enhanced card with hover effects
 <EnhancedCard
   hoverEffect="tilt" // lift | glow | scale | tilt | none
@@ -33,10 +33,10 @@
 >
   Content
 </EnhancedCard>
-```
+\`\`\`
 
 ### Forms
-```tsx
+\`\`\`tsx
 // Enhanced form field
 <EnhancedFormField
   label="Email"
@@ -48,17 +48,17 @@
   autoSave={true}
   onSave={handleSave}
 />
-```
+\`\`\`
 
 ### Tooltips
-```tsx
+\`\`\`tsx
 <Tooltip content="Helpful information" side="top">
   <Button>Hover me</Button>
 </Tooltip>
-```
+\`\`\`
 
 ### Animations
-```tsx
+\`\`\`tsx
 // Stagger container
 <StaggerContainer>
   {items.map(item => (
@@ -75,37 +75,37 @@
 <Magnetic strength={0.3}>
   <Button>Hover for magnetic effect</Button>
 </Magnetic>
-```
+\`\`\`
 
 ### Loading States
-```tsx
+\`\`\`tsx
 // Skeleton loaders
 <CardSkeleton />
 <TextSkeleton lines={3} />
 <EnhancedSkeleton variant="circular" width={40} height={40} />
-```
+\`\`\`
 
 ### Ratings & Stats
-```tsx
+\`\`\`tsx
 // Animated rating
 <AnimatedRating rating={4.5} maxRating={5} showValue={true} />
 
 // Client stats
 <ClientStats />
-```
+\`\`\`
 
 ### Modals
-```tsx
+\`\`\`tsx
 // Project preview
 <ProjectPreviewModal
   project={project}
   isOpen={isOpen}
   onClose={() => setIsOpen(false)}
 />
-```
+\`\`\`
 
 ### Reading Features
-```tsx
+\`\`\`tsx
 // Reading progress (add to blog pages)
 <ReadingProgress />
 
@@ -114,13 +114,13 @@
 
 // Table of contents
 <TableOfContents items={tocItems} />
-```
+\`\`\`
 
 ### Celebrations
-```tsx
+\`\`\`tsx
 // Confetti
 <Confetti trigger={showConfetti} count={50} />
-```
+\`\`\`
 
 ## 🎨 CSS Classes
 
@@ -155,36 +155,36 @@
 ## 🎯 Common Patterns
 
 ### Replace Button
-```tsx
+\`\`\`tsx
 // Before
 <Button>Click me</Button>
 
 // After
 <EnhancedButton ripple gradient>Click me</EnhancedButton>
-```
+\`\`\`
 
 ### Add Tooltip
-```tsx
+\`\`\`tsx
 <Tooltip content="This button does something">
   <Button>Click me</Button>
 </Tooltip>
-```
+\`\`\`
 
 ### Add Loading State
-```tsx
+\`\`\`tsx
 {isLoading ? (
   <CardSkeleton />
 ) : (
   <Card>Content</Card>
 )}
-```
+\`\`\`
 
 ### Add Animation
-```tsx
+\`\`\`tsx
 <ScrollReveal>
   <Card>Animated card</Card>
 </ScrollReveal>
-```
+\`\`\`
 
 ## 🔧 Configuration
 
@@ -201,11 +201,11 @@
 ## 📚 Import Paths
 
 All components are in `@/components/ui/`:
-```tsx
+\`\`\`tsx
 import { EnhancedButton } from "@/components/ui/EnhancedButton"
 import { Tooltip } from "@/components/ui/Tooltip"
 import { StaggerContainer } from "@/components/ui/AnimationUtils"
-```
+\`\`\`
 
 ## 🎨 Design Tokens
 

@@ -20,7 +20,7 @@ All remaining medium and low priority enhancements have been successfully implem
 - `ContextAwareGradient.tsx` - Context-aware color schemes
 
 **Usage:**
-```tsx
+\`\`\`tsx
 import { DynamicGradient, GradientMesh, ContextAwareGradient } from "@/components/ui/DynamicGradient"
 
 <DynamicGradient colors={["#3b82f6", "#8b5cf6"]}>
@@ -32,7 +32,7 @@ import { DynamicGradient, GradientMesh, ContextAwareGradient } from "@/component
 <ContextAwareGradient variant="primary">
   Content
 </ContextAwareGradient>
-```
+\`\`\`
 
 #### 2. **Typography Enhancements** ✅
 - **Animated Gradient Text** - `AnimatedGradientText` component
@@ -46,7 +46,7 @@ import { DynamicGradient, GradientMesh, ContextAwareGradient } from "@/component
 - CSS enhancements for better line-height and letter-spacing
 
 **Usage:**
-```tsx
+\`\`\`tsx
 import { AnimatedGradientText, TypographyScale, TextReveal } from "@/components/ui/EnhancedTypography"
 
 <AnimatedGradientText gradient="from-blue-600 to-purple-600">
@@ -60,7 +60,7 @@ import { AnimatedGradientText, TypographyScale, TextReveal } from "@/components/
 <TextReveal delay={0.2}>
   Revealing text
 </TextReveal>
-```
+\`\`\`
 
 #### 3. **Skills Section Enhancements** ✅
 - **Skill Comparison** - `SkillComparison.tsx` for comparing multiple skills
@@ -74,13 +74,13 @@ import { AnimatedGradientText, TypographyScale, TextReveal } from "@/components/
 - `Certifications.tsx` - Display certifications with badges
 
 **Usage:**
-```tsx
+\`\`\`tsx
 import { SkillComparison, SkillTimeline, Certifications } from "@/components/ui"
 
 <SkillComparison skills={skillsData} maxCompare={3} />
 <SkillTimeline skillName="Flutter" events={timelineEvents} />
 <Certifications certifications={certData} />
-```
+\`\`\`
 
 #### 4. **Dark Mode Enhancements** ✅
 - **Smooth Theme Transitions** - CSS transitions for theme changes
@@ -111,7 +111,7 @@ import { SkillComparison, SkillTimeline, Certifications } from "@/components/ui"
 - `GradientMesh.tsx` - Interactive gradient background
 
 **Usage:**
-```tsx
+\`\`\`tsx
 import { CursorTrail, ParallaxLayer, ParallaxContainer } from "@/components/ui"
 
 <CursorTrail enabled={true} size={20} color="rgba(59, 130, 246, 0.5)" />
@@ -120,7 +120,7 @@ import { CursorTrail, ParallaxLayer, ParallaxContainer } from "@/components/ui"
   <ParallaxLayer speed={0.5}>Layer 1</ParallaxLayer>
   <ParallaxLayer speed={0.3}>Layer 2</ParallaxLayer>
 </ParallaxContainer>
-```
+\`\`\`
 
 #### 6. **Enhanced Charts & Graphs** ✅
 - **Animated Charts** - `AnimatedChart.tsx` with smooth animations
@@ -133,7 +133,7 @@ import { CursorTrail, ParallaxLayer, ParallaxContainer } from "@/components/ui"
 - Uses Recharts library with custom styling
 
 **Usage:**
-```tsx
+\`\`\`tsx
 import { AnimatedChart } from "@/components/ui/AnimatedChart"
 
 <AnimatedChart
@@ -142,7 +142,7 @@ import { AnimatedChart } from "@/components/ui/AnimatedChart"
   dataKey="value"
   stroke="#3b82f6"
 />
-```
+\`\`\`
 
 #### 7. **Component Library Documentation** ✅
 - **Component Docs** - `ComponentDocs.tsx` with interactive documentation
@@ -169,13 +169,13 @@ import { AnimatedChart } from "@/components/ui/AnimatedChart"
 - `PersonalInterests.tsx` - Display personal interests
 
 **Usage:**
-```tsx
+\`\`\`tsx
 import { PhotoGallery, CareerTimeline, PersonalInterests } from "@/components/ui"
 
 <PhotoGallery photos={photoData} columns={3} />
 <CareerTimeline events={careerEvents} />
 <PersonalInterests interests={interestsData} />
-```
+\`\`\`
 
 ## 🎨 CSS Enhancements
 
@@ -288,7 +288,7 @@ import { PhotoGallery, CareerTimeline, PersonalInterests } from "@/components/ui
 
 ### Integration Examples:
 
-```tsx
+\`\`\`tsx
 // Add to About section
 import { PhotoGallery, CareerTimeline, PersonalInterests } from "@/components/ui"
 
@@ -306,7 +306,7 @@ import { SkillComparison, SkillTimeline, Certifications } from "@/components/ui"
   <SkillTimeline skillName="Flutter" events={events} />
   <Certifications certifications={certs} />
 </section>
-```
+\`\`\`
 
 ## ✨ Highlights
 

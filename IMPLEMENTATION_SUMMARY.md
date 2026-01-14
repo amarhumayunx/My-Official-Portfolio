@@ -10,7 +10,7 @@
 - **Animation variants** - Pre-built variants for fade, slide, scale, rotate animations
 
 **Usage:**
-```tsx
+\`\`\`tsx
 import { StaggerContainer, ScrollReveal, Magnetic } from "@/components/ui/AnimationUtils"
 
 <StaggerContainer>
@@ -20,7 +20,7 @@ import { StaggerContainer, ScrollReveal, Magnetic } from "@/components/ui/Animat
 <Magnetic strength={0.3}>
   <Button>Hover me</Button>
 </Magnetic>
-```
+\`\`\`
 
 ### 2. **Enhanced Navigation** ✅
 - **Search Modal** - `SearchModal.tsx` with autocomplete (Cmd+K / Ctrl+K)
@@ -43,7 +43,7 @@ import { StaggerContainer, ScrollReveal, Magnetic } from "@/components/ui/Animat
   - Touch feedback
 
 **Usage:**
-```tsx
+\`\`\`tsx
 import { EnhancedButton } from "@/components/ui/EnhancedButton"
 
 <EnhancedButton 
@@ -54,7 +54,7 @@ import { EnhancedButton } from "@/components/ui/EnhancedButton"
 >
   Click me
 </EnhancedButton>
-```
+\`\`\`
 
 ### 4. **Card Improvements** ✅
 - **Enhanced Card** - `EnhancedCard.tsx` with:
@@ -65,7 +65,7 @@ import { EnhancedButton } from "@/components/ui/EnhancedButton"
   - 3D transform effects
 
 **Usage:**
-```tsx
+\`\`\`tsx
 import { EnhancedCard } from "@/components/ui/EnhancedCard"
 
 <EnhancedCard
@@ -76,7 +76,7 @@ import { EnhancedCard } from "@/components/ui/EnhancedCard"
 >
   Card content
 </EnhancedCard>
-```
+\`\`\`
 
 ### 5. **Form Enhancements** ✅
 - **Enhanced Form Fields** - `EnhancedForm.tsx` with:
@@ -87,7 +87,7 @@ import { EnhancedCard } from "@/components/ui/EnhancedCard"
   - Error messages with icons
 
 **Usage:**
-```tsx
+\`\`\`tsx
 import { EnhancedFormField, FormSuccess } from "@/components/ui/EnhancedForm"
 
 <EnhancedFormField
@@ -101,7 +101,7 @@ import { EnhancedFormField, FormSuccess } from "@/components/ui/EnhancedForm"
 />
 
 {showSuccess && <FormSuccess message="Form submitted!" onClose={handleClose} />}
-```
+\`\`\`
 
 ### 6. **Accessibility Improvements** ✅
 - **Accessibility Controls** - `AccessibilityControls.tsx` with:
@@ -125,13 +125,13 @@ import { EnhancedFormField, FormSuccess } from "@/components/ui/EnhancedForm"
   - CardSkeleton and TextSkeleton components
 
 **Usage:**
-```tsx
+\`\`\`tsx
 import { EnhancedSkeleton, CardSkeleton, TextSkeleton } from "@/components/ui/EnhancedSkeleton"
 
 <CardSkeleton />
 <TextSkeleton lines={3} />
 <EnhancedSkeleton variant="circular" width={40} height={40} />
-```
+\`\`\`
 
 ### 8. **Interactive Elements** ✅
 - **Tooltip** - `Tooltip.tsx` with hover delay and positioning
@@ -140,7 +140,7 @@ import { EnhancedSkeleton, CardSkeleton, TextSkeleton } from "@/components/ui/En
 - **Reading Time** - `ReadingTime.tsx` calculator
 
 **Usage:**
-```tsx
+\`\`\`tsx
 import { Tooltip, Confetti, ReadingProgress, ReadingTime } from "@/components/ui"
 
 <Tooltip content="Hover tooltip" side="top">
@@ -151,19 +151,19 @@ import { Tooltip, Confetti, ReadingProgress, ReadingTime } from "@/components/ui
 
 <ReadingProgress />
 <ReadingTime content={blogContent} />
-```
+\`\`\`
 
 ### 9. **Social Proof** ✅
 - **Animated Rating** - `AnimatedRating.tsx` with star animations
 - **Client Stats** - `ClientStats.tsx` with animated counters
 
 **Usage:**
-```tsx
+\`\`\`tsx
 import { AnimatedRating, ClientStats } from "@/components/ui"
 
 <AnimatedRating rating={4.5} maxRating={5} showValue={true} />
 <ClientStats />
-```
+\`\`\`
 
 ### 10. **Mobile Optimizations** ✅
 - **Mobile Bottom Nav** - Fixed bottom navigation for mobile
@@ -176,14 +176,14 @@ import { AnimatedRating, ClientStats } from "@/components/ui"
 - **Table of Contents** - `TableOfContents.tsx` with active section highlighting
 
 **Usage:**
-```tsx
+\`\`\`tsx
 import { TableOfContents } from "@/components/ui/TableOfContents"
 
 <TableOfContents items={[
   { id: "section-1", title: "Introduction", level: 1 },
   { id: "section-2", title: "Getting Started", level: 2 }
 ]} />
-```
+\`\`\`
 
 ### 12. **Project Showcase** ✅
 - **Project Preview Modal** - `ProjectPreviewModal.tsx` for quick previews
@@ -191,7 +191,7 @@ import { TableOfContents } from "@/components/ui/TableOfContents"
 - **Enhanced hover effects** - Applied to project cards
 
 **Usage:**
-```tsx
+\`\`\`tsx
 import { ProjectPreviewModal } from "@/components/ui/ProjectPreviewModal"
 
 <ProjectPreviewModal 
@@ -199,21 +199,21 @@ import { ProjectPreviewModal } from "@/components/ui/ProjectPreviewModal"
   isOpen={isOpen}
   onClose={() => setIsOpen(false)}
 />
-```
+\`\`\`
 
 ### 13. **Skills Section** ✅
 - **Skill Radar Chart** - `SkillRadarChart.tsx` component ready
 - **Enhanced animations** - Already implemented in Skills.tsx
 
 **Usage:**
-```tsx
+\`\`\`tsx
 import { SkillRadarChart } from "@/components/ui/SkillRadarChart"
 
 <SkillRadarChart data={[
   { skill: "Flutter", value: 95 },
   { skill: "Dart", value: 90 }
 ]} />
-```
+\`\`\`
 
 ## 🎨 CSS Enhancements Added
 
@@ -292,23 +292,23 @@ import { SkillRadarChart } from "@/components/ui/SkillRadarChart"
 ## 🚀 How to Use
 
 ### 1. Import Components:
-```tsx
+\`\`\`tsx
 import { EnhancedButton } from "@/components/ui/EnhancedButton"
 import { Tooltip } from "@/components/ui/Tooltip"
 import { StaggerContainer } from "@/components/ui/AnimationUtils"
-```
+\`\`\`
 
 ### 2. Replace Existing Components:
-```tsx
+\`\`\`tsx
 // Old
 <Button>Click me</Button>
 
 // New
 <EnhancedButton ripple gradient>Click me</EnhancedButton>
-```
+\`\`\`
 
 ### 3. Add New Features:
-```tsx
+\`\`\`tsx
 // Add tooltips
 <Tooltip content="Helpful tip">
   <Button>Hover me</Button>
@@ -320,7 +320,7 @@ import { StaggerContainer } from "@/components/ui/AnimationUtils"
     <motion.div key={item.id}>{item.content}</motion.div>
   ))}
 </StaggerContainer>
-```
+\`\`\`
 
 ## 🎯 Key Features
 
