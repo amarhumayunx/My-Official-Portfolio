@@ -44,9 +44,10 @@ export function PageTransition({ children, variant = "fade" }: PageTransitionPro
         animate={transitionConfig.animate}
         exit={transitionConfig.exit}
         transition={{
-          duration: 0.3,
-          ease: [0.25, 0.46, 0.45, 0.94],
+          duration: 0.4,
+          ease: [0.4, 0, 0.2, 1], // Smoother easing
         }}
+        style={{ willChange: "transform, opacity" }}
       >
         {children}
       </motion.div>

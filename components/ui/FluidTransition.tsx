@@ -18,9 +18,13 @@ export function FluidTransition({ children, delay = 0, duration = 0.6, className
       transition={{
         duration,
         delay,
-        ease: [0.25, 0.46, 0.45, 0.94],
+        ease: [0.4, 0, 0.2, 1], // Smoother easing curve
+        type: "spring",
+        stiffness: 100,
+        damping: 20,
       }}
       viewport={{ once: true, margin: "-50px" }}
+      style={{ willChange: "transform, opacity" }}
       className={className}
     >
       {children}

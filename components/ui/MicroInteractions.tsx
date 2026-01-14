@@ -79,9 +79,13 @@ export function MicroInteraction({
       className={className}
       {...variantMap[variant]}
       transition={{
-        duration: 0.2,
-        ease: "easeOut",
+        duration: 0.25,
+        ease: [0.4, 0, 0.2, 1], // Smoother easing
+        type: "spring",
+        stiffness: 400,
+        damping: 25,
       }}
+      style={{ willChange: "transform" }}
     >
       {children}
     </motion.div>

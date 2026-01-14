@@ -9,23 +9,47 @@ export default function BackToTop() {
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
+    let ticking = false
     const toggleVisibility = () => {
-      if (window.pageYOffset > 300) {
-        setIsVisible(true)
-      } else {
-        setIsVisible(false)
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          if (window.pageYOffset > 300) {
+            setIsVisible(true)
+          } else {
+            setIsVisible(false)
+          }
+          ticking = false
+        })
+        ticking = true
       }
     }
 
-    window.addEventListener("scroll", toggleVisibility)
+    window.addEventListener("scroll", toggleVisibility, { passive: true })
     return () => window.removeEventListener("scroll", toggleVisibility)
   }, [])
 
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    })
+    const start = window.pageYOffset
+    const startTime = performance.now()
+    const duration = 800
+
+    const easeInOutCubic = (t: number): number => {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
+    }
+
+    const animateScroll = (currentTime: number) => {
+      const elapsed = currentTime - startTime
+      const progress = Math.min(elapsed / duration, 1)
+      const ease = easeInOutCubic(progress)
+
+      window.scrollTo(0, start * (1 - ease))
+
+      if (progress < 1) {
+        requestAnimationFrame(animateScroll)
+      }
+    }
+
+    requestAnimationFrame(animateScroll)
   }
 
   return (
@@ -35,9 +59,15 @@ export default function BackToTop() {
           initial={{ opacity: 0, scale: 0, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0, y: 20 }}
-          transition={{ type: "spring", stiffness: 200, damping: 25 }}
-          whileHover={{ scale: 1.1 }}
+          transition={{ 
+            type: "spring", 
+            stiffness: 300, 
+            damping: 30,
+            mass: 0.8,
+          }}
+          whileHover={{ scale: 1.1, y: -2 }}
           whileTap={{ scale: 0.95 }}
+          style={{ willChange: "transform" }}
           className="fixed bottom-20 right-8 z-40"
         >
           <Button

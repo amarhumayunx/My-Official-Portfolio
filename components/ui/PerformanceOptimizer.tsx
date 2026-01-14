@@ -43,13 +43,16 @@ export function PerformanceOptimizer() {
       }
     }
 
-    // Debounce scroll events
-    let scrollTimeout: NodeJS.Timeout
+    // Optimize scroll with RAF throttling
+    let ticking = false
     const handleScroll = () => {
-      clearTimeout(scrollTimeout)
-      scrollTimeout = setTimeout(() => {
-        // Scroll handling logic here
-      }, 16) // ~60fps
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          // Scroll handling logic here
+          ticking = false
+        })
+        ticking = true
+      }
     }
 
     // Initialize optimizations
@@ -61,7 +64,6 @@ export function PerformanceOptimizer() {
 
     return () => {
       window.removeEventListener("scroll", handleScroll)
-      clearTimeout(scrollTimeout)
     }
   }, [])
 

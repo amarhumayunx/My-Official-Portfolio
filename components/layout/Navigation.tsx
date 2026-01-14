@@ -215,7 +215,14 @@ export default function Navigation() {
     <motion.nav
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5 }}
+      transition={{ 
+        duration: 0.6,
+        ease: [0.4, 0, 0.2, 1],
+        type: "spring",
+        stiffness: 100,
+        damping: 20,
+      }}
+      style={{ willChange: "transform, opacity" }}
       className="fixed top-0 left-0 right-0 z-50 px-3 sm:px-4 md:px-6 lg:px-8 py-2 sm:py-3"
       aria-label="Primary"
     >

@@ -22,6 +22,7 @@ import { ARIALiveRegion } from "@/components/ui/ARIALiveRegion"
 import { PerformanceOptimizer } from "@/components/ui/PerformanceOptimizer"
 import { GoogleAnalytics } from "@/components/ui/GoogleAnalytics"
 import { PageTransition } from "@/components/ui/PageTransition"
+import { SmoothScroll } from "@/components/ui/SmoothScroll"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -155,6 +156,7 @@ export default function RootLayout({
           <KeyboardShortcutsProvider>
             <ErrorBoundary>
               <SkipNav />
+              <SmoothScroll />
               <ScrollEnhancer />
               <PageLoadingBar />
               <ScrollIndicator />

@@ -49,7 +49,13 @@ export function PageLoadingBar() {
     <motion.div
       initial={{ scaleX: 0 }}
       animate={{ scaleX: isLoading ? progress / 100 : 0 }}
-      transition={{ duration: 0.3, ease: 'easeInOut' }}
+      transition={{ 
+        duration: 0.4, 
+        ease: [0.4, 0, 0.2, 1], // Smoother easing
+        type: "spring",
+        stiffness: 300,
+        damping: 30,
+      }}
       style={{ transformOrigin: 'left' }}
       className="fixed top-0 left-0 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 z-[9999] shadow-lg"
     />

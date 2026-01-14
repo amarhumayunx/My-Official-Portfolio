@@ -62,6 +62,7 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 80px;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
 /* Add optimized GPU acceleration for smooth animations */
@@ -82,6 +83,22 @@ html {
   * {
     scroll-behavior: smooth;
   }
+}
+
+/* GPU acceleration for smooth transforms */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Optimize animations with will-change */
+[data-animate],
+.animate-on-scroll {
+  will-change: transform, opacity;
+  transform: translateZ(0); /* Force GPU acceleration */
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
 
 /* Smooth transitions for scroll-linked animations */
@@ -215,11 +232,21 @@ input,
 textarea,
 select {
   transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: translateZ(0); /* GPU acceleration */
 }
 
 button:active,
 a:active {
   transition: all 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: translateZ(0) scale(0.98);
+}
+
+/* Smooth hover transitions */
+a,
+button {
+  transition-property: transform, opacity, background-color, color, box-shadow;
+  transition-duration: 0.2s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Improved custom scrollbar */
@@ -287,13 +314,17 @@ a:active {
   animation: pageIn 0.5s ease-out;
 }
 
-/* Enhanced hover effects */
+/* Enhanced hover effects with GPU acceleration */
 .hover-lift {
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  will-change: transform, box-shadow;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .hover-lift:hover {
-  transform: translateY(-8px);
+  transform: translateZ(0) translateY(-8px);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
@@ -343,17 +374,36 @@ a:active {
   }
 }
 
-/* Smooth transitions */
+/* Smooth transitions with GPU acceleration */
 .smooth-transition {
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: translateZ(0);
+  will-change: transform, opacity;
 }
 
 .smooth-transition-fast {
   transition: all 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: translateZ(0);
+  will-change: transform, opacity;
 }
 
 .smooth-transition-slow {
   transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: translateZ(0);
+  will-change: transform, opacity;
+}
+
+/* Ultra-smooth easing functions */
+.ease-smooth {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ease-bounce {
+  transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.ease-elastic {
+  transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* Hover lift effect */
@@ -385,6 +435,78 @@ a:active {
 }
 .stagger-item:nth-child(5) {
   animation-delay: 0.5s;
+}
+
+/* Performance optimizations for smooth scrolling */
+@media (prefers-reduced-motion: no-preference) {
+  /* Smooth scroll with momentum */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Optimize repaints during scroll */
+  body {
+    transform: translateZ(0);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* GPU acceleration for animated elements */
+  [data-animate],
+  .animate-on-scroll,
+  .hover-lift,
+  .hover-scale {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    perspective: 1000px;
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Smooth image loading */
+img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  image-rendering: optimize-quality;
+}
+
+/* Better text rendering */
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "kern" 1;
+  font-kerning: normal;
+}
+
+/* Smooth focus transitions */
+*:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+  transition: outline-offset 0.2s ease-out;
+}
+
+/* Optimize card animations */
+.card,
+[class*="Card"] {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Smooth backdrop blur transitions */
+.backdrop-blur {
+  transition: backdrop-filter 0.3s ease;
 }
 
 /* Enhanced Print Styles */

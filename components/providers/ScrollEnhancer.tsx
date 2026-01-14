@@ -9,6 +9,9 @@ const easeInOutCubic = (t: number): number => {
 
 export function ScrollEnhancer() {
   useEffect(() => {
+    let ticking = false
+    let rafId: number | null = null
+
     // Sync scroll-linked animations across elements with data-scroll-progress attribute
     const syncScrollAnimations = () => {
       const elements = document.querySelectorAll("[data-scroll-animate]")
@@ -23,18 +26,35 @@ export function ScrollEnhancer() {
         const eased = easeInOutCubic(elProgress)
         el.setAttribute("data-scroll-progress", String(eased))
       })
+
+      ticking = false
+    }
+
+    // Throttled scroll handler using requestAnimationFrame
+    const handleScroll = () => {
+      if (!ticking) {
+        rafId = requestAnimationFrame(syncScrollAnimations)
+        ticking = true
+      }
+    }
+
+    // Throttled resize handler
+    const handleResize = () => {
+      if (rafId) cancelAnimationFrame(rafId)
+      rafId = requestAnimationFrame(syncScrollAnimations)
     }
 
     // Use passive event listener for better performance
-    window.addEventListener("scroll", syncScrollAnimations, { passive: true })
-    window.addEventListener("resize", syncScrollAnimations, { passive: true })
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    window.addEventListener("resize", handleResize, { passive: true })
 
     // Initial sync on mount
     syncScrollAnimations()
 
     return () => {
-      window.removeEventListener("scroll", syncScrollAnimations)
-      window.removeEventListener("resize", syncScrollAnimations)
+      if (rafId) cancelAnimationFrame(rafId)
+      window.removeEventListener("scroll", handleScroll)
+      window.removeEventListener("resize", handleResize)
     }
   }, [])
 
