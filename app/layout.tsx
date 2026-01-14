@@ -23,6 +23,14 @@ import { PerformanceOptimizer } from "@/components/ui/PerformanceOptimizer"
 import { GoogleAnalytics } from "@/components/ui/GoogleAnalytics"
 import { PageTransition } from "@/components/ui/PageTransition"
 import { SmoothScroll } from "@/components/ui/SmoothScroll"
+import { SearchModal } from "@/components/ui/SearchModal"
+import { QuickJumpMenu } from "@/components/ui/QuickJumpMenu"
+import { AccessibilityControls } from "@/components/ui/AccessibilityControls"
+import { MobileBottomNav } from "@/components/ui/MobileBottomNav"
+import { ParticleBackground } from "@/components/ui/ParticleBackground"
+import { GradientMesh } from "@/components/ui/DynamicGradient"
+import { CursorTrail } from "@/components/ui/CursorTrail"
+import { ThemeColorCustomizer } from "@/components/ui/ThemeColorCustomizer"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -176,6 +184,14 @@ export default function RootLayout({
               <Toaster />
               <CookieConsent />
               <PWARegister />
+              <SearchModal />
+              <QuickJumpMenu />
+              <AccessibilityControls />
+              <MobileBottomNav />
+              <ParticleBackground />
+              <GradientMesh />
+              <CursorTrail />
+              <ThemeColorCustomizer />
             </ErrorBoundary>
           </KeyboardShortcutsProvider>
         </ThemeProvider>

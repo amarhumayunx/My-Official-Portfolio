@@ -1,83 +1,74 @@
 "use client"
 
+import * as React from "react"
 import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 
-interface SkeletonProps {
-  className?: string
-  variant?: "default" | "circular" | "text" | "card" | "image"
+interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
+  variant?: "text" | "circular" | "rectangular" | "card"
   width?: string | number
   height?: string | number
-  animate?: boolean
+  animation?: "pulse" | "wave" | "shimmer"
 }
 
 export function EnhancedSkeleton({
   className,
-  variant = "default",
+  variant = "rectangular",
   width,
   height,
-  animate = true,
+  animation = "shimmer",
+  ...props
 }: SkeletonProps) {
-  const baseClasses = "bg-muted rounded-md"
-  
+  const baseClasses = "bg-muted rounded"
   const variantClasses = {
-    default: "rounded-md",
+    text: "h-4 w-full",
     circular: "rounded-full",
-    text: "rounded h-4",
+    rectangular: "rounded-md",
     card: "rounded-lg",
-    image: "rounded-lg aspect-video",
   }
 
-  const style: React.CSSProperties = {
-    width: width || (variant === "text" ? "100%" : undefined),
-    height: height || (variant === "text" ? undefined : "1rem"),
-  }
-
-  if (!animate) {
-    return (
-      <div
-        className={cn(baseClasses, variantClasses[variant], className)}
-        style={style}
-      />
-    )
+  const animationClasses = {
+    pulse: "animate-pulse",
+    wave: "skeleton-wave",
+    shimmer: "skeleton-enhanced",
   }
 
   return (
     <motion.div
-      className={cn(baseClasses, variantClasses[variant], className)}
-      style={style}
-      animate={{
-        opacity: [0.5, 1, 0.5],
-      }}
-      transition={{
-        duration: 1.5,
-        repeat: Number.POSITIVE_INFINITY,
-        ease: "easeInOut",
-      }}
+      className={cn(
+        baseClasses,
+        variantClasses[variant],
+        animationClasses[animation],
+        className
+      )}
+      style={{ width, height }}
+      initial={{ opacity: 0.6 }}
+      animate={{ opacity: [0.6, 1, 0.6] }}
+      transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+      {...props}
     />
   )
 }
 
-// Pre-built skeleton components
+// Card skeleton
 export function CardSkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn("border rounded-lg p-6 space-y-4", className)}>
-      <EnhancedSkeleton variant="text" width="60%" />
-      <EnhancedSkeleton variant="text" width="100%" />
-      <EnhancedSkeleton variant="text" width="80%" />
+    <div className={cn("border border-border rounded-lg p-4 space-y-4", className)}>
+      <EnhancedSkeleton variant="rectangular" height={200} className="w-full" />
+      <div className="space-y-2">
+        <EnhancedSkeleton variant="text" width="60%" />
+        <EnhancedSkeleton variant="text" width="80%" />
+        <EnhancedSkeleton variant="text" width="40%" />
+      </div>
       <div className="flex gap-2">
-        <EnhancedSkeleton variant="circular" width={24} height={24} />
-        <EnhancedSkeleton variant="circular" width={24} height={24} />
-        <EnhancedSkeleton variant="circular" width={24} height={24} />
+        <EnhancedSkeleton variant="rectangular" width={80} height={24} />
+        <EnhancedSkeleton variant="rectangular" width={80} height={24} />
       </div>
     </div>
   )
 }
 
-export function ImageSkeleton({ className }: { className?: string }) {
-  return <EnhancedSkeleton variant="image" className={className} />
-}
-
+// Text skeleton
 export function TextSkeleton({ lines = 3, className }: { lines?: number; className?: string }) {
   return (
     <div className={cn("space-y-2", className)}>
@@ -90,19 +81,4 @@ export function TextSkeleton({ lines = 3, className }: { lines?: number; classNa
       ))}
     </div>
   )
-}
-
-export function AvatarSkeleton({ size = 40, className }: { size?: number; className?: string }) {
-  return (
-    <EnhancedSkeleton
-      variant="circular"
-      width={size}
-      height={size}
-      className={className}
-    />
-  )
-}
-
-export function ButtonSkeleton({ className }: { className?: string }) {
-  return <EnhancedSkeleton width={120} height={40} className={cn("rounded-md", className)} />
 }
