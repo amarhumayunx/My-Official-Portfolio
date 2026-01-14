@@ -6,7 +6,7 @@
 Reusable skeleton loaders with multiple variants for better loading states.
 
 **Usage:**
-```tsx
+\`\`\`tsx
 import { EnhancedSkeleton, CardSkeleton, ImageSkeleton, TextSkeleton } from "@/components/ui/EnhancedSkeleton"
 
 // Basic skeleton
@@ -18,7 +18,7 @@ import { EnhancedSkeleton, CardSkeleton, ImageSkeleton, TextSkeleton } from "@/c
 <TextSkeleton lines={3} />
 <AvatarSkeleton size={40} />
 <ButtonSkeleton />
-```
+\`\`\`
 
 **Variants:**
 - `default` - Standard rounded rectangle
@@ -31,7 +31,7 @@ import { EnhancedSkeleton, CardSkeleton, ImageSkeleton, TextSkeleton } from "@/c
 Subtle interaction feedback components for enhanced UX.
 
 **Usage:**
-```tsx
+\`\`\`tsx
 import { MicroInteraction, RippleButton, PulseEffect, ShimmerEffect, MagneticEffect } from "@/components/ui/MicroInteractions"
 
 // Scale interaction
@@ -63,7 +63,7 @@ import { MicroInteraction, RippleButton, PulseEffect, ShimmerEffect, MagneticEff
 <MagneticEffect strength={0.3}>
   <Button>Magnetic Button</Button>
 </MagneticEffect>
-```
+\`\`\`
 
 **Variants:**
 - `scale` - Scale up on hover
@@ -80,7 +80,7 @@ import { MicroInteraction, RippleButton, PulseEffect, ShimmerEffect, MagneticEff
 Smooth page transition animations.
 
 **Usage:**
-```tsx
+\`\`\`tsx
 import { PageTransition, StaggerContainer, StaggerItem } from "@/components/ui/PageTransition"
 
 // Page transition wrapper
@@ -94,7 +94,7 @@ import { PageTransition, StaggerContainer, StaggerItem } from "@/components/ui/P
   <StaggerItem>Item 2</StaggerItem>
   <StaggerItem>Item 3</StaggerItem>
 </StaggerContainer>
-```
+\`\`\`
 
 **Variants:**
 - `fade` - Fade in/out

@@ -83,30 +83,30 @@ Hi! I'm **Muhammad Humayun Amar**, a dedicated **Full-Stack Flutter & Mobile App
 ## 🛠️ Tech Stack
 
 ### Frontend
-```
+\`\`\`
 ✨ Next.js 15.1.11 - React Framework
 🎨 Tailwind CSS - Utility-first styling
 💫 Framer Motion - Advanced animations
 📱 TypeScript - Type-safe development
 🎭 Shadcn/UI - Beautiful component library
-```
+\`\`\`
 
 ### Backend & Services
-```
+\`\`\`
 🔥 Firebase - Authentication & Database
 ☁️ Cloud Firestore - Real-time Database
 📦 Vercel - Deployment & Hosting
 🔐 Supabase - PostgreSQL Database
-```
+\`\`\`
 
 ### Tools & Libraries
-```
+\`\`\`
 📊 Recharts - Data visualization
 🎪 SWR - Data fetching & caching
 🔍 ESLint & Prettier - Code quality
 ⚙️ Turborepo - Monorepo management
 🧪 Jest - Testing framework
-```
+\`\`\`
 
 ---
 
@@ -333,57 +333,57 @@ A feature-rich Flutter application designed to bring couples closer together wit
 ## 💻 Installation
 
 ### Prerequisites
-```bash
+\`\`\`bash
 - Node.js 18+
 - npm or yarn
 - Git
-```
+\`\`\`
 
 ### Clone the Repository
-```bash
+\`\`\`bash
 git clone https://github.com/amarhumayunx/portfolio.git
 cd portfolio
-```
+\`\`\`
 
 ### Install Dependencies
-```bash
+\`\`\`bash
 npm install
 # or
 yarn install
-```
+\`\`\`
 
 ### Environment Variables
 Create a `.env.local` file:
-```env
+\`\`\`env
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
 GITHUB_TOKEN=your_github_token
 NEXT_PUBLIC_RECAPTCHA_SITE_KEY=your_recaptcha_key
-```
+\`\`\`
 
 ---
 
 ## 🚀 Getting Started
 
 ### Development Server
-```bash
+\`\`\`bash
 npm run dev
 # or
 yarn dev
-```
+\`\`\`
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ### Build for Production
-```bash
+\`\`\`bash
 npm run build
 npm run start
-```
+\`\`\`
 
 ### Deploy to Vercel
-```bash
+\`\`\`bash
 vercel deploy
-```
+\`\`\`
 
 ---
 
