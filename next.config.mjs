@@ -23,14 +23,6 @@ const nextConfig = {
       },
     ]
   },
-  async rewrites() {
-    return [
-      {
-        source: "/sw.js",
-        destination: "/sw",
-      },
-    ]
-  },
   images: {
     unoptimized: false,
     formats: ["image/avif", "image/webp"],
