@@ -14,7 +14,9 @@ export function PWARegister() {
       // Register service worker
       const registerServiceWorker = async () => {
         try {
-          const registration = await navigator.serviceWorker.register("/sw.js", {
+          // Try the API route first, fallback to public file
+          const swPath = "/sw.js"
+          const registration = await navigator.serviceWorker.register(swPath, {
             scope: "/",
           })
 
