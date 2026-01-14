@@ -46,8 +46,13 @@ const projects = [
 
 export default function Footer() {
   return (
-    <footer className="bg-gradient-to-b from-muted/50 to-muted/80 border-t border-border/50 backdrop-blur-sm">
-      <div className="max-w-7xl mx-auto section-padding py-16">
+    <footer className="bg-gradient-to-b from-muted/50 via-muted/60 to-muted/80 border-t border-border/50 backdrop-blur-sm relative overflow-hidden">
+      {/* Decorative background elements */}
+      <div className="absolute inset-0 opacity-5 dark:opacity-10">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary rounded-full blur-3xl" />
+      </div>
+      <div className="max-w-7xl mx-auto section-padding py-16 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Brand Section - Enhanced */}
           <FluidTransition className="lg:col-span-1">
@@ -227,18 +232,37 @@ export default function Footer() {
         <FluidTransition delay={0.5} className="mt-12 pt-8 border-t border-border/50">
           <motion.div
             className="flex flex-col md:flex-row justify-between items-center gap-4"
-            whileHover={{ scale: 1.01 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.3 }}
           >
-            <p className="text-sm text-muted-foreground">
-              © {new Date().getFullYear()} Muhammad Humayun Amar. All rights reserved.
-            </p>
-            <div className="flex items-center gap-6">
-              <Link href="/privacy" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+            <div className="flex flex-col items-center md:items-start gap-2">
+              <p className="text-sm text-muted-foreground text-center md:text-left">
+                © {new Date().getFullYear()} Muhammad Humayun Amar. All rights reserved.
+              </p>
+              <p className="text-xs text-muted-foreground/70 text-center md:text-left">
+                Built with Next.js, React, and Tailwind CSS
+              </p>
+            </div>
+            <div className="flex items-center gap-6 flex-wrap justify-center">
+              <Link 
+                href="/privacy" 
+                className="text-sm text-muted-foreground hover:text-primary transition-colors"
+              >
                 Privacy Policy
               </Link>
-              <Link href="/terms" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+              <Link 
+                href="/terms" 
+                className="text-sm text-muted-foreground hover:text-primary transition-colors"
+              >
                 Terms of Service
+              </Link>
+              <Link 
+                href="/sitemap.xml" 
+                className="text-sm text-muted-foreground hover:text-primary transition-colors"
+              >
+                Sitemap
               </Link>
             </div>
           </motion.div>

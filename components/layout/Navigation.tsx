@@ -39,7 +39,6 @@ const navItems: NavItem[] = [
   { name: "Skills", href: "#skills", icon: Code },
   { name: "Projects", href: "#projects", icon: Briefcase },
   { name: "Portfolio", href: "#portfolio", icon: Images },
-  { name: "Repos", href: "#repositories", icon: Github },
   { name: "Services", href: "#services", icon: Zap },
   { name: "Testimonials", href: "#testimonials", icon: MessageCircle },
   { name: "Blog", href: "#blog", icon: FileText },
@@ -226,25 +225,26 @@ export default function Navigation() {
             : "bg-white/70 dark:bg-zinc-900/70 border-zinc-200/20 dark:border-zinc-800/20",
         ].join(" ")}
       >
-        <div className="px-3 sm:px-4 md:px-5">
-          <div className="h-12 sm:h-14 flex items-center justify-between">
+        <div className="px-3 sm:px-4 md:px-5 lg:px-6">
+          <div className="h-12 sm:h-14 flex items-center justify-between gap-2 lg:gap-4">
             <button
               type="button"
               onClick={(e) => handleNavClick(e, "/")}
-              className="flex items-center gap-1.5 sm:gap-2 group"
+              className="flex items-center gap-1.5 sm:gap-2 group flex-shrink-0 z-50"
               aria-label="Go to home"
             >
-              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 group-hover:rotate-180 transition-transform duration-500" />
-              <span className="text-base sm:text-lg font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 group-hover:rotate-180 transition-transform duration-500 flex-shrink-0" />
+              <span className="text-base sm:text-lg font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent whitespace-nowrap">
                 MHA
               </span>
             </button>
 
-            <div className="hidden lg:flex flex-1 justify-center px-2">
+            <div className="hidden lg:flex flex-1 justify-center px-2 min-w-0 max-w-5xl mx-auto">
               <div
                 ref={containerRef}
                 data-testid="nav-container"
-                className="relative flex items-center gap-0.5 sm:gap-1 rounded-full border border-zinc-200/30 dark:border-zinc-800/30 bg-zinc-50/60 dark:bg-zinc-800/60 px-1.5 sm:px-2 py-1"
+                className="relative flex items-center gap-0.5 rounded-full border border-zinc-200/30 dark:border-zinc-800/30 bg-zinc-50/60 dark:bg-zinc-800/60 px-1.5 py-1 overflow-x-auto scrollbar-hide"
+                style={{ maxWidth: "100%" }}
               >
                 <AnimatePresence>
                   {activeRect && (
@@ -275,11 +275,11 @@ export default function Navigation() {
                       onClick={(e) => handleNavClick(e, item.href)}
                       data-testid={`nav-btn-${testId}`}
                       className={[
-                        "relative z-20 px-2 sm:px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-colors whitespace-nowrap",
+                        "relative z-20 px-2.5 py-1.5 rounded-full text-xs font-medium transition-colors whitespace-nowrap flex-shrink-0",
                         active
                           ? "text-white"
                           : "text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white",
-                        "flex items-center gap-1.5 sm:gap-2",
+                        "flex items-center gap-1.5",
                       ].join(" ")}
                     >
                       {!active && (
@@ -288,57 +288,45 @@ export default function Navigation() {
                           aria-hidden="true"
                         />
                       )}
-                      <item.icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                      <span className="hidden xl:inline">{item.name}</span>
+                      <item.icon className="w-3.5 h-3.5 flex-shrink-0" />
+                      <span className="hidden 2xl:inline">{item.name}</span>
                     </button>
                   )
                 })}
               </div>
             </div>
 
-            <div className="flex items-center gap-1.5 sm:gap-2">
+            <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
               <Button
                 asChild
                 size="sm"
-                className="hidden md:inline-flex rounded-full px-3 sm:px-4 text-xs sm:text-sm bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700"
+                variant="ghost"
+                className="hidden md:flex w-9 h-9 rounded-full border border-zinc-200/40 dark:border-zinc-800/40 bg-zinc-100/60 dark:bg-zinc-800/60 p-0"
+                aria-label="Search"
+              >
+                <Link href="/search">
+                  <Search className="w-4 h-4" />
+                </Link>
+              </Button>
+
+              <Button
+                asChild
+                size="sm"
+                className="hidden lg:inline-flex rounded-full px-3 text-xs bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 whitespace-nowrap"
               >
                 <Link href="/consultation">Consultation</Link>
               </Button>
 
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="relative w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-zinc-200/40 dark:border-zinc-800/40 bg-zinc-100/60 dark:bg-zinc-800/60"
-                aria-label="Toggle theme"
-              >
-                <AnimatePresence mode="wait" initial={false}>
-                  <motion.span
-                    key={theme}
-                    initial={{ rotate: -90, opacity: 0, y: -6 }}
-                    animate={{ rotate: 0, opacity: 1, y: 0 }}
-                    exit={{ rotate: 90, opacity: 0, y: 6 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 22 }}
-                    className="inline-flex"
-                    aria-hidden="true"
-                  >
-                    {theme === "dark" ? (
-                      <Sun className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400" />
-                    ) : (
-                      <Moon className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
-                    )}
-                  </motion.span>
-                </AnimatePresence>
-              </Button>
+              <ThemeToggle />
 
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => setIsOpen((v) => !v)}
-                className="lg:hidden w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-zinc-200/40 dark:border-zinc-800/40"
+                className="lg:hidden w-9 h-9 rounded-full border border-zinc-200/40 dark:border-zinc-800/40 p-0"
                 aria-label="Toggle navigation"
               >
-                {isOpen ? <X className="w-4 h-4 sm:w-5 sm:h-5" /> : <Menu className="w-4 h-4 sm:w-5 sm:h-5" />}
+                {isOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
               </Button>
             </div>
           </div>

@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion"
 import { ArrowDown, Github, Linkedin, Mail, MapPin, User, Code, Smartphone, Download } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { TypewriterEffect } from "@/components/ui/TypewriterEffect"
+import { ResumeDownload } from "@/components/ui/ResumeDownload"
 import { useRef } from "react"
 
 export default function Hero() {
@@ -263,20 +264,7 @@ export default function Hero() {
                 </Button>
               </motion.div>
               <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-                <Button variant="default" size="sm" asChild>
-                  <a
-                    href="https://1drv.ms/b/c/f52c129f139cdf74/EQwjXMFFgbBLmqfJFSRJ-AYBMongYaCUsS2hpllsTSK0hg?e=RKM7HU"
-                    download="Muhammad_Humayun_Amar_CV.pdf"
-                    className="flex items-center gap-2 text-sm"
-                    aria-label="Download Muhammad Humayun Amar's CV"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Download className="w-4 h-4" aria-hidden="true" />
-                    <span className="hidden sm:inline">Download CV</span>
-                    <span className="sm:hidden">CV</span>
-                  </a>
-                </Button>
+                <ResumeDownload variant="default" size="sm" />
               </motion.div>
             </div>
           </motion.div>

@@ -1,12 +1,14 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
+import { motion } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Github, Globe, Search, Filter } from "lucide-react"
+import { projects } from "@/data/projects"
 
 type Repo = {
   id: number
@@ -96,10 +98,27 @@ export default function GitHubRepos({
     return [...base, ...rest]
   }, [data])
 
+  // Extract GitHub repo names from projects
+  const projectRepoNames = useMemo(() => {
+    return projects
+      .map((project) => {
+        // Extract repo name from GitHub URL (e.g., "https://github.com/amarhumayunx/balancebite" -> "balancebite")
+        const match = project.githubUrl.match(/github\.com\/[^/]+\/([^/]+)/)
+        return match ? match[1].toLowerCase() : null
+      })
+      .filter((name): name is string => name !== null)
+  }, [])
+
   const filtered = useMemo(() => {
     const repos = data?.repos ?? []
     const q = query.trim().toLowerCase()
-    let out = repos.filter((r) => (showArchived ? true : !r.archived))
+    
+    // Filter to only show repos that match projects
+    let out = repos.filter((r) => {
+      const repoName = r.name.toLowerCase()
+      return projectRepoNames.includes(repoName) && (showArchived ? true : !r.archived)
+    })
+    
     if (q) {
       out = out.filter(
         (r) =>
@@ -124,27 +143,42 @@ export default function GitHubRepos({
         break
     }
     return out
-  }, [data, query, language, sort, showArchived])
+  }, [data, query, language, sort, showArchived, projectRepoNames])
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / perPage))
   const currentPage = Math.min(page, totalPages)
   const visible = filtered.slice((currentPage - 1) * perPage, currentPage * perPage)
 
   return (
-    <section id="repositories" className="py-12 md:py-16 lg:py-20">
+    <section id="repositories" className="section-padding bg-muted/30">
       <div className="max-w-7xl mx-auto w-full px-4">
         {showHeader && (
-          <div className="mb-8 sm:mb-10">
-            <div className="flex items-center gap-3 mb-3">
-              <Github className="w-6 h-6 sm:w-8 sm:h-8 text-primary flex-shrink-0" aria-hidden="true" />
-              <h2 className="text-2xl sm:text-4xl font-bold">
-                GitHub <span className="gradient-text">Repositories</span>
-              </h2>
-            </div>
-            <p className="text-muted-foreground text-sm sm:text-base ml-9">
-              These are all my public GitHub repositories. Explore my projects and open source contributions.
-            </p>
-          </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+          viewport={{ once: true, margin: "-50px" }}
+          className="text-center mb-12 sm:mb-16"
+        >
+          <motion.h2
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4"
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3 }}
+            viewport={{ once: true }}
+          >
+            GitHub <span className="gradient-text">Repositories</span>
+          </motion.h2>
+          <motion.p
+            className="text-base sm:text-lg text-muted-foreground max-w-3xl mx-auto px-4"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.3, delay: 0.1 }}
+            viewport={{ once: true }}
+          >
+            Explore the GitHub repositories for projects featured in my portfolio timeline.
+          </motion.p>
+        </motion.div>
         )}
 
         <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-8 w-full">
@@ -167,7 +201,7 @@ export default function GitHubRepos({
               <CardTitle className="text-xs sm:text-sm text-muted-foreground">Last Sync</CardTitle>
             </CardHeader>
             <CardContent className="text-2xl sm:text-3xl font-bold">
-              {loading ? "…" : data ? new Date(data.fetchedAt).toLocaleDateString() : "—"}
+              {loading ? "…" : data ? new Date(data.fetchedAt).toLocaleDateString("en-US") : "—"}
             </CardContent>
           </Card>
         </div>

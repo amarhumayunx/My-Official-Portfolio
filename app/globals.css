@@ -318,32 +318,133 @@ a:active {
   animation-delay: 0.5s;
 }
 
-/* Print Styles */
+/* Enhanced Print Styles */
 @media print {
+  * {
+    background: transparent !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
   body {
     background-color: #fff !important;
     color: #000 !important;
+    font-size: 12pt;
+    line-height: 1.5;
   }
+
   /* Hide elements not needed for print */
   .custom-cursor-enabled,
   .fixed,
-  .no-print {
+  .no-print,
+  nav,
+  footer,
+  button,
+  .floating-action-button,
+  .back-to-top,
+  .cookie-consent,
+  .pwa-register,
+  .scroll-indicator,
+  .page-loading-bar {
     display: none !important;
   }
+
   /* Ensure content is visible and readable */
   .section-padding {
-    padding: 0 !important;
+    padding: 1cm 0 !important;
   }
-  .max-w-4xl {
+
+  .max-w-4xl,
+  .max-w-7xl {
     max-width: 100% !important;
   }
+
   .prose {
     max-width: 100% !important;
     color: #000 !important;
   }
+
+  /* Images */
   img {
     max-width: 100% !important;
     height: auto !important;
+    page-break-inside: avoid;
+  }
+
+  /* Links */
+  a {
+    color: #000 !important;
+    text-decoration: underline;
+  }
+
+  a[href^="http"]:after {
+    content: " (" attr(href) ")";
+    font-size: 90%;
+    word-break: break-all;
+  }
+
+  a[href^="#"]:after,
+  a[href^="mailto:"]:after {
+    content: "";
+  }
+
+  /* Page breaks */
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+    page-break-inside: avoid;
+  }
+
+  p, li {
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* Code blocks */
+  pre, code {
+    border: 1px solid #999;
+    page-break-inside: avoid;
+  }
+
+  /* Tables */
+  table {
+    border-collapse: collapse;
+    page-break-inside: avoid;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  tr {
+    page-break-inside: avoid;
+  }
+
+  /* Cards and containers */
+  .card,
+  article,
+  section {
+    page-break-inside: avoid;
+    border: 1px solid #ddd !important;
+    padding: 1em !important;
+    margin-bottom: 1em !important;
+  }
+
+  /* Print URL and date */
+  @page {
+    margin: 2cm;
+    @top-right {
+      content: "Page " counter(page) " of " counter(pages);
+      font-size: 9pt;
+    }
+  }
+
+  /* Hide decorative elements */
+  .gradient-text,
+  .glass-effect,
+  .backdrop-blur {
+    color: #000 !important;
+    background: transparent !important;
   }
 }
 
@@ -374,6 +475,16 @@ a:active {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Hide scrollbar utility */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
 }
 
 /* Better font rendering and text smoothing */

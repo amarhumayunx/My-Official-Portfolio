@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input"
 import { getProjectsWithSlugs } from "@/lib/project-utils"
 import Link from "next/link"
 import { categories } from "@/data/categories"
+import GitHubRepos from "@/components/sections/github-repos"
 
 const ProjectCardSkeleton = () => (
   <Card className="h-full shadow-lg border-0 overflow-hidden">
@@ -433,6 +434,36 @@ export default function Projects() {
               </a>
             </Button>
           </motion.div>
+        </motion.div>
+
+        {/* Project Timeline View */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          viewport={{ once: true }}
+          className="mt-20"
+        >
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+              Project <span className="gradient-text">Timeline</span>
+            </h2>
+            <p className="text-muted-foreground">
+              A chronological view of all my projects and their development journey
+            </p>
+          </div>
+          <ProjectTimeline projects={allProjects} />
+        </motion.div>
+
+        {/* GitHub Repositories Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          viewport={{ once: true }}
+          className="mt-20"
+        >
+          <GitHubRepos showHeader={true} />
         </motion.div>
       </div>
     </section>

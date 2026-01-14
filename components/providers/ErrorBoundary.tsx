@@ -27,6 +27,16 @@ export class ErrorBoundary extends React.Component<Props, State> {
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error("[ErrorBoundary] Caught an error:", error, errorInfo)
+    
+    // Track error with enhanced error tracking
+    if (typeof window !== "undefined") {
+      import("@/lib/error-tracking").then(({ errorTracker }) => {
+        errorTracker.trackError(error, {
+          componentStack: errorInfo.componentStack,
+          errorBoundary: true,
+        })
+      })
+    }
   }
 
   private handleReset = () => {

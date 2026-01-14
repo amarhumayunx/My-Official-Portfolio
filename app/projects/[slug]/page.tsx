@@ -10,6 +10,10 @@ import { FluidTransition } from "@/components/ui/FluidTransition"
 import Link from "next/link"
 import { DisqusComments } from "@/components/ui/DisqusComments"
 import { SocialShareButtons } from "@/components/ui/SocialShareButtons"
+import { WebShare } from "@/components/ui/WebShare"
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs"
+import { RelatedProjects } from "@/components/ui/RelatedContent"
+import { projects } from "@/data/projects"
 
 // Generate static params for all projects at build time
 export async function generateStaticParams() {
@@ -191,8 +195,9 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
         </FluidTransition>
 
         {/* Social Share Buttons */}
-        <FluidTransition delay={0.5} className="mb-12 no-print">
+        <FluidTransition delay={0.5} className="mb-12 no-print flex items-center gap-4 flex-wrap">
           <SocialShareButtons url={fullUrl} title={project.title} />
+          <WebShare title={project.title} text={project.description} url={fullUrl} />
         </FluidTransition>
 
         {/* Disqus Comments Section */}

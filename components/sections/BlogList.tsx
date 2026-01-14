@@ -100,7 +100,7 @@ export default function BlogList() {
                     </div>
                     <div className="flex items-center gap-1">
                       <Calendar className="w-3 h-3" />
-                      {new Date(post.date).toLocaleDateString()}
+                      {new Date(post.date).toLocaleDateString("en-US")}
                     </div>
                   </div>
 

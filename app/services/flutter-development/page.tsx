@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function FlutterDevelopmentPage() {
   return (
-    <main className="min-h-screen pt-16">
+    <main className="min-h-screen pt-24">
       <FlutterDevelopmentService />
     </main>
   )
