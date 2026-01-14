@@ -131,7 +131,7 @@ export default function GitHubRepos({
   const visible = filtered.slice((currentPage - 1) * perPage, currentPage * perPage)
 
   return (
-    <section id="github-repos" className="w-full section-padding bg-muted/20">
+    <section id="repositories" className="py-12 md:py-16 lg:py-20">
       <div className="max-w-7xl mx-auto w-full px-4">
         {showHeader && (
           <div className="mb-8 sm:mb-10">

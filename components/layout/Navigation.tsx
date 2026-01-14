@@ -7,7 +7,24 @@ import { useTheme } from "next-themes"
 import { usePathname, useRouter } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Briefcase, Code, FileText, Home, Menu, MessageCircle, Moon, Sparkles, Sun, User, X } from "lucide-react"
+import {
+  Briefcase,
+  Code,
+  FileText,
+  Home,
+  Menu,
+  MessageCircle,
+  Moon,
+  Sparkles,
+  Sun,
+  User,
+  X,
+  BarChart3,
+  Images,
+  Github,
+  Zap,
+  Mail,
+} from "lucide-react"
 
 type NavItem = {
   name: string
@@ -18,12 +35,15 @@ type NavItem = {
 const navItems: NavItem[] = [
   { name: "Home", href: "#home", icon: Home },
   { name: "About", href: "#about", icon: User },
+  { name: "Stats", href: "#stats", icon: BarChart3 },
   { name: "Skills", href: "#skills", icon: Code },
   { name: "Projects", href: "#projects", icon: Briefcase },
-  { name: "Services", href: "#services", icon: Briefcase }, // Changed from "/services" to "#services" to scroll to homepage section
+  { name: "Portfolio", href: "#portfolio", icon: Images },
+  { name: "Repos", href: "#repositories", icon: Github },
+  { name: "Services", href: "#services", icon: Zap },
   { name: "Testimonials", href: "#testimonials", icon: MessageCircle },
   { name: "Blog", href: "#blog", icon: FileText },
-  { name: "Contact", href: "#contact", icon: MessageCircle },
+  { name: "Contact", href: "#contact", icon: Mail },
 ]
 
 export default function Navigation() {

@@ -1,21 +1,21 @@
-'use client'
+"use client"
 
-import { useState, useRef, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import Image from 'next/image'
-import Link from 'next/link'
-import { getProjectsWithSlugs } from '@/lib/project-utils'
+import { useState, useRef } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { ChevronLeft, ChevronRight } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import Image from "next/image"
+import Link from "next/link"
+import { getProjectsWithSlugs } from "@/lib/project-utils"
 
 export default function ProjectsCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [direction, setDirection] = useState(0)
   const [dragStart, setDragStart] = useState(0)
   const containerRef = useRef<HTMLDivElement>(null)
-  
+
   const projects = getProjectsWithSlugs().slice(0, 6)
 
   const paginate = (newDirection: number) => {
@@ -39,7 +39,7 @@ export default function ProjectsCarousel() {
   const project = projects[currentIndex]
 
   return (
-    <section className="section-padding bg-gradient-to-b from-muted/20 to-background">
+    <section id="portfolio" className="section-padding bg-gradient-to-b from-muted/20 to-background">
       <div className="max-w-4xl mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -79,11 +79,11 @@ export default function ProjectsCarousel() {
                     initial={{ opacity: 0, x: direction > 0 ? 100 : -100 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: direction > 0 ? -100 : 100 }}
-                    transition={{ duration: 0.4, ease: 'easeInOut' }}
+                    transition={{ duration: 0.4, ease: "easeInOut" }}
                     className="absolute inset-0"
                   >
                     <Image
-                      src={project.image || '/placeholder.svg'}
+                      src={project.image || "/placeholder.svg"}
                       alt={project.title}
                       fill
                       className="object-cover"
@@ -110,11 +110,7 @@ export default function ProjectsCarousel() {
                   </motion.div>
                 </div>
                 <div className="text-white text-sm font-medium">
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.2 }}
-                  >
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
                     {currentIndex + 1} / {projects.length}
                   </motion.div>
                 </div>
@@ -180,7 +176,7 @@ export default function ProjectsCarousel() {
                   setCurrentIndex(i)
                 }}
                 className={`h-2 rounded-full transition-all ${
-                  i === currentIndex ? 'bg-primary w-8' : 'bg-muted-foreground/30 w-2'
+                  i === currentIndex ? "bg-primary w-8" : "bg-muted-foreground/30 w-2"
                 }`}
                 whileHover={{ scale: 1.2 }}
                 aria-label={`Go to project ${i + 1}`}

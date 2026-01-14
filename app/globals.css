@@ -398,3 +398,70 @@ a:focus-visible,
 [role="button"]:focus-visible {
   transition: outline-offset 0.2s ease-out;
 }
+
+/* Add professional confetti and animation styles */
+@keyframes confetti-fall {
+  to {
+    transform: translateY(100vh) translateX(100px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Add ripple effect keyframes */
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Add glassmorphism effect */
+.glassmorphic {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark .glassmorphic {
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Enhanced button hover and active states */
+button {
+  position: relative;
+  overflow: hidden;
+}
+
+button::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+button:active::before {
+  animation: ripple 0.6s ease-out;
+}
+
+/* Smooth form input animations */
+input:focus,
+textarea:focus,
+select:focus {
+  animation: inputFocus 0.3s ease-out;
+}
+
+@keyframes inputFocus {
+  from {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+  }
+  to {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+}
