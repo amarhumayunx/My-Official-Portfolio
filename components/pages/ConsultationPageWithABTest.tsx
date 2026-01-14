@@ -13,6 +13,7 @@ import {
   Target,
   Lightbulb,
   ArrowRight,
+  ArrowLeft,
   Star,
   Award,
   Zap,
@@ -32,6 +33,7 @@ import { useABTest } from "@/hooks/useABTest"
 import { HeroVariantA, HeroVariantB } from "@/components/ab-tests/ConsultationHeroVariants"
 import { CTAVariantA, CTAVariantB } from "@/components/ab-tests/ConsultationCTAVariants"
 import { FormVariantA, FormVariantB } from "@/components/ab-tests/ConsultationFormVariants"
+import Link from "next/link"
 
 // Smooth loading component
 const SmoothLoader = () => (
@@ -620,6 +622,26 @@ export const ConsultationPageWithABTest: React.FC = () => {
 
   return (
     <div className="min-h-screen overflow-x-hidden">
+      {/* Back to Home Button - Top Right Corner */}
+      <motion.div
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+        className="fixed top-4 right-4 sm:top-6 sm:right-6 z-50"
+      >
+        <Button
+          asChild
+          variant="outline"
+          className="backdrop-blur-xl bg-white/85 dark:bg-zinc-900/85 border-zinc-200/30 dark:border-zinc-800/30 shadow-md hover:shadow-lg transition-all duration-300 rounded-xl px-4 py-2 sm:px-5 sm:py-2.5 group"
+        >
+          <Link href="/" className="flex items-center gap-2 text-sm sm:text-base font-medium">
+            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:-translate-x-1" />
+            <span className="hidden sm:inline">Main Homepage Portfolio</span>
+            <span className="sm:hidden">Home</span>
+          </Link>
+        </Button>
+      </motion.div>
+
       {/* Hero Section A/B Test with smooth transitions */}
       <AnimatePresence mode="wait">
         {heroTest.variant === "hero_a" ? (
