@@ -9,9 +9,12 @@ import Testimonials from "@/components/sections/Testimonials"
 import Blog from "@/components/sections/Blog"
 import Contact from "@/components/sections/Contact"
 import ProjectsCarousel from "@/components/sections/ProjectsCarousel"
+import { PrefetchManager } from "@/components/ui/PrefetchManager"
 
 export default function Home() {
   return (
+    <>
+      <PrefetchManager />
     <>
       <Hero />
       <About />

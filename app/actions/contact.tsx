@@ -2,9 +2,17 @@
 
 import { z } from "zod"
 import { Resend } from "resend"
+import { checkRateLimit } from "@/lib/rate-limit"
+import { headers } from "next/headers"
 
-const RESEND_API_KEY_DEMO = "re_6NDc9ymU_9sLrmCNYgQK5p4d8nWGJU4wg"
-const resend = new Resend(RESEND_API_KEY_DEMO)
+// Get API key from environment variables for security
+const RESEND_API_KEY = process.env.RESEND_API_KEY || process.env.NEXT_PUBLIC_RESEND_API_KEY
+
+if (!RESEND_API_KEY) {
+  console.error("RESEND_API_KEY is not set in environment variables")
+}
+
+const resend = RESEND_API_KEY ? new Resend(RESEND_API_KEY) : null
 
 const multiStepContactSchema = z.object({
   // Step 1: Basic Info
@@ -35,6 +43,26 @@ export async function sendMultiStepContactMessage(formData: FormData) {
   console.log("Server Action: sendMultiStepContactMessage started.")
 
   try {
+    // Rate limiting - use email as identifier
+    const email = formData.get("email") as string
+    const headersList = await headers()
+    const ip = headersList.get("x-forwarded-for") || headersList.get("x-real-ip") || "unknown"
+    const identifier = email || ip
+
+    const rateLimit = checkRateLimit({
+      windowMs: 15 * 60 * 1000, // 15 minutes
+      maxRequests: 3, // Max 3 requests per 15 minutes
+      identifier,
+    })
+
+    if (!rateLimit.allowed) {
+      const resetMinutes = Math.ceil((rateLimit.resetTime - Date.now()) / 60000)
+      return {
+        success: false,
+        message: `Too many requests. Please try again in ${resetMinutes} minute(s).`,
+      }
+    }
+
     // Extract and validate form data
     const rawData = {
       name: formData.get("name"),
@@ -1092,6 +1120,15 @@ export async function sendMultiStepContactMessage(formData: FormData) {
   </div>
 </body>
 </html>`
+    }
+
+    // Check if Resend is configured
+    if (!resend) {
+      console.error("Resend is not configured. Please set RESEND_API_KEY in environment variables.")
+      return {
+        success: false,
+        message: "Email service is not configured. Please contact me directly at amarhumayun@outlook.com",
+      }
     }
 
     // Generate the email HTML

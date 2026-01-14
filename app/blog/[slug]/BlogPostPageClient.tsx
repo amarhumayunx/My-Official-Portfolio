@@ -10,6 +10,11 @@ import { FluidTransition } from "@/components/ui/FluidTransition"
 import Link from "next/link"
 import { DisqusComments } from "@/components/ui/DisqusComments"
 import { SocialShareButtons } from "@/components/ui/SocialShareButtons"
+import { ReadingProgress } from "@/components/ui/ReadingProgress"
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs"
+import { RelatedPosts } from "@/components/ui/RelatedContent"
+import { getBlogPosts } from "@/lib/blog-utils"
+import { useMemo } from "react"
 
 // Update props to receive the full post object
 interface BlogPostPageClientProps {
@@ -36,9 +41,19 @@ export default function BlogPostPageClient({ post }: BlogPostPageClientProps) {
   }
 
   return (
-    <div className="min-h-screen bg-background pt-24 pb-16 section-padding">
-      <div className="max-w-4xl mx-auto">
-        <FluidTransition className="mb-8 flex justify-between items-center no-print">
+    <>
+      <ReadingProgress />
+      <div className="min-h-screen bg-background pt-24 pb-16 section-padding">
+        <div className="max-w-4xl mx-auto">
+          <FluidTransition className="mb-6 no-print">
+            <Breadcrumbs
+              items={[
+                { label: "Blog", href: "/#blog" },
+                { label: post.title },
+              ]}
+            />
+          </FluidTransition>
+          <FluidTransition className="mb-8 flex justify-between items-center no-print">
           <Link
             href="/#blog"
             className="inline-flex items-center text-muted-foreground hover:text-primary transition-colors"
@@ -155,6 +170,9 @@ export default function BlogPostPageClient({ post }: BlogPostPageClientProps) {
           <DisqusComments slug={post.slug} title={post.title} />
         </FluidTransition>
 
+        {/* Related Posts */}
+        <RelatedPosts currentPost={post} allPosts={useMemo(() => getBlogPosts(), [])} />
+
         <FluidTransition delay={0.7} className="text-center mt-12 no-print">
           <Link
             href="/#blog"
@@ -164,7 +182,8 @@ export default function BlogPostPageClient({ post }: BlogPostPageClientProps) {
             <ArrowLeft className="w-4 h-4 mr-2" aria-hidden="true" /> Back to all posts
           </Link>
         </FluidTransition>
+        </div>
       </div>
-    </div>
+    </>
   )
 }

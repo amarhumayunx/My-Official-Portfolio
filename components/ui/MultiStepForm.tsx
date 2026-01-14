@@ -25,6 +25,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
+import { Captcha } from "@/components/ui/Captcha"
 
 interface FormData {
   // Step 1: Basic Info
@@ -49,6 +50,7 @@ interface FormData {
   preferredContact: string
   urgency: string
   hearAbout: string
+  captchaToken: string
 }
 
 interface StepProps {
@@ -510,6 +512,19 @@ const FilesStep = ({ formData, updateFormData, errors }: StepProps) => {
           <option value="other">Other</option>
         </select>
       </div>
+
+      <div className="space-y-2 mt-6">
+        <label className="text-sm font-medium">Security Verification *</label>
+        <Captcha
+          onVerify={(token) => updateFormData({ captchaToken: token })}
+          onError={(error) => {
+            console.error("CAPTCHA error:", error)
+          }}
+        />
+        {errors.captchaToken && (
+          <p className="text-sm text-red-500">{errors.captchaToken}</p>
+        )}
+      </div>
     </motion.div>
   )
 }
@@ -532,6 +547,7 @@ export function MultiStepForm() {
     preferredContact: "",
     urgency: "",
     hearAbout: "",
+    captchaToken: "",
   })
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -596,6 +612,12 @@ export function MultiStepForm() {
 
   const handleSubmit = async () => {
     if (!validateStep(currentStep)) return
+
+    // Validate CAPTCHA
+    if (!formData.captchaToken) {
+      setErrors({ captchaToken: "Please complete the security verification" })
+      return
+    }
 
     setIsSubmitting(true)
     setSubmitResult(null)

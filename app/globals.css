@@ -355,12 +355,28 @@ a:active {
     min-height: 44px;
     min-width: 44px;
     transition: all 0.15s ease-out;
+    -webkit-tap-highlight-color: transparent;
   }
 
   button:active,
   a:active,
   [role="button"]:active {
     transition: all 0.1s ease-out;
+    transform: scale(0.98);
+  }
+
+  /* Larger touch targets for mobile */
+  input,
+  textarea,
+  select {
+    min-height: 44px;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+
+  /* Swipe gestures support */
+  .swipeable {
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
   }
 }
 
@@ -397,6 +413,37 @@ button:focus-visible,
 a:focus-visible,
 [role="button"]:focus-visible {
   transition: outline-offset 0.2s ease-out;
+}
+
+/* Enhanced focus visible for better accessibility */
+.focus-visible-enhanced {
+  outline: 3px solid hsl(var(--ring));
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px hsl(var(--ring) / 0.2);
+}
+
+/* Screen reader only content */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.sr-only:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: inherit;
+  margin: inherit;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
 }
 
 /* Add professional confetti and animation styles */

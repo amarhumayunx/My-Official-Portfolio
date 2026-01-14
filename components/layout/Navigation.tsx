@@ -24,7 +24,10 @@ import {
   Github,
   Zap,
   Mail,
+  Search,
 } from "lucide-react"
+import { ThemeToggle } from "./ThemeToggle"
+import { SearchBar } from "@/components/ui/SearchBar"
 
 type NavItem = {
   name: string
@@ -297,6 +300,18 @@ export default function Navigation() {
             </div>
 
             <div className="flex items-center gap-1.5 sm:gap-2">
+              <Button
+                asChild
+                size="sm"
+                variant="ghost"
+                className="hidden md:flex w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-zinc-200/40 dark:border-zinc-800/40 bg-zinc-100/60 dark:bg-zinc-800/60"
+                aria-label="Search"
+              >
+                <Link href="/search">
+                  <Search className="w-4 h-4 sm:w-5 sm:h-5" />
+                </Link>
+              </Button>
+
               <Button
                 asChild
                 size="sm"
