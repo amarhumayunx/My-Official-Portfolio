@@ -43,7 +43,7 @@ export default function AppDeploymentService() {
   return (
     <section className="relative">
       {/* Gradient hero */}
-      <div className="relative isolate overflow-hidden bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-500">
+      <div className="relative isolate overflow-hidden bg-black">
         <div className="mx-auto max-w-6xl px-6 pt-24 pb-16 text-white sm:pt-28">
           <div className="flex items-start justify-between gap-6">
             <div>

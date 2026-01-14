@@ -269,7 +269,7 @@ export default function FirebaseIntegrationService() {
                 transition={{ duration: 0.6, delay: index * 0.2 }}
               >
                 <Card className="overflow-hidden hover:shadow-xl transition-shadow">
-                  <div className="aspect-video bg-gradient-to-br from-orange-100 to-red-100 dark:from-orange-900 dark:to-red-900 flex items-center justify-center">
+                  <div className="aspect-video bg-gray-900 flex items-center justify-center">
                     <img
                       src={project.image || "/placeholder.svg"}
                       alt={project.name}
@@ -385,7 +385,7 @@ export default function FirebaseIntegrationService() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-orange-600 to-red-600">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 section-bg">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Ready to Build Your Firebase Backend?</h2>

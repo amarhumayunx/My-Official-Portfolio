@@ -342,7 +342,7 @@ export default function SecuritySolutionsService() {
                 transition={{ duration: 0.6, delay: index * 0.2 }}
               >
                 <Card className="overflow-hidden hover:shadow-xl transition-shadow">
-                  <div className="aspect-video bg-gradient-to-br from-red-100 to-orange-100 dark:from-red-900 dark:to-orange-900 flex items-center justify-center">
+                  <div className="aspect-video bg-gray-900 flex items-center justify-center">
                     <img
                       src={project.image || "/placeholder.svg"}
                       alt={project.name}

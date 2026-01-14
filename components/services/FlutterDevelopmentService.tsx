@@ -183,7 +183,7 @@ export default function FlutterDevelopmentService() {
 
             <FluidTransition delay={0.2}>
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-2xl blur-3xl" />
+                <div className="absolute inset-0 bg-gray-900/50 rounded-2xl blur-3xl" />
                 <Card className="relative border-0 shadow-2xl">
                   <CardContent className="p-8">
                     <div className="text-center space-y-4">
