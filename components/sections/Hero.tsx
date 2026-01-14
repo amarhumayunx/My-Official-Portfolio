@@ -46,7 +46,10 @@ export default function Hero() {
     >
       {/* Enhanced animated background */}
       <div className="absolute inset-0 -z-10" aria-hidden="true">
-        <div className="absolute inset-0 bg-black dark:bg-black"></div>
+        <div className="absolute inset-0 bg-black dark:bg-black">
+          {/* Gradient overlay matching homepage theme */}
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-indigo-500/10"></div>
+        </div>
         <motion.div
           style={{ x: blob1X, y: blob1Y }}
           animate={{
