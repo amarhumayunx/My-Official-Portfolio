@@ -247,9 +247,9 @@ export default function GitHubRepos({
                         rel="noopener noreferrer"
                         className="hover:underline flex-1 min-w-0 group/link"
                         aria-label={`Open ${repo.full_name} on GitHub`}
-                        title={repo.full_name}
+                        title={repo.name}
                       >
-                        <CardTitle className="text-base sm:text-lg font-bold text-foreground break-words line-clamp-2 group-hover/link:text-primary transition-colors">
+                        <CardTitle className="text-base sm:text-lg font-bold break-words line-clamp-2 group-hover/link:text-primary transition-colors">
                           {repo.name}
                         </CardTitle>
                       </a>
@@ -260,7 +260,7 @@ export default function GitHubRepos({
                         {repo.archived ? "Archived" : repo.visibility}
                       </Badge>
                     </div>
-                    <p className="text-xs sm:text-sm text-muted-foreground line-clamp-3 mt-2">
+                    <p className="text-xs sm:text-sm text-muted-foreground line-clamp-3">
                       {repo.description || "No description provided."}
                     </p>
                   </CardHeader>

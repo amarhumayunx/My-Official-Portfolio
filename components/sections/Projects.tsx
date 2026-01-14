@@ -10,7 +10,6 @@ import { ParallaxSection } from "@/components/ui/ParallaxSection"
 import Image from "next/image"
 import { Input } from "@/components/ui/input"
 import { getProjectsWithSlugs } from "@/lib/project-utils"
-import { ProjectTimeline } from "@/components/ui/ProjectTimeline"
 import Link from "next/link"
 import { categories } from "@/data/categories"
 
@@ -434,25 +433,6 @@ export default function Projects() {
               </a>
             </Button>
           </motion.div>
-        </motion.div>
-
-        {/* Project Timeline View */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="mt-20"
-        >
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-              Project <span className="gradient-text">Timeline</span>
-            </h2>
-            <p className="text-muted-foreground">
-              A chronological view of all my projects and their development journey
-            </p>
-          </div>
-          <ProjectTimeline projects={allProjects} />
         </motion.div>
       </div>
     </section>

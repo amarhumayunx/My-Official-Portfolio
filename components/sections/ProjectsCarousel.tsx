@@ -1,7 +1,5 @@
 "use client"
 
-import { SwipeGestures } from "@/components/ui/SwipeGestures"
-
 import { useState, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ChevronLeft, ChevronRight } from "lucide-react"
@@ -56,22 +54,18 @@ export default function ProjectsCarousel() {
           <p className="text-muted-foreground">Swipe or use arrows to explore projects</p>
         </motion.div>
 
-        <SwipeGestures
-          onSwipeLeft={() => paginate(1)}
-          onSwipeRight={() => paginate(-1)}
+        <motion.div
+          ref={containerRef}
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+          onMouseDown={(e) => setDragStart(e.clientX)}
+          onTouchStart={(e) => setDragStart(e.changedTouches[0].clientX)}
+          onMouseUp={handleDragEnd}
+          onTouchEnd={handleDragEnd}
+          className="cursor-grab active:cursor-grabbing"
         >
-          <motion.div
-            ref={containerRef}
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            onMouseDown={(e) => setDragStart(e.clientX)}
-            onTouchStart={(e) => setDragStart(e.changedTouches[0].clientX)}
-            onMouseUp={handleDragEnd}
-            onTouchEnd={handleDragEnd}
-            className="cursor-grab active:cursor-grabbing"
-          >
           <Card className="border-0 shadow-2xl overflow-hidden bg-card/80 backdrop-blur-sm">
             <div className="relative overflow-hidden">
               <motion.div
@@ -202,7 +196,6 @@ export default function ProjectsCarousel() {
             </Button>
           </motion.div>
         </div>
-        </SwipeGestures>
       </div>
     </section>
   )

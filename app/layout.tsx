@@ -14,12 +14,6 @@ import { ScrollEnhancer } from "@/components/providers/ScrollEnhancer"
 import { FloatingActionButton } from "@/components/ui/FloatingActionButton"
 import { ErrorBoundary } from "@/components/providers/ErrorBoundary"
 import { SkipNav } from "@/components/layout/SkipNav"
-import { CookieConsent } from "@/components/ui/CookieConsent"
-import { PWARegister } from "@/components/ui/PWARegister"
-import { KeyboardShortcutsProvider } from "@/components/ui/KeyboardShortcuts"
-import { FocusVisibleEnhancer } from "@/components/ui/FocusVisible"
-import { ARIALiveRegion } from "@/components/ui/ARIALiveRegion"
-import { PerformanceOptimizer } from "@/components/ui/PerformanceOptimizer"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -147,28 +141,21 @@ export default function RootLayout({
       <body className={inter.className}>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <KeyboardShortcutsProvider>
-            <ErrorBoundary>
-              <SkipNav />
-              <ScrollEnhancer />
-              <PageLoadingBar />
-              <ScrollIndicator />
-              <FocusVisibleEnhancer />
-              <ARIALiveRegion />
-              <PerformanceOptimizer />
-              <Navigation />
-              <main id="main-content" className="min-h-screen">
-                {children}
-              </main>
-              <FloatingActionButton />
-              <Footer />
-              <BackToTop />
-              <PerformanceMonitor />
-              <Toaster />
-              <CookieConsent />
-              <PWARegister />
-            </ErrorBoundary>
-          </KeyboardShortcutsProvider>
+          <ErrorBoundary>
+            <SkipNav />
+            <ScrollEnhancer />
+            <PageLoadingBar />
+            <ScrollIndicator />
+            <Navigation />
+            <main id="main-content" className="min-h-screen">
+              {children}
+            </main>
+            <FloatingActionButton />
+            <Footer />
+            <BackToTop />
+            <PerformanceMonitor />
+            <Toaster />
+          </ErrorBoundary>
         </ThemeProvider>
       </body>
     </html>

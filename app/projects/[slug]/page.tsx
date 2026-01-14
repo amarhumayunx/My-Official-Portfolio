@@ -10,9 +10,6 @@ import { FluidTransition } from "@/components/ui/FluidTransition"
 import Link from "next/link"
 import { DisqusComments } from "@/components/ui/DisqusComments"
 import { SocialShareButtons } from "@/components/ui/SocialShareButtons"
-import { Breadcrumbs } from "@/components/ui/Breadcrumbs"
-import { RelatedProjects } from "@/components/ui/RelatedContent"
-import { projects } from "@/data/projects"
 
 // Generate static params for all projects at build time
 export async function generateStaticParams() {
@@ -71,14 +68,6 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
   return (
     <div className="min-h-screen bg-background pt-24 pb-16 section-padding">
       <div className="max-w-4xl mx-auto">
-        <FluidTransition className="mb-6 no-print">
-          <Breadcrumbs
-            items={[
-              { label: "Projects", href: "/#projects" },
-              { label: project.title },
-            ]}
-          />
-        </FluidTransition>
         <FluidTransition className="mb-8 no-print">
           <Link
             href="/#projects"
@@ -210,9 +199,6 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
         <FluidTransition delay={0.6} className="no-print">
           <DisqusComments slug={project.slug} title={project.title} />
         </FluidTransition>
-
-        {/* Related Projects */}
-        <RelatedProjects currentProject={project} allProjects={projects} />
 
         <FluidTransition delay={0.7} className="text-center mt-12 no-print">
           <Link href="/#projects" className="inline-flex items-center text-primary hover:underline font-medium">
