@@ -82,3 +82,14 @@ export function TextSkeleton({ lines = 3, className }: { lines?: number; classNa
     </div>
   )
 }
+
+// Image skeleton - for image placeholders during loading
+export function ImageSkeleton({ className }: { className?: string }) {
+  return (
+    <EnhancedSkeleton
+      variant="rectangular"
+      className={cn("w-full h-full", className)}
+      animation="shimmer"
+    />
+  )
+}
