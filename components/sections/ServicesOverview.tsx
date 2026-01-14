@@ -19,6 +19,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { FluidTransition } from "@/components/ui/FluidTransition"
+import { MicroInteraction } from "@/components/ui/MicroInteractions"
 import Link from "next/link"
 
 const serviceCategories = [
