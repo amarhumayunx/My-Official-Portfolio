@@ -12,11 +12,13 @@ import { Input } from "@/components/ui/input"
 import { PaginationControls } from "@/components/ui/PaginationControls"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { CardSkeleton, ImageSkeleton } from "@/components/ui/EnhancedSkeleton"
+import { MicroInteraction } from "@/components/ui/MicroInteractions"
 
-// Simple Skeleton component for loading states
+// Enhanced Skeleton component for loading states
 const BlogCardSkeleton = () => (
-  <Card className="h-full flex flex-col shadow-lg border-0 overflow-hidden animate-pulse">
-    <div className="relative w-full h-48 bg-muted rounded-t-lg" />
+  <Card className="h-full flex flex-col shadow-lg border-0 overflow-hidden">
+    <ImageSkeleton className="w-full h-48 rounded-t-lg" />
     <CardHeader className="pb-3">
       <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
         <div className="h-4 w-20 bg-muted-foreground/20 rounded" />
@@ -127,21 +129,16 @@ export default function Blog() {
             paginatedPosts.map((post, index) => (
               <ParallaxSection key={post.slug} offset={15}>
                 <FluidTransition delay={index * 0.1} duration={0.8}>
-                  <motion.div
-                    whileHover={{
-                      y: -5,
-                      transition: { duration: 0.3, ease: "easeOut" },
-                    }}
-                  >
-                    <Card className="h-full flex flex-col shadow-lg hover:shadow-xl transition-all duration-300 border-0 overflow-hidden">
+                  <MicroInteraction variant="lift" intensity="normal">
+                    <Card className="h-full flex flex-col shadow-lg hover:shadow-xl transition-all duration-300 border-0 overflow-hidden hover-lift group">
                       <div className="relative w-full h-48 overflow-hidden">
                         <Image
                           src={post.image || "/placeholder.svg"}
                           alt={post.title}
                           fill
-                          className="object-cover"
+                          className="object-cover group-hover:scale-110 transition-transform duration-500"
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                          priority={index === 0} // Added priority prop
+                          priority={index === 0}
                         />
                       </div>
                       <CardHeader className="pb-3">
@@ -162,22 +159,20 @@ export default function Blog() {
                         <p className="text-muted-foreground text-sm leading-relaxed">{post.description}</p>
                       </CardContent>
                       <div className="p-6 pt-0">
-                        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                          <Button variant="default" size="sm" asChild>
+                        <MicroInteraction variant="scale" intensity="subtle">
+                          <Button variant="default" size="sm" asChild className="hover-glow">
                             <Link
                               href={`/blog/${post.slug}`}
                               className="flex items-center gap-1 text-sm font-medium"
                               aria-label={`Read more about ${post.title}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
                             >
                               Read More <BookOpen className="w-4 h-4" aria-hidden="true" />
                             </Link>
                           </Button>
-                        </motion.div>
+                        </MicroInteraction>
                       </div>
                     </Card>
-                  </motion.div>
+                  </MicroInteraction>
                 </FluidTransition>
               </ParallaxSection>
             ))

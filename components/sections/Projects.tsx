@@ -13,6 +13,9 @@ import { getProjectsWithSlugs } from "@/lib/project-utils"
 import Link from "next/link"
 import { categories } from "@/data/categories"
 import GitHubRepos from "@/components/sections/github-repos"
+import { ProjectTimeline } from "@/components/ui/ProjectTimeline"
+import { CardSkeleton } from "@/components/ui/EnhancedSkeleton"
+import { MicroInteraction } from "@/components/ui/MicroInteractions"
 
 const ProjectCardSkeleton = () => (
   <Card className="h-full shadow-lg border-0 overflow-hidden">
@@ -209,7 +212,7 @@ export default function Projects() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1, duration: 0.5 }}
               >
-                <ProjectCardSkeleton />
+                <CardSkeleton />
               </motion.div>
             ))
           ) : filteredProjects.length > 0 ? (
@@ -226,14 +229,8 @@ export default function Projects() {
                   viewport={{ once: true, margin: "-50px" }}
                   className="h-full"
                 >
-                  <motion.div
-                    whileHover={{
-                      y: -8,
-                      transition: { duration: 0.3, ease: "easeOut" },
-                    }}
-                    className="h-full"
-                  >
-                    <Card className="h-full hover:shadow-2xl transition-all duration-500 group border-0 shadow-lg overflow-hidden bg-card/80 backdrop-blur-sm">
+                  <MicroInteraction variant="lift" intensity="normal">
+                    <Card className="h-full hover:shadow-2xl transition-all duration-500 group border-0 shadow-lg overflow-hidden bg-card/80 backdrop-blur-sm hover-lift">
                       <div className="relative overflow-hidden rounded-t-lg">
                         <motion.div
                           className="relative w-full h-48 overflow-hidden"
@@ -388,7 +385,7 @@ export default function Projects() {
                         </div>
                       </CardContent>
                     </Card>
-                  </motion.div>
+                  </MicroInteraction>
                 </motion.div>
               </ParallaxSection>
             ))

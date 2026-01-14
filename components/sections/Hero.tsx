@@ -5,6 +5,7 @@ import { ArrowDown, Github, Linkedin, Mail, MapPin, User, Code, Smartphone, Down
 import { Button } from "@/components/ui/button"
 import { TypewriterEffect } from "@/components/ui/TypewriterEffect"
 import { ResumeDownload } from "@/components/ui/ResumeDownload"
+import { MicroInteraction } from "@/components/ui/MicroInteractions"
 import { useRef } from "react"
 
 export default function Hero() {
@@ -223,8 +224,8 @@ export default function Hero() {
               <span>Lahore, Pakistan</span>
             </motion.div>
             <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4">
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-                <Button variant="outline" size="sm" asChild>
+              <MicroInteraction variant="scale" intensity="normal">
+                <Button variant="outline" size="sm" asChild className="hover-glow">
                   <a
                     href="mailto:amarhumayun@outlook.com"
                     className="flex items-center gap-2 text-sm"
@@ -234,9 +235,9 @@ export default function Hero() {
                     <span className="hidden sm:inline">Email</span>
                   </a>
                 </Button>
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-                <Button variant="outline" size="sm" asChild>
+              </MicroInteraction>
+              <MicroInteraction variant="scale" intensity="normal">
+                <Button variant="outline" size="sm" asChild className="hover-glow">
                   <a
                     href="https://github.com/amarhumayunx"
                     target="_blank"
@@ -248,9 +249,9 @@ export default function Hero() {
                     <span className="hidden sm:inline">GitHub</span>
                   </a>
                 </Button>
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-                <Button variant="outline" size="sm" asChild>
+              </MicroInteraction>
+              <MicroInteraction variant="scale" intensity="normal">
+                <Button variant="outline" size="sm" asChild className="hover-glow">
                   <a
                     href="https://linkedin.com/in/amarhumayun"
                     target="_blank"
@@ -262,10 +263,10 @@ export default function Hero() {
                     <span className="hidden sm:inline">LinkedIn</span>
                   </a>
                 </Button>
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+              </MicroInteraction>
+              <MicroInteraction variant="lift" intensity="normal">
                 <ResumeDownload variant="default" size="sm" />
-              </motion.div>
+              </MicroInteraction>
             </div>
           </motion.div>
 

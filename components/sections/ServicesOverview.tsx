@@ -188,8 +188,8 @@ export default function ServicesOverview() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {serviceCategories.map((service, index) => (
               <FluidTransition key={service.id} delay={index * 0.1}>
-                <motion.div whileHover={{ y: -8, scale: 1.02 }} transition={{ duration: 0.3, ease: "easeOut" }}>
-                  <Card className="h-full hover:shadow-2xl transition-all duration-500 group border-0 shadow-lg overflow-hidden">
+                <MicroInteraction variant="lift" intensity="normal">
+                  <Card className="h-full hover:shadow-2xl transition-all duration-500 group border-0 shadow-lg overflow-hidden hover-lift">
                     {/* Service Header */}
                     <div className={`h-2 bg-gradient-to-r ${service.color}`} />
 
@@ -256,7 +256,7 @@ export default function ServicesOverview() {
                       </Button>
                     </CardContent>
                   </Card>
-                </motion.div>
+                </MicroInteraction>
               </FluidTransition>
             ))}
           </div>

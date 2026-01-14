@@ -21,6 +21,7 @@ import { FocusVisibleEnhancer } from "@/components/ui/FocusVisible"
 import { ARIALiveRegion } from "@/components/ui/ARIALiveRegion"
 import { PerformanceOptimizer } from "@/components/ui/PerformanceOptimizer"
 import { GoogleAnalytics } from "@/components/ui/GoogleAnalytics"
+import { PageTransition } from "@/components/ui/PageTransition"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -161,9 +162,11 @@ export default function RootLayout({
               <ARIALiveRegion />
               <PerformanceOptimizer />
               <Navigation />
-              <main id="main-content" className="min-h-screen">
-                {children}
-              </main>
+              <PageTransition variant="fade">
+                <main id="main-content" className="min-h-screen">
+                  {children}
+                </main>
+              </PageTransition>
               <FloatingActionButton />
               <Footer />
               <BackToTop />

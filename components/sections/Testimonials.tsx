@@ -5,6 +5,7 @@ import { Quote } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { FluidTransition } from "@/components/ui/FluidTransition"
 import { ParallaxSection } from "@/components/ui/ParallaxSection"
+import { MicroInteraction } from "@/components/ui/MicroInteractions"
 
 const testimonials = [
   {
@@ -86,7 +87,7 @@ export default function Testimonials() {
                       </div>
                     </CardContent>
                   </Card>
-                </motion.div>
+                </MicroInteraction>
               </FluidTransition>
             </ParallaxSection>
           ))}
