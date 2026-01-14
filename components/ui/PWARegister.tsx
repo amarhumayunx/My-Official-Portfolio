@@ -14,8 +14,8 @@ export function PWARegister() {
       // Register service worker
       const registerServiceWorker = async () => {
         try {
-          // Try the API route first, fallback to public file
-          const swPath = "/sw.js"
+          // Use the API route which serves with correct MIME type
+          const swPath = "/sw"
           const registration = await navigator.serviceWorker.register(swPath, {
             scope: "/",
           })
