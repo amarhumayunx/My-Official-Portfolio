@@ -11,6 +11,7 @@ import { Github, Globe, Search, Filter } from "lucide-react"
 import { projects } from "@/data/projects"
 import { MicroInteraction } from "@/components/ui/MicroInteractions"
 import { CardSkeleton } from "@/components/ui/EnhancedSkeleton"
+import { getProjectsWithSlugs } from "@/lib/project-utils"
 
 type Repo = {
   id: number
@@ -100,15 +101,26 @@ export default function GitHubRepos({
     return [...base, ...rest]
   }, [data])
 
-  // Extract GitHub repo names from projects
+  // Extract GitHub repo names from projects (Project Timeline, Featured Projects, Projects section)
   const projectRepoNames = useMemo(() => {
-    return projects
+    // Get all projects from getProjectsWithSlugs (used in Timeline, Featured, and Projects sections)
+    const allProjects = getProjectsWithSlugs()
+    
+    // Extract repo names from all project GitHub URLs
+    // These projects appear in:
+    // 1. Project Timeline (all projects)
+    // 2. Featured Projects Carousel (first 6)
+    // 3. Projects section (all projects)
+    const repoNames = allProjects
       .map((project) => {
         // Extract repo name from GitHub URL (e.g., "https://github.com/amarhumayunx/balancebite" -> "balancebite")
-        const match = project.githubUrl.match(/github\.com\/[^/]+\/([^/]+)/)
+        const match = project.githubUrl?.match(/github\.com\/[^/]+\/([^/]+)/)
         return match ? match[1].toLowerCase() : null
       })
       .filter((name): name is string => name !== null)
+    
+    // Return unique repo names
+    return [...new Set(repoNames)]
   }, [])
 
   const filtered = useMemo(() => {
