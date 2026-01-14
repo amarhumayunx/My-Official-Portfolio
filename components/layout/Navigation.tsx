@@ -26,6 +26,7 @@ import {
   Mail,
   Search,
 } from "lucide-react"
+import { ThemeToggle } from "@/components/layout/ThemeToggle"
 
 type NavItem = {
   name: string
