@@ -53,7 +53,7 @@ const ProjectCard = ({
         }}
         className="h-full"
       >
-        <Card className="h-full hover:shadow-2xl transition-all duration-500 group border-0 shadow-lg overflow-hidden bg-card/80 backdrop-blur-sm">
+        <Card className="h-full hover:shadow-2xl transition-all duration-500 group border-0 shadow-lg overflow-hidden">
           <div className="relative overflow-hidden rounded-t-lg">
             <motion.div
               className="relative w-full h-48 overflow-hidden"

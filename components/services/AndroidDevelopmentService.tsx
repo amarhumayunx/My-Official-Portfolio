@@ -138,9 +138,9 @@ const pricingTiers = [
 
 export default function AndroidDevelopmentService() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen section-bg">
       {/* Hero Section */}
-      <section className="section-padding bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-gray-900 dark:via-green-900/20 dark:to-teal-900/20">
+      <section className="section-padding section-bg">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <FluidTransition>
@@ -177,7 +177,7 @@ export default function AndroidDevelopmentService() {
             <FluidTransition delay={0.2}>
               <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 to-teal-500/20 rounded-2xl blur-3xl" />
-                <Card className="relative bg-white/80 backdrop-blur-sm border-0 shadow-2xl">
+                <Card className="relative border-0 shadow-2xl">
                   <CardContent className="p-8">
                     <div className="text-center space-y-4">
                       <Code className="w-16 h-16 text-green-600 mx-auto" />
@@ -236,7 +236,7 @@ export default function AndroidDevelopmentService() {
       </section>
 
       {/* Advantages Section */}
-      <section id="advantages" className="section-padding bg-muted/30">
+      <section id="advantages" className="section-padding section-bg">
         <div className="max-w-7xl mx-auto">
           <FluidTransition className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
@@ -293,7 +293,7 @@ export default function AndroidDevelopmentService() {
       </section>
 
       {/* Portfolio Section */}
-      <section className="section-padding bg-muted/30">
+      <section className="section-padding section-bg">
         <div className="max-w-7xl mx-auto">
           <FluidTransition className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
@@ -421,7 +421,7 @@ export default function AndroidDevelopmentService() {
       </section>
 
       {/* CTA Section */}
-      <section id="contact" className="section-padding bg-green-50 dark:bg-green-900/10">
+      <section id="contact" className="section-padding section-bg">
         <div className="max-w-4xl mx-auto text-center">
           <FluidTransition>
             <h2 className="text-3xl sm:text-4xl font-bold mb-6">

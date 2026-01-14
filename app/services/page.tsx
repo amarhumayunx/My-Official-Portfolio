@@ -120,7 +120,7 @@ const stats = [
 
 export default function ServicesPage() {
   return (
-    <div className="min-h-screen bg-background pt-24 pb-16">
+    <div className="min-h-screen section-bg pt-24 pb-16">
       <div className="max-w-7xl mx-auto section-padding">
         {/* Hero Section */}
         <FluidTransition className="text-center mb-16">

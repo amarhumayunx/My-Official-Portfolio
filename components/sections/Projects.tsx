@@ -230,7 +230,7 @@ export default function Projects() {
                   className="h-full"
                 >
                   <MicroInteraction variant="lift" intensity="normal">
-                    <Card className="h-full hover:shadow-2xl transition-all duration-500 group border-0 shadow-lg overflow-hidden bg-card/80 backdrop-blur-sm hover-lift card-3d">
+                    <Card className="h-full hover:shadow-2xl transition-all duration-500 group border-0 shadow-lg overflow-hidden hover-lift card-3d">
                       <div className="relative overflow-hidden rounded-t-lg">
                         <motion.div
                           className="relative w-full h-48 overflow-hidden"

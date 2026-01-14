@@ -70,7 +70,7 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
   const fullUrl = `https://amarhumayun.vercel.app/projects/${project.slug}` // Replace with your actual domain
 
   return (
-    <div className="min-h-screen bg-background pt-24 pb-16 section-padding">
+    <div className="min-h-screen section-bg pt-24 pb-16 section-padding">
       <div className="max-w-4xl mx-auto">
         <FluidTransition className="mb-8 no-print">
           <Link

@@ -52,7 +52,7 @@ export function ThemeColorCustomizer() {
               animate={{ opacity: 1, x: 0, scale: 1 }}
               exit={{ opacity: 0, x: 20, scale: 0.95 }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed bottom-24 right-4 w-80 bg-background border border-border rounded-xl shadow-2xl z-50 p-4"
+              className="fixed bottom-24 right-4 w-80 modal-bg border border-border rounded-xl shadow-2xl z-50 p-4"
             >
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-semibold flex items-center gap-2">

@@ -66,7 +66,7 @@ export default function ProjectsCarousel() {
           onTouchEnd={handleDragEnd}
           className="cursor-grab active:cursor-grabbing"
         >
-          <Card className="border-0 shadow-2xl overflow-hidden bg-card/80 backdrop-blur-sm">
+          <Card className="border-0 shadow-2xl overflow-hidden">
             <div className="relative overflow-hidden">
               <motion.div
                 className="relative w-full h-64 sm:h-80 md:h-96"

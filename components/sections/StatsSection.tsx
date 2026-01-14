@@ -35,7 +35,7 @@ export default function StatsSection() {
               transition={{ delay: i * 0.1, duration: 0.5 }}
               viewport={{ once: true, margin: "-50px" }}
             >
-              <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-card/80 backdrop-blur-sm">
+              <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300">
                 <CardContent className="p-6 text-center">
                   <motion.div
                     initial={{ scale: 0 }}

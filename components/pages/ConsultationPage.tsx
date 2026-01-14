@@ -634,7 +634,7 @@ export default function ConsultationPage() {
       </section>
 
       {/* Benefits Section */}
-      <section className="section-padding bg-muted/30">
+      <section className="section-padding section-bg">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -755,7 +755,7 @@ export default function ConsultationPage() {
       </section>
 
       {/* Contact Methods */}
-      <section className="section-padding bg-muted/30">
+      <section className="section-padding section-bg">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -829,7 +829,7 @@ export default function ConsultationPage() {
       </section>
 
       {/* FAQ Section */}
-      <section className="section-padding bg-muted/30">
+      <section className="section-padding section-bg">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}

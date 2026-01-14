@@ -46,7 +46,7 @@ const blogPosts = [
 
 export default function BlogList() {
   return (
-    <section id="blog" className="section-padding bg-muted/30">
+    <section id="blog" className="section-padding section-bg">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

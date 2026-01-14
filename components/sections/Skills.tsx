@@ -166,7 +166,7 @@ export default function Skills() {
                 transition={{ duration: 0.3, ease: "easeOut" }}
                 className="h-full"
               >
-                <Card className="h-full overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-500 bg-card/60 backdrop-blur-sm">
+                <Card className="h-full overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-500">
                   <CardHeader className="pb-3 sm:pb-4 px-4 sm:px-5">
                     <button
                       onClick={() => toggleCategory(category.title)}
@@ -270,7 +270,7 @@ export default function Skills() {
           viewport={{ once: true, margin: "-100px" }}
           className="mt-10 sm:mt-12 lg:mt-16"
         >
-          <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-500 bg-card/60 backdrop-blur-sm overflow-hidden">
+          <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-500 overflow-hidden">
             <CardHeader className="px-4 sm:px-6">
               <CardTitle className="text-lg sm:text-xl lg:text-2xl flex items-center gap-2 sm:gap-3">
                 <motion.span

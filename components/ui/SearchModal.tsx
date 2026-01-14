@@ -131,7 +131,7 @@ export function SearchModal() {
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
               className="fixed top-20 left-1/2 -translate-x-1/2 w-full max-w-2xl mx-4 z-50"
             >
-              <div className="bg-background border border-border rounded-xl shadow-2xl overflow-hidden">
+              <div className="modal-bg border border-border rounded-xl shadow-2xl overflow-hidden">
                 <div className="flex items-center gap-2 p-4 border-b border-border">
                   <Search className="w-5 h-5 text-muted-foreground" />
                   <Input

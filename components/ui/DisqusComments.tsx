@@ -141,7 +141,7 @@ export function DisqusComments({ slug, title }: DisqusCommentsProps) {
   return (
     <div className="mt-12">
       <h2 className="text-2xl font-bold mb-6">Comments</h2>
-      <div id="disqus_thread" className="bg-card p-6 rounded-lg shadow-lg border border-border space-y-6">
+      <div id="disqus_thread" className="card-bg p-6 rounded-lg shadow-lg border border-border space-y-6">
         {commentsForSlug.map((comment) => (
           <div key={comment.id} className="border-b pb-4 last:border-b-0 last:pb-0">
             <div className="flex items-center gap-3 mb-2">

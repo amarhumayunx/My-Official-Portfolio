@@ -171,7 +171,7 @@ export default function SecuritySolutionsService() {
   const [selectedTier, setSelectedTier] = useState(1)
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-orange-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="min-h-screen section-bg">
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
@@ -253,7 +253,7 @@ export default function SecuritySolutionsService() {
       </section>
 
       {/* Security Standards */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white/50 dark:bg-gray-800/50">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 section-bg">
         <div className="max-w-7xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">Security Standards & Compliance</h2>
           <div className="flex flex-wrap justify-center gap-3">
@@ -322,7 +322,7 @@ export default function SecuritySolutionsService() {
       </section>
 
       {/* Portfolio Projects */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white/50 dark:bg-gray-800/50">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 section-bg">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">

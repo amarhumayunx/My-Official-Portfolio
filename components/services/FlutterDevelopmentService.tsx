@@ -145,9 +145,9 @@ const process = [
 
 export default function FlutterDevelopmentService() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen section-bg">
       {/* Hero Section */}
-      <section className="section-padding bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900/20 dark:to-purple-900/20">
+      <section className="section-padding section-bg">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <FluidTransition>
@@ -184,7 +184,7 @@ export default function FlutterDevelopmentService() {
             <FluidTransition delay={0.2}>
               <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-2xl blur-3xl" />
-                <Card className="relative bg-white/80 backdrop-blur-sm border-0 shadow-2xl">
+                <Card className="relative border-0 shadow-2xl">
                   <CardContent className="p-8">
                     <div className="text-center space-y-4">
                       <Smartphone className="w-16 h-16 text-primary mx-auto" />
@@ -243,7 +243,7 @@ export default function FlutterDevelopmentService() {
       </section>
 
       {/* Technologies Section */}
-      <section className="section-padding bg-muted/30">
+      <section className="section-padding section-bg">
         <div className="max-w-7xl mx-auto">
           <FluidTransition className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
@@ -345,7 +345,7 @@ export default function FlutterDevelopmentService() {
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" className="section-padding bg-muted/30">
+      <section id="pricing" className="section-padding section-bg">
         <div className="max-w-7xl mx-auto">
           <FluidTransition className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
@@ -433,7 +433,7 @@ export default function FlutterDevelopmentService() {
       </section>
 
       {/* CTA Section */}
-      <section id="contact" className="section-padding bg-primary/5">
+      <section id="contact" className="section-padding section-bg">
         <div className="max-w-4xl mx-auto text-center">
           <FluidTransition>
             <h2 className="text-3xl sm:text-4xl font-bold mb-6">

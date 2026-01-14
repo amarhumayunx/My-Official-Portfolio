@@ -351,7 +351,7 @@ export default function Navigation() {
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: "100%", opacity: 0 }}
               transition={{ type: "spring", stiffness: 380, damping: 34 }}
-              className="absolute right-3 sm:right-4 top-16 sm:top-[4.5rem] w-72 sm:w-80 max-w-[calc(100vw-1.5rem)] rounded-xl sm:rounded-2xl border border-zinc-200/40 dark:border-zinc-800/40 bg-white/95 dark:bg-zinc-900/95 shadow-xl overflow-hidden"
+              className="absolute right-3 sm:right-4 top-16 sm:top-[4.5rem] w-72 sm:w-80 max-w-[calc(100vw-1.5rem)] rounded-xl sm:rounded-2xl border border-zinc-200/40 dark:border-zinc-800/40 modal-bg shadow-xl overflow-hidden"
               role="dialog"
               aria-modal="true"
             >

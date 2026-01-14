@@ -129,7 +129,7 @@ const stats = [
 
 export default function Services() {
   return (
-    <section id="services" className="section-padding bg-muted/30">
+    <section id="services" className="section-padding section-bg">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <FluidTransition className="text-center mb-16">

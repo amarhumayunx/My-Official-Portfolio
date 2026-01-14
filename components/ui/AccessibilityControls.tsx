@@ -62,7 +62,7 @@ export function AccessibilityControls() {
               animate={{ opacity: 1, x: 0, scale: 1 }}
               exit={{ opacity: 0, x: 20, scale: 0.95 }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed bottom-20 right-4 w-80 bg-background border border-border rounded-xl shadow-2xl z-50 p-4"
+              className="fixed bottom-20 right-4 w-80 modal-bg border border-border rounded-xl shadow-2xl z-50 p-4"
             >
               <h3 className="font-semibold mb-4 flex items-center gap-2">
                 <Settings className="w-5 h-5" />

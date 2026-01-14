@@ -53,7 +53,7 @@ export function CookieConsent() {
             <motion.div
               initial={{ scale: 0.95 }}
               animate={{ scale: 1 }}
-              className="bg-card border border-border rounded-lg shadow-2xl p-4 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4"
+              className="card-bg border border-border rounded-lg shadow-2xl p-4 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4"
             >
               <div className="flex items-start gap-3 flex-1">
                 <div className="flex-shrink-0 mt-1">

@@ -83,7 +83,7 @@ export function QuickJumpMenu() {
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             className="fixed top-20 left-1/2 -translate-x-1/2 w-full max-w-md mx-4 z-50"
           >
-            <div className="bg-background border border-border rounded-xl shadow-2xl overflow-hidden">
+            <div className="modal-bg border border-border rounded-xl shadow-2xl overflow-hidden">
               <div className="p-4 border-b border-border flex items-center gap-2">
                 <Command className="w-5 h-5 text-muted-foreground" />
                 <span className="text-sm font-medium">Quick Jump</span>

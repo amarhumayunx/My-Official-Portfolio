@@ -36,7 +36,7 @@ export default function BlogPostPageClient({ post }: BlogPostPageClientProps) {
   }
 
   return (
-    <div className="min-h-screen bg-background pt-24 pb-16 section-padding">
+    <div className="min-h-screen section-bg pt-24 pb-16 section-padding">
       <div className="max-w-4xl mx-auto">
         <FluidTransition className="mb-8 flex justify-between items-center no-print">
           <Link
