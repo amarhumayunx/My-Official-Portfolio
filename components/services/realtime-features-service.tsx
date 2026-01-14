@@ -125,7 +125,7 @@ export default function RealtimeFeaturesService() {
         </div>
 
         {/* Stack */}
-        <div className="mt-10 rounded-xl border bg-background p-6">
+        <div className="mt-10 rounded-xl border card-bg p-6">
           <h3 className="text-lg font-semibold">Preferred stack</h3>
           <p className="mt-1 text-muted-foreground">
             Pick the right tool for the job while keeping cost and complexity in check.

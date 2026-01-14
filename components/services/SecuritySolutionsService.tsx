@@ -458,7 +458,7 @@ export default function SecuritySolutionsService() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-red-600 to-orange-600">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 section-bg">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Secure Your Mobile App Today</h2>

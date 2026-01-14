@@ -116,7 +116,7 @@ export default function AppDeploymentService() {
         </div>
 
         {/* CTA */}
-        <div className="mt-10 rounded-xl border bg-background p-6">
+        <div className="mt-10 rounded-xl border card-bg p-6">
           <h3 className="text-lg font-semibold">What you get</h3>
           <ul className="mt-3 list-disc space-y-1 pl-5 text-muted-foreground">
             <li>CI/CD blueprints for Android and Flutter apps</li>
