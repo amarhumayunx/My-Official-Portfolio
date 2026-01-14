@@ -69,13 +69,8 @@ export default function Testimonials() {
           {testimonials.map((testimonial, index) => (
             <ParallaxSection key={index} offset={15}>
               <FluidTransition delay={index * 0.1} duration={0.8}>
-                <motion.div
-                  whileHover={{
-                    y: -5,
-                    transition: { duration: 0.3, ease: "easeOut" },
-                  }}
-                >
-                  <Card className="h-full flex flex-col justify-between p-6 shadow-lg hover:shadow-xl transition-all duration-300 border-0">
+                <MicroInteraction variant="lift" intensity="subtle">
+                  <Card className="h-full flex flex-col justify-between p-6 shadow-lg hover:shadow-xl transition-all duration-300 border-0 hover-lift">
                     <CardContent className="p-0">
                       <Quote className="w-8 h-8 text-primary mb-4 opacity-70" />
                       <p className="text-muted-foreground text-base italic leading-relaxed mb-6">

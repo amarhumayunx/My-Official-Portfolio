@@ -1,12 +1,12 @@
 "use client"
 
 import Script from "next/script"
-import { useEffect } from "react"
+import { useEffect, Suspense } from "react"
 import { usePathname, useSearchParams } from "next/navigation"
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
 
-export function GoogleAnalytics() {
+function GoogleAnalyticsInner() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
@@ -50,5 +50,17 @@ export function GoogleAnalytics() {
         }}
       />
     </>
+  )
+}
+
+export function GoogleAnalytics() {
+  if (!GA_MEASUREMENT_ID) {
+    return null
+  }
+
+  return (
+    <Suspense fallback={null}>
+      <GoogleAnalyticsInner />
+    </Suspense>
   )
 }
