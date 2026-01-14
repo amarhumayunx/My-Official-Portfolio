@@ -14,9 +14,8 @@ export function PWARegister() {
       // Register service worker
       const registerServiceWorker = async () => {
         try {
-          // Use the API route which serves with correct MIME type
-          const swPath = "/sw"
-          const registration = await navigator.serviceWorker.register(swPath, {
+          // Register service worker - Next.js will serve from public/sw.js with correct headers
+          const registration = await navigator.serviceWorker.register("/sw.js", {
             scope: "/",
           })
 
