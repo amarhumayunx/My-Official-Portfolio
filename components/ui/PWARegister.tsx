@@ -14,19 +14,10 @@ export function PWARegister() {
       // Register service worker
       const registerServiceWorker = async () => {
         try {
-          // Use API route which ensures correct MIME type
-          // Falls back to /sw.js if API route doesn't work
-          let registration
-          try {
-            registration = await navigator.serviceWorker.register("/sw", {
-              scope: "/",
-            })
-          } catch (apiError) {
-            // Fallback to public file
-            registration = await navigator.serviceWorker.register("/sw.js", {
-              scope: "/",
-            })
-          }
+          // Use API route at /sw.js which ensures correct MIME type
+          const registration = await navigator.serviceWorker.register("/sw.js", {
+            scope: "/",
+          })
 
           setIsRegistered(true)
 
