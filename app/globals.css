@@ -58,32 +58,56 @@
   }
 }
 
-/* Unified Background System - Black Theme with Gradient */
+/* Unified Background System - Black Theme with Gradient Blobs */
 @layer utilities {
   /* Main section background - black with animated gradient blobs like Hero */
   .section-bg {
     @apply bg-black dark:bg-black relative overflow-hidden;
   }
   
-  .section-bg::before {
+  /* Animated gradient blobs matching Hero section */
+  .section-bg::before,
+  .section-bg::after {
     content: '';
     position: absolute;
     inset: 0;
     z-index: 0;
-    background: 
-      radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.2) 0%, transparent 50%),
-      radial-gradient(circle at 75% 75%, rgba(139, 92, 246, 0.2) 0%, transparent 50%),
-      radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.15) 0%, transparent 50%);
-    animation: gradient-shift 20s ease infinite;
     pointer-events: none;
+    opacity: 0.6;
   }
   
-  @keyframes gradient-shift {
+  .section-bg::before {
+    background: 
+      radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.2) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(139, 92, 246, 0.2) 0%, transparent 50%);
+    animation: gradient-blob-1 25s ease-in-out infinite;
+  }
+  
+  .section-bg::after {
+    background: 
+      radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 50% 75%, rgba(168, 85, 247, 0.2) 0%, transparent 50%);
+    animation: gradient-blob-2 30s ease-in-out infinite;
+  }
+  
+  @keyframes gradient-blob-1 {
     0%, 100% {
-      background-position: 0% 0%, 100% 100%, 50% 50%;
+      transform: translate(0, 0) scale(1);
+    }
+    33% {
+      transform: translate(10%, -10%) scale(1.1);
+    }
+    66% {
+      transform: translate(-5%, 15%) scale(0.9);
+    }
+  }
+  
+  @keyframes gradient-blob-2 {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
     }
     50% {
-      background-position: 100% 100%, 0% 0%, 50% 50%;
+      transform: translate(-10%, 10%) scale(1.2);
     }
   }
   
