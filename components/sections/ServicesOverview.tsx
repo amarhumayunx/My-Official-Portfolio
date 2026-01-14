@@ -155,7 +155,7 @@ export default function ServicesOverview() {
       </section>
 
       {/* Stats Section */}
-      <section className="section-padding">
+      <section className="section-padding bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900/20 dark:to-purple-900/20">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
@@ -174,7 +174,7 @@ export default function ServicesOverview() {
       </section>
 
       {/* Services Grid */}
-      <section id="services" className="section-padding bg-muted/30">
+      <section id="services" className="section-padding bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900/20 dark:to-purple-900/20">
         <div className="max-w-7xl mx-auto">
           <FluidTransition className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
@@ -319,7 +319,7 @@ export default function ServicesOverview() {
       </section>
 
       {/* CTA Section */}
-      <section className="section-padding bg-primary/5">
+      <section className="section-padding bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900/20 dark:to-purple-900/20">
         <div className="max-w-4xl mx-auto text-center">
           <FluidTransition>
             <h2 className="text-3xl sm:text-4xl font-bold mb-6">

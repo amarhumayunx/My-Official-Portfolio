@@ -118,7 +118,7 @@ export default function Skills() {
   }
 
   return (
-    <section id="skills" className="section-padding bg-gradient-to-b from-background via-muted/10 to-background">
+    <section id="skills" className="section-padding bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900/20 dark:to-purple-900/20">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
