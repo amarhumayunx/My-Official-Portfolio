@@ -31,7 +31,7 @@ const featuredProjects = [
 
 export default function ProjectShowcase() {
   return (
-    <section className="section-padding bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20">
+    <section className="section-padding section-bg">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

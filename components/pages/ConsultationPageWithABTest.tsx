@@ -37,7 +37,7 @@ import Link from "next/link"
 
 // Smooth loading component
 const SmoothLoader = () => (
-  <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900">
+  <div className="min-h-screen flex items-center justify-center section-bg">
     <motion.div
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
@@ -790,7 +790,7 @@ export const ConsultationPageWithABTest: React.FC = () => {
       </section>
 
       {/* Benefits Section with enhanced animations */}
-      <section className="section-padding py-20 bg-gradient-to-br from-muted/30 via-background to-muted/20">
+      <section className="section-padding py-20 section-bg">
         <div className="max-w-7xl mx-auto px-4">
           <motion.div {...fadeInUp} className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
@@ -927,7 +927,7 @@ export const ConsultationPageWithABTest: React.FC = () => {
       </section>
 
       {/* Contact Methods with smooth hover effects */}
-      <section className="section-padding py-20 bg-gradient-to-br from-muted/30 via-background to-muted/20">
+      <section className="section-padding py-20 section-bg">
         <div className="max-w-4xl mx-auto px-4">
           <motion.div {...fadeInUp} className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">

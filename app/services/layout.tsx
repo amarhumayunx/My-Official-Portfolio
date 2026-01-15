@@ -28,7 +28,7 @@ export default function ServicesLayout({ children }: { children: ReactNode }) {
   return (
     <div className="relative">
       {/* Section header */}
-      <div className="relative isolate overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-zinc-800 text-white">
+      <div className="relative isolate overflow-hidden section-bg text-white">
         <div className="mx-auto max-w-6xl px-6 pt-20 pb-8 sm:pt-24">
           <h2 className="text-2xl font-semibold sm:text-3xl">Services</h2>
           <p className="mt-2 max-w-2xl text-white/80">
@@ -58,7 +58,7 @@ export default function ServicesLayout({ children }: { children: ReactNode }) {
       </div>
 
       {/* Page content */}
-      <div className="mx-auto max-w-6xl px-6 py-8">{children}</div>
+      <div className="mx-auto max-w-6xl px-6 py-8 section-bg">{children}</div>
     </div>
   )
 }

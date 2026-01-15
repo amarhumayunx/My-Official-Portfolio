@@ -86,7 +86,7 @@ export const FormVariantA: React.FC<FormVariantProps> = ({ onSubmit }) => {
   }
 
   return (
-    <section className="section-padding py-20 bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900">
+    <section className="section-padding py-20 section-bg">
       <div className="max-w-4xl mx-auto px-4">
         <motion.div variants={staggerContainer} initial="initial" whileInView="animate" viewport={{ once: true }}>
           {/* Header */}
@@ -393,7 +393,7 @@ export const FormVariantB: React.FC<FormVariantProps> = ({ onSubmit }) => {
   }
 
   return (
-    <section className="section-padding py-20 bg-gradient-to-br from-red-50 via-orange-50 to-yellow-50 dark:from-gray-900 dark:via-red-900/20 dark:to-orange-900/20 relative overflow-hidden">
+    <section className="section-padding py-20 section-bg relative overflow-hidden">
       {/* Animated background */}
       <div className="absolute inset-0">
         <motion.div
