@@ -59,10 +59,16 @@
   /* Global Fixed Background - Set ONCE at root level */
   html {
     @apply bg-white dark:bg-black;
-    /* Smooth scrolling */
+    /* Enhanced smooth scrolling for all devices */
     scroll-behavior: smooth;
     scroll-padding-top: 80px; /* Account for fixed navbar */
     -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    overscroll-behavior-y: contain; /* Prevent overscroll bounce on mobile */
+  }
+  
+  /* Smooth scrolling for all scrollable containers */
+  * {
+    scroll-behavior: smooth;
   }
   
   body {
@@ -77,6 +83,13 @@
     background-repeat: no-repeat;
     min-height: 100vh;
     position: relative;
+    /* Smooth scrolling optimizations */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    /* GPU acceleration for smooth scrolling */
+    transform: translateZ(0);
+    will-change: scroll-position;
   }
   
   /* Dark Mode - Beautiful centered gradient circle blob (black background) */
@@ -137,6 +150,29 @@
 /* Smooth transitions for scroll-linked animations */
 .scroll-smooth {
   scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Enhanced smooth scrolling for all scrollable elements */
+@media (prefers-reduced-motion: no-preference) {
+  html,
+  body,
+  * {
+    scroll-behavior: smooth;
+  }
+  
+  /* Mobile-specific smooth scrolling optimizations */
+  @media (max-width: 768px) {
+    html {
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-y: contain;
+    }
+    
+    body {
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-y: contain;
+    }
+  }
 }
 
 /* Performance optimization for scroll animations */
@@ -147,7 +183,25 @@ body {
 /* Improved momentum scrolling on mobile */
 @supports (overscroll-behavior: contain) {
   html {
-    overscroll-behavior: auto;
+    overscroll-behavior-y: contain;
+    overscroll-behavior-x: none;
+  }
+  
+  body {
+    overscroll-behavior-y: contain;
+    overscroll-behavior-x: none;
+  }
+}
+
+/* Touch action optimizations for smooth scrolling */
+* {
+  touch-action: pan-y; /* Allow vertical scrolling, prevent horizontal */
+}
+
+/* Prevent pull-to-refresh on mobile while maintaining smooth scroll */
+@media (max-width: 768px) {
+  body {
+    overscroll-behavior-y: contain;
   }
 }
 
