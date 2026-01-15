@@ -737,7 +737,7 @@ This document contains all planned enhancements and features for the portfolio w
 
 ### File Structure Suggestions
 
-```
+\`\`\`
 components/
   ├── blog/
   │   ├── BlogSearch.tsx
@@ -777,7 +777,7 @@ lib/
 app/
   ├── not-found.tsx (404 page)
   └── sitemap.ts (sitemap generation)
-```
+\`\`\`
 
 ---
 
