@@ -17,7 +17,12 @@ export function ThemeToggle() {
   const handleToggle = () => {
     // Use resolvedTheme for accurate current theme state
     const currentTheme = resolvedTheme || theme
-    setTheme(currentTheme === "dark" ? "light" : "dark")
+    const newTheme = currentTheme === "dark" ? "light" : "dark"
+    setTheme(newTheme)
+    // Explicitly save to localStorage to ensure persistence
+    if (typeof window !== "undefined") {
+      localStorage.setItem("portfolio-theme", newTheme)
+    }
   }
 
   if (!mounted) {
