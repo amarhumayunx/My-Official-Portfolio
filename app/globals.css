@@ -59,6 +59,10 @@
   /* Global Fixed Background - Set ONCE at root level */
   html {
     @apply bg-white dark:bg-black;
+    /* Smooth scrolling */
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px; /* Account for fixed navbar */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
   }
   
   body {
@@ -111,31 +115,8 @@
 }
 
 /* Enhanced smooth scrolling with momentum and physics */
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 80px;
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-}
-
-/* Add optimized GPU acceleration for smooth animations */
-@supports (scroll-behavior: smooth) {
-  html {
-    scroll-behavior: smooth;
-    scroll-padding-top: 80px;
-  }
-}
-
-/* Optimize for high refresh rate displays */
-@media (prefers-reduced-motion: no-preference) {
-  html {
-    scroll-behavior: smooth;
-    scroll-padding-top: 80px;
-  }
-
-  * {
-    scroll-behavior: smooth;
-  }
-}
+/* Note: Smooth scrolling is now defined in @layer base html selector above */
+/* Additional optimizations for smooth scrolling */
 
 /* GPU acceleration for smooth transforms */
 * {
@@ -491,10 +472,7 @@ button {
 
 /* Performance optimizations for smooth scrolling */
 @media (prefers-reduced-motion: no-preference) {
-  /* Smooth scroll with momentum */
-  html {
-    scroll-behavior: smooth;
-  }
+  /* Smooth scroll with momentum - already defined in @layer base html selector */
 
   /* Optimize repaints during scroll */
   body {
