@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect } from "react"
 import { motion } from "framer-motion"
-import { ExternalLink, Github, Calendar, Search } from "lucide-react"
+import { ExternalLink, Github, Calendar, Search, X, Filter } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -13,7 +13,7 @@ import { getProjectsWithSlugs } from "@/lib/project-utils"
 import Link from "next/link"
 import { categories } from "@/data/categories"
 import GitHubRepos from "@/components/sections/github-repos"
-import { ProjectTimeline } from "@/components/ui/ProjectTimeline"
+import { ProjectsTimelineVisualization } from "@/components/ui/ProjectsTimelineVisualization"
 import { CardSkeleton } from "@/components/ui/EnhancedSkeleton"
 import { MicroInteraction } from "@/components/ui/MicroInteractions"
 
@@ -90,8 +90,27 @@ const ProjectCardSkeleton = () => (
 export default function Projects() {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("All")
+  const [selectedTechnologies, setSelectedTechnologies] = useState<string[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const allProjects = useMemo(() => getProjectsWithSlugs(), [])
+
+  // Extract all unique technologies from projects
+  const allTechnologies = useMemo(() => {
+    const techSet = new Set<string>()
+    allProjects.forEach((project) => {
+      project.technologies.forEach((tech) => techSet.add(tech))
+    })
+    return Array.from(techSet).sort()
+  }, [allProjects])
+
+  // Get project count per technology
+  const technologyCounts = useMemo(() => {
+    const counts: Record<string, number> = {}
+    allTechnologies.forEach((tech) => {
+      counts[tech] = allProjects.filter((project) => project.technologies.includes(tech)).length
+    })
+    return counts
+  }, [allTechnologies, allProjects])
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -118,8 +137,26 @@ export default function Projects() {
       filtered = filtered.filter((project) => project.categories.includes(selectedCategory))
     }
 
+    if (selectedTechnologies.length > 0) {
+      filtered = filtered.filter((project) =>
+        selectedTechnologies.some((tech) => project.technologies.includes(tech))
+      )
+    }
+
     return filtered
-  }, [searchTerm, selectedCategory, allProjects])
+  }, [searchTerm, selectedCategory, selectedTechnologies, allProjects])
+
+  const toggleTechnology = (tech: string) => {
+    setSelectedTechnologies((prev) =>
+      prev.includes(tech) ? prev.filter((t) => t !== tech) : [...prev, tech]
+    )
+  }
+
+  const clearAllFilters = () => {
+    setSelectedTechnologies([])
+    setSelectedCategory("All")
+    setSearchTerm("")
+  }
 
   return (
     <section id="projects" className="section-padding section-bg">
@@ -173,12 +210,13 @@ export default function Projects() {
           />
         </motion.div>
 
+        {/* Category Filters */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
           viewport={{ once: true, margin: "-50px" }}
-          className="flex flex-wrap justify-center gap-2 mb-12"
+          className="flex flex-wrap justify-center gap-2 mb-6"
         >
           {categories.map((category, index) => (
             <motion.div
@@ -202,6 +240,98 @@ export default function Projects() {
             </motion.div>
           ))}
         </motion.div>
+
+        {/* Technology Filters */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          viewport={{ once: true, margin: "-50px" }}
+          className="mb-8"
+        >
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <Filter className="w-4 h-4 text-muted-foreground" />
+            <span className="text-sm font-medium text-muted-foreground">Filter by Technology:</span>
+            {(selectedTechnologies.length > 0 || selectedCategory !== "All" || searchTerm) && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={clearAllFilters}
+                className="text-xs h-7 px-2 text-muted-foreground hover:text-foreground"
+              >
+                Clear all
+              </Button>
+            )}
+          </div>
+          <div className="flex flex-wrap justify-center gap-2 max-w-4xl mx-auto">
+            {allTechnologies.map((tech, index) => {
+              const isSelected = selectedTechnologies.includes(tech)
+              const count = technologyCounts[tech]
+              return (
+                <motion.div
+                  key={tech}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: index * 0.03, duration: 0.3 }}
+                  viewport={{ once: true }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Button
+                    variant={isSelected ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => toggleTechnology(tech)}
+                    className="rounded-full transition-all duration-300 text-xs sm:text-sm"
+                    aria-pressed={isSelected}
+                  >
+                    {tech}
+                    <Badge
+                      variant="secondary"
+                      className="ml-2 h-5 px-1.5 text-xs bg-background/50"
+                    >
+                      {count}
+                    </Badge>
+                  </Button>
+                </motion.div>
+              )
+            })}
+          </div>
+          {selectedTechnologies.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex flex-wrap justify-center gap-2 mt-4"
+            >
+              {selectedTechnologies.map((tech) => (
+                <Badge
+                  key={tech}
+                  variant="default"
+                  className="gap-1 px-2 py-1"
+                >
+                  {tech}
+                  <button
+                    onClick={() => toggleTechnology(tech)}
+                    className="ml-1 hover:bg-background/20 rounded-full p-0.5"
+                    aria-label={`Remove ${tech} filter`}
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </Badge>
+              ))}
+            </motion.div>
+          )}
+        </motion.div>
+
+        {/* Results Count */}
+        {filteredProjects.length !== allProjects.length && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center mb-6 text-sm text-muted-foreground"
+          >
+            Showing {filteredProjects.length} of {allProjects.length} projects
+          </motion.div>
+        )}
 
         <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
           {isLoading ? (
@@ -399,7 +529,19 @@ export default function Projects() {
               <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}>
                 🔍
               </motion.div>
-              <p className="mt-4">No projects found matching your search or selected category.</p>
+              <div className="text-center space-y-2">
+                <p className="text-lg font-medium">No projects found</p>
+                <p className="text-sm text-muted-foreground">
+                  {selectedTechnologies.length > 0 || selectedCategory !== "All" || searchTerm
+                    ? "Try adjusting your filters or search terms"
+                    : "No projects available"}
+                </p>
+                {(selectedTechnologies.length > 0 || selectedCategory !== "All" || searchTerm) && (
+                  <Button variant="outline" onClick={clearAllFilters} className="mt-4">
+                    Clear all filters
+                  </Button>
+                )}
+              </div>
             </motion.div>
           )}
         </div>
@@ -449,7 +591,7 @@ export default function Projects() {
               A chronological view of all my projects and their development journey
             </p>
           </div>
-          <ProjectTimeline projects={allProjects} />
+          <ProjectsTimelineVisualization projects={allProjects} />
         </motion.div>
 
         {/* GitHub Repositories Section */}

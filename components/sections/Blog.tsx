@@ -1,8 +1,9 @@
 "use client"
 
-import { useState, useMemo, useEffect } from "react"
+import { useState, useMemo, useEffect, useCallback } from "react"
 import { motion } from "framer-motion"
-import { Calendar, BookOpen, Search, Timer } from "lucide-react"
+import { Calendar, BookOpen, Search, Timer, X, Filter, Tag as TagIcon, SortAsc, SortDesc } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { FluidTransition } from "@/components/ui/FluidTransition"
 import { ParallaxSection } from "@/components/ui/ParallaxSection"
@@ -14,6 +15,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { CardSkeleton, ImageSkeleton } from "@/components/ui/EnhancedSkeleton"
 import { MicroInteraction } from "@/components/ui/MicroInteractions"
+import { debounce, highlightText, saveSearchHistory } from "@/lib/search-utils"
 
 // Enhanced Skeleton component for loading states
 const BlogCardSkeleton = () => (
@@ -35,13 +37,42 @@ const BlogCardSkeleton = () => (
   </Card>
 )
 
+type SortOption = "newest" | "oldest" | "reading-time" | "alphabetical"
+
 export default function Blog() {
   const [searchTerm, setSearchTerm] = useState("")
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("")
+  const [selectedTags, setSelectedTags] = useState<string[]>([])
+  const [sortBy, setSortBy] = useState<SortOption>("newest")
   const [isLoading, setIsLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
   const postsPerPage = 6
 
   const allBlogPosts = useMemo(() => getBlogPosts(), [])
+
+  // Extract all unique tags from blog posts
+  const allTags = useMemo(() => {
+    const tagSet = new Set<string>()
+    allBlogPosts.forEach((post) => {
+      post.technologies.forEach((tech) => tagSet.add(tech))
+    })
+    return Array.from(tagSet).sort()
+  }, [allBlogPosts])
+
+  // Debounced search handler
+  const debouncedSearch = useCallback(
+    debounce((term: string) => {
+      setDebouncedSearchTerm(term)
+      if (term.trim()) {
+        saveSearchHistory(term)
+      }
+    }, 300),
+    []
+  )
+
+  useEffect(() => {
+    debouncedSearch(searchTerm)
+  }, [searchTerm, debouncedSearch])
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -51,18 +82,60 @@ export default function Blog() {
   }, [])
 
   const filteredAndSearchedPosts = useMemo(() => {
-    if (!searchTerm) {
-      return allBlogPosts
+    let filtered = allBlogPosts
+
+    // Filter by search term
+    if (debouncedSearchTerm.trim()) {
+      const lowerCaseSearchTerm = debouncedSearchTerm.toLowerCase()
+      filtered = filtered.filter(
+        (post) =>
+          post.title.toLowerCase().includes(lowerCaseSearchTerm) ||
+          post.description.toLowerCase().includes(lowerCaseSearchTerm) ||
+          post.longDescription.toLowerCase().includes(lowerCaseSearchTerm) ||
+          post.technologies.some((tech) => tech.toLowerCase().includes(lowerCaseSearchTerm)),
+      )
     }
-    const lowerCaseSearchTerm = searchTerm.toLowerCase()
-    return allBlogPosts.filter(
-      (post) =>
-        post.title.toLowerCase().includes(lowerCaseSearchTerm) ||
-        post.description.toLowerCase().includes(lowerCaseSearchTerm) ||
-        post.longDescription.toLowerCase().includes(lowerCaseSearchTerm) ||
-        post.technologies.some((tech) => tech.toLowerCase().includes(lowerCaseSearchTerm)),
+
+    // Filter by tags
+    if (selectedTags.length > 0) {
+      filtered = filtered.filter((post) =>
+        selectedTags.some((tag) => post.technologies.includes(tag))
+      )
+    }
+
+    // Sort posts
+    const sorted = [...filtered].sort((a, b) => {
+      switch (sortBy) {
+        case "newest":
+          return new Date(b.date).getTime() - new Date(a.date).getTime()
+        case "oldest":
+          return new Date(a.date).getTime() - new Date(b.date).getTime()
+        case "reading-time":
+          return b.readTimeMinutes - a.readTimeMinutes
+        case "alphabetical":
+          return a.title.localeCompare(b.title)
+        default:
+          return 0
+      }
+    })
+
+    return sorted
+  }, [debouncedSearchTerm, selectedTags, sortBy, allBlogPosts])
+
+  const toggleTag = (tag: string) => {
+    setSelectedTags((prev) =>
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
     )
-  }, [searchTerm, allBlogPosts])
+    setCurrentPage(1)
+  }
+
+  const clearAllFilters = () => {
+    setSearchTerm("")
+    setDebouncedSearchTerm("")
+    setSelectedTags([])
+    setSortBy("newest")
+    setCurrentPage(1)
+  }
 
   const totalPages = useMemo(() => {
     return Math.ceil(filteredAndSearchedPosts.length / postsPerPage)
@@ -81,7 +154,29 @@ export default function Blog() {
 
   useEffect(() => {
     setCurrentPage(1)
-  }, [searchTerm])
+  }, [debouncedSearchTerm, selectedTags, sortBy])
+
+  const handleClearSearch = () => {
+    setSearchTerm("")
+    setDebouncedSearchTerm("")
+  }
+
+  // Keyboard shortcut: Ctrl/Cmd + K to focus search
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault()
+        const searchInput = document.querySelector('input[aria-label="Search blog posts"]') as HTMLInputElement
+        if (searchInput) {
+          searchInput.focus()
+          searchInput.select()
+        }
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown)
+    return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [])
 
   return (
     <section id="blog" className="section-padding section-bg">
@@ -109,17 +204,120 @@ export default function Blog() {
           className="relative max-w-xl mx-auto mb-12"
         >
           <Search
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5"
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5 z-10"
             aria-hidden="true"
           />
           <Input
             type="text"
-            placeholder="Search blog posts by title, tech, or description..."
-            className="w-full pl-10 pr-4 py-2 rounded-full border border-input focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 shadow-sm"
+            placeholder="Search blog posts by title, tech, or description... (Ctrl/Cmd + K)"
+            className="w-full pl-10 pr-10 py-2 rounded-full border border-input focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 shadow-sm"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Escape") {
+                handleClearSearch()
+                ;(e.target as HTMLInputElement).blur()
+              }
+            }}
             aria-label="Search blog posts"
           />
+          {searchTerm && (
+            <button
+              onClick={handleClearSearch}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1 rounded-full hover:bg-muted"
+              aria-label="Clear search"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          )}
+          {filteredAndSearchedPosts.length > 0 && (debouncedSearchTerm || selectedTags.length > 0) && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="absolute -bottom-6 left-0 right-0 text-center text-sm text-muted-foreground"
+            >
+              Found {filteredAndSearchedPosts.length} result{filteredAndSearchedPosts.length !== 1 ? "s" : ""}
+            </motion.div>
+          )}
+        </motion.div>
+
+        {/* Filters and Sort */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.25 }}
+          viewport={{ once: true }}
+          className="mb-8"
+        >
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
+            <div className="flex items-center gap-2">
+              <Filter className="w-4 h-4 text-muted-foreground" />
+              <span className="text-sm font-medium text-muted-foreground">Filter by tags:</span>
+              {(selectedTags.length > 0 || debouncedSearchTerm || sortBy !== "newest") && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={clearAllFilters}
+                  className="text-xs h-7 px-2 text-muted-foreground hover:text-foreground"
+                >
+                  Clear all
+                </Button>
+              )}
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium text-muted-foreground">Sort by:</span>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as SortOption)}
+                className="px-3 py-1.5 rounded-md border border-input bg-background text-sm focus:ring-2 focus:ring-primary focus:border-primary"
+              >
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+                <option value="reading-time">Reading Time</option>
+                <option value="alphabetical">Alphabetical</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Tag Filters */}
+          <div className="flex flex-wrap gap-2">
+            {allTags.map((tag) => {
+              const isSelected = selectedTags.includes(tag)
+              return (
+                <Badge
+                  key={tag}
+                  variant={isSelected ? "default" : "outline"}
+                  className="cursor-pointer transition-all hover:scale-105"
+                  onClick={() => toggleTag(tag)}
+                >
+                  <TagIcon className="w-3 h-3 mr-1" />
+                  {tag}
+                </Badge>
+              )
+            })}
+          </div>
+
+          {/* Active Filters */}
+          {selectedTags.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex flex-wrap gap-2 mt-4"
+            >
+              {selectedTags.map((tag) => (
+                <Badge key={tag} variant="default" className="gap-1">
+                  {tag}
+                  <button
+                    onClick={() => toggleTag(tag)}
+                    className="ml-1 hover:bg-background/20 rounded-full p-0.5"
+                    aria-label={`Remove ${tag} filter`}
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </Badge>
+              ))}
+            </motion.div>
+          )}
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -151,12 +349,22 @@ export default function Blog() {
                           <span className="sr-only">Read time</span>
                           {post.readTimeMinutes} min read
                         </div>
-                        <CardTitle className="text-xl group-hover:text-primary transition-colors duration-300">
-                          {post.title}
-                        </CardTitle>
+                        <CardTitle
+                          className="text-xl group-hover:text-primary transition-colors duration-300"
+                          dangerouslySetInnerHTML={{
+                            __html: debouncedSearchTerm ? highlightText(post.title, debouncedSearchTerm) : post.title,
+                          }}
+                        />
                       </CardHeader>
                       <CardContent className="flex-grow">
-                        <p className="text-muted-foreground text-sm leading-relaxed">{post.description}</p>
+                        <p
+                          className="text-muted-foreground text-sm leading-relaxed"
+                          dangerouslySetInnerHTML={{
+                            __html: debouncedSearchTerm
+                              ? highlightText(post.description, debouncedSearchTerm)
+                              : post.description,
+                          }}
+                        />
                       </CardContent>
                       <div className="p-6 pt-0">
                         <MicroInteraction variant="scale" intensity="subtle">

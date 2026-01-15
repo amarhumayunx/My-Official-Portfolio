@@ -7,6 +7,8 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
+import { AnimatedProgress } from "@/components/ui/AnimatedProgress"
+import { AnimatedCounter } from "@/components/ui/AnimatedCounter"
 import { Code2, Smartphone, Database, Palette, Brain, Wrench, ChevronDown, ChevronUp } from "lucide-react"
 
 interface Skill {
@@ -226,31 +228,20 @@ export default function Skills() {
                                 <span className="text-xs sm:text-sm font-medium truncate leading-tight flex-1">
                                   {skill.name}
                                 </span>
-                                <motion.span
-                                  className="text-xs sm:text-sm font-semibold text-primary whitespace-nowrap flex-shrink-0 tabular-nums"
-                                  initial={{ scale: 0 }}
-                                  animate={{ scale: 1 }}
-                                  transition={{ delay: skillIndex * 0.04 + 0.2, type: "spring", stiffness: 200 }}
-                                >
-                                  {skill.level}%
-                                </motion.span>
-                              </div>
-                              <motion.div
-                                initial={{ scaleX: 0, opacity: 0 }}
-                                animate={{ scaleX: 1, opacity: 1 }}
-                                transition={{
-                                  delay: skillIndex * 0.04 + 0.1,
-                                  duration: 0.8,
-                                  ease: [0.25, 0.46, 0.45, 0.94],
-                                }}
-                                style={{ transformOrigin: "left" }}
-                                className="relative"
-                              >
-                                <Progress 
-                                  value={skill.level} 
-                                  className="h-1.5 sm:h-2 bg-muted/50 shadow-inner"
+                                <AnimatedCounter
+                                  from={0}
+                                  to={skill.level}
+                                  suffix="%"
+                                  duration={1.2}
+                                  className="text-xs sm:text-sm font-semibold text-primary whitespace-nowrap flex-shrink-0"
                                 />
-                              </motion.div>
+                              </div>
+                              <AnimatedProgress
+                                value={skill.level}
+                                duration={1.2}
+                                delay={skillIndex * 0.05}
+                                className="mt-1"
+                              />
                             </motion.div>
                           ))}
                         </CardContent>

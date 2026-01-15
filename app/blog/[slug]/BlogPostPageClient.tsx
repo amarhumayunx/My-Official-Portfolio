@@ -2,7 +2,7 @@
 
 import { notFound } from "next/navigation" // Keep notFound for potential client-side issues, though less likely now
 import type { BlogPost } from "@/lib/blog-utils" // Import the type for BlogPost
-import { Calendar, Tag, Github, ExternalLink, ArrowLeft, Printer, Timer } from "lucide-react"
+import { Calendar, Tag, Github, ExternalLink, ArrowLeft, Printer, Timer, Clock } from "lucide-react"
 import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -10,6 +10,7 @@ import { FluidTransition } from "@/components/ui/FluidTransition"
 import Link from "next/link"
 import { DisqusComments } from "@/components/ui/DisqusComments"
 import { SocialShareButtons } from "@/components/ui/SocialShareButtons"
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs"
 
 // Update props to receive the full post object
 interface BlogPostPageClientProps {
@@ -38,6 +39,15 @@ export default function BlogPostPageClient({ post }: BlogPostPageClientProps) {
   return (
     <div className="min-h-screen section-bg pt-24 pb-16 section-padding">
       <div className="max-w-4xl mx-auto">
+        <FluidTransition className="mb-6 no-print">
+          <Breadcrumbs
+            items={[
+              { label: "Home", href: "/" },
+              { label: "Blog", href: "/#blog" },
+              { label: post.title, href: `/blog/${post.slug}` },
+            ]}
+          />
+        </FluidTransition>
         <FluidTransition className="mb-8 flex justify-between items-center no-print">
           <Link
             href="/#blog"
@@ -59,7 +69,7 @@ export default function BlogPostPageClient({ post }: BlogPostPageClientProps) {
 
         <FluidTransition delay={0.1}>
           <h1 className="text-4xl sm:text-5xl font-bold mb-4 leading-tight">{post.title}</h1>
-          <div className="flex items-center text-muted-foreground text-sm mb-8 gap-4">
+          <div className="flex flex-wrap items-center text-muted-foreground text-sm mb-8 gap-4">
             <div className="flex items-center gap-1">
               <Calendar className="w-4 h-4" aria-hidden="true" />
               <span className="sr-only">Published on</span>
@@ -69,6 +79,11 @@ export default function BlogPostPageClient({ post }: BlogPostPageClientProps) {
               <Timer className="w-4 h-4" aria-hidden="true" />
               <span className="sr-only">Read time</span>
               <span>{post.readTimeMinutes} min read</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <Clock className="w-4 h-4" aria-hidden="true" />
+              <span className="sr-only">Last updated</span>
+              <span>Updated {new Date(post.date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</span>
             </div>
           </div>
         </FluidTransition>

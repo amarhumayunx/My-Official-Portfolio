@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { FluidTransition } from "@/components/ui/FluidTransition"
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs"
 import Link from "next/link"
 
 export const metadata: Metadata = {
@@ -122,6 +123,14 @@ export default function ServicesPage() {
   return (
     <div className="min-h-screen section-bg pt-24 pb-16">
       <div className="max-w-7xl mx-auto section-padding">
+        <FluidTransition className="mb-8">
+          <Breadcrumbs
+            items={[
+              { label: "Home", href: "/" },
+              { label: "Services", href: "/services" },
+            ]}
+          />
+        </FluidTransition>
         {/* Hero Section */}
         <FluidTransition className="text-center mb-16">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">

@@ -2,10 +2,11 @@ export const dynamicParams = false // Add this line
 
 import { notFound } from "next/navigation"
 import { getProjectsWithSlugs, getProjectBySlug } from "@/lib/project-utils"
-import { Calendar, Tag, Github, ExternalLink, ArrowLeft } from "lucide-react"
+import { Calendar, Tag, Github, ExternalLink, ArrowLeft, Target, Lightbulb, TrendingUp, Code, Image as ImageIcon } from "lucide-react"
 import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { FluidTransition } from "@/components/ui/FluidTransition"
 import Link from "next/link"
 import { DisqusComments } from "@/components/ui/DisqusComments"
@@ -13,6 +14,9 @@ import { SocialShareButtons } from "@/components/ui/SocialShareButtons"
 import { WebShare } from "@/components/ui/WebShare"
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs"
 import { RelatedProjects } from "@/components/ui/RelatedContent"
+import { ProjectMediaGallery } from "@/components/ui/ProjectMediaGallery"
+import { ProjectTimeline } from "@/components/ui/ProjectTimeline"
+import { MetricsCard } from "@/components/ui/MetricsCard"
 import { projects } from "@/data/projects"
 
 // Generate static params for all projects at build time
@@ -72,6 +76,15 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
   return (
     <div className="min-h-screen section-bg pt-24 pb-16 section-padding">
       <div className="max-w-4xl mx-auto">
+        <FluidTransition className="mb-6 no-print">
+          <Breadcrumbs
+            items={[
+              { label: "Home", href: "/" },
+              { label: "Projects", href: "/#projects" },
+              { label: project.title, href: `/projects/${project.slug}` },
+            ]}
+          />
+        </FluidTransition>
         <FluidTransition className="mb-8 no-print">
           <Link
             href="/#projects"
@@ -193,6 +206,135 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
             </ul>
           </div>
         </FluidTransition>
+
+        {/* Case Study Sections */}
+        {(project.challenges || project.solutions || project.results) && (
+          <>
+            {/* Challenges Section */}
+            {project.challenges && project.challenges.length > 0 && (
+              <FluidTransition delay={0.5} className="mb-12">
+                <Card className="bg-transparent border-primary/20 backdrop-blur-sm">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Target className="w-5 h-5 text-primary" />
+                      Challenges
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-3">
+                      {project.challenges.map((challenge, idx) => (
+                        <li key={idx} className="flex items-start gap-3">
+                          <span className="text-primary mt-1 font-bold">{idx + 1}.</span>
+                          <p className="text-muted-foreground">{challenge}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              </FluidTransition>
+            )}
+
+            {/* Solutions Section */}
+            {project.solutions && project.solutions.length > 0 && (
+              <FluidTransition delay={0.6} className="mb-12">
+                <Card className="bg-transparent border-primary/20 backdrop-blur-sm">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Lightbulb className="w-5 h-5 text-primary" />
+                      Solutions
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-3">
+                      {project.solutions.map((solution, idx) => (
+                        <li key={idx} className="flex items-start gap-3">
+                          <span className="text-primary mt-1 font-bold">{idx + 1}.</span>
+                          <p className="text-muted-foreground">{solution}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              </FluidTransition>
+            )}
+
+            {/* Results Section */}
+            {project.results && project.results.length > 0 && (
+              <FluidTransition delay={0.7} className="mb-12">
+                <Card className="bg-transparent border-primary/20 backdrop-blur-sm">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <TrendingUp className="w-5 h-5 text-primary" />
+                      Results & Impact
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-3">
+                      {project.results.map((result, idx) => (
+                        <li key={idx} className="flex items-start gap-3">
+                          <span className="text-primary mt-1 font-bold">✓</span>
+                          <p className="text-muted-foreground">{result}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              </FluidTransition>
+            )}
+          </>
+        )}
+
+        {/* Project Media Gallery */}
+        <FluidTransition delay={0.8} className="mb-12">
+          <div>
+            <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+              <ImageIcon className="w-6 h-6" />
+              Project Media
+            </h2>
+            <ProjectMediaGallery
+              items={[
+                {
+                  type: "image",
+                  url: project.image || "/placeholder.svg",
+                  title: `${project.title} - Main Screenshot`,
+                  description: "Main application interface",
+                },
+                // Add more media items here as needed
+                // Example: { type: "video", source: "youtube", embedId: "VIDEO_ID", title: "Demo Video" }
+              ]}
+            />
+          </div>
+        </FluidTransition>
+
+        {/* Metrics Section (if results contain metrics) */}
+        {project.results && project.results.length > 0 && (
+          <FluidTransition delay={0.9} className="mb-12">
+            <div>
+              <h2 className="text-2xl font-bold mb-6">Project Metrics</h2>
+              <MetricsCard
+                metrics={[
+                  {
+                    label: "Project Status",
+                    value: project.status,
+                    icon: <Target className="w-5 h-5" />,
+                  },
+                  {
+                    label: "Technologies Used",
+                    value: project.technologies.length,
+                    unit: "technologies",
+                    icon: <Code className="w-5 h-5" />,
+                  },
+                  {
+                    label: "Key Features",
+                    value: project.features.length,
+                    unit: "features",
+                    icon: <TrendingUp className="w-5 h-5" />,
+                  },
+                ]}
+              />
+            </div>
+          </FluidTransition>
+        )}
 
         {/* Social Share Buttons */}
         <FluidTransition delay={0.5} className="mb-12 no-print flex items-center gap-4 flex-wrap">

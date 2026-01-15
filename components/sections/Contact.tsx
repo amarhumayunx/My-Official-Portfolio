@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import ParallaxSection from "@/components/ui/ParallaxSection"
 import { MultiStepForm } from "@/components/ui/MultiStepForm"
+import { DownloadableResources } from "@/components/ui/DownloadableResources"
 
 const contactInfo = [
   {
@@ -218,11 +219,26 @@ export default function Contact() {
           </div>
         </div>
 
-        {/* Additional Information */}
+        {/* Downloadable Resources */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
+          viewport={{ once: true }}
+          className="mt-12 sm:mt-16"
+        >
+          <div className="text-center mb-8">
+            <h3 className="text-2xl sm:text-3xl font-bold mb-2">Download Resources</h3>
+            <p className="text-muted-foreground">Get my resume and portfolio in PDF format</p>
+          </div>
+          <DownloadableResources />
+        </motion.div>
+
+        {/* Additional Information */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
           viewport={{ once: true }}
           className="mt-12 sm:mt-16 text-center"
         >
