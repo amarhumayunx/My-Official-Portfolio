@@ -246,7 +246,7 @@ export default function Services() {
 
         {/* View All Services CTA */}
         <FluidTransition className="text-center mt-12">
-          <Card className="bg-primary/5 border-primary/20">
+          <Card className="bg-transparent border-primary/20 backdrop-blur-sm">
             <CardContent className="p-8">
               <h3 className="text-2xl font-bold mb-4">Need Something Specific?</h3>
               <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">

@@ -44,58 +44,7 @@ export default function Hero() {
       className="min-h-screen flex items-center justify-center relative overflow-hidden px-4"
       style={{ opacity, scale }}
     >
-      {/* Enhanced animated background */}
-      <div className="absolute inset-0 -z-10" aria-hidden="true">
-        <div className="absolute inset-0 bg-black dark:bg-black">
-          {/* Gradient overlay matching homepage theme */}
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-indigo-500/10"></div>
-        </div>
-        <motion.div
-          style={{ x: blob1X, y: blob1Y }}
-          animate={{
-            scale: [1, 1.2, 1],
-            rotate: [0, 180, 360],
-            x: [0, 100, 0],
-            y: [0, -50, 0],
-          }}
-          transition={{
-            duration: 25,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "linear",
-          }}
-          className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-full blur-3xl"
-        />
-        <motion.div
-          style={{ x: blob2X, y: blob2Y }}
-          animate={{
-            scale: [1.2, 1, 1.2],
-            rotate: [360, 180, 0],
-            x: [0, -80, 0],
-            y: [0, 60, 0],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "linear",
-          }}
-          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-indigo-400/20 to-pink-400/20 rounded-full blur-3xl"
-        />
-        <motion.div
-          style={{ x: blob3X, y: blob3Y }}
-          animate={{
-            scale: [1, 1.3, 1],
-            rotate: [0, -90, 0],
-            x: [0, 50, 0],
-            y: [0, -30, 0],
-          }}
-          transition={{
-            duration: 30,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "linear",
-          }}
-          className="absolute top-1/2 left-1/2 w-48 h-48 bg-gradient-to-r from-green-400/15 to-blue-400/15 rounded-full blur-2xl"
-        />
-      </div>
+      {/* Background removed - using global fixed background */}
 
       <div ref={contentRef} className="max-w-7xl mx-auto w-full section-padding text-center" style={{ y: contentY }}>
         <motion.div

@@ -46,7 +46,7 @@ const projects = [
 
 export default function Footer() {
   return (
-    <footer className="section-bg border-t border-border/50 backdrop-blur-sm relative overflow-hidden">
+    <footer className="bg-transparent border-t border-white/20 backdrop-blur-sm relative overflow-hidden">
       {/* Decorative background elements */}
       <div className="absolute inset-0 opacity-5 dark:opacity-10">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary rounded-full blur-3xl" />

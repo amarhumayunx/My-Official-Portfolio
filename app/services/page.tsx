@@ -214,7 +214,7 @@ export default function ServicesPage() {
 
         {/* CTA Section */}
         <FluidTransition delay={0.4}>
-          <Card className="bg-primary/5 border-primary/20">
+          <Card className="bg-transparent border-primary/20 backdrop-blur-sm">
             <CardContent className="p-8 text-center">
               <h2 className="text-3xl font-bold mb-4">Ready to Start Your Project?</h2>
               <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">

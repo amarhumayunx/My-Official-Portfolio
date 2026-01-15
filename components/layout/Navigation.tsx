@@ -230,8 +230,8 @@ export default function Navigation() {
         className={[
           "max-w-7xl mx-auto border rounded-xl sm:rounded-2xl backdrop-blur-xl transition-all duration-300",
           scrolled
-            ? "bg-white/85 dark:bg-zinc-900/85 border-zinc-200/30 dark:border-zinc-800/30 shadow-md"
-            : "bg-white/70 dark:bg-zinc-900/70 border-zinc-200/20 dark:border-zinc-800/20",
+            ? "bg-transparent border-white/20 shadow-md"
+            : "bg-transparent border-white/10",
         ].join(" ")}
       >
         <div className="px-3 sm:px-4 md:px-5 lg:px-6">

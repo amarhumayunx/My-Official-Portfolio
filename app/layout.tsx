@@ -173,7 +173,7 @@ export default function RootLayout({
               <PerformanceOptimizer />
               <Navigation />
               <PageTransition variant="fade">
-                <main id="main-content" className="min-h-screen bg-black">
+                <main id="main-content" className="min-h-screen bg-transparent">
                   {children}
                 </main>
               </PageTransition>

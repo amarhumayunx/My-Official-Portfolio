@@ -226,7 +226,7 @@ export default function Contact() {
           viewport={{ once: true }}
           className="mt-12 sm:mt-16 text-center"
         >
-          <Card className="bg-primary/5 border-primary/20">
+          <Card className="bg-transparent border-primary/20 backdrop-blur-sm">
             <CardContent className="p-6 sm:p-8">
               <h3 className="text-lg sm:text-xl font-bold mb-4">What Happens Next?</h3>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 text-xs sm:text-sm">
