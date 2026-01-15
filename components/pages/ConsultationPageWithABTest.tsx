@@ -55,7 +55,7 @@ const SmoothLoader = () => (
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.5 }}
-        className="text-2xl font-bold text-gray-900 dark:text-white mb-2"
+        className="text-2xl font-bold text-foreground mb-2"
       >
         Optimizing Your Experience
       </motion.h2>
@@ -63,7 +63,7 @@ const SmoothLoader = () => (
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4, duration: 0.5 }}
-        className="text-gray-600 dark:text-gray-300"
+        className="text-muted-foreground"
       >
         Personalizing content just for you...
       </motion.p>
@@ -359,7 +359,7 @@ const FAQItem = ({ faq, index }: { faq: any; index: number }) => {
   return (
     <motion.div
       variants={staggerItem}
-      className="border border-border rounded-xl overflow-hidden bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-shadow duration-300"
+      className="border border-border rounded-xl overflow-hidden bg-card text-card-foreground shadow-sm hover:shadow-md transition-shadow duration-300"
     >
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
@@ -367,7 +367,7 @@ const FAQItem = ({ faq, index }: { faq: any; index: number }) => {
         whileHover={{ backgroundColor: "rgba(0,0,0,0.02)" }}
         whileTap={{ scale: 0.995 }}
       >
-        <span className="font-semibold text-gray-900 dark:text-white">{faq.question}</span>
+        <span className="font-semibold text-foreground">{faq.question}</span>
         <motion.div
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -404,7 +404,7 @@ const TestimonialCard = ({ testimonial, index }: { testimonial: any; index: numb
       }}
       className="h-full"
     >
-      <Card className="h-full hover:shadow-2xl transition-all duration-500 border-l-4 border-l-primary bg-white dark:bg-gray-800 overflow-hidden">
+      <Card className="h-full hover:shadow-2xl transition-all duration-500 border-l-4 border-l-primary bg-card text-card-foreground overflow-hidden">
         <CardContent className="p-6">
           <motion.div
             className="flex items-center gap-3 mb-4"
@@ -420,7 +420,7 @@ const TestimonialCard = ({ testimonial, index }: { testimonial: any; index: numb
               {testimonial.avatar}
             </motion.div>
             <div>
-              <p className="font-semibold text-sm text-gray-900 dark:text-white">{testimonial.name}</p>
+              <p className="font-semibold text-sm text-foreground">{testimonial.name}</p>
               <p className="text-xs text-muted-foreground">{testimonial.role}</p>
               <Badge variant="outline" className="text-xs mt-1 border-primary/20 text-primary">
                 {testimonial.industry}
@@ -622,12 +622,12 @@ export const ConsultationPageWithABTest: React.FC = () => {
 
   return (
     <div className="min-h-screen overflow-x-hidden">
-      {/* Back to Home Button - Top Right Corner */}
+      {/* Back to Home Button - Top Left Corner (below navbar) */}
       <motion.div
-        initial={{ opacity: 0, x: 20 }}
+        initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
-        className="fixed top-4 right-4 sm:top-6 sm:right-6 z-50"
+        className="fixed top-20 left-4 sm:top-24 sm:left-6 z-40"
       >
         <Button
           asChild
@@ -636,7 +636,7 @@ export const ConsultationPageWithABTest: React.FC = () => {
         >
           <Link href="/" className="flex items-center gap-2 text-sm sm:text-base font-medium">
             <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:-translate-x-1" />
-            <span className="hidden sm:inline">Main Homepage Portfolio</span>
+            <span className="hidden sm:inline">Back to Portfolio</span>
             <span className="sm:hidden">Home</span>
           </Link>
         </Button>
@@ -822,7 +822,7 @@ export const ConsultationPageWithABTest: React.FC = () => {
                 }}
               >
                 <Card
-                  className={`h-full hover:shadow-2xl transition-all duration-500 ${benefit.hoverColor} group overflow-hidden bg-white dark:bg-gray-800`}
+                  className={`h-full hover:shadow-2xl transition-all duration-500 ${benefit.hoverColor} group overflow-hidden bg-card text-card-foreground`}
                 >
                   <CardContent className="p-6">
                     <motion.div
@@ -831,7 +831,7 @@ export const ConsultationPageWithABTest: React.FC = () => {
                     >
                       <benefit.icon className={`w-8 h-8 ${benefit.color}`} />
                     </motion.div>
-                    <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white">{benefit.title}</h3>
+                    <h3 className="text-xl font-semibold mb-3 text-foreground">{benefit.title}</h3>
                     <p className="text-muted-foreground leading-relaxed">{benefit.description}</p>
                   </CardContent>
                 </Card>
@@ -870,7 +870,7 @@ export const ConsultationPageWithABTest: React.FC = () => {
                 whileHover={{ y: -8, transition: { duration: 0.3 } }}
                 className="relative"
               >
-                <Card className="h-full text-center hover:shadow-2xl transition-all duration-500 group bg-white dark:bg-gray-800 overflow-hidden">
+                <Card className="h-full text-center hover:shadow-2xl transition-all duration-500 group bg-card text-card-foreground overflow-hidden">
                   <CardContent className="p-6">
                     <motion.div
                       className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary/80 text-primary-foreground flex items-center justify-center font-bold text-lg mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg"
@@ -883,7 +883,7 @@ export const ConsultationPageWithABTest: React.FC = () => {
                     <motion.div whileHover={{ scale: 1.1, rotate: 5 }} transition={{ duration: 0.2 }}>
                       <step.icon className="w-8 h-8 text-primary mx-auto mb-3" />
                     </motion.div>
-                    <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">{step.title}</h3>
+                    <h3 className="font-semibold mb-2 text-foreground">{step.title}</h3>
 
                     <Badge variant="outline" className="mb-3 border-primary/20 text-primary">
                       <Clock className="w-3 h-3 mr-1" />
@@ -958,7 +958,7 @@ export const ConsultationPageWithABTest: React.FC = () => {
                   transition: { duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] },
                 }}
               >
-                <Card className="text-center h-full hover:shadow-2xl transition-all duration-500 group bg-white dark:bg-gray-800 overflow-hidden">
+                <Card className="text-center h-full hover:shadow-2xl transition-all duration-500 group bg-card text-card-foreground overflow-hidden">
                   <CardContent className="p-6">
                     <motion.div
                       className={`w-16 h-16 rounded-full ${method.bgColor} flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg`}
@@ -966,7 +966,7 @@ export const ConsultationPageWithABTest: React.FC = () => {
                     >
                       <method.icon className={`w-8 h-8 ${method.color}`} />
                     </motion.div>
-                    <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">{method.title}</h3>
+                    <h3 className="font-semibold mb-2 text-foreground">{method.title}</h3>
                     <p className="text-sm text-muted-foreground mb-2">{method.description}</p>
                     <Badge variant="outline" className="text-xs border-primary/20 text-primary">
                       {method.availability}
