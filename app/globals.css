@@ -56,12 +56,25 @@
   
   /* Global Fixed Background - Set ONCE at root level */
   html {
-    @apply bg-black;
+    @apply bg-white dark:bg-black;
   }
   
   body {
     @apply text-foreground;
-    /* Beautiful centered gradient circle blob - static, no movement */
+    /* Beautiful centered gradient circle blob - Light Mode (white background) */
+    background: 
+      radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.15) 0%, rgba(139, 92, 246, 0.1) 25%, rgba(168, 85, 247, 0.08) 40%, rgba(16, 185, 129, 0.06) 55%, transparent 70%),
+      #ffffff;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    position: relative;
+  }
+  
+  /* Dark Mode - Beautiful centered gradient circle blob (black background) */
+  html.dark body {
     background: 
       radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.3) 0%, rgba(139, 92, 246, 0.2) 25%, rgba(168, 85, 247, 0.15) 40%, rgba(16, 185, 129, 0.1) 55%, transparent 70%),
       #000000;
@@ -69,8 +82,6 @@
     background-size: 100% 100%;
     background-position: center;
     background-repeat: no-repeat;
-    min-height: 100vh;
-    position: relative;
   }
 }
 
