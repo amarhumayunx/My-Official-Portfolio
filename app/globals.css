@@ -61,7 +61,7 @@
   
   body {
     @apply text-foreground;
-    /* Fixed background that covers entire viewport */
+    /* Static fixed background - black with static gradient circles, no movement */
     background: 
       radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.2) 0%, transparent 50%),
       radial-gradient(circle at 75% 75%, rgba(139, 92, 246, 0.2) 0%, transparent 50%),
@@ -69,57 +69,11 @@
       radial-gradient(circle at 50% 75%, rgba(168, 85, 247, 0.2) 0%, transparent 50%),
       #000000;
     background-attachment: fixed;
-    background-size: 100% 100%;
+    background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
     min-height: 100vh;
     position: relative;
-  }
-  
-  /* Animated gradient blobs for the fixed background */
-  body::before,
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    opacity: 0.6;
-  }
-  
-  body::before {
-    background: 
-      radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.2) 0%, transparent 50%),
-      radial-gradient(circle at 75% 75%, rgba(139, 92, 246, 0.2) 0%, transparent 50%);
-    animation: gradient-blob-1 25s ease-in-out infinite;
-  }
-  
-  body::after {
-    background: 
-      radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
-      radial-gradient(circle at 50% 75%, rgba(168, 85, 247, 0.2) 0%, transparent 50%);
-    animation: gradient-blob-2 30s ease-in-out infinite;
-  }
-  
-  /* Animated gradient blob keyframes for fixed background */
-  @keyframes gradient-blob-1 {
-    0%, 100% {
-      transform: translate(0, 0) scale(1);
-    }
-    33% {
-      transform: translate(10%, -10%) scale(1.1);
-    }
-    66% {
-      transform: translate(-5%, 15%) scale(0.9);
-    }
-  }
-  
-  @keyframes gradient-blob-2 {
-    0%, 100% {
-      transform: translate(0, 0) scale(1);
-    }
-    50% {
-      transform: translate(-10%, 10%) scale(1.2);
-    }
   }
 }
 

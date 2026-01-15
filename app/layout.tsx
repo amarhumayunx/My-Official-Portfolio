@@ -28,7 +28,6 @@ import { QuickJumpMenu } from "@/components/ui/QuickJumpMenu"
 import { AccessibilityControls } from "@/components/ui/AccessibilityControls"
 import { MobileBottomNav } from "@/components/ui/MobileBottomNav"
 import { ParticleBackground } from "@/components/ui/ParticleBackground"
-import { GradientMesh } from "@/components/ui/DynamicGradient"
 import { CursorTrail } from "@/components/ui/CursorTrail"
 import { ThemeColorCustomizer } from "@/components/ui/ThemeColorCustomizer"
 
@@ -189,7 +188,6 @@ export default function RootLayout({
               <AccessibilityControls />
               <MobileBottomNav />
               <ParticleBackground />
-              <GradientMesh />
               <CursorTrail />
               <ThemeColorCustomizer />
             </ErrorBoundary>
