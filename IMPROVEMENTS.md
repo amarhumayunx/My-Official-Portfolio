@@ -336,68 +336,68 @@ This document outlines all the background improvements, technical enhancements, 
 ### Suggested Additional Background Enhancements
 
 #### 1. **Animated Gradient Background**
-```css
+\`\`\`css
 - Smooth color transitions
 - Multiple gradient layers
 - Animated color stops
 - Theme-aware gradients
-```
+\`\`\`
 
 #### 2. **Geometric Patterns**
-```css
+\`\`\`css
 - SVG pattern overlays
 - Animated geometric shapes
 - Subtle pattern animations
 - Theme-based patterns
-```
+\`\`\`
 
 #### 3. **Blob Animations**
-```css
+\`\`\`css
 - Animated blob shapes
 - Smooth morphing effects
 - Color transitions
 - Interactive blob effects
-```
+\`\`\`
 
 #### 4. **Mesh Gradient Background**
-```css
+\`\`\`css
 - Modern mesh gradients
 - Smooth color blending
 - Animated mesh points
 - Performance optimized
-```
+\`\`\`
 
 #### 5. **Noise Texture Overlay**
-```css
+\`\`\`css
 - Subtle noise texture
 - Depth and texture
 - Low opacity overlay
 - Performance friendly
-```
+\`\`\`
 
 #### 6. **Video Background (Optional)**
-```css
+\`\`\`css
 - Subtle video loops
 - Muted autoplay
 - Low file size
 - Fallback to static image
-```
+\`\`\`
 
 #### 7. **3D Background Elements**
-```css
+\`\`\`css
 - CSS 3D transforms
 - Perspective effects
 - Depth illusion
 - Smooth animations
-```
+\`\`\`
 
 #### 8. **Dynamic Color Background**
-```css
+\`\`\`css
 - Color based on time of day
 - Theme-aware colors
 - Smooth transitions
 - User preference support
-```
+\`\`\`
 
 ### Implementation Priority
 
