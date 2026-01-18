@@ -1,4 +1,12 @@
 import type { Config } from "tailwindcss"
+import colors from "tailwindcss/colors"
+
+// Remove deprecated color aliases to suppress warnings
+delete (colors as any).blueGray
+delete (colors as any).lightBlue
+delete (colors as any).warmGray
+delete (colors as any).trueGray
+delete (colors as any).coolGray
 
 const config: Config = {
   darkMode: ["class"],

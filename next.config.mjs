@@ -21,6 +21,27 @@ const nextConfig = {
           },
         ],
       },
+      {
+        source: "/api/sw",
+        headers: [
+          {
+            key: "Content-Type",
+            value: "application/javascript",
+          },
+          {
+            key: "Service-Worker-Allowed",
+            value: "/",
+          },
+        ],
+      },
+    ]
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/sw.js",
+        destination: "/api/sw",
+      },
     ]
   },
   images: {
