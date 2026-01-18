@@ -31,6 +31,7 @@ import { ParticleBackground } from "@/components/ui/ParticleBackground"
 import { CursorTrail } from "@/components/ui/CursorTrail"
 import { ThemeColorCustomizer } from "@/components/ui/ThemeColorCustomizer"
 import { OfflineIndicator } from "@/components/ui/OfflineIndicator"
+import { EnhancedBackground } from "@/components/ui/EnhancedBackground"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -198,6 +199,7 @@ export default function RootLayout({
               <SmoothScroll />
               <ScrollEnhancer />
               <PageLoadingBar />
+              <EnhancedBackground />
               <ScrollIndicator />
               <OfflineIndicator />
               <FocusVisibleEnhancer />

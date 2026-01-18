@@ -149,4 +149,107 @@
   .skeleton-wave {
     animation: none;
   }
+  
+  .gradient-mesh-enhanced,
+  .geometric-pattern,
+  .grid-pattern {
+    animation: none !important;
+  }
+}
+
+/* Enhanced Gradient Mesh Background */
+.gradient-mesh-enhanced {
+  background: 
+    radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
+    radial-gradient(at 50% 50%, rgba(168, 85, 247, 0.1) 0%, transparent 70%),
+    radial-gradient(at 25% 75%, rgba(59, 130, 246, 0.1) 0%, transparent 60%),
+    radial-gradient(at 75% 25%, rgba(236, 72, 153, 0.1) 0%, transparent 60%);
+  background-size: 200% 200%;
+  animation: gradient-mesh-shift 25s ease infinite;
+  filter: blur(0px);
+}
+
+.dark .gradient-mesh-enhanced {
+  background: 
+    radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.25) 0%, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.25) 0%, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.25) 0%, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(16, 185, 129, 0.25) 0%, transparent 50%),
+    radial-gradient(at 50% 50%, rgba(168, 85, 247, 0.2) 0%, transparent 70%),
+    radial-gradient(at 25% 75%, rgba(59, 130, 246, 0.2) 0%, transparent 60%),
+    radial-gradient(at 75% 25%, rgba(236, 72, 153, 0.2) 0%, transparent 60%);
+}
+
+@keyframes gradient-mesh-shift {
+  0%, 100% {
+    background-position: 0% 0%, 100% 0%, 100% 100%, 0% 100%, 50% 50%, 25% 75%, 75% 25%;
+  }
+  33% {
+    background-position: 100% 50%, 0% 50%, 0% 0%, 100% 0%, 25% 25%, 75% 25%, 25% 75%;
+  }
+  66% {
+    background-position: 50% 100%, 50% 0%, 0% 50%, 100% 50%, 75% 75%, 25% 75%, 75% 25%;
+  }
+}
+
+/* Geometric Pattern Overlay */
+.geometric-pattern {
+  background-image: 
+    linear-gradient(45deg, currentColor 25%, transparent 25%),
+    linear-gradient(-45deg, currentColor 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, currentColor 75%),
+    linear-gradient(-45deg, transparent 75%, currentColor 75%);
+  background-size: 60px 60px;
+  background-position: 0 0, 0 30px, 30px -30px, -30px 0px;
+  animation: geometric-pattern-move 20s linear infinite;
+  mask-image: radial-gradient(ellipse 80% 50% at 50% 50%, black 40%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 50% at 50% 50%, black 40%, transparent 100%);
+}
+
+@keyframes geometric-pattern-move {
+  0% {
+    background-position: 0 0, 0 30px, 30px -30px, -30px 0px;
+  }
+  100% {
+    background-position: 60px 60px, 60px 90px, 90px 30px, 30px 60px;
+  }
+}
+
+/* Grid Pattern */
+.grid-pattern {
+  background-image: 
+    linear-gradient(currentColor 1px, transparent 1px),
+    linear-gradient(90deg, currentColor 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: grid-pattern-move 30s linear infinite;
+  mask-image: radial-gradient(ellipse 70% 50% at 50% 50%, black 30%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 50% at 50% 50%, black 30%, transparent 100%);
+}
+
+@keyframes grid-pattern-move {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 50px 50px;
+  }
+}
+
+/* Dot Pattern */
+.dot-pattern {
+  background-image: radial-gradient(circle, currentColor 1px, transparent 1px);
+  background-size: 30px 30px;
+  animation: dot-pattern-move 25s linear infinite;
+}
+
+@keyframes dot-pattern-move {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 30px 30px;
+  }
 }
