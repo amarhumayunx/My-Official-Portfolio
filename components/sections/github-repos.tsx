@@ -10,7 +10,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Github, Globe, Search, Filter } from "lucide-react"
 import { projects } from "@/data/projects"
 import { MicroInteraction } from "@/components/ui/MicroInteractions"
-import { CardSkeleton } from "@/components/ui/EnhancedSkeleton"
+import { CardSkeleton, GitHubRepoSkeleton } from "@/components/ui/EnhancedSkeleton"
+import { PullToRefresh } from "@/components/ui/PullToRefresh"
 import { getProjectsWithSlugs } from "@/lib/project-utils"
 
 type Repo = {
@@ -264,11 +265,28 @@ export default function GitHubRepos({
           </div>
         )}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 w-full mb-8">
-          {loading
-            ? Array.from({ length: 6 }).map((_, i) => (
-                <CardSkeleton key={i} />
-              ))
+        <PullToRefresh
+          onRefresh={async () => {
+            setLoading(true)
+            setError(null)
+            try {
+              const response = await fetch(`/api/github/repos?username=${encodeURIComponent(username)}`)
+              if (!response.ok) throw new Error(await response.text())
+              const json = await response.json() as ApiResponse
+              setData(json)
+            } catch (e) {
+              setError(typeof e?.message === "string" ? e.message : "Failed to refresh repositories")
+            } finally {
+              setLoading(false)
+            }
+          }}
+          disabled={loading}
+        >
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 w-full mb-8">
+            {loading
+              ? Array.from({ length: 6 }).map((_, i) => (
+                  <GitHubRepoSkeleton key={i} />
+                ))
             : visible.map((repo) => (
                 <MicroInteraction key={repo.id} variant="lift" intensity="subtle">
                   <Card className="group hover:shadow-xl transition-all border-0 shadow-md overflow-hidden flex flex-col h-full hover-lift">
@@ -343,7 +361,8 @@ export default function GitHubRepos({
                 </Card>
                 </MicroInteraction>
               ))}
-        </div>
+          </div>
+        </PullToRefresh>
 
         {!loading && filtered.length === 0 && !error && (
           <div className="text-center text-muted-foreground py-12 text-sm sm:text-base">No repositories found.</div>

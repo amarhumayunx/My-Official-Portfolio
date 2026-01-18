@@ -6,6 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { motion } from "framer-motion"
 import { analytics } from "@/lib/analytics"
 import { useState } from "react"
+import { downloadPortfolioPDF } from "@/lib/pdf-generator"
+import { useToast } from "@/hooks/use-toast"
 
 interface Resource {
   id: string
@@ -57,6 +59,7 @@ const resources: Resource[] = [
 
 export function DownloadableResources() {
   const [downloading, setDownloading] = useState<string | null>(null)
+  const { toast } = useToast()
 
   const handleDownload = async (resource: Resource) => {
     setDownloading(resource.id)
@@ -69,8 +72,26 @@ export function DownloadableResources() {
       })
 
       if (resource.type === "portfolio") {
-        // Generate portfolio PDF (to be implemented)
-        alert("Portfolio PDF generation coming soon!")
+        // Generate portfolio PDF
+        toast({
+          title: "Generating PDF",
+          description: "Please wait while we generate your portfolio PDF...",
+        })
+        
+        try {
+          await downloadPortfolioPDF(resource.filename)
+          toast({
+            title: "Download Started",
+            description: "Your portfolio PDF is being downloaded.",
+          })
+        } catch (error) {
+          console.error("PDF generation failed:", error)
+          toast({
+            title: "Error",
+            description: "Failed to generate PDF. Please try again.",
+            variant: "destructive",
+          })
+        }
         setDownloading(null)
         return
       }
@@ -91,6 +112,11 @@ export function DownloadableResources() {
       }, 1000)
     } catch (error) {
       console.error("Download failed:", error)
+      toast({
+        title: "Download Failed",
+        description: "An error occurred while downloading. Please try again.",
+        variant: "destructive",
+      })
       setDownloading(null)
     }
   }

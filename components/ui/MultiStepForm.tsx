@@ -17,6 +17,7 @@ import {
   Clock,
   Briefcase,
   Bug,
+  Check,
 } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -562,21 +563,38 @@ export function MultiStepForm() {
 
     switch (step) {
       case 1:
-        if (!formData.name.trim()) newErrors.name = "Name is required"
-        if (!formData.email.trim()) newErrors.email = "Email is required"
-        else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = "Email is invalid"
+        if (!formData.name.trim()) {
+          newErrors.name = "Name is required"
+        } else if (formData.name.trim().length < 2) {
+          newErrors.name = "Name must be at least 2 characters"
+        }
+        if (!formData.email.trim()) {
+          newErrors.email = "Email is required"
+        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+          newErrors.email = "Please enter a valid email address"
+        }
         break
       case 2:
-        if (!formData.projectType) newErrors.projectType = "Project type is required"
-        if (!formData.budget) newErrors.budget = "Budget range is required"
-        if (!formData.timeline) newErrors.timeline = "Timeline is required"
-        if (!formData.description.trim()) newErrors.description = "Project description is required"
+        if (!formData.projectType) {
+          newErrors.projectType = "Please select a project type"
+        }
+        if (!formData.budget) {
+          newErrors.budget = "Please select a budget range"
+        }
+        if (!formData.timeline) {
+          newErrors.timeline = "Please select a timeline"
+        }
+        if (!formData.description.trim()) {
+          newErrors.description = "Project description is required"
+        } else if (formData.description.trim().length < 10) {
+          newErrors.description = "Description must be at least 10 characters"
+        }
         break
       case 3:
-        // Optional validation for step 3
+        // Optional validation for step 3 - no required fields
         break
       case 4:
-        // Optional validation for step 4
+        // Optional validation for step 4 - no required fields
         break
     }
 
@@ -586,16 +604,127 @@ export function MultiStepForm() {
 
   const nextStep = () => {
     if (validateStep(currentStep)) {
-      setCurrentStep((prev) => Math.min(prev + 1, totalSteps))
+      setCurrentStep((prev) => {
+        const next = Math.min(prev + 1, totalSteps)
+        // Scroll to top of form when changing steps
+        window.scrollTo({ top: 0, behavior: "smooth" })
+        return next
+      })
+    } else {
+      // Scroll to first error if validation fails
+      const firstErrorField = Object.keys(errors)[0]
+      if (firstErrorField) {
+        const errorElement = document.getElementById(firstErrorField) || document.querySelector(`[name="${firstErrorField}"]`)
+        errorElement?.scrollIntoView({ behavior: "smooth", block: "center" })
+        errorElement?.focus()
+      }
     }
   }
 
   const prevStep = () => {
-    setCurrentStep((prev) => Math.max(prev - 1, 1))
+    setCurrentStep((prev) => {
+      const previous = Math.max(prev - 1, 1)
+      // Scroll to top of form when changing steps
+      window.scrollTo({ top: 0, behavior: "smooth" })
+      return previous
+    })
   }
 
   const handleSubmit = async () => {
-    if (!validateStep(currentStep)) return
+    // Validate current step first
+    if (!validateStep(currentStep)) {
+      // Scroll to first error if validation fails
+      setTimeout(() => {
+        const firstErrorField = Object.keys(errors)[0]
+        if (firstErrorField) {
+          const errorElement = document.getElementById(firstErrorField) || document.querySelector(`[name="${firstErrorField}"]`)
+          errorElement?.scrollIntoView({ behavior: "smooth", block: "center" })
+          errorElement?.focus()
+        }
+      }, 100)
+      return
+    }
+
+    // Validate all steps before submission
+    let allValid = true
+    let firstInvalidStep = 0
+    const allErrors: Record<string, string> = {}
+
+    for (let step = 1; step <= totalSteps; step++) {
+      const stepErrors: Record<string, string> = {}
+      
+      switch (step) {
+        case 1:
+          if (!formData.name.trim()) {
+            stepErrors.name = "Name is required"
+            allValid = false
+          } else if (formData.name.trim().length < 2) {
+            stepErrors.name = "Name must be at least 2 characters"
+            allValid = false
+          }
+          if (!formData.email.trim()) {
+            stepErrors.email = "Email is required"
+            allValid = false
+          } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+            stepErrors.email = "Please enter a valid email address"
+            allValid = false
+          }
+          break
+        case 2:
+          if (!formData.projectType) {
+            stepErrors.projectType = "Please select a project type"
+            allValid = false
+          }
+          if (!formData.budget) {
+            stepErrors.budget = "Please select a budget range"
+            allValid = false
+          }
+          if (!formData.timeline) {
+            stepErrors.timeline = "Please select a timeline"
+            allValid = false
+          }
+          if (!formData.description.trim()) {
+            stepErrors.description = "Project description is required"
+            allValid = false
+          } else if (formData.description.trim().length < 10) {
+            stepErrors.description = "Description must be at least 10 characters"
+            allValid = false
+          }
+          break
+      }
+
+      if (Object.keys(stepErrors).length > 0) {
+        Object.assign(allErrors, stepErrors)
+        if (firstInvalidStep === 0) {
+          firstInvalidStep = step
+        }
+      }
+    }
+
+    if (!allValid) {
+      // Set all errors and navigate to first invalid step
+      setErrors(allErrors)
+      if (firstInvalidStep > 0 && firstInvalidStep !== currentStep) {
+        setCurrentStep(firstInvalidStep)
+        window.scrollTo({ top: 0, behavior: "smooth" })
+      } else {
+        // Scroll to first error
+        setTimeout(() => {
+          const firstErrorField = Object.keys(allErrors)[0]
+          if (firstErrorField) {
+            const errorElement = document.getElementById(firstErrorField) || document.querySelector(`[name="${firstErrorField}"]`)
+            errorElement?.scrollIntoView({ behavior: "smooth", block: "center" })
+            errorElement?.focus()
+          }
+        }, 100)
+      }
+      
+      setSubmitResult({
+        success: false,
+        message: "Please complete all required fields before submitting.",
+      })
+      return
+    }
 
     setIsSubmitting(true)
     setSubmitResult(null)
@@ -727,16 +856,103 @@ export function MultiStepForm() {
     )
   }
 
+  // Step configuration for visual indicator
+  const steps = [
+    { number: 1, label: "Basic Info", icon: User },
+    { number: 2, label: "Project Details", icon: Briefcase },
+    { number: 3, label: "Requirements", icon: MessageSquare },
+    { number: 4, label: "Files & Final", icon: Upload },
+  ]
+
   return (
     <Card className="max-w-4xl mx-auto">
       <CardHeader>
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between mb-6">
           <CardTitle className="text-2xl">Project Request Form</CardTitle>
-          <div className="text-sm text-muted-foreground">
+          <div className="text-sm text-muted-foreground font-medium">
             Step {currentStep} of {totalSteps}
           </div>
         </div>
-        <Progress value={progress} className="h-2" />
+        
+        {/* Visual Step Indicator */}
+        <div className="relative mb-6">
+          <div className="flex items-start justify-between gap-2 sm:gap-4">
+            {steps.map((step, index) => {
+              const StepIcon = step.icon
+              const isCompleted = currentStep > step.number
+              const isCurrent = currentStep === step.number
+              const isUpcoming = currentStep < step.number
+
+              return (
+                <div key={step.number} className="flex flex-col items-center flex-1 relative min-w-0">
+                  {/* Connector Line - Hidden on mobile, shown on larger screens */}
+                  {index < steps.length - 1 && (
+                    <div
+                      className={`hidden sm:block absolute top-5 left-[50%] h-0.5 ${
+                        isCompleted ? "bg-primary" : "bg-border"
+                      }`}
+                      style={{ width: "calc(100% - 2.5rem)", transform: "translateX(0.5rem)" }}
+                    />
+                  )}
+
+                  {/* Step Circle */}
+                  <motion.button
+                    type="button"
+                    initial={false}
+                    animate={{
+                      scale: isCurrent ? 1.1 : 1,
+                    }}
+                    whileHover={!isUpcoming ? { scale: 1.05 } : {}}
+                    whileTap={!isUpcoming ? { scale: 0.95 } : {}}
+                    onClick={() => {
+                      // Allow clicking on completed steps to go back
+                      if (isCompleted || isCurrent) {
+                        setCurrentStep(step.number)
+                        window.scrollTo({ top: 0, behavior: "smooth" })
+                      }
+                    }}
+                    disabled={isUpcoming}
+                    className={`relative z-10 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${
+                      isCompleted
+                        ? "bg-primary text-primary-foreground border-primary cursor-pointer hover:bg-primary/90"
+                        : isCurrent
+                          ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/20"
+                          : "bg-muted text-muted-foreground border-border cursor-not-allowed opacity-60"
+                    }`}
+                    aria-label={`Step ${step.number}: ${step.label}${isCompleted ? " - Completed" : isCurrent ? " - Current" : " - Upcoming"}`}
+                  >
+                    {isCompleted ? (
+                      <Check className="w-5 h-5 sm:w-6 sm:h-6" />
+                    ) : (
+                      <StepIcon className="w-5 h-5 sm:w-6 sm:h-6" />
+                    )}
+                  </motion.button>
+
+                  {/* Step Label */}
+                  <div className="mt-2 text-center w-full px-1">
+                    <div
+                      className={`text-[10px] sm:text-xs font-medium ${
+                        isCurrent ? "text-primary" : isCompleted ? "text-foreground" : "text-muted-foreground"
+                      }`}
+                    >
+                      Step {step.number}
+                    </div>
+                    <div
+                      className={`text-[10px] sm:text-xs mt-0.5 line-clamp-2 ${
+                        isCurrent ? "text-foreground font-semibold" : "text-muted-foreground"
+                      }`}
+                    >
+                      {step.label}
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* Progress Bar */}
+        <Progress value={progress} className="h-2.5" />
       </CardHeader>
 
       <CardContent className="p-8">
@@ -758,33 +974,51 @@ export function MultiStepForm() {
 
         <AnimatePresence mode="wait">{renderStep()}</AnimatePresence>
 
-        <div className="flex justify-between mt-8 pt-6 border-t">
+        <div className="flex justify-between items-center mt-8 pt-6 border-t">
           <Button
             type="button"
             variant="outline"
             onClick={prevStep}
-            disabled={currentStep === 1}
-            className="flex items-center gap-2 bg-transparent"
+            disabled={currentStep === 1 || isSubmitting}
+            className="flex items-center gap-2"
+            aria-label="Go to previous step"
           >
             <ArrowLeft className="w-4 h-4" />
-            Previous
+            <span className="hidden sm:inline">Previous</span>
           </Button>
 
+          <div className="text-xs text-muted-foreground hidden sm:block">
+            {currentStep === totalSteps ? "Review and submit your request" : "Fill in the required fields to continue"}
+          </div>
+
           {currentStep < totalSteps ? (
-            <Button type="button" onClick={nextStep} className="flex items-center gap-2">
-              Next
+            <Button 
+              type="button" 
+              onClick={nextStep} 
+              disabled={isSubmitting}
+              className="flex items-center gap-2"
+              aria-label="Go to next step"
+            >
+              <span className="hidden sm:inline">Next</span>
+              <span className="sm:hidden">Next</span>
               <ArrowRight className="w-4 h-4" />
             </Button>
           ) : (
-            <Button type="button" onClick={handleSubmit} disabled={isSubmitting} className="flex items-center gap-2">
+            <Button 
+              type="button" 
+              onClick={handleSubmit} 
+              disabled={isSubmitting} 
+              className="flex items-center gap-2"
+              aria-label="Submit project request"
+            >
               {isSubmitting ? (
                 <>
                   <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                  Submitting...
+                  <span>Submitting...</span>
                 </>
               ) : (
                 <>
-                  Submit Request
+                  <span>Submit Request</span>
                   <CheckCircle className="w-4 h-4" />
                 </>
               )}

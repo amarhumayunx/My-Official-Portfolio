@@ -3,6 +3,7 @@
 import * as React from "react"
 import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
+import { Card, CardHeader, CardContent } from "./card"
 
 interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: "text" | "circular" | "rectangular" | "card"
@@ -91,5 +92,31 @@ export function ImageSkeleton({ className }: { className?: string }) {
       className={cn("w-full h-full", className)}
       animation="shimmer"
     />
+  )
+}
+
+// GitHub repo skeleton
+export function GitHubRepoSkeleton({ className }: { className?: string }) {
+  return (
+    <Card className={cn("h-full", className)}>
+      <CardHeader>
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex-1 space-y-2">
+            <EnhancedSkeleton variant="text" width="70%" height={20} />
+            <EnhancedSkeleton variant="text" width="50%" height={16} />
+          </div>
+          <EnhancedSkeleton variant="circular" width={24} height={24} />
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <EnhancedSkeleton variant="text" width="100%" />
+        <EnhancedSkeleton variant="text" width="85%" />
+        <div className="flex items-center gap-4 pt-2">
+          <EnhancedSkeleton variant="rectangular" width={60} height={20} />
+          <EnhancedSkeleton variant="rectangular" width={60} height={20} />
+          <EnhancedSkeleton variant="rectangular" width={60} height={20} />
+        </div>
+      </CardContent>
+    </Card>
   )
 }

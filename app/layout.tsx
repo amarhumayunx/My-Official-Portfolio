@@ -30,6 +30,7 @@ import { MobileBottomNav } from "@/components/ui/MobileBottomNav"
 import { ParticleBackground } from "@/components/ui/ParticleBackground"
 import { CursorTrail } from "@/components/ui/CursorTrail"
 import { ThemeColorCustomizer } from "@/components/ui/ThemeColorCustomizer"
+import { OfflineIndicator } from "@/components/ui/OfflineIndicator"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -198,6 +199,7 @@ export default function RootLayout({
               <ScrollEnhancer />
               <PageLoadingBar />
               <ScrollIndicator />
+              <OfflineIndicator />
               <FocusVisibleEnhancer />
               <ARIALiveRegion />
               <PerformanceOptimizer />
