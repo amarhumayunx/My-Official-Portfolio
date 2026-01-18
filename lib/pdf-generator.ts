@@ -175,43 +175,55 @@ export async function generatePortfolioPDF(): Promise<Blob> {
 
   // Helper function to add a section header
   const addSectionHeader = (title: string) => {
-    checkPageBreak(15)
-    yPos += 5
+    checkPageBreak(20)
+    // Add spacing before section if not at top of page
+    if (yPos > margin + 10) {
+      yPos += 8
+    }
     doc.setDrawColor(0, 102, 204)
     doc.setLineWidth(0.5)
     doc.line(margin, yPos, pageWidth - margin, yPos)
-    yPos += 3
+    yPos += 4
     addText(title, 16, true, "#0066cc")
-    yPos += 3
+    yPos += 5
   }
 
-  // Cover Page
+  // Cover Page - Only on first page
   doc.setFillColor(0, 102, 204)
-  doc.rect(0, 0, pageWidth, 40, "F")
+  doc.rect(0, 0, pageWidth, 50, "F")
   
   doc.setTextColor("#FFFFFF")
   doc.setFontSize(28)
   doc.setFont("helvetica", "bold")
-  doc.text(portfolioData.name, pageWidth / 2, 20, { align: "center" })
+  const nameLines = doc.splitTextToSize(portfolioData.name, pageWidth - margin * 2)
+  const nameY = 25
+  doc.text(nameLines, pageWidth / 2, nameY, { align: "center" })
   
   doc.setFontSize(14)
   doc.setFont("helvetica", "normal")
-  doc.text(portfolioData.title, pageWidth / 2, 28, { align: "center" })
+  const titleLines = doc.splitTextToSize(portfolioData.title, pageWidth - margin * 2)
+  const titleY = nameY + (nameLines.length * 8) + 8
+  doc.text(titleLines, pageWidth / 2, titleY, { align: "center" })
   
   doc.setTextColor("#000000")
-  yPos = 50
+  yPos = 70
 
   // Contact Information
-  addText(`Email: ${portfolioData.email}`, 10)
+  doc.setFontSize(10)
+  doc.setTextColor("#000000")
+  doc.setFont("helvetica", "normal")
+  doc.text(`Email: ${portfolioData.email}`, margin, yPos)
+  yPos += 6
   if (portfolioData.location) {
-    addText(`Location: ${portfolioData.location}`, 10)
+    doc.text(`Location: ${portfolioData.location}`, margin, yPos)
+    yPos += 6
   }
   yPos += 5
 
   // Bio
   addSectionHeader("About Me")
   addText(portfolioData.bio, 11)
-  yPos += 3
+  yPos += 5
 
   // Skills
   addSectionHeader("Skills & Expertise")
@@ -268,15 +280,15 @@ export async function generatePortfolioPDF(): Promise<Blob> {
     yPos += 8
   })
 
-  // Footer on each page
+  // Footer on each page (skip cover page)
   const addFooter = () => {
     const totalPages = doc.getNumberOfPages()
-    for (let i = 1; i <= totalPages; i++) {
+    for (let i = 2; i <= totalPages; i++) {
       doc.setPage(i)
       doc.setFontSize(8)
       doc.setTextColor("#999999")
       doc.text(
-        `Portfolio - ${portfolioData.name} | Page ${i} of ${totalPages}`,
+        `Portfolio - ${portfolioData.name} | Page ${i - 1} of ${totalPages - 1}`,
         pageWidth / 2,
         pageHeight - 10,
         { align: "center" }

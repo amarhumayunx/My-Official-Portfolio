@@ -516,6 +516,7 @@ const FilesStep = ({ formData, updateFormData, errors }: StepProps) => {
 }
 
 export function MultiStepForm() {
+  const formRef = useRef<HTMLDivElement>(null)
   const [currentStep, setCurrentStep] = useState(1)
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -606,8 +607,10 @@ export function MultiStepForm() {
     if (validateStep(currentStep)) {
       setCurrentStep((prev) => {
         const next = Math.min(prev + 1, totalSteps)
-        // Scroll to top of form when changing steps
-        window.scrollTo({ top: 0, behavior: "smooth" })
+        // Scroll to top of form container, not entire page
+        setTimeout(() => {
+          formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+        }, 100)
         return next
       })
     } else {
@@ -624,8 +627,10 @@ export function MultiStepForm() {
   const prevStep = () => {
     setCurrentStep((prev) => {
       const previous = Math.max(prev - 1, 1)
-      // Scroll to top of form when changing steps
-      window.scrollTo({ top: 0, behavior: "smooth" })
+      // Scroll to top of form container, not entire page
+      setTimeout(() => {
+        formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+      }, 100)
       return previous
     })
   }
@@ -704,10 +709,12 @@ export function MultiStepForm() {
     if (!allValid) {
       // Set all errors and navigate to first invalid step
       setErrors(allErrors)
-      if (firstInvalidStep > 0 && firstInvalidStep !== currentStep) {
-        setCurrentStep(firstInvalidStep)
-        window.scrollTo({ top: 0, behavior: "smooth" })
-      } else {
+        if (firstInvalidStep > 0 && firstInvalidStep !== currentStep) {
+          setCurrentStep(firstInvalidStep)
+          setTimeout(() => {
+            formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+          }, 100)
+        } else {
         // Scroll to first error
         setTimeout(() => {
           const firstErrorField = Object.keys(allErrors)[0]
@@ -865,7 +872,8 @@ export function MultiStepForm() {
   ]
 
   return (
-    <Card className="max-w-4xl mx-auto">
+    <div ref={formRef} id="project-request-form" className="scroll-mt-20">
+      <Card className="max-w-4xl mx-auto">
       <CardHeader>
         <div className="flex items-center justify-between mb-6">
           <CardTitle className="text-2xl">Project Request Form</CardTitle>
@@ -1026,6 +1034,7 @@ export function MultiStepForm() {
           )}
         </div>
       </CardContent>
-    </Card>
+      </Card>
+    </div>
   )
 }
