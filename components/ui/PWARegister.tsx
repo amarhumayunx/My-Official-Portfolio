@@ -14,20 +14,13 @@ export function PWARegister() {
       // Register service worker
       const registerServiceWorker = async () => {
         try {
-          // Try API route first (works better on Vercel with correct MIME type)
-          // The rewrite rule maps /sw.js to /sw API route
-          let registration
-          try {
-            registration = await navigator.serviceWorker.register("/sw.js", {
-              scope: "/",
-            })
-          } catch (apiError) {
-            // Fallback: try direct public file (if rewrite doesn't work)
-            console.warn("API route failed, trying public file:", apiError)
-            registration = await navigator.serviceWorker.register("/sw.js", {
-              scope: "/",
-            })
-          }
+          // Try to register service worker from static public/sw.js file
+          // This works better in preview environments than dynamic API routes
+          const scriptUrl = "/sw.js"
+          
+          const registration = await navigator.serviceWorker.register(scriptUrl, {
+            scope: "/",
+          })
 
           setIsRegistered(true)
           console.log("Service Worker registered successfully")
@@ -50,11 +43,9 @@ export function PWARegister() {
             window.location.reload()
           })
         } catch (error: any) {
-          console.error("Service Worker registration failed:", error)
-          // Log more details for debugging
-          if (error.message) {
-            console.error("Error message:", error.message)
-          }
+          // Service worker registration is optional - gracefully handle failures
+          // This is common in preview/development environments with CORS or routing restrictions
+          console.warn("Service Worker registration not available:", error?.message)
           setIsRegistered(false)
         }
       }
