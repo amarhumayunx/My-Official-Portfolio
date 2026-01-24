@@ -33,6 +33,7 @@ import { ThemeColorCustomizer } from "@/components/ui/ThemeColorCustomizer"
 import { OfflineIndicator } from "@/components/ui/OfflineIndicator"
 import { EnhancedBackground } from "@/components/ui/EnhancedBackground"
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton"
+import { Suspense } from "react"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -125,7 +126,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://amarhumayun.com",
   },
-    generator: 'v0.app'
+  generator: 'v0.app'
 }
 
 export default function RootLayout({
@@ -183,7 +184,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <GoogleAnalytics />
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -210,6 +210,7 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
+        <GoogleAnalytics />
         {Array.isArray(jsonLd) ? (
           jsonLd.map((schema, index) => (
             <script
@@ -242,11 +243,13 @@ export default function RootLayout({
               <ARIALiveRegion />
               <PerformanceOptimizer />
               <Navigation />
-              <PageTransition variant="fade">
-                <main id="main-content" className="min-h-screen bg-transparent">
-                  {children}
-                </main>
-              </PageTransition>
+              <Suspense>
+                <PageTransition variant="fade">
+                  <main id="main-content" className="min-h-screen bg-transparent">
+                    {children}
+                  </main>
+                </PageTransition>
+              </Suspense>
               <FloatingActionButton />
               <Footer />
               <BackToTop />
