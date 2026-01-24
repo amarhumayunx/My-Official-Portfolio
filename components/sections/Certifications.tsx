@@ -10,40 +10,130 @@ import { ParallaxSection } from "@/components/ui/ParallaxSection"
 
 const certifications = [
   {
-    title: "Flutter & Dart - The Complete Guide",
-    issuer: "Udemy",
-    date: "2024",
-    credentialId: "UC-12345678",
-    credentialUrl: "https://www.udemy.com/certificate/UC-12345678/",
-    skills: ["Flutter", "Dart", "Mobile Development"],
-    description: "Comprehensive course covering Flutter framework, Dart programming language, and cross-platform mobile app development.",
+    title: "AI Python for Beginners",
+    issuer: "DeepLearning.AI",
+    date: "Feb 2025",
+    credentialId: "LP64U3U6NTHO",
+    credentialUrl: "https://www.coursera.org/verify/LP64U3U6NTHO",
+    skills: ["Python", "AI", "Machine Learning", "Deep Learning"],
+    description: "Comprehensive introduction to Python programming for artificial intelligence and machine learning applications.",
   },
   {
-    title: "Android Development with Kotlin",
-    issuer: "Google Developers",
-    date: "2024",
-    credentialId: "GD-AND-2024",
-    credentialUrl: "#",
-    skills: ["Kotlin", "Android", "Material Design"],
-    description: "Professional Android development certification covering Kotlin, Android SDK, and modern app architecture.",
+    title: "Introduction to Google SEO",
+    issuer: "University of California, Davis",
+    date: "Feb 2025",
+    credentialId: "BAALWLJ6TJ18",
+    credentialUrl: "https://www.coursera.org/verify/BAALWLJ6TJ18",
+    skills: ["SEO", "Digital Marketing", "Google Analytics", "Search Optimization"],
+    description: "Professional certification covering search engine optimization strategies, keyword research, and website optimization techniques.",
   },
   {
-    title: "Firebase for Mobile Developers",
-    issuer: "Firebase",
-    date: "2024",
-    credentialId: "FB-MOB-2024",
-    credentialUrl: "#",
-    skills: ["Firebase", "Backend", "Cloud Services"],
-    description: "Complete Firebase ecosystem including Authentication, Firestore, Cloud Functions, and Storage.",
+    title: "Artificial Intelligence AI",
+    issuer: "DeepLearning.AI",
+    date: "Jan 2025",
+    credentialId: "MNTTPCX2M8FW",
+    credentialUrl: "https://www.coursera.org/verify/MNTTPCX2M8FW",
+    skills: ["Artificial Intelligence", "Machine Learning", "Deep Learning", "Neural Networks"],
+    description: "Advanced certification in artificial intelligence covering machine learning algorithms, neural networks, and AI applications.",
   },
   {
-    title: "AI & Machine Learning Fundamentals",
-    issuer: "Coursera",
-    date: "2023",
-    credentialId: "CR-AI-2023",
-    credentialUrl: "#",
-    skills: ["AI", "Machine Learning", "TensorFlow"],
-    description: "Introduction to artificial intelligence and machine learning concepts with practical implementation.",
+    title: "Introduction to Generative AI",
+    issuer: "Google Cloud",
+    date: "Jan 2025",
+    credentialId: "STT9GFGRQN6R",
+    credentialUrl: "https://www.coursera.org/verify/STT9GFGRQN6R",
+    skills: ["Generative AI", "Google Cloud", "LLMs", "AI Models"],
+    description: "Professional certification in generative AI technologies, large language models, and Google Cloud AI services.",
+  },
+  {
+    title: "Getting started with Flutter Development",
+    issuer: "Google Cloud",
+    date: "Dec 2024",
+    credentialId: "KEMU25BZPE4S",
+    credentialUrl: "https://www.coursera.org/verify/KEMU25BZPE4S",
+    skills: ["Flutter", "Dart", "Mobile Development", "Cross-platform"],
+    description: "Official Google Cloud certification covering Flutter framework fundamentals and cross-platform mobile app development.",
+  },
+  {
+    title: "Copyright Law",
+    issuer: "University of Pennsylvania",
+    date: "Jan 2025",
+    credentialId: "R8THBORKSIH5",
+    credentialUrl: "https://www.coursera.org/verify/R8THBORKSIH5",
+    skills: ["Copyright Law", "Intellectual Property", "Legal", "Business Law"],
+    description: "Professional certification in copyright law and intellectual property rights from Wharton School of Business.",
+  },
+  {
+    title: "Trademark Law",
+    issuer: "University of Pennsylvania",
+    date: "Jan 2025",
+    credentialId: "25LI072ACO0S",
+    credentialUrl: "https://www.coursera.org/verify/25LI072ACO0S",
+    skills: ["Trademark Law", "Intellectual Property", "Legal", "Business Law"],
+    description: "Comprehensive certification covering trademark law, brand protection, and intellectual property management.",
+  },
+  {
+    title: "Introduction to Intellectual Property",
+    issuer: "University of Pennsylvania",
+    date: "Jan 2025",
+    credentialId: "BZYIAITBAJAF",
+    credentialUrl: "https://www.coursera.org/verify/BZYIAITBAJAF",
+    skills: ["Intellectual Property", "Legal", "Business Law", "IP Rights"],
+    description: "Foundational course on intellectual property law, covering patents, trademarks, copyrights, and trade secrets.",
+  },
+  {
+    title: "Flutter Development",
+    issuer: "Programming Hub",
+    date: "Oct 2024",
+    credentialId: "",
+    credentialUrl: "https://www.linkedin.com/in/amarhumayun/",
+    skills: ["Flutter", "Dart", "Object-Oriented Programming", "Mobile Development"],
+    description: "Comprehensive Flutter development certification covering framework fundamentals, widgets, state management, and app architecture.",
+  },
+  {
+    title: "Dart Language",
+    issuer: "Programming Hub",
+    date: "Oct 2024",
+    credentialId: "",
+    credentialUrl: "https://www.linkedin.com/in/amarhumayun/",
+    skills: ["Dart", "Programming", "Mobile Development"],
+    description: "Professional certification in Dart programming language, the foundation for Flutter development.",
+  },
+  {
+    title: "Machine Learning",
+    issuer: "Programming Hub",
+    date: "Oct 2024",
+    credentialId: "",
+    credentialUrl: "https://www.linkedin.com/in/amarhumayun/",
+    skills: ["Machine Learning", "AI", "Data Science"],
+    description: "Certification in machine learning fundamentals, algorithms, and practical applications.",
+  },
+  {
+    title: "Android Development",
+    issuer: "Programming Hub",
+    date: "Feb 2024",
+    credentialId: "",
+    credentialUrl: "https://www.linkedin.com/in/amarhumayun/",
+    skills: ["Android", "Mobile Development", "Object-Oriented Programming"],
+    description: "Professional Android development certification covering app architecture, UI/UX design, and native Android development.",
+  },
+  {
+    title: "Kotlin Development",
+    issuer: "Programming Hub",
+    date: "Feb 2024",
+    credentialId: "",
+    credentialUrl: "https://www.linkedin.com/in/amarhumayun/",
+    skills: ["Kotlin", "Android", "Object-Oriented Programming"],
+    description: "Comprehensive Kotlin programming certification for modern Android app development.",
+  },
+  {
+    title: "Python Development",
+    issuer: "Programming Hub",
+    date: "Sep 2023",
+    credentialId: "",
+    credentialUrl: "https://www.linkedin.com/in/amarhumayun/",
+    skills: ["Python", "Programming", "Software Development"],
+    description: "Professional Python programming certification covering fundamentals, data structures, and best practices.",
   },
 ]
 
@@ -103,7 +193,7 @@ export default function Certifications() {
                         </Badge>
                       ))}
                     </div>
-                    {cert.credentialUrl !== "#" && (
+                    {cert.credentialUrl && cert.credentialUrl !== "#" && (
                       <Button variant="outline" size="sm" asChild className="w-full sm:w-auto">
                         <a
                           href={cert.credentialUrl}
@@ -113,7 +203,7 @@ export default function Certifications() {
                           aria-label={`View ${cert.title} certificate`}
                         >
                           <ExternalLink className="w-4 h-4" aria-hidden="true" />
-                          View Certificate
+                          {cert.credentialId ? "Verify Certificate" : "View Certificate"}
                         </a>
                       </Button>
                     )}
