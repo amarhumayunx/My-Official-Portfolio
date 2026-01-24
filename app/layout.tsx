@@ -2,6 +2,8 @@ import type React from "react"
 import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
+
+const _inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
 import { ThemeProvider } from "@/components/providers/ThemeProvider"
 import { Toaster } from "@/components/ui/toaster"
 import Navigation from "@/components/layout/Navigation"
@@ -33,8 +35,6 @@ import { ThemeColorCustomizer } from "@/components/ui/ThemeColorCustomizer"
 import { OfflineIndicator } from "@/components/ui/OfflineIndicator"
 import { EnhancedBackground } from "@/components/ui/EnhancedBackground"
 import { Suspense } from "react"
-
-const inter = Inter({ subsets: ["latin"] })
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -208,7 +208,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={inter.className}>
+      <body className={`${_inter.variable} font-sans`}>
         <GoogleAnalytics />
         {Array.isArray(jsonLd) ? (
           jsonLd.map((schema, index) => (
