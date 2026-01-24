@@ -21,7 +21,7 @@ const nextConfig = {
           },
           {
             key: "Cache-Control",
-            value: "public, max-age=0, must-revalidate",
+            value: "no-cache, no-store, must-revalidate",
           },
         ],
       },
@@ -36,6 +36,15 @@ const nextConfig = {
             key: "Service-Worker-Allowed",
             value: "/",
           },
+          {
+            key: "Cache-Control",
+            value: "no-cache, no-store, must-revalidate",
+          },
+        ],
+      },
+      {
+        source: "/:path*",
+        headers: [
           {
             key: "Cache-Control",
             value: "public, max-age=0, must-revalidate",

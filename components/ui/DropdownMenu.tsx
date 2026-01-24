@@ -3,9 +3,6 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
 
-interface DropdownMenuProps {
-  children: React.ReactNode
-}
 
 interface DropdownMenuTriggerProps {
   children: React.ReactNode
@@ -37,10 +34,26 @@ const useDropdownMenu = () => {
   return context
 }
 
-export function DropdownMenu({ children }: DropdownMenuProps) {
-  const [open, setOpen] = React.useState(false)
+interface DropdownMenuProps {
+  children: React.ReactNode
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
+}
+
+export function DropdownMenu({ children, open: controlledOpen, onOpenChange }: DropdownMenuProps) {
+  const [internalOpen, setInternalOpen] = React.useState(false)
   const triggerRef = React.useRef<HTMLElement>(null)
   const contentRef = React.useRef<HTMLDivElement>(null)
+  
+  const isControlled = controlledOpen !== undefined
+  const open = isControlled ? controlledOpen : internalOpen
+  const setOpen = React.useCallback((value: boolean | ((prev: boolean) => boolean)) => {
+    if (isControlled && onOpenChange) {
+      onOpenChange(typeof value === 'function' ? value(open) : value)
+    } else {
+      setInternalOpen(typeof value === 'function' ? value(internalOpen) : value)
+    }
+  }, [isControlled, onOpenChange, open, internalOpen])
 
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -54,11 +67,13 @@ export function DropdownMenu({ children }: DropdownMenuProps) {
       }
     }
 
-    document.addEventListener("mousedown", handleClickOutside)
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside)
+    }
     return () => {
       document.removeEventListener("mousedown", handleClickOutside)
     }
-  }, [])
+  }, [open, setOpen])
 
   return (
     <DropdownMenuContext.Provider value={{ open, setOpen, triggerRef }}>
@@ -111,7 +126,6 @@ export function DropdownMenuContent({ className, children, align = "end", ...pro
         alignClass,
         className,
       )}
-      onClick={() => setOpen(false)} // Close on item click
       {...props}
     >
       {children}
@@ -119,7 +133,20 @@ export function DropdownMenuContent({ className, children, align = "end", ...pro
   )
 }
 
-export function DropdownMenuItem({ className, children, disabled, asChild, ...props }: DropdownMenuItemProps) {
+export function DropdownMenuItem({ className, children, disabled, asChild, onClick, ...props }: DropdownMenuItemProps) {
+  const { setOpen } = useDropdownMenu()
+  
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (disabled) return
+    if (onClick) {
+      onClick(e)
+    }
+    // Close menu after click (unless prevented)
+    if (!e.defaultPrevented) {
+      setOpen(false)
+    }
+  }
+  
   const itemContent = (
     <div
       className={cn(
@@ -127,6 +154,7 @@ export function DropdownMenuItem({ className, children, disabled, asChild, ...pr
         disabled && "opacity-50 cursor-not-allowed",
         className,
       )}
+      onClick={handleClick}
       {...props}
     >
       {children}

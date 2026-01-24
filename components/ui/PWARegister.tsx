@@ -25,14 +25,46 @@ export function PWARegister() {
           setIsRegistered(true)
           console.log("Service Worker registered successfully")
 
+          // Check for updates immediately and frequently
+          const checkForUpdates = () => {
+            registration.update().catch((err) => {
+              console.log("Update check failed:", err)
+            })
+          }
+
+          // Check for updates on page load
+          checkForUpdates()
+
+          // Check for updates every 1 minute (more frequent)
+          const updateInterval = setInterval(checkForUpdates, 60 * 1000)
+
+          // Check for updates when page becomes visible
+          const handleVisibilityChange = () => {
+            if (!document.hidden) {
+              checkForUpdates()
+            }
+          }
+          document.addEventListener("visibilitychange", handleVisibilityChange)
+
+          // Check for updates on focus
+          window.addEventListener("focus", checkForUpdates)
+
+          // Cleanup on unmount
+          return () => {
+            clearInterval(updateInterval)
+            document.removeEventListener("visibilitychange", handleVisibilityChange)
+            window.removeEventListener("focus", checkForUpdates)
+          }
+
           // Check for updates
           registration.addEventListener("updatefound", () => {
             const newWorker = registration.installing
             if (newWorker) {
               newWorker.addEventListener("statechange", () => {
                 if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
-                  // New service worker available, notify user
-                  console.log("New service worker available. Refresh to update.")
+                  // New service worker available, reload immediately
+                  console.log("New service worker available. Reloading...")
+                  window.location.reload()
                 }
               })
             }

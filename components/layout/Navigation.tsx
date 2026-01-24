@@ -365,7 +365,7 @@ export default function Navigation() {
           >
             <button
               aria-label="Close navigation"
-              className="absolute inset-0 bg-black/30 backdrop-blur-sm"
+              className="absolute inset-0 bg-black/50 backdrop-blur-md"
               onClick={() => setIsOpen(false)}
             />
             <motion.div
@@ -373,12 +373,12 @@ export default function Navigation() {
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: "100%", opacity: 0 }}
               transition={{ type: "spring", stiffness: 380, damping: 34 }}
-              className="absolute right-3 sm:right-4 top-16 sm:top-[4.5rem] w-72 sm:w-80 max-w-[calc(100vw-1.5rem)] rounded-xl sm:rounded-2xl border border-zinc-200/40 dark:border-zinc-800/40 modal-bg shadow-xl overflow-hidden"
+              className="absolute right-3 sm:right-4 top-16 sm:top-[4.5rem] w-72 sm:w-80 max-w-[calc(100vw-1.5rem)] rounded-xl sm:rounded-2xl border border-white/20 dark:border-white/10 bg-white/90 dark:bg-black/90 backdrop-blur-xl shadow-2xl overflow-hidden"
               role="dialog"
               aria-modal="true"
             >
-              <div className="p-3 sm:p-4 border-b border-zinc-200/40 dark:border-zinc-800/40">
-                <p className="text-xs sm:text-sm font-semibold">Navigation</p>
+              <div className="p-3 sm:p-4 border-b border-white/20 dark:border-white/10 bg-white/50 dark:bg-black/50 backdrop-blur-sm">
+                <p className="text-xs sm:text-sm font-semibold text-foreground">Navigation</p>
               </div>
               <div className="p-2">
                 {navItems.map((item) => {
@@ -390,16 +390,16 @@ export default function Navigation() {
                       onClick={(e) => handleNavClick(e, item.href)}
                       data-testid={`nav-btn-${testId}-mobile`}
                       className={[
-                        "w-full flex items-center gap-2.5 sm:gap-3 px-2.5 sm:px-3 py-2.5 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-colors",
+                        "w-full flex items-center gap-2.5 sm:gap-3 px-2.5 sm:px-3 py-2.5 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-all duration-200",
                         active
-                          ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white"
-                          : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100/70 dark:hover:bg-zinc-800/70",
+                          ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md"
+                          : "text-foreground hover:bg-white/50 dark:hover:bg-white/10 hover:backdrop-blur-sm",
                       ].join(" ")}
                     >
                       <span
                         className={[
-                          "p-1.5 sm:p-2 rounded-lg",
-                          active ? "bg-white/20" : "bg-zinc-100 dark:bg-zinc-800",
+                          "p-1.5 sm:p-2 rounded-lg transition-colors",
+                          active ? "bg-white/30 backdrop-blur-sm" : "bg-white/30 dark:bg-white/10 backdrop-blur-sm",
                         ].join(" ")}
                         aria-hidden="true"
                       >
@@ -410,7 +410,7 @@ export default function Navigation() {
                   )
                 })}
 
-                <div className="pt-2 mt-2 border-t border-zinc-200/40 dark:border-zinc-800/40">
+                <div className="pt-2 mt-2 border-t border-white/20 dark:border-white/10">
                   <Button
                     asChild
                     className="w-full rounded-lg sm:rounded-xl text-xs sm:text-sm bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700"
