@@ -58,12 +58,16 @@
   
   /* Global Fixed Background - Set ONCE at root level */
   html {
-    @apply bg-white dark:bg-black;
+    background-color: white;
     /* Enhanced smooth scrolling for all devices */
     scroll-behavior: smooth;
     scroll-padding-top: 80px; /* Account for fixed navbar */
     -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
     overscroll-behavior-y: contain; /* Prevent overscroll bounce on mobile */
+  }
+  
+  html.dark {
+    background-color: black;
   }
   
   /* Smooth scrolling for all scrollable containers */

@@ -6,7 +6,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { FluidTransition } from "@/components/ui/FluidTransition"
-import { ParallaxSection } from "@/components/ui/ParallaxSection"
 
 const certifications = [
   {
@@ -152,15 +151,15 @@ export default function Certifications() {
 
         <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
           {certifications.map((cert, index) => (
-            <ParallaxSection key={index} offset={15}>
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
-                viewport={{ once: true }}
-                whileHover={{ y: -5, transition: { duration: 0.2 } }}
-              >
-                <Card className="h-full hover:shadow-xl transition-all duration-300 border-l-4 border-l-primary">
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1, duration: 0.5 }}
+              viewport={{ once: true }}
+              whileHover={{ y: -5, transition: { duration: 0.2 } }}
+            >
+              <Card className="h-full hover:shadow-xl transition-all duration-300 border-l-4 border-l-primary">
                   <CardHeader>
                     <div className="flex items-start justify-between gap-4 mb-2">
                       <div className="flex-1">
@@ -210,7 +209,6 @@ export default function Certifications() {
                   </CardContent>
                 </Card>
               </motion.div>
-            </ParallaxSection>
           ))}
         </div>
       </div>
