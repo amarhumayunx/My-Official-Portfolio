@@ -94,12 +94,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }))
 
   // Blog post pages
-  const blogPages: MetadataRoute.Sitemap = blogPosts.map((post) => ({
-    url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: post.date ? new Date(post.date) : new Date(),
-    changeFrequency: "monthly" as const,
-    priority: 0.7,
-  }))
+  const blogPages: MetadataRoute.Sitemap = blogPosts.map((post) => {
+    let lastModified = new Date()
+    
+    if (post.date) {
+      const parsed = new Date(post.date)
+      // Only use the parsed date if it's valid
+      if (!isNaN(parsed.getTime())) {
+        lastModified = parsed
+      }
+    }
+    
+    return {
+      url: `${baseUrl}/blog/${post.slug}`,
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    }
+  })
 
   return [...staticPages, ...projectPages, ...blogPages]
 }
