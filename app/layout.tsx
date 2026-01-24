@@ -32,7 +32,6 @@ import { CursorTrail } from "@/components/ui/CursorTrail"
 import { ThemeColorCustomizer } from "@/components/ui/ThemeColorCustomizer"
 import { OfflineIndicator } from "@/components/ui/OfflineIndicator"
 import { EnhancedBackground } from "@/components/ui/EnhancedBackground"
-import { WhatsAppButton } from "@/components/ui/WhatsAppButton"
 import { Suspense } from "react"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -264,7 +263,6 @@ export default function RootLayout({
               <ParticleBackground />
               <CursorTrail />
               <ThemeColorCustomizer />
-              <WhatsAppButton />
             </ErrorBoundary>
           </KeyboardShortcutsProvider>
         </ThemeProvider>
