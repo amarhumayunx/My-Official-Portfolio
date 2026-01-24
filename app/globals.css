@@ -3,8 +3,10 @@
 @tailwind utilities;
 
 @layer base {
-  /* Light Mode - White background with dark text */
   :root {
+    --font-sans: 'Inter', 'Inter Fallback';
+    --font-mono: 'Courier New', 'Courier New Fallback';
+    /* Light Mode - White background with dark text */
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;
@@ -49,11 +51,9 @@
     --input: 0 0% 14.9%;
     --ring: 224.3 76.3% 94.1%;
   }
-}
 
-@layer base {
   * {
-    @apply border-border;
+    border-color: hsl(var(--border));
   }
   
   /* Global Fixed Background - Set ONCE at root level */
