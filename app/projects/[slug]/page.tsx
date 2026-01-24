@@ -22,10 +22,12 @@ import { projects } from "@/data/projects"
 // Generate static params for all projects at build time
 export async function generateStaticParams() {
   const projects = getProjectsWithSlugs()
-  console.log(
-    "Generated slugs for projects:",
-    projects.map((project) => project.slug),
-  ) // Add this line
+  if (process.env.NODE_ENV === "development") {
+    console.log(
+      "Generated slugs for projects:",
+      projects.map((project) => project.slug),
+    )
+  }
   return projects.map((project) => ({
     slug: project.slug,
   }))
@@ -33,11 +35,15 @@ export async function generateStaticParams() {
 
 // Metadata for the dynamic page
 export async function generateMetadata({ params }: { params: { slug: string } }) {
-  console.log("Generating metadata for project slug:", params.slug) // Add this line
+  if (process.env.NODE_ENV === "development") {
+    console.log("Generating metadata for project slug:", params.slug)
+  }
   const project = getProjectBySlug(params.slug)
 
   if (!project) {
-    console.log("Project not found for metadata:", params.slug) // Add this line
+    if (process.env.NODE_ENV === "development") {
+      console.log("Project not found for metadata:", params.slug)
+    }
     return {
       title: "Project Not Found",
     }
@@ -62,11 +68,15 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 export default function ProjectDetailPage({ params }: { params: { slug: string } }) {
-  console.log("Rendering ProjectDetailPage for slug:", params.slug) // Add this line
+  if (process.env.NODE_ENV === "development") {
+    console.log("Rendering ProjectDetailPage for slug:", params.slug)
+  }
   const project = getProjectBySlug(params.slug)
 
   if (!project) {
-    console.log("Project not found during render:", params.slug) // Add this line
+    if (process.env.NODE_ENV === "development") {
+      console.log("Project not found during render:", params.slug)
+    }
     notFound() // Render 404 page if project not found
   }
 

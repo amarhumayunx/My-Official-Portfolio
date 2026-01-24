@@ -9,6 +9,7 @@ import Testimonials from "@/components/sections/Testimonials"
 import Blog from "@/components/sections/Blog"
 import Contact from "@/components/sections/Contact"
 import ProjectsCarousel from "@/components/sections/ProjectsCarousel"
+import Certifications from "@/components/sections/Certifications"
 import { PrefetchManager } from "@/components/ui/PrefetchManager"
 
 export default function Home() {
@@ -19,6 +20,7 @@ export default function Home() {
       <About />
       <StatsSection />
       <Skills />
+      <Certifications />
       <Projects />
       <ProjectsCarousel />
       <ServicesOverview />

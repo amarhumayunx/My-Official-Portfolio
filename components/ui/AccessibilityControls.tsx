@@ -2,9 +2,10 @@
 
 import * as React from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Settings, Type, Contrast, Eye, EyeOff } from "lucide-react"
+import { Settings, Type, Contrast, Eye, EyeOff, Keyboard } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useLocalStorage } from "@/hooks/useLocalStorage"
+import { initAccessibilityEnhancements } from "@/lib/accessibility-enhancements"
 
 export function AccessibilityControls() {
   const [isOpen, setIsOpen] = React.useState(false)
@@ -34,6 +35,11 @@ export function AccessibilityControls() {
       document.documentElement.classList.remove("reduce-motion")
     }
   }, [reducedMotion])
+
+  React.useEffect(() => {
+    // Initialize accessibility enhancements on mount
+    initAccessibilityEnhancements()
+  }, [])
 
   return (
     <>
@@ -116,15 +122,37 @@ export function AccessibilityControls() {
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium mb-2">Reduce Motion</label>
+                  <label className="text-sm font-medium mb-2 flex items-center gap-2">
+                    <Keyboard className="w-4 h-4" />
+                    Reduce Motion
+                  </label>
                   <Button
                     variant={reducedMotion ? "default" : "outline"}
                     size="sm"
                     onClick={() => setReducedMotion(!reducedMotion)}
                     className="w-full"
+                    aria-pressed={reducedMotion}
                   >
                     {reducedMotion ? "Enabled" : "Disabled"}
                   </Button>
+                </div>
+
+                <div className="pt-4 border-t border-border">
+                  <p className="text-xs text-muted-foreground mb-2">Keyboard Shortcuts</p>
+                  <div className="space-y-1 text-xs">
+                    <div className="flex justify-between">
+                      <span>Skip to content</span>
+                      <kbd className="px-1.5 py-0.5 bg-muted rounded">Tab</kbd>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Search</span>
+                      <kbd className="px-1.5 py-0.5 bg-muted rounded">Ctrl+K</kbd>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Toggle theme</span>
+                      <kbd className="px-1.5 py-0.5 bg-muted rounded">Ctrl+T</kbd>
+                    </div>
+                  </div>
                 </div>
               </div>
             </motion.div>

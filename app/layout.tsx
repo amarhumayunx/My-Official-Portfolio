@@ -32,6 +32,7 @@ import { CursorTrail } from "@/components/ui/CursorTrail"
 import { ThemeColorCustomizer } from "@/components/ui/ThemeColorCustomizer"
 import { OfflineIndicator } from "@/components/ui/OfflineIndicator"
 import { EnhancedBackground } from "@/components/ui/EnhancedBackground"
+import { WhatsAppButton } from "@/components/ui/WhatsAppButton"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -132,17 +133,24 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const jsonLd = {
+  // Enhanced structured data
+  const personSchema = {
     "@context": "https://schema.org",
     "@type": "Person",
     name: "Muhammad Humayun Amar",
     url: "https://amarhumayun.com",
     jobTitle: "Mobile App Developer",
     description: "Professional mobile app developer specializing in Flutter, Android, and cross-platform solutions.",
+    email: "amarhumayun@outlook.com",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Lahore",
+      addressCountry: "PK",
+    },
     sameAs: [
       "https://github.com/amarhumayunx",
       "https://linkedin.com/in/amarhumayun",
-      "https://twitter.com/amarhumayun",
+      "https://twitter.com/amarhumayunx",
     ],
     knowsAbout: [
       "Flutter Development",
@@ -153,6 +161,24 @@ export default function RootLayout({
       "Mobile App Development",
     ],
   }
+
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    url: "https://amarhumayun.com",
+    name: "Muhammad Humayun Amar - Mobile App Developer",
+    description: "Professional mobile app developer specializing in Flutter, Android, and cross-platform solutions.",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: "https://amarhumayun.com/search?q={search_term_string}",
+      },
+      "query-input": "required name=search_term_string",
+    },
+  }
+
+  const jsonLd = [personSchema, websiteSchema]
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -184,7 +210,17 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        {Array.isArray(jsonLd) ? (
+          jsonLd.map((schema, index) => (
+            <script
+              key={index}
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+            />
+          ))
+        ) : (
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        )}
         <ThemeProvider 
           attribute="class" 
           defaultTheme="system" 
@@ -225,6 +261,7 @@ export default function RootLayout({
               <ParticleBackground />
               <CursorTrail />
               <ThemeColorCustomizer />
+              <WhatsAppButton />
             </ErrorBoundary>
           </KeyboardShortcutsProvider>
         </ThemeProvider>

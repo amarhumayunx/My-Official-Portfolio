@@ -636,6 +636,12 @@ export function MultiStepForm() {
   }
 
   const handleSubmit = async () => {
+    // Honeypot field (hidden from users, bots will fill it)
+    const honeypotField = document.getElementById("website") as HTMLInputElement
+    if (honeypotField?.value) {
+      // Bot detected - silently fail
+      return
+    }
     // Validate current step first
     if (!validateStep(currentStep)) {
       // Scroll to first error if validation fails
@@ -755,18 +761,28 @@ export function MultiStepForm() {
         }
       })
 
-      // Debug: Log what we're sending
-      console.log("Submitting form data:", {
-        name: formData.name,
-        email: formData.email,
-        projectType: formData.projectType,
-        fileCount: formData.files.length,
-      })
+      // Add honeypot field (hidden from users)
+      submitData.append("website", "")
+      
+      // Add IP address for rate limiting (will be extracted server-side)
+      // Note: IP extraction happens server-side from headers
+
+      // Debug: Log what we're sending (development only)
+      if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
+        console.log("Submitting form data:", {
+          name: formData.name,
+          email: formData.email,
+          projectType: formData.projectType,
+          fileCount: formData.files.length,
+        })
+      }
 
       // Call the actual server action
       const result = await sendMultiStepContactMessage(submitData)
 
-      console.log("Server response:", result)
+      if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
+        console.log("Server response:", result)
+      }
 
       setSubmitResult({
         ...result,
@@ -802,7 +818,9 @@ export function MultiStepForm() {
         }, 5000)
       }
     } catch (error) {
-      console.error("Form submission error:", error)
+      if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
+        console.error("Form submission error:", error)
+      }
       setSubmitResult({
         success: false,
         message: "Sorry, there was an error submitting your request. Please try again or contact me directly.",
@@ -964,6 +982,24 @@ export function MultiStepForm() {
       </CardHeader>
 
       <CardContent className="p-8">
+        {/* Honeypot field - hidden from users, bots will fill it */}
+        <input
+          type="text"
+          id="website"
+          name="website"
+          tabIndex={-1}
+          autoComplete="off"
+          style={{
+            position: "absolute",
+            left: "-9999px",
+            width: "1px",
+            height: "1px",
+            opacity: 0,
+            pointerEvents: "none",
+          }}
+          aria-hidden="true"
+        />
+        
         {submitResult && !submitResult.success && (
           <Alert className="mb-6 border-red-200 bg-red-50 dark:bg-red-950">
             <AlertCircle className="h-4 w-4 text-red-600" />

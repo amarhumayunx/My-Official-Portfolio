@@ -1,12 +1,11 @@
 "use client"
 
-import * as React from "react"
-import { ChevronRight, Home } from "lucide-react"
-import Link from "next/link"
 import { usePathname } from "next/navigation"
+import Link from "next/link"
+import { ChevronRight, Home } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-interface BreadcrumbItem {
+export interface BreadcrumbItem {
   label: string
   href: string
 }
@@ -16,8 +15,11 @@ interface BreadcrumbsProps {
   className?: string
 }
 
-export function Breadcrumbs({ items, className }: BreadcrumbsProps) {
+export function Breadcrumbs({ items, className = "" }: BreadcrumbsProps = {}) {
   const pathname = usePathname()
+
+  // Don't show breadcrumbs on home page if no items provided
+  if (!items && pathname === "/") return null
 
   const generateBreadcrumbs = (): BreadcrumbItem[] => {
     if (items) return items
@@ -28,11 +30,17 @@ export function Breadcrumbs({ items, className }: BreadcrumbsProps) {
     let currentPath = ""
     paths.forEach((path) => {
       currentPath += `/${path}`
+      
+      // Format label (capitalize and replace hyphens)
       const label = path
         .split("-")
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(" ")
-      breadcrumbs.push({ label, href: currentPath })
+
+      breadcrumbs.push({
+        label,
+        href: currentPath,
+      })
     })
 
     return breadcrumbs
@@ -41,37 +49,58 @@ export function Breadcrumbs({ items, className }: BreadcrumbsProps) {
   const breadcrumbs = generateBreadcrumbs()
 
   return (
-    <nav aria-label="Breadcrumb" className={cn("flex items-center gap-2 text-sm", className)}>
-      <ol className="flex items-center gap-2">
-        {breadcrumbs.map((item, index) => {
+    <nav
+      aria-label="Breadcrumb"
+      className={`flex items-center gap-2 text-sm text-muted-foreground mb-6 px-4 sm:px-6 lg:px-8 ${className}`}
+    >
+      <ol className="flex items-center gap-2 flex-wrap" itemScope itemType="https://schema.org/BreadcrumbList">
+        {breadcrumbs.map((crumb, index) => {
           const isLast = index === breadcrumbs.length - 1
+
           return (
-            <li key={item.href} className="flex items-center gap-2">
+            <li
+              key={crumb.href}
+              className="flex items-center gap-2"
+              itemProp="itemListElement"
+              itemScope
+              itemType="https://schema.org/ListItem"
+            >
               {index === 0 ? (
                 <Link
-                  href={item.href}
-                  className={cn(
-                    "flex items-center gap-1 hover:text-primary transition-colors",
-                    isLast && "text-muted-foreground"
-                  )}
+                  href={crumb.href}
+                  className="flex items-center gap-1 hover:text-foreground transition-colors"
+                  itemProp="item"
                 >
-                  <Home className="w-4 h-4" />
+                  <Home className="w-4 h-4" aria-hidden="true" />
+                  <span className="sr-only">Home</span>
+                  <meta itemProp="name" content={crumb.label} />
                 </Link>
               ) : (
                 <>
-                  <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                  <ChevronRight className="w-4 h-4 text-muted-foreground/50" aria-hidden="true" />
                   {isLast ? (
-                    <span className="text-foreground font-medium">{item.label}</span>
+                    <span
+                      className={cn(
+                        "font-medium text-foreground",
+                        "cursor-default"
+                      )}
+                      itemProp="name"
+                      aria-current="page"
+                    >
+                      {crumb.label}
+                    </span>
                   ) : (
                     <Link
-                      href={item.href}
-                      className="hover:text-primary transition-colors text-muted-foreground"
+                      href={crumb.href}
+                      className="hover:text-foreground transition-colors"
+                      itemProp="item"
                     >
-                      {item.label}
+                      <span itemProp="name">{crumb.label}</span>
                     </Link>
                   )}
                 </>
               )}
+              <meta itemProp="position" content={String(index + 1)} />
             </li>
           )
         })}

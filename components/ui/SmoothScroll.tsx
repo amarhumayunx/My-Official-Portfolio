@@ -1,54 +1,19 @@
 "use client"
 
 import { useEffect } from "react"
+import { initSmoothScroll, handleHashNavigation } from "@/lib/smooth-scroll"
 
 export function SmoothScroll() {
   useEffect(() => {
-    // Enhanced smooth scroll with easing
-    const smoothScrollTo = (target: number, duration: number = 800) => {
-      const start = window.pageYOffset
-      const distance = target - start
-      let startTime: number | null = null
+    // Initialize smooth scroll for all anchor links
+    const cleanup = initSmoothScroll({
+      offset: 80, // Navigation height
+      duration: 800,
+    })
 
-      const easeInOutCubic = (t: number): number => {
-        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
-      }
-
-      const animation = (currentTime: number) => {
-        if (startTime === null) startTime = currentTime
-        const timeElapsed = currentTime - startTime
-        const progress = Math.min(timeElapsed / duration, 1)
-        const ease = easeInOutCubic(progress)
-
-        window.scrollTo(0, start + distance * ease)
-
-        if (timeElapsed < duration) {
-          requestAnimationFrame(animation)
-        }
-      }
-
-      requestAnimationFrame(animation)
-    }
-
-    // Handle anchor link clicks
-    const handleAnchorClick = (e: MouseEvent) => {
-      const target = e.target as HTMLElement
-      const anchor = target.closest('a[href^="#"]') as HTMLAnchorElement
-
-      if (anchor && anchor.getAttribute("href")?.startsWith("#")) {
-        const href = anchor.getAttribute("href")
-        if (href === "#" || href === "#!") return
-
-        e.preventDefault()
-        const targetId = href.substring(1)
-        const targetElement = document.getElementById(targetId)
-
-        if (targetElement) {
-          const offset = 80 // Navigation height
-          const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - offset
-          smoothScrollTo(targetPosition, 800)
-        }
-      }
+    // Handle initial hash on page load
+    if (typeof window !== "undefined" && window.location.hash) {
+      handleHashNavigation(window.location.hash, { offset: 80 })
     }
 
     // Throttle scroll events for better performance
@@ -63,11 +28,10 @@ export function SmoothScroll() {
       }
     }
 
-    document.addEventListener("click", handleAnchorClick, { passive: false })
     window.addEventListener("scroll", handleScroll, { passive: true })
 
     return () => {
-      document.removeEventListener("click", handleAnchorClick)
+      cleanup()
       window.removeEventListener("scroll", handleScroll)
     }
   }, [])

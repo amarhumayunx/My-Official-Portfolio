@@ -1,107 +1,82 @@
-// Enhanced error tracking utility
+/**
+ * Error Tracking Utility
+ * Provides error tracking and monitoring capabilities
+ */
 
-interface ErrorContext {
+interface ErrorInfo {
+  message: string
+  stack?: string
   url?: string
   userAgent?: string
-  timestamp?: number
+  timestamp: number
   userId?: string
-  [key: string]: unknown
+  context?: Record<string, unknown>
 }
 
 class ErrorTracker {
-  private errors: Array<{ error: Error; context: ErrorContext }> = []
-  private maxErrors = 50
-
-  /**
-   * Initialize error tracking
-   */
-  init() {
-    if (typeof window === "undefined") return
-
-    // Track unhandled errors
-    window.addEventListener("error", (event) => {
-      this.trackError(
-        new Error(event.message),
-        {
-          url: window.location.href,
-          userAgent: navigator.userAgent,
-          filename: event.filename,
-          lineno: event.lineno,
-          colno: event.colno,
-        },
-      )
-    })
-
-    // Track unhandled promise rejections
-    window.addEventListener("unhandledrejection", (event) => {
-      this.trackError(
-        event.reason instanceof Error ? event.reason : new Error(String(event.reason)),
-        {
-          url: window.location.href,
-          userAgent: navigator.userAgent,
-          type: "unhandledrejection",
-        },
-      )
-    })
-  }
+  private errors: ErrorInfo[] = []
+  private maxErrors = 100 // Keep last 100 errors in memory
 
   /**
    * Track an error
    */
-  trackError(error: Error, context: ErrorContext = {}) {
-    const errorData = {
-      error,
-      context: {
-        ...context,
-        url: context.url || (typeof window !== "undefined" ? window.location.href : ""),
-        userAgent: context.userAgent || (typeof navigator !== "undefined" ? navigator.userAgent : ""),
-        timestamp: context.timestamp || Date.now(),
-      },
+  trackError(error: Error | string, context?: Record<string, unknown>) {
+    const errorInfo: ErrorInfo = {
+      message: error instanceof Error ? error.message : error,
+      stack: error instanceof Error ? error.stack : undefined,
+      url: typeof window !== "undefined" ? window.location.href : undefined,
+      userAgent: typeof window !== "undefined" ? navigator.userAgent : undefined,
+      timestamp: Date.now(),
+      context,
     }
 
-    this.errors.push(errorData)
+    this.errors.push(errorInfo)
 
-    // Keep only the most recent errors
+    // Keep only last N errors
     if (this.errors.length > this.maxErrors) {
       this.errors.shift()
     }
 
     // Log to console in development
     if (process.env.NODE_ENV === "development") {
-      console.error("[ErrorTracker]", error, context)
+      console.error("Error tracked:", errorInfo)
     }
 
-    // Send to error tracking service (e.g., Sentry)
-    this.sendToService(errorData)
+    // In production, you would send to error tracking service (Sentry, LogRocket, etc.)
+    if (process.env.NODE_ENV === "production") {
+      this.sendToErrorService(errorInfo)
+    }
   }
 
   /**
-   * Send error to external service
+   * Send error to external error tracking service
    */
-  private async sendToService(errorData: { error: Error; context: ErrorContext }) {
-    // Only send in production
-    if (process.env.NODE_ENV !== "production") return
-
+  private async sendToErrorService(errorInfo: ErrorInfo) {
     try {
-      // Example: Send to your error tracking API
+      // Example: Send to your API endpoint
       // await fetch('/api/errors', {
       //   method: 'POST',
       //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(errorData),
+      //   body: JSON.stringify(errorInfo),
       // })
 
-      // For now, just log (you can integrate Sentry here)
-      console.error("[ErrorTracker] Error logged:", errorData)
+      // Or integrate with Sentry:
+      // Sentry.captureException(new Error(errorInfo.message), {
+      //   extra: errorInfo.context,
+      //   tags: { url: errorInfo.url },
+      // })
     } catch (err) {
-      console.error("[ErrorTracker] Failed to send error:", err)
+      if (process.env.NODE_ENV === "development") {
+        console.error("Failed to send error to tracking service:", err)
+      }
     }
   }
 
   /**
-   * Get all tracked errors
+   * Get recent errors
    */
-  getErrors() {
-    return [...this.errors]
+  getRecentErrors(limit = 10): ErrorInfo[] {
+    return this.errors.slice(-limit).reverse()
   }
 
   /**
@@ -112,9 +87,37 @@ class ErrorTracker {
   }
 }
 
+// Singleton instance
 export const errorTracker = new ErrorTracker()
 
-// Initialize on import
-if (typeof window !== "undefined") {
-  errorTracker.init()
+/**
+ * React Error Boundary helper
+ */
+export function trackReactError(error: Error, errorInfo: { componentStack?: string }) {
+  errorTracker.trackError(error, {
+    componentStack: errorInfo.componentStack,
+    type: "react-error-boundary",
+  })
+}
+
+/**
+ * Track API errors
+ */
+export function trackApiError(endpoint: string, error: Error | string, statusCode?: number) {
+  errorTracker.trackError(error instanceof Error ? error : new Error(error), {
+    endpoint,
+    statusCode,
+    type: "api-error",
+  })
+}
+
+/**
+ * Track form errors
+ */
+export function trackFormError(formName: string, error: Error | string, field?: string) {
+  errorTracker.trackError(error instanceof Error ? error : new Error(error), {
+    formName,
+    field,
+    type: "form-error",
+  })
 }

@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { Card, CardHeader, CardContent } from "./card"
@@ -34,18 +35,37 @@ export function EnhancedSkeleton({
     shimmer: "skeleton-enhanced",
   }
 
+  // Respect reduced motion preference
+  const [shouldAnimate, setShouldAnimate] = useState(true)
+  
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
+      setShouldAnimate(!mediaQuery.matches && animation !== "pulse")
+      
+      const handleChange = (e: MediaQueryListEvent) => {
+        setShouldAnimate(!e.matches && animation !== "pulse")
+      }
+      
+      mediaQuery.addEventListener("change", handleChange)
+      return () => mediaQuery.removeEventListener("change", handleChange)
+    }
+  }, [animation])
+
   return (
     <motion.div
       className={cn(
         baseClasses,
         variantClasses[variant],
-        animationClasses[animation],
+        shouldAnimate ? animationClasses[animation] : "animate-pulse",
         className
       )}
       style={{ width, height }}
-      initial={{ opacity: 0.6 }}
-      animate={{ opacity: [0.6, 1, 0.6] }}
-      transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+      initial={shouldAnimate ? { opacity: 0.6 } : { opacity: 0.5 }}
+      animate={shouldAnimate ? { opacity: [0.6, 1, 0.6] } : { opacity: 0.5 }}
+      transition={shouldAnimate ? { duration: 1.5, repeat: Infinity, ease: "easeInOut" } : {}}
+      aria-label="Loading content"
+      role="status"
       {...props}
     />
   )

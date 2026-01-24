@@ -13,6 +13,7 @@ import { MicroInteraction } from "@/components/ui/MicroInteractions"
 import { CardSkeleton, GitHubRepoSkeleton } from "@/components/ui/EnhancedSkeleton"
 import { PullToRefresh } from "@/components/ui/PullToRefresh"
 import { getProjectsWithSlugs } from "@/lib/project-utils"
+import { GitHubContributionGraph } from "@/components/ui/GitHubContributionGraph"
 
 type Repo = {
   id: number
@@ -416,6 +417,11 @@ export default function GitHubRepos({
               View All Projects on GitHub
             </a>
           </Button>
+        </div>
+
+        {/* GitHub Contribution Graph */}
+        <div className="mt-12">
+          <GitHubContributionGraph username={username} />
         </div>
       </div>
     </section>

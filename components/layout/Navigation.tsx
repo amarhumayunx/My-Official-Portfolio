@@ -27,6 +27,7 @@ import {
   Search,
 } from "lucide-react"
 import { ThemeToggle } from "@/components/layout/ThemeToggle"
+import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher"
 
 type NavItem = {
   name: string
@@ -39,6 +40,7 @@ const navItems: NavItem[] = [
   { name: "About", href: "#about", icon: User },
   { name: "Stats", href: "#stats", icon: BarChart3 },
   { name: "Skills", href: "#skills", icon: Code },
+  { name: "Certifications", href: "#certifications", icon: Sparkles },
   { name: "Projects", href: "#projects", icon: Briefcase },
   { name: "Portfolio", href: "#portfolio", icon: Images },
   { name: "Services", href: "#services", icon: Zap },
@@ -171,6 +173,19 @@ export default function Navigation() {
 
       if (pathname !== "/") {
         router.push(`/${href}`)
+        // Wait for navigation, then scroll
+        setTimeout(() => {
+          const element = document.getElementById(id)
+          if (element) {
+            const navbarHeight = 80
+            const elementPosition = element.getBoundingClientRect().top + window.pageYOffset
+            const offsetPosition = elementPosition - navbarHeight
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: "smooth",
+            })
+          }
+        }, 100)
         return
       }
 
@@ -186,10 +201,16 @@ export default function Navigation() {
         const elementPosition = element.getBoundingClientRect().top + window.pageYOffset
         const offsetPosition = elementPosition - navbarHeight
 
+        // Use smooth scroll utility for better performance
         window.scrollTo({
           top: offsetPosition,
           behavior: "smooth",
         })
+
+        // Update URL hash without triggering scroll
+        if (window.history.pushState) {
+          window.history.pushState(null, "", href)
+        }
 
         setTimeout(() => {
           isScrollingRef.current = true
@@ -316,6 +337,7 @@ export default function Navigation() {
                 <Link href="/consultation">Consultation</Link>
               </Button>
 
+              <LanguageSwitcher />
               <ThemeToggle />
 
               <Button
