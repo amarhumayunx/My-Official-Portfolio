@@ -97,6 +97,7 @@ const config = {
         xs: "2px",
         "2xl": "24px",
         "3xl": "40px",
+        "nav": "48px",
       },
     },
   },
