@@ -35,12 +35,12 @@ export function EnhancedBackground() {
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-r from-violet-500/15 via-fuchsia-500/15 to-rose-500/15 rounded-full blur-3xl"
         animate={{
           rotate: [0, 360],
-          scale: [1, 1.15, 1],
+          scale: [1, 1.12, 1],
         }}
         transition={{
-          duration: 30,
+          duration: 35,
           repeat: Infinity,
-          ease: "linear",
+          ease: liquidEase,
         }}
       />
 

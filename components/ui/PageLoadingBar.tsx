@@ -1,13 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
+import { liquidSpringScroll } from '@/lib/liquid-animation'
 
 export function PageLoadingBar() {
   const [isLoading, setIsLoading] = useState(false)
   const [progress, setProgress] = useState(0)
-  const router = useRouter()
 
   useEffect(() => {
     let interval: NodeJS.Timeout
@@ -17,10 +16,10 @@ export function PageLoadingBar() {
       setProgress(10)
       interval = setInterval(() => {
         setProgress((prev) => {
-          if (prev < 90) return prev + Math.random() * 30
+          if (prev < 90) return prev + Math.random() * 25
           return prev
         })
-      }, 200)
+      }, 250)
     }
 
     const handleComplete = () => {
@@ -28,10 +27,9 @@ export function PageLoadingBar() {
       setTimeout(() => {
         setIsLoading(false)
         setProgress(0)
-      }, 300)
+      }, 400)
     }
 
-    // Simulate page transitions
     const handleBeforeUnload = () => handleStart()
     const handleLoad = () => handleComplete()
 
@@ -49,13 +47,7 @@ export function PageLoadingBar() {
     <motion.div
       initial={{ scaleX: 0 }}
       animate={{ scaleX: isLoading ? progress / 100 : 0 }}
-      transition={{ 
-        duration: 0.4, 
-        ease: [0.4, 0, 0.2, 1], // Smoother easing
-        type: "spring",
-        stiffness: 300,
-        damping: 30,
-      }}
+      transition={liquidSpringScroll}
       style={{ transformOrigin: 'left' }}
       className="fixed top-0 left-0 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 z-[9999] shadow-lg"
     />

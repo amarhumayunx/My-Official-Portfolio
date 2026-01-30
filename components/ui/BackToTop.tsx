@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { ArrowUp } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { liquidSpring, liquidSpringHover, liquidEase } from "@/lib/liquid-animation"
+import { scrollToTop as smoothScrollToTop } from "@/lib/smooth-scroll"
 
 export default function BackToTop() {
   const [isVisible, setIsVisible] = useState(false)
@@ -29,29 +30,7 @@ export default function BackToTop() {
     return () => window.removeEventListener("scroll", toggleVisibility)
   }, [])
 
-  const scrollToTop = () => {
-    const start = window.pageYOffset
-    const startTime = performance.now()
-    const duration = 450
-
-    const easeInOutCubic = (t: number): number => {
-      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
-    }
-
-    const animateScroll = (currentTime: number) => {
-      const elapsed = currentTime - startTime
-      const progress = Math.min(elapsed / duration, 1)
-      const ease = easeInOutCubic(progress)
-
-      window.scrollTo(0, start * (1 - ease))
-
-      if (progress < 1) {
-        requestAnimationFrame(animateScroll)
-      }
-    }
-
-    requestAnimationFrame(animateScroll)
-  }
+  const scrollToTop = () => smoothScrollToTop({ duration: 620 })
 
   return (
     <AnimatePresence>

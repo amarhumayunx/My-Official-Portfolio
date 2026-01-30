@@ -17,19 +17,19 @@ const variants = {
     exit: { opacity: 0 },
   },
   slide: {
-    initial: { opacity: 0, x: 20 },
+    initial: { opacity: 0, x: 16 },
     animate: { opacity: 1, x: 0 },
-    exit: { opacity: 0, x: -20 },
+    exit: { opacity: 0, x: -16 },
   },
   scale: {
-    initial: { opacity: 0, scale: 0.95 },
+    initial: { opacity: 0, scale: 0.97 },
     animate: { opacity: 1, scale: 1 },
-    exit: { opacity: 0, scale: 1.05 },
+    exit: { opacity: 0, scale: 1.02 },
   },
   blur: {
-    initial: { opacity: 0, filter: "blur(10px)" },
+    initial: { opacity: 0, filter: "blur(8px)" },
     animate: { opacity: 1, filter: "blur(0px)" },
-    exit: { opacity: 0, filter: "blur(10px)" },
+    exit: { opacity: 0, filter: "blur(8px)" },
   },
 }
 

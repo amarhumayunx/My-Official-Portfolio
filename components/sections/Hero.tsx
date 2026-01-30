@@ -8,6 +8,7 @@ import { ResumeDownload } from "@/components/ui/ResumeDownload"
 import { MicroInteraction } from "@/components/ui/MicroInteractions"
 import { useRef } from "react"
 import { liquidSpring, liquidSpringHover, liquidEase } from "@/lib/liquid-animation"
+import { scrollToSection } from "@/lib/smooth-scroll"
 
 export default function Hero() {
   const ref = useRef<HTMLElement>(null)
@@ -21,14 +22,13 @@ export default function Hero() {
     target: contentRef,
     offset: ["start end", "end start"],
   })
-  const contentY = useTransform(contentScrollYProgress, [0, 1], ["-5%", "5%"])
+  const contentY = useTransform(contentScrollYProgress, [0, 0.25, 0.5, 0.75, 1], ["-5%", "-2%", "0%", "2%", "5%"])
 
-  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0])
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.8])
+  // Softer scroll-linked curve for liquid feel (more keyframes = smoother interpolation)
+  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.6, 1], [1, 0.85, 0.4, 0])
+  const scale = useTransform(scrollYProgress, [0, 0.4, 0.8, 1], [1, 0.95, 0.88, 0.8])
 
-  const scrollToAbout = () => {
-    document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })
-  }
+  const scrollToAbout = () => scrollToSection("about", { duration: 620 })
 
   return (
     <motion.section

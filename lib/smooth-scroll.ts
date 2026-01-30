@@ -11,12 +11,10 @@ export interface ScrollOptions {
 }
 
 const DEFAULT_OFFSET = 80 // Navbar height
-const DEFAULT_DURATION = 450 // ms
+const DEFAULT_DURATION = 620 // ms — longer for liquid-smooth feel
 
-// Easing function for smooth scrolling
-const easeInOutCubic = (t: number): number => {
-  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
-}
+// Liquid-like easing: smooth start and end (ease-out-quart style, feels like liquid deceleration)
+const easeOutQuart = (t: number): number => 1 - Math.pow(1 - t, 4)
 
 /**
  * Smooth scroll to an element by ID
@@ -34,7 +32,7 @@ export function scrollToSection(
   const {
     offset = DEFAULT_OFFSET,
     duration = DEFAULT_DURATION,
-    easing = easeInOutCubic,
+    easing = easeOutQuart,
     behavior = "smooth",
   } = options
 
@@ -75,7 +73,7 @@ export function scrollToSection(
  * Smooth scroll to top
  */
 export function scrollToTop(options: ScrollOptions = {}): void {
-  const { duration = DEFAULT_DURATION, easing = easeInOutCubic } = options
+  const { duration = DEFAULT_DURATION, easing = easeOutQuart } = options
 
   const startPosition = window.pageYOffset || window.scrollY || 0
   const distance = -startPosition

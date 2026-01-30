@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion"
 import type { ReactNode } from "react"
-import { liquidSpring } from "@/lib/liquid-animation"
+import { liquidSpringSoft } from "@/lib/liquid-animation"
 
 interface FluidTransitionProps {
   children: ReactNode
@@ -11,16 +11,16 @@ interface FluidTransitionProps {
   className?: string
 }
 
-export function FluidTransition({ children, delay = 0, duration = 0.6, className = "" }: FluidTransitionProps) {
+export function FluidTransition({ children, delay = 0, className = "" }: FluidTransitionProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30, scale: 0.95 }}
+      initial={{ opacity: 0, y: 24, scale: 0.98 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       transition={{
-        ...liquidSpring,
+        ...liquidSpringSoft,
         delay,
       }}
-      viewport={{ once: true, margin: "-50px" }}
+      viewport={{ once: true, margin: "-50px", amount: 0.2 }}
       style={{ willChange: "transform, opacity" }}
       className={className}
     >

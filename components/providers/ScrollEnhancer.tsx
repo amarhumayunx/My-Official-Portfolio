@@ -2,11 +2,10 @@
 
 import { useEffect } from "react"
 
-const easeInOutCubic = (t: number): number => {
-  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
-}
+// Liquid-like easing for scroll progress (smooth deceleration at ends)
+const easeOutQuart = (t: number): number => 1 - Math.pow(1 - t, 4)
 
-const THROTTLE_MS = 120
+const THROTTLE_MS = 100
 
 export function ScrollEnhancer() {
   useEffect(() => {
@@ -27,7 +26,7 @@ export function ScrollEnhancer() {
           0,
           Math.min(1, (window.innerHeight - rect.top) / (window.innerHeight + rect.height)),
         )
-        const eased = easeInOutCubic(elProgress)
+        const eased = easeOutQuart(elProgress)
         el.setAttribute("data-scroll-progress", String(eased))
       })
     }

@@ -68,14 +68,14 @@ export default function About() {
     target: sectionRef,
     offset: ["start end", "end start"],
   })
-  const profileY = useTransform(profileScrollYProgress, [0, 1], ["-20%", "20%"])
-  const profileScale = useTransform(profileScrollYProgress, [0, 1], [0.9, 1.1])
+  const profileY = useTransform(profileScrollYProgress, [0, 0.3, 0.5, 0.7, 1], ["-20%", "-10%", "0%", "10%", "20%"])
+  const profileScale = useTransform(profileScrollYProgress, [0, 0.5, 1], [0.9, 1, 1.1])
 
   const { scrollYProgress: proseScrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"],
   })
-  const proseY = useTransform(proseScrollYProgress, [0, 1], ["-10%", "10%"])
+  const proseY = useTransform(proseScrollYProgress, [0, 0.25, 0.5, 0.75, 1], ["-10%", "-5%", "0%", "5%", "10%"])
 
   return (
     <section id="about" ref={sectionRef} className="section-padding section-bg">

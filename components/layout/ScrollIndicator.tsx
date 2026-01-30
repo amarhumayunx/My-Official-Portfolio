@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { liquidSpringScroll } from '@/lib/liquid-animation'
 
 export function ScrollIndicator() {
   const [scrollProgress, setScrollProgress] = useState(0)
@@ -33,7 +34,7 @@ export function ScrollIndicator() {
     <motion.div
       className="fixed top-0 left-0 h-1 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 origin-left z-50"
       style={{ width: `${scrollProgress}%` }}
-      transition={{ type: 'spring', stiffness: 100, damping: 30 }}
+      transition={liquidSpringScroll}
     />
   )
 }
