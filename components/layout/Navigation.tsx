@@ -28,6 +28,7 @@ import {
 } from "lucide-react"
 import { ThemeToggle } from "@/components/layout/ThemeToggle"
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher"
+import { liquidSpring, liquidSpringFast } from "@/lib/liquid-animation"
 
 type NavItem = {
   name: string
@@ -267,10 +268,6 @@ export default function Navigation() {
       </nav>
     )
   }
-
-  /* Liquid smooth spring: soft, fluid motion */
-  const liquidSpring = { type: "spring" as const, stiffness: 120, damping: 26 }
-  const liquidSpringFast = { type: "spring" as const, stiffness: 200, damping: 28 }
 
   return (
     <div className="fixed inset-x-0 top-0 z-50" style={{ isolation: "isolate" }}>

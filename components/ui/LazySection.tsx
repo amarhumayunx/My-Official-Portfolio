@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react"
 import { motion, useReducedMotion } from "framer-motion"
 import { cn } from "@/lib/utils"
+import { liquidSpring } from "@/lib/liquid-animation"
 
 type ComponentModule = { default: React.ComponentType<Record<string, unknown>> }
 
@@ -63,10 +64,7 @@ export function LazySection({
         <motion.div
           initial={reduceMotion ? false : { opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: reduceMotion ? 0.01 : 0.3,
-            ease: [0.25, 0.46, 0.45, 0.94],
-          }}
+          transition={reduceMotion ? { duration: 0.01 } : liquidSpring}
           className="w-full"
         >
           <Component />

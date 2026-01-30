@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { motion } from "framer-motion"
+import { liquidEase } from "@/lib/liquid-animation"
 
 export function EnhancedBackground() {
   return (
@@ -17,11 +18,7 @@ export function EnhancedBackground() {
           y: [0, 50, 0],
           scale: [1, 1.1, 1],
         }}
-        transition={{
-          duration: 20,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
+        transition={{ duration: 20, repeat: Infinity, ease: liquidEase }}
       />
       
       <motion.div
@@ -31,11 +28,7 @@ export function EnhancedBackground() {
           y: [0, -60, 0],
           scale: [1, 1.2, 1],
         }}
-        transition={{
-          duration: 25,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
+        transition={{ duration: 25, repeat: Infinity, ease: liquidEase }}
       />
       
       <motion.div

@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import type { ReactNode } from "react"
+import { liquidSpring } from "@/lib/liquid-animation"
 
 interface FluidTransitionProps {
   children: ReactNode
@@ -9,9 +10,6 @@ interface FluidTransitionProps {
   duration?: number
   className?: string
 }
-
-/* Liquid smooth spring: soft, fluid motion for all section animations */
-const liquidSpring = { type: "spring" as const, stiffness: 100, damping: 24 }
 
 export function FluidTransition({ children, delay = 0, duration = 0.6, className = "" }: FluidTransitionProps) {
   return (

@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion"
 import { usePathname } from "next/navigation"
 import { ReactNode } from "react"
+import { liquidSpring } from "@/lib/liquid-animation"
 
 interface PageTransitionProps {
   children: ReactNode
@@ -43,11 +44,7 @@ export function PageTransition({ children, variant = "fade" }: PageTransitionPro
         initial={transitionConfig.initial}
         animate={transitionConfig.animate}
         exit={transitionConfig.exit}
-        transition={{
-          type: "spring",
-          stiffness: 200,
-          damping: 28,
-        }}
+        transition={liquidSpring}
         style={{ willChange: "transform, opacity" }}
       >
         {children}
@@ -98,10 +95,7 @@ export function StaggerItem({ children, className }: StaggerItemProps) {
         visible: {
           opacity: 1,
           y: 0,
-          transition: {
-            duration: 0.5,
-            ease: "easeOut",
-          },
+          transition: liquidSpring,
         },
       }}
     >

@@ -98,11 +98,14 @@
   /* Liquid smooth transitions - use on interactive elements */
   .transition-liquid {
     transition-timing-function: var(--ease-liquid);
-    transition-duration: 0.5s;
+    transition-duration: var(--duration-liquid);
   }
   .transition-liquid-fast {
     transition-timing-function: var(--ease-liquid);
     transition-duration: 0.35s;
+  }
+  .animate-liquid {
+    animation-timing-function: var(--ease-liquid);
   }
   /* All sections are now transparent - background shows through */
   .section-bg {

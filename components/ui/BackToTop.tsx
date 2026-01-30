@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ArrowUp } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { liquidSpring, liquidSpringHover, liquidEase } from "@/lib/liquid-animation"
 
 export default function BackToTop() {
   const [isVisible, setIsVisible] = useState(false)
@@ -59,14 +60,9 @@ export default function BackToTop() {
           initial={{ opacity: 0, scale: 0, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0, y: 20 }}
-          transition={{ 
-            type: "spring", 
-            stiffness: 300, 
-            damping: 30,
-            mass: 0.8,
-          }}
-          whileHover={{ scale: 1.1, y: -2 }}
-          whileTap={{ scale: 0.95 }}
+          transition={liquidSpring}
+          whileHover={{ scale: 1.1, y: -2, transition: liquidSpringHover }}
+          whileTap={{ scale: 0.95, transition: liquidSpringHover }}
           style={{ willChange: "transform" }}
           className="fixed bottom-20 right-8 z-40"
         >
@@ -76,7 +72,10 @@ export default function BackToTop() {
             className="w-12 h-12 rounded-full shadow-lg hover:shadow-2xl transition-all duration-300 bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white"
             aria-label="Back to top"
           >
-            <motion.div animate={{ y: [0, -4, 0] }} transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}>
+            <motion.div
+              animate={{ y: [0, -4, 0] }}
+              transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: liquidEase }}
+            >
               <ArrowUp className="w-6 h-6" />
             </motion.div>
           </Button>

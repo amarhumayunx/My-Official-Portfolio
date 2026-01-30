@@ -3,18 +3,17 @@
 import { motion, type Variants } from "framer-motion"
 import { ReactNode } from "react"
 import { cn } from "@/lib/utils"
+import { liquidSpringHover, liquidEase } from "@/lib/liquid-animation"
 
-// Micro-interaction variants
+// Micro-interaction variants - liquid smooth
 export const microInteractionVariants: Variants = {
   tap: {
     scale: 0.95,
+    transition: liquidSpringHover,
   },
   hover: {
     scale: 1.02,
-    transition: {
-      duration: 0.2,
-      ease: "easeOut",
-    },
+    transition: liquidSpringHover,
   },
 }
 
@@ -26,10 +25,7 @@ export const rippleVariants: Variants = {
   animate: {
     scale: 4,
     opacity: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
+    transition: { duration: 0.6, ease: liquidEase },
   },
 }
 
@@ -78,13 +74,7 @@ export function MicroInteraction({
     <motion.div
       className={className}
       {...variantMap[variant]}
-      transition={{
-        duration: 0.25,
-        ease: [0.4, 0, 0.2, 1], // Smoother easing
-        type: "spring",
-        stiffness: 400,
-        damping: 25,
-      }}
+      transition={liquidSpringHover}
       style={{ willChange: "transform" }}
     >
       {children}
@@ -104,8 +94,8 @@ export function RippleButton({ children, onClick, className }: RippleButtonProps
     <motion.button
       className={cn("relative overflow-hidden", className)}
       onClick={onClick}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
+      whileHover={{ scale: 1.02, transition: liquidSpringHover }}
+      whileTap={{ scale: 0.98, transition: liquidSpringHover }}
     >
       {children}
       <motion.span
