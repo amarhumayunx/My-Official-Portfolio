@@ -179,10 +179,10 @@ This project is private and proprietary. All rights reserved.
 
 ## 👤 Author
 
-**Amar Humayun**
+**Muhammad Humayun Amar**
 
 - GitHub: [@amarhumayunx](https://github.com/amarhumayunx)
-- Portfolio: [Your Portfolio URL]
+- Portfolio: [Portfolio](https://amarhumayun.vercel.app)
 
 ## 🙏 Acknowledgments
 
