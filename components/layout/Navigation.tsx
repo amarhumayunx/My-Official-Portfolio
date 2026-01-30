@@ -284,10 +284,10 @@ export default function Navigation() {
       <div
         className={[
           "max-w-7xl mx-auto border rounded-xl sm:rounded-2xl transition-all duration-500 ease-[cubic-bezier(0.33,1,0.68,1)]",
-          "backdrop-blur-nav",
+          "backdrop-blur-nav bg-transparent",
           scrolled
-            ? "bg-white/80 dark:bg-zinc-900/80 border-white/25 dark:border-white/15 shadow-xl shadow-black/5 dark:shadow-black/20"
-            : "bg-white/70 dark:bg-zinc-900/70 border-white/20 dark:border-white/10",
+            ? "border-white/25 dark:border-white/15 shadow-xl shadow-black/5 dark:shadow-black/20"
+            : "border-white/20 dark:border-white/10",
         ].join(" ")}
         style={{
           WebkitBackdropFilter: "saturate(180%) blur(48px)",
