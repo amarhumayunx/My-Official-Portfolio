@@ -283,16 +283,12 @@ export default function Navigation() {
     >
       <div
         className={[
-          "max-w-7xl mx-auto border rounded-xl sm:rounded-2xl transition-all duration-500 ease-[cubic-bezier(0.33,1,0.68,1)]",
-          "backdrop-blur-nav bg-transparent",
+          "max-w-7xl mx-auto rounded-xl sm:rounded-2xl transition-all duration-500 ease-[cubic-bezier(0.33,1,0.68,1)]",
+          "modal-bg backdrop-blur-lg",
           scrolled
-            ? "border-white/25 dark:border-white/15 shadow-xl shadow-black/5 dark:shadow-black/20"
-            : "border-white/20 dark:border-white/10",
+            ? "shadow-xl shadow-black/5 dark:shadow-black/20"
+            : "",
         ].join(" ")}
-        style={{
-          WebkitBackdropFilter: "saturate(180%) blur(48px)",
-          backdropFilter: "saturate(180%) blur(48px)",
-        }}
       >
         <div className="px-3 sm:px-4 md:px-5 lg:px-6">
           <div className="h-12 sm:h-14 flex items-center justify-between gap-2 lg:gap-4">
