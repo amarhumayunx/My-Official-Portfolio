@@ -6,6 +6,12 @@
   :root {
     --font-sans: 'Inter', 'Inter Fallback';
     --font-mono: 'Courier New', 'Courier New Fallback';
+    /* Liquid smooth animation curves */
+    --ease-liquid: cubic-bezier(0.33, 1, 0.68, 1);
+    --ease-liquid-in: cubic-bezier(0.5, 0, 0.75, 0);
+    --ease-liquid-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --ease-liquid-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+    --duration-liquid: 0.5s;
     /* Light Mode - White background with dark text */
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
@@ -77,39 +83,27 @@
   
   body {
     @apply bg-background text-foreground;
-    /* Beautiful centered gradient circle blob - Light Mode (white background) */
-    background: 
-      radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.15) 0%, rgba(139, 92, 246, 0.1) 25%, rgba(168, 85, 247, 0.08) 40%, rgba(16, 185, 129, 0.06) 55%, transparent 70%),
-      hsl(var(--background));
-    background-attachment: fixed;
-    background-size: 100% 100%;
-    background-position: center;
-    background-repeat: no-repeat;
+    /* Static gradient (no fixed attachment) for smooth scroll - gradient layer is in EnhancedBackground */
+    background: hsl(var(--background));
     min-height: 100vh;
     position: relative;
-    /* Smooth scrolling optimizations */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    /* GPU acceleration for smooth scrolling */
-    transform: translateZ(0);
-    will-change: scroll-position;
-  }
-  
-  /* Dark Mode - Beautiful centered gradient circle blob (black background) */
-  html.dark body {
-    background: 
-      radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.3) 0%, rgba(139, 92, 246, 0.2) 25%, rgba(168, 85, 247, 0.15) 40%, rgba(16, 185, 129, 0.1) 55%, transparent 70%),
-      hsl(var(--background));
-    background-attachment: fixed;
-    background-size: 100% 100%;
-    background-position: center;
-    background-repeat: no-repeat;
   }
 }
 
 /* Global Fixed Background System */
 @layer utilities {
+  /* Liquid smooth transitions - use on interactive elements */
+  .transition-liquid {
+    transition-timing-function: var(--ease-liquid);
+    transition-duration: 0.5s;
+  }
+  .transition-liquid-fast {
+    transition-timing-function: var(--ease-liquid);
+    transition-duration: 0.35s;
+  }
   /* All sections are now transparent - background shows through */
   .section-bg {
     @apply bg-transparent relative;
@@ -179,7 +173,7 @@
   }
 }
 
-/* Performance optimization for scroll animations */
+/* Performance: no transform/will-change on body for smoother native scroll */
 body {
   overflow-x: hidden;
 }
@@ -222,7 +216,7 @@ body {
 
 ::-webkit-scrollbar-thumb {
   @apply bg-primary/40 rounded-full hover:bg-primary/60;
-  transition: background-color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: background-color 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   will-change: background-color;
 }
 
@@ -256,7 +250,7 @@ body {
 
 /* Enhanced fluid animations with better performance */
 .fluid-hover {
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   will-change: transform;
 }
 
@@ -265,17 +259,17 @@ body {
 }
 
 .smooth-transition {
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
   will-change: transform;
 }
 
 .smooth-fade {
-  animation: fadeInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation: fadeInUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
   opacity: 0;
 }
 
 .smooth-slide {
-  animation: slideInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation: slideInUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
   opacity: 0;
   transform: translateY(20px);
 }
@@ -424,13 +418,13 @@ button {
 }
 
 .page-transition {
-  animation: pageIn 0.5s ease-out;
+  animation: pageIn 0.3s ease-out;
 }
 
 /* Enhanced hover effects with GPU acceleration */
 .hover-lift {
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-    box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
   will-change: transform, box-shadow;
   transform: translateZ(0);
   backface-visibility: hidden;
@@ -442,7 +436,7 @@ button {
 }
 
 .hover-glow {
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .hover-glow:hover {
@@ -450,7 +444,7 @@ button {
 }
 
 .hover-scale {
-  transition: transform 0.2s ease;
+  transition: transform 0.15s ease;
 }
 
 .hover-scale:hover {
@@ -458,7 +452,7 @@ button {
 }
 
 .hover-rotate {
-  transition: transform 0.3s ease;
+  transition: transform 0.2s ease;
 }
 
 .hover-rotate:hover {
@@ -489,19 +483,19 @@ button {
 
 /* Smooth transitions with GPU acceleration */
 .smooth-transition {
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transform: translateZ(0);
   will-change: transform, opacity;
 }
 
 .smooth-transition-fast {
-  transition: all 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transform: translateZ(0);
   will-change: transform, opacity;
 }
 
 .smooth-transition-slow {
-  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transform: translateZ(0);
   will-change: transform, opacity;
 }
@@ -521,7 +515,7 @@ button {
 
 /* Hover lift effect */
 .hover-lift {
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .hover-lift:hover {
@@ -531,32 +525,30 @@ button {
 
 /* Stagger animation helper */
 .stagger-item {
-  animation: slideInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  animation: slideInUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
 }
 
 .stagger-item:nth-child(1) {
-  animation-delay: 0.1s;
+  animation-delay: 0.03s;
 }
 .stagger-item:nth-child(2) {
-  animation-delay: 0.2s;
+  animation-delay: 0.06s;
 }
 .stagger-item:nth-child(3) {
-  animation-delay: 0.3s;
+  animation-delay: 0.09s;
 }
 .stagger-item:nth-child(4) {
-  animation-delay: 0.4s;
+  animation-delay: 0.12s;
 }
 .stagger-item:nth-child(5) {
-  animation-delay: 0.5s;
+  animation-delay: 0.15s;
 }
 
 /* Performance optimizations for smooth scrolling */
 @media (prefers-reduced-motion: no-preference) {
   /* Smooth scroll with momentum - already defined in @layer base html selector */
 
-  /* Optimize repaints during scroll */
   body {
-    transform: translateZ(0);
     -webkit-font-smoothing: antialiased;
   }
 
@@ -607,16 +599,19 @@ body {
   transition: outline-offset 0.2s ease-out;
 }
 
-/* Optimize card animations */
+/* Cards: avoid will-change when idle (only on hover for lift) */
 .card,
 [class*="Card"] {
-  transform: translateZ(0);
+  contain: layout style paint;
+}
+.card:hover,
+[class*="Card"]:hover {
   will-change: transform;
 }
 
 /* Smooth backdrop blur transitions */
 .backdrop-blur {
-  transition: backdrop-filter 0.3s ease;
+  transition: backdrop-filter 0.2s ease;
 }
 
 /* Enhanced Print Styles */
@@ -920,14 +915,14 @@ button::before {
 }
 
 button:active::before {
-  animation: ripple 0.6s ease-out;
+  animation: ripple 0.35s ease-out;
 }
 
 /* Smooth form input animations */
 input:focus,
 textarea:focus,
 select:focus {
-  animation: inputFocus 0.3s ease-out;
+  animation: inputFocus 0.2s ease-out;
 }
 
 @keyframes inputFocus {
@@ -1022,7 +1017,7 @@ select:focus {
 
 /* Smooth Theme Transitions */
 * {
-  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
 /* Photo Gallery Styles */

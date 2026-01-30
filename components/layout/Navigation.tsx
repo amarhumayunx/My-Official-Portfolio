@@ -66,19 +66,51 @@ export default function Navigation() {
 
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const isScrollingRef = useRef(true)
+  const skipObserverRef = useRef(false)
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
+  // Sync activeSection with URL hash on load and when hash changes (e.g. browser back)
   useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 50)
-      isScrollingRef.current = true
+    if (pathname !== "/") return
+    const syncFromHash = () => {
+      const hash = window.location.hash.slice(1)
+      const validIds = navItems.filter((i) => i.href.startsWith("#")).map((i) => i.href.slice(1))
+      if (hash && validIds.includes(hash)) {
+        setActiveSection(hash)
+      } else if (!hash) {
+        setActiveSection("home")
+      }
     }
-    onScroll()
+    syncFromHash()
+    window.addEventListener("hashchange", syncFromHash)
+    return () => window.removeEventListener("hashchange", syncFromHash)
+  }, [pathname])
+
+  useEffect(() => {
+    let rafId: number | null = null
+    let lastValue: boolean | null = null
+    const onScroll = () => {
+      isScrollingRef.current = true
+      if (rafId != null) return
+      rafId = requestAnimationFrame(() => {
+        const next = window.scrollY > 50
+        if (lastValue !== next) {
+          lastValue = next
+          setScrolled(next)
+        }
+        rafId = null
+      })
+    }
+    lastValue = window.scrollY > 50
+    setScrolled(lastValue)
     window.addEventListener("scroll", onScroll, { passive: true })
-    return () => window.removeEventListener("scroll", onScroll)
+    return () => {
+      if (rafId != null) cancelAnimationFrame(rafId)
+      window.removeEventListener("scroll", onScroll)
+    }
   }, [])
 
   useEffect(() => {
@@ -95,6 +127,7 @@ export default function Navigation() {
 
       const obs = new IntersectionObserver(
         ([entry]) => {
+          if (skipObserverRef.current) return
           if (entry.isIntersecting && isScrollingRef.current) {
             if (scrollTimeoutRef.current) {
               clearTimeout(scrollTimeoutRef.current)
@@ -173,6 +206,7 @@ export default function Navigation() {
 
       if (pathname !== "/") {
         router.push(`/${href}`)
+        setActiveSection(id)
         // Wait for navigation, then scroll
         setTimeout(() => {
           const element = document.getElementById(id)
@@ -194,8 +228,9 @@ export default function Navigation() {
         if (scrollTimeoutRef.current) {
           clearTimeout(scrollTimeoutRef.current)
         }
-        isScrollingRef.current = false
         setActiveSection(id)
+        skipObserverRef.current = true
+        isScrollingRef.current = false
 
         const navbarHeight = 80
         const elementPosition = element.getBoundingClientRect().top + window.pageYOffset
@@ -214,7 +249,8 @@ export default function Navigation() {
 
         setTimeout(() => {
           isScrollingRef.current = true
-        }, 500)
+          skipObserverRef.current = false
+        }, 1200)
       }
     },
     [pathname, router],
@@ -232,27 +268,26 @@ export default function Navigation() {
     )
   }
 
+  /* Liquid smooth spring: soft, fluid motion */
+  const liquidSpring = { type: "spring" as const, stiffness: 120, damping: 26 }
+  const liquidSpringFast = { type: "spring" as const, stiffness: 200, damping: 28 }
+
   return (
     <motion.nav
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ 
-        duration: 0.6,
-        ease: [0.4, 0, 0.2, 1],
-        type: "spring",
-        stiffness: 100,
-        damping: 20,
-      }}
+      transition={liquidSpring}
       style={{ willChange: "transform, opacity" }}
       className="fixed top-0 left-0 right-0 z-50 px-3 sm:px-4 md:px-6 lg:px-8 py-2 sm:py-3"
       aria-label="Primary"
     >
       <div
         className={[
-          "max-w-7xl mx-auto border rounded-xl sm:rounded-2xl backdrop-blur-xl transition-all duration-300",
+          "max-w-7xl mx-auto border rounded-xl sm:rounded-2xl transition-all duration-500 ease-[cubic-bezier(0.33,1,0.68,1)]",
+          "backdrop-blur-3xl supports-[backdrop-filter]:backdrop-blur-3xl",
           scrolled
-            ? "bg-transparent border-white/20 shadow-md"
-            : "bg-transparent border-white/10",
+            ? "bg-white/60 dark:bg-zinc-900/60 border-white/25 dark:border-white/15 shadow-xl shadow-black/5 dark:shadow-black/20"
+            : "bg-white/50 dark:bg-zinc-900/50 border-white/20 dark:border-white/10",
         ].join(" ")}
       >
         <div className="px-3 sm:px-4 md:px-5 lg:px-6">
@@ -263,7 +298,7 @@ export default function Navigation() {
               className="flex items-center gap-1.5 sm:gap-2 group flex-shrink-0 z-50"
               aria-label="Go to home"
             >
-              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 group-hover:rotate-180 transition-transform duration-500 flex-shrink-0" />
+              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 group-hover:rotate-180 transition-transform duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] flex-shrink-0" />
               <span className="text-base sm:text-lg font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent whitespace-nowrap">
                 MHA
               </span>
@@ -273,7 +308,7 @@ export default function Navigation() {
               <div
                 ref={containerRef}
                 data-testid="nav-container"
-                className="relative flex items-center gap-0.5 rounded-full border border-zinc-200/30 dark:border-zinc-800/30 bg-zinc-50/60 dark:bg-zinc-800/60 px-1.5 py-1 overflow-x-auto scrollbar-hide"
+                className="relative flex items-center gap-0.5 rounded-full border border-zinc-200/30 dark:border-zinc-800/30 bg-zinc-50/50 dark:bg-zinc-800/50 backdrop-blur-md px-1.5 py-1 overflow-x-auto scrollbar-hide transition-all duration-500 ease-[cubic-bezier(0.33,1,0.68,1)]"
                 style={{ maxWidth: "100%" }}
               >
                 <AnimatePresence>
@@ -287,7 +322,7 @@ export default function Navigation() {
                         width: activeRect.width,
                       }}
                       exit={{ opacity: 0, scale: 0.98 }}
-                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                      transition={liquidSpringFast}
                       className="absolute top-1 bottom-1 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 shadow-sm z-10"
                       aria-hidden="true"
                       data-testid="active-pill"
@@ -305,7 +340,7 @@ export default function Navigation() {
                       onClick={(e) => handleNavClick(e, item.href)}
                       data-testid={`nav-btn-${testId}`}
                       className={[
-                        "relative z-20 px-2.5 py-1.5 rounded-full text-xs font-medium transition-colors whitespace-nowrap flex-shrink-0",
+                        "relative z-20 px-2.5 py-1.5 rounded-full text-xs font-medium transition-[color,background] duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] whitespace-nowrap flex-shrink-0",
                         active
                           ? "text-white"
                           : "text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white",
@@ -314,7 +349,7 @@ export default function Navigation() {
                     >
                       {!active && (
                         <span
-                          className="absolute inset-0 rounded-full bg-zinc-200/60 dark:bg-zinc-700/60 opacity-0 hover:opacity-100 transition-opacity z-0"
+                          className="absolute inset-0 rounded-full bg-zinc-200/60 dark:bg-zinc-700/60 opacity-0 hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] z-0"
                           aria-hidden="true"
                         />
                       )}
@@ -360,24 +395,25 @@ export default function Navigation() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={liquidSpring}
             className="lg:hidden fixed inset-0 z-40"
             aria-hidden={!isOpen}
           >
             <button
               aria-label="Close navigation"
-              className="absolute inset-0 bg-black/50 backdrop-blur-md"
+              className="absolute inset-0 bg-black/40 backdrop-blur-[20px] transition-opacity duration-500 ease-[cubic-bezier(0.33,1,0.68,1)]"
               onClick={() => setIsOpen(false)}
             />
             <motion.div
               initial={{ x: "100%", opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: "100%", opacity: 0 }}
-              transition={{ type: "spring", stiffness: 380, damping: 34 }}
-              className="absolute right-3 sm:right-4 top-16 sm:top-[4.5rem] w-72 sm:w-80 max-w-[calc(100vw-1.5rem)] rounded-xl sm:rounded-2xl border border-white/20 dark:border-white/10 bg-white/90 dark:bg-black/90 backdrop-blur-xl shadow-2xl overflow-hidden"
+              transition={liquidSpring}
+              className="absolute right-3 sm:right-4 top-16 sm:top-[4.5rem] w-72 sm:w-80 max-w-[calc(100vw-1.5rem)] rounded-xl sm:rounded-2xl border border-white/20 dark:border-white/10 bg-white/80 dark:bg-black/80 backdrop-blur-[32px] shadow-2xl overflow-hidden"
               role="dialog"
               aria-modal="true"
             >
-              <div className="p-3 sm:p-4 border-b border-white/20 dark:border-white/10 bg-white/50 dark:bg-black/50 backdrop-blur-sm">
+              <div className="p-3 sm:p-4 border-b border-white/20 dark:border-white/10 bg-white/40 dark:bg-black/40 backdrop-blur-xl">
                 <p className="text-xs sm:text-sm font-semibold text-foreground">Navigation</p>
               </div>
               <div className="p-2">
@@ -390,7 +426,7 @@ export default function Navigation() {
                       onClick={(e) => handleNavClick(e, item.href)}
                       data-testid={`nav-btn-${testId}-mobile`}
                       className={[
-                        "w-full flex items-center gap-2.5 sm:gap-3 px-2.5 sm:px-3 py-2.5 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-all duration-200",
+                        "w-full flex items-center gap-2.5 sm:gap-3 px-2.5 sm:px-3 py-2.5 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-all duration-500 ease-[cubic-bezier(0.33,1,0.68,1)]",
                         active
                           ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md"
                           : "text-foreground hover:bg-white/50 dark:hover:bg-white/10 hover:backdrop-blur-sm",
@@ -399,7 +435,7 @@ export default function Navigation() {
                       <span
                         className={[
                           "p-1.5 sm:p-2 rounded-lg transition-colors",
-                          active ? "bg-white/30 backdrop-blur-sm" : "bg-white/30 dark:bg-white/10 backdrop-blur-sm",
+                          active ? "bg-white/30 backdrop-blur-md" : "bg-white/30 dark:bg-white/10 backdrop-blur-md",
                         ].join(" ")}
                         aria-hidden="true"
                       >

@@ -184,7 +184,7 @@ export default function Blog() {
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.4 }}
           viewport={{ once: true }}
           className="text-center mb-16"
         >
@@ -199,7 +199,7 @@ export default function Blog() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          transition={{ duration: 0.35, delay: 0.1 }}
           viewport={{ once: true }}
           className="relative max-w-xl mx-auto mb-12"
         >
@@ -210,7 +210,7 @@ export default function Blog() {
           <Input
             type="text"
             placeholder="Search blog posts by title, tech, or description... (Ctrl/Cmd + K)"
-            className="w-full pl-10 pr-10 py-2 rounded-full border border-input focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 shadow-sm"
+            className="w-full pl-10 pr-10 py-2 rounded-full border border-input focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 shadow-sm"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             onKeyDown={(e) => {
@@ -245,7 +245,7 @@ export default function Blog() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.25 }}
+          transition={{ duration: 0.3, delay: 0.12 }}
           viewport={{ once: true }}
           className="mb-8"
         >
@@ -328,13 +328,13 @@ export default function Blog() {
               <ParallaxSection key={post.slug} offset={15}>
                 <FluidTransition delay={index * 0.1} duration={0.8}>
                   <MicroInteraction variant="lift" intensity="normal">
-                    <Card className="h-full flex flex-col shadow-lg hover:shadow-xl transition-all duration-300 border-0 overflow-hidden hover-lift group">
+                    <Card className="h-full flex flex-col shadow-lg hover:shadow-xl transition-all duration-200 border-0 overflow-hidden hover-lift group">
                       <div className="relative w-full h-48 overflow-hidden">
                         <Image
                           src={post.image || "/placeholder.svg"}
                           alt={post.title}
                           fill
-                          className="object-cover group-hover:scale-110 transition-transform duration-500"
+                          className="object-cover group-hover:scale-110 transition-transform duration-300"
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                           priority={index === 0}
                         />
@@ -350,7 +350,7 @@ export default function Blog() {
                           {post.readTimeMinutes} min read
                         </div>
                         <CardTitle
-                          className="text-xl group-hover:text-primary transition-colors duration-300"
+                          className="text-xl group-hover:text-primary transition-colors duration-200"
                           dangerouslySetInnerHTML={{
                             __html: debouncedSearchTerm ? highlightText(post.title, debouncedSearchTerm) : post.title,
                           }}
@@ -388,7 +388,7 @@ export default function Blog() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.3 }}
               className="col-span-full text-center text-muted-foreground text-lg py-10"
             >
               No blog posts found matching your search.

@@ -1,32 +1,5 @@
-import Hero from "@/components/sections/Hero"
-import About from "@/components/sections/About"
-import Skills from "@/components/sections/Skills"
-import Projects from "@/components/sections/Projects"
-import GitHubRepos from "@/components/sections/github-repos"
-import StatsSection from "@/components/sections/StatsSection"
-import ServicesOverview from "@/components/sections/ServicesOverview"
-import Testimonials from "@/components/sections/Testimonials"
-import Blog from "@/components/sections/Blog"
-import Contact from "@/components/sections/Contact"
-import ProjectsCarousel from "@/components/sections/ProjectsCarousel"
-import Certifications from "@/components/sections/Certifications"
-import { PrefetchManager } from "@/components/ui/PrefetchManager"
+import { HomeSections } from "@/components/pages/HomeSections"
 
 export default function Home() {
-  return (
-    <>
-      <PrefetchManager />
-      <Hero />
-      <About />
-      <StatsSection />
-      <Skills />
-      <Certifications />
-      <Projects />
-      <ProjectsCarousel />
-      <ServicesOverview />
-      <Testimonials />
-      <Blog />
-      <Contact />
-    </>
-  )
+  return <HomeSections />
 }

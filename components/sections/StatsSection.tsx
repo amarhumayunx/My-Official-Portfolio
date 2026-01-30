@@ -17,7 +17,7 @@ export default function StatsSection() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.35 }}
           viewport={{ once: true, margin: "-100px" }}
           className="text-center mb-12"
         >
@@ -32,10 +32,10 @@ export default function StatsSection() {
               key={i}
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ delay: i * 0.1, duration: 0.5 }}
+              transition={{ delay: i * 0.05, duration: 0.3 }}
               viewport={{ once: true, margin: "-50px" }}
             >
-              <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300">
+              <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-200">
                 <CardContent className="p-6 text-center">
                   <motion.div
                     initial={{ scale: 0 }}

@@ -44,8 +44,9 @@ export function PageTransition({ children, variant = "fade" }: PageTransitionPro
         animate={transitionConfig.animate}
         exit={transitionConfig.exit}
         transition={{
-          duration: 0.4,
-          ease: [0.4, 0, 0.2, 1], // Smoother easing
+          type: "spring",
+          stiffness: 200,
+          damping: 28,
         }}
         style={{ willChange: "transform, opacity" }}
       >

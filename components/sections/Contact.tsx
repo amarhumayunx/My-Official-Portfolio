@@ -80,7 +80,7 @@ export default function Contact() {
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.4 }}
           viewport={{ once: true }}
           className="text-center mb-12 sm:mb-16"
         >
@@ -97,13 +97,13 @@ export default function Contact() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
+          transition={{ duration: 0.35, delay: 0.05 }}
           viewport={{ once: true }}
           className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-12 sm:mb-16"
         >
           {quickActions.map((action, index) => (
-            <motion.div key={action.title} whileHover={{ y: -5 }} transition={{ duration: 0.2 }}>
-              <Card className="h-full hover:shadow-lg transition-all duration-300 border-0 shadow-md">
+            <motion.div key={action.title} whileHover={{ y: -5 }} transition={{ duration: 0.15 }}>
+              <Card className="h-full hover:shadow-lg transition-all duration-200 border-0 shadow-md">
                 <CardContent className="p-4 sm:p-6 text-center">
                   <action.icon className="w-7 h-7 sm:w-8 sm:h-8 text-primary mx-auto mb-3 sm:mb-4" />
                   <h3 className="font-semibold mb-2 text-sm sm:text-base">{action.title}</h3>
@@ -123,7 +123,7 @@ export default function Contact() {
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: 0.4 }}
               viewport={{ once: true }}
               className="space-y-6 sm:space-y-8"
             >
@@ -142,10 +142,10 @@ export default function Contact() {
                     key={info.title}
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    transition={{ duration: 0.3, delay: index * 0.05 }}
                     viewport={{ once: true }}
                   >
-                    <Card className="hover:shadow-md transition-shadow duration-300">
+                    <Card className="hover:shadow-md transition-shadow duration-200">
                       <CardContent className="p-3 sm:p-4">
                         <div className="flex items-start gap-3 sm:gap-4">
                           <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
@@ -176,7 +176,7 @@ export default function Contact() {
                 <h4 className="font-semibold mb-3 sm:mb-4 text-sm sm:text-base">Connect With Me</h4>
                 <div className="flex gap-3 flex-wrap">
                   {socialLinks.map((social) => (
-                    <Card key={social.name} className="hover:shadow-md transition-shadow duration-300 flex-1 min-w-max">
+                    <Card key={social.name} className="hover:shadow-md transition-shadow duration-200 flex-1 min-w-max">
                       <CardContent className="p-3 sm:p-4">
                         <div className="flex items-center gap-2 sm:gap-3">
                           <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
@@ -210,7 +210,7 @@ export default function Contact() {
               <motion.div
                 initial={{ opacity: 0, x: 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8 }}
+                transition={{ duration: 0.4 }}
                 viewport={{ once: true }}
               >
                 <MultiStepForm />
@@ -223,7 +223,7 @@ export default function Contact() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          transition={{ duration: 0.35, delay: 0.15 }}
           viewport={{ once: true }}
           className="mt-12 sm:mt-16"
         >
@@ -238,7 +238,7 @@ export default function Contact() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          transition={{ duration: 0.35, delay: 0.2 }}
           viewport={{ once: true }}
           className="mt-12 sm:mt-16 text-center"
         >

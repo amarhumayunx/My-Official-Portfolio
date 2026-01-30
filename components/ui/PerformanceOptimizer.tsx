@@ -43,28 +43,9 @@ export function PerformanceOptimizer() {
       }
     }
 
-    // Optimize scroll with RAF throttling
-    let ticking = false
-    const handleScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          // Scroll handling logic here
-          ticking = false
-        })
-        ticking = true
-      }
-    }
-
     // Initialize optimizations
     preloadResources()
     optimizeImages()
-
-    // Add scroll optimization
-    window.addEventListener("scroll", handleScroll, { passive: true })
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll)
-    }
   }, [])
 
   return null

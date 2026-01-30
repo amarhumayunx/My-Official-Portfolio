@@ -117,7 +117,7 @@ export default function Testimonials() {
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.4 }}
           viewport={{ once: true }}
           className="text-center mb-16"
         >
@@ -215,7 +215,7 @@ export default function Testimonials() {
               <button
                 key={index}
                 onClick={() => goToSlide(index)}
-                className={`h-2 rounded-full transition-all duration-300 ${
+                className={`h-2 rounded-full transition-all duration-200 ${
                   index === currentIndex
                     ? "w-8 bg-primary"
                     : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50"
@@ -234,12 +234,12 @@ export default function Testimonials() {
               key={index}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
+              transition={{ delay: index * 0.05, duration: 0.3 }}
               viewport={{ once: true }}
               className="hidden md:block"
             >
               <Card
-                className={`h-full p-6 shadow-lg hover:shadow-xl transition-all duration-300 border-0 cursor-pointer ${
+                className={`h-full p-6 shadow-lg hover:shadow-xl transition-all duration-200 border-0 cursor-pointer ${
                   index === currentIndex ? "ring-2 ring-primary" : ""
                 }`}
                 onClick={() => goToSlide(index)}

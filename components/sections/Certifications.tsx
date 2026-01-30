@@ -155,11 +155,11 @@ export default function Certifications() {
               key={index}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
+              transition={{ delay: index * 0.05, duration: 0.3 }}
               viewport={{ once: true }}
-              whileHover={{ y: -5, transition: { duration: 0.2 } }}
+              whileHover={{ y: -5, transition: { duration: 0.15 } }}
             >
-              <Card className="h-full hover:shadow-xl transition-all duration-300 border-l-4 border-l-primary">
+              <Card className="h-full hover:shadow-xl transition-all duration-200 border-l-4 border-l-primary">
                   <CardHeader>
                     <div className="flex items-start justify-between gap-4 mb-2">
                       <div className="flex-1">

@@ -125,7 +125,7 @@ export default function Skills() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          transition={{ duration: 0.25, ease: "easeOut" }}
           viewport={{ once: true, margin: "-100px" }}
           className="text-center mb-10 sm:mb-14 lg:mb-16"
         >
@@ -133,7 +133,7 @@ export default function Skills() {
             className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4"
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
             viewport={{ once: true }}
           >
             Technical <span className="gradient-text">Expertise</span>
@@ -142,7 +142,7 @@ export default function Skills() {
             className="text-base sm:text-lg text-muted-foreground max-w-3xl mx-auto px-4"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.25, delay: 0.1 }}
             viewport={{ once: true }}
           >
             A comprehensive overview of my technical skills and proficiency levels across various domains
@@ -156,7 +156,7 @@ export default function Skills() {
               initial={{ opacity: 0, y: 40, scale: 0.95 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               transition={{
-                duration: 0.5,
+                duration: 0.2,
                 delay: index * 0.08,
                 ease: [0.25, 0.46, 0.45, 0.94],
               }}
@@ -165,10 +165,10 @@ export default function Skills() {
             >
               <motion.div
                 whileHover={{ y: -6, scale: 1.01 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
                 className="h-full"
               >
-                <Card className="h-full overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-500">
+                <Card className="h-full overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-200">
                   <CardHeader className="pb-3 sm:pb-4 px-4 sm:px-5">
                     <button
                       onClick={() => toggleCategory(category.title)}
@@ -181,17 +181,17 @@ export default function Skills() {
                           className={`p-1.5 sm:p-2 rounded-lg bg-gradient-to-br ${category.color} shadow-md`}
                           whileHover={{ rotate: 12, scale: 1.1 }}
                           whileTap={{ scale: 0.95 }}
-                          transition={{ duration: 0.3, ease: "easeOut" }}
+                          transition={{ duration: 0.2, ease: "easeOut" }}
                         >
                           {category.icon}
                         </motion.div>
-                        <CardTitle className="text-base sm:text-lg lg:text-xl group-hover:text-primary transition-colors duration-300">
+                        <CardTitle className="text-base sm:text-lg lg:text-xl group-hover:text-primary transition-colors duration-200">
                           {category.title}
                         </CardTitle>
                       </div>
                       <motion.div
                         animate={{ rotate: expandedCategories.includes(category.title) ? 180 : 0 }}
-                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        transition={{ duration: 0.2, ease: "easeInOut" }}
                       >
                         {expandedCategories.includes(category.title) ? (
                           <ChevronUp className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
@@ -209,7 +209,7 @@ export default function Skills() {
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+                        transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
                       >
                         <CardContent className="space-y-2.5 sm:space-y-3 pt-0 px-4 sm:px-5 pb-4 sm:pb-5">
                           {category.skills.map((skill, skillIndex) => (
@@ -219,7 +219,7 @@ export default function Skills() {
                               animate={{ opacity: 1, x: 0 }}
                               transition={{
                                 delay: skillIndex * 0.04,
-                                duration: 0.4,
+                                duration: 0.25,
                                 ease: "easeOut",
                               }}
                               className="space-y-1.5 sm:space-y-2"
@@ -257,11 +257,11 @@ export default function Skills() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
+          transition={{ duration: 0.25, delay: 0.15, ease: "easeOut" }}
           viewport={{ once: true, margin: "-100px" }}
           className="mt-10 sm:mt-12 lg:mt-16"
         >
-          <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-500 overflow-hidden">
+          <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-200 overflow-hidden">
             <CardHeader className="px-4 sm:px-6">
               <CardTitle className="text-lg sm:text-xl lg:text-2xl flex items-center gap-2 sm:gap-3">
                 <motion.span
@@ -281,11 +281,11 @@ export default function Skills() {
                     key={lang.name}
                     initial={{ opacity: 0, scale: 0.9 }}
                     whileInView={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: index * 0.15, duration: 0.4 }}
+                    transition={{ delay: index * 0.06, duration: 0.25 }}
                     viewport={{ once: true }}
                     whileHover={{ scale: 1.03, y: -3 }}
                     whileTap={{ scale: 0.98 }}
-                    className="bg-muted/50 rounded-xl p-4 sm:p-5 transition-all duration-300 hover:shadow-md"
+                    className="bg-muted/50 rounded-xl p-4 sm:p-5 transition-all duration-200 hover:shadow-md"
                   >
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-2 sm:gap-3">
@@ -301,7 +301,7 @@ export default function Skills() {
                         className="text-lg sm:text-xl font-bold text-primary tabular-nums"
                         initial={{ scale: 0 }}
                         whileInView={{ scale: 1 }}
-                        transition={{ delay: index * 0.15 + 0.2, type: "spring", stiffness: 200 }}
+                        transition={{ delay: index * 0.06 + 0.2, type: "spring", stiffness: 200 }}
                         viewport={{ once: true }}
                       >
                         {lang.percentage}%
@@ -310,7 +310,7 @@ export default function Skills() {
                     <motion.div
                       initial={{ scaleX: 0 }}
                       whileInView={{ scaleX: 1 }}
-                      transition={{ delay: index * 0.15 + 0.3, duration: 0.8, ease: "easeOut" }}
+                      transition={{ delay: index * 0.06 + 0.3, duration: 0.4, ease: "easeOut" }}
                       viewport={{ once: true }}
                       style={{ transformOrigin: "left" }}
                     >

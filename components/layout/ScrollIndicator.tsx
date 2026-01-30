@@ -7,14 +7,26 @@ export function ScrollIndicator() {
   const [scrollProgress, setScrollProgress] = useState(0)
 
   useEffect(() => {
+    let rafId: number | null = null
+    let lastProgress = -1
     const handleScroll = () => {
-      const totalHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight
-      const scrolled = (window.scrollY / totalHeight) * 100
-      setScrollProgress(scrolled)
+      if (rafId != null) return
+      rafId = requestAnimationFrame(() => {
+        const totalHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight
+        const raw = totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0
+        const progress = Math.round(raw)
+        if (progress !== lastProgress) {
+          lastProgress = progress
+          setScrollProgress(raw)
+        }
+        rafId = null
+      })
     }
-
     window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
+    return () => {
+      if (rafId != null) cancelAnimationFrame(rafId)
+      window.removeEventListener('scroll', handleScroll)
+    }
   }, [])
 
   return (

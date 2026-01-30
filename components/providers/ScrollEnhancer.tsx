@@ -2,19 +2,24 @@
 
 import { useEffect } from "react"
 
-// Easing function for smooth animations
 const easeInOutCubic = (t: number): number => {
   return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
 }
 
+const THROTTLE_MS = 120
+
 export function ScrollEnhancer() {
   useEffect(() => {
-    let ticking = false
-    let rafId: number | null = null
+    const elements = document.querySelectorAll("[data-scroll-animate]")
+    if (elements.length === 0) return
 
-    // Sync scroll-linked animations across elements with data-scroll-progress attribute
+    let rafId: number | null = null
+    let lastRun = 0
+
     const syncScrollAnimations = () => {
-      const elements = document.querySelectorAll("[data-scroll-animate]")
+      const now = Date.now()
+      if (now - lastRun < THROTTLE_MS) return
+      lastRun = now
 
       elements.forEach((el) => {
         const rect = el.getBoundingClientRect()
@@ -22,39 +27,28 @@ export function ScrollEnhancer() {
           0,
           Math.min(1, (window.innerHeight - rect.top) / (window.innerHeight + rect.height)),
         )
-
         const eased = easeInOutCubic(elProgress)
         el.setAttribute("data-scroll-progress", String(eased))
       })
-
-      ticking = false
     }
 
-    // Throttled scroll handler using requestAnimationFrame
     const handleScroll = () => {
-      if (!ticking) {
-        rafId = requestAnimationFrame(syncScrollAnimations)
-        ticking = true
+      if (rafId == null) {
+        rafId = requestAnimationFrame(() => {
+          syncScrollAnimations()
+          rafId = null
+        })
       }
     }
 
-    // Throttled resize handler
-    const handleResize = () => {
-      if (rafId) cancelAnimationFrame(rafId)
-      rafId = requestAnimationFrame(syncScrollAnimations)
-    }
-
-    // Use passive event listener for better performance
     window.addEventListener("scroll", handleScroll, { passive: true })
-    window.addEventListener("resize", handleResize, { passive: true })
-
-    // Initial sync on mount
+    window.addEventListener("resize", handleScroll, { passive: true })
     syncScrollAnimations()
 
     return () => {
-      if (rafId) cancelAnimationFrame(rafId)
+      if (rafId != null) cancelAnimationFrame(rafId)
       window.removeEventListener("scroll", handleScroll)
-      window.removeEventListener("resize", handleResize)
+      window.removeEventListener("resize", handleScroll)
     }
   }, [])
 

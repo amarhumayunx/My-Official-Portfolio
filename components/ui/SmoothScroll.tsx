@@ -8,7 +8,7 @@ export function SmoothScroll() {
     // Initialize smooth scroll for all anchor links
     const cleanup = initSmoothScroll({
       offset: 80, // Navigation height
-      duration: 800,
+      duration: 450,
     })
 
     // Handle initial hash on page load

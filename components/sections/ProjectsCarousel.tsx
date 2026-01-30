@@ -44,7 +44,7 @@ export default function ProjectsCarousel() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.35 }}
           viewport={{ once: true }}
           className="text-center mb-12"
         >
@@ -58,7 +58,7 @@ export default function ProjectsCarousel() {
           ref={containerRef}
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.2 }}
           viewport={{ once: true }}
           onMouseDown={(e) => setDragStart(e.clientX)}
           onTouchStart={(e) => setDragStart(e.changedTouches[0].clientX)}
@@ -79,7 +79,7 @@ export default function ProjectsCarousel() {
                     initial={{ opacity: 0, x: direction > 0 ? 100 : -100 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: direction > 0 ? -100 : 100 }}
-                    transition={{ duration: 0.4, ease: "easeInOut" }}
+                    transition={{ duration: 0.25, ease: "easeInOut" }}
                     className="absolute inset-0"
                   >
                     <Image
@@ -95,7 +95,7 @@ export default function ProjectsCarousel() {
                   className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"
                   initial={{ opacity: 0 }}
                   whileHover={{ opacity: 1 }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ duration: 0.2 }}
                 />
               </motion.div>
 
@@ -124,7 +124,7 @@ export default function ProjectsCarousel() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ duration: 0.2 }}
                 >
                   <h3 className="text-2xl sm:text-3xl font-bold mb-2">{project.title}</h3>
                   <p className="text-primary font-medium mb-4">{project.subtitle}</p>

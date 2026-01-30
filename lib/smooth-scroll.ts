@@ -11,7 +11,7 @@ export interface ScrollOptions {
 }
 
 const DEFAULT_OFFSET = 80 // Navbar height
-const DEFAULT_DURATION = 800 // ms
+const DEFAULT_DURATION = 450 // ms
 
 // Easing function for smooth scrolling
 const easeInOutCubic = (t: number): number => {

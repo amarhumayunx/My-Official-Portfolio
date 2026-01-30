@@ -172,7 +172,7 @@ export default function GitHubRepos({
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
+          transition={{ duration: 0.25, ease: "easeOut" }}
           viewport={{ once: true, margin: "-50px" }}
           className="text-center mb-12 sm:mb-16"
         >
@@ -180,7 +180,7 @@ export default function GitHubRepos({
             className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4"
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.2 }}
             viewport={{ once: true }}
           >
             GitHub <span className="gradient-text">Repositories</span>
@@ -189,7 +189,7 @@ export default function GitHubRepos({
             className="text-base sm:text-lg text-muted-foreground max-w-3xl mx-auto px-4"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.3, delay: 0.1 }}
+            transition={{ duration: 0.2, delay: 0.05 }}
             viewport={{ once: true }}
           >
             Explore the GitHub repositories for projects featured in my portfolio timeline.

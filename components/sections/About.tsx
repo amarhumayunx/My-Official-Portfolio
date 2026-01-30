@@ -115,7 +115,7 @@ export default function About() {
                     whileHover={{
                       scale: 1.05,
                       rotate: 5,
-                      transition: { duration: 0.3 },
+                      transition: { duration: 0.2 },
                     }}
                     aria-hidden="true"
                   >
@@ -228,9 +228,9 @@ export default function About() {
                       key={index}
                       initial={{ opacity: 0, x: -30 }}
                       whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1, duration: 0.5 }}
+                      transition={{ delay: index * 0.05, duration: 0.3 }}
                       viewport={{ once: true }}
-                      whileHover={{ x: 8, transition: { duration: 0.2 } }}
+                      whileHover={{ x: 8, transition: { duration: 0.15 } }}
                     >
                       <Card className="border-l-4 border-l-primary hover:shadow-lg transition-all duration-300">
                         <CardContent className="p-5 sm:p-6">
@@ -265,9 +265,9 @@ export default function About() {
                       key={index}
                       initial={{ opacity: 0, x: -30 }}
                       whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1, duration: 0.5 }}
+                      transition={{ delay: index * 0.05, duration: 0.3 }}
                       viewport={{ once: true }}
-                      whileHover={{ x: 8, transition: { duration: 0.2 } }}
+                      whileHover={{ x: 8, transition: { duration: 0.15 } }}
                     >
                       <Card className="border-l-4 border-l-secondary hover:shadow-lg transition-all duration-300">
                         <CardContent className="p-5 sm:p-6">

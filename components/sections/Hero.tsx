@@ -25,14 +25,6 @@ export default function Hero() {
   const opacity = useTransform(scrollYProgress, [0, 1], [1, 0])
   const scale = useTransform(scrollYProgress, [0, 1], [1, 0.8])
 
-  // Enhanced background blob animations
-  const blob1X = useTransform(scrollYProgress, [0, 1], ["0%", "10%"])
-  const blob1Y = useTransform(scrollYProgress, [0, 1], ["0%", "-20%"])
-  const blob2X = useTransform(scrollYProgress, [0, 1], ["0%", "-15%"])
-  const blob2Y = useTransform(scrollYProgress, [0, 1], ["0%", "25%"])
-  const blob3X = useTransform(scrollYProgress, [0, 1], ["0%", "5%"])
-  const blob3Y = useTransform(scrollYProgress, [0, 1], ["0%", "-10%"])
-
   const scrollToAbout = () => {
     document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })
   }
@@ -48,25 +40,20 @@ export default function Hero() {
 
       <div ref={contentRef} className="max-w-7xl mx-auto w-full section-padding text-center" style={{ y: contentY }}>
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
+          transition={{ type: "spring", stiffness: 100, damping: 24 }}
           className="space-y-6 sm:space-y-8"
         >
           <motion.div
             initial={{ scale: 0, rotate: -180 }}
             animate={{ scale: 1, rotate: 0 }}
-            transition={{
-              delay: 0.2,
-              type: "spring",
-              stiffness: 200,
-              damping: 15,
-            }}
+            transition={{ delay: 0.1, type: "spring", stiffness: 140, damping: 22 }}
             whileHover={{
-              scale: 1.1,
-              rotate: 5,
+              scale: 1.08,
+              rotate: 4,
               boxShadow: "0 0 30px rgba(59, 130, 246, 0.6), 0 0 60px rgba(139, 92, 246, 0.4)",
-              transition: { duration: 0.3 },
+              transition: { type: "spring", stiffness: 300, damping: 24 },
             }}
             className="w-28 h-28 sm:w-32 sm:h-32 mx-auto rounded-full bg-gradient-to-r from-blue-500 to-purple-600 p-1 cursor-pointer relative"
             aria-hidden="true"
@@ -74,7 +61,7 @@ export default function Hero() {
             <motion.div
               className="w-full h-full rounded-full bg-background flex items-center justify-center overflow-hidden"
               animate={{ y: [0, -5, 0] }}
-              transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+              transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
             >
               <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/20 dark:to-purple-900/20 flex items-center justify-center">
                 <User className="w-10 h-10 sm:w-12 sm:h-12 text-primary" />
@@ -89,7 +76,7 @@ export default function Hero() {
                 rotate: [0, 15, -15, 0],
               }}
               transition={{
-                duration: 3,
+                duration: 2,
                 repeat: Number.POSITIVE_INFINITY,
                 ease: "easeInOut",
               }}
@@ -105,10 +92,10 @@ export default function Hero() {
                 rotate: [0, -15, 15, 0],
               }}
               transition={{
-                duration: 3.5,
+                duration: 2.5,
                 repeat: Number.POSITIVE_INFINITY,
                 ease: "easeInOut",
-                delay: 0.5,
+                delay: 0.25,
               }}
             >
               <Smartphone className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -119,11 +106,11 @@ export default function Hero() {
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 1, ease: "easeOut" }}
+              transition={{ delay: 0.15, type: "spring", stiffness: 120, damping: 24 }}
               whileHover={{
                 scale: 1.01,
                 textShadow: "0px 0px 8px rgba(59, 130, 246, 0.4)",
-                transition: { duration: 0.2 },
+                transition: { type: "spring", stiffness: 400, damping: 28 },
               }}
               className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold leading-tight"
             >
@@ -133,7 +120,7 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 1, ease: "easeOut" }}
+              transition={{ delay: 0.25, type: "spring", stiffness: 120, damping: 24 }}
               className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-muted-foreground min-h-[32px] sm:min-h-[40px]"
               aria-live="polite"
               aria-atomic="true"
@@ -155,7 +142,7 @@ export default function Hero() {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 1, ease: "easeOut" }}
+            transition={{ delay: 0.35, type: "spring", stiffness: 120, damping: 24 }}
             className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-4"
           >
             Passionate Flutter Developer with hands-on experience building high-performance, cross-platform apps using
@@ -165,7 +152,7 @@ export default function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1, duration: 1, ease: "easeOut" }}
+            transition={{ delay: 0.45, type: "spring", stiffness: 120, damping: 24 }}
             className="flex flex-col items-center gap-4 px-4"
           >
             <motion.div
@@ -225,17 +212,17 @@ export default function Hero() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 1.2 }}
+            transition={{ delay: 0.5, type: "spring", stiffness: 120, damping: 24 }}
             className="pt-6 sm:pt-8"
           >
             <motion.div
               animate={{ y: [0, -15, 0], scale: [1, 1.05, 1] }}
               transition={{
-                duration: 2,
+                duration: 1.8,
                 repeat: Number.POSITIVE_INFINITY,
-                ease: "easeInOut",
+                ease: [0.33, 1, 0.68, 1],
               }}
-              whileHover={{ scale: 1.1, y: -20, transition: { duration: 0.3 } }}
+              whileHover={{ scale: 1.1, y: -20, transition: { type: "spring", stiffness: 300, damping: 24 } }}
             >
               <Button
                 onClick={scrollToAbout}

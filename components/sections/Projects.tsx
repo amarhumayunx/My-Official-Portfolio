@@ -164,7 +164,7 @@ export default function Projects() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          transition={{ duration: 0.35, ease: "easeOut" }}
           viewport={{ once: true, margin: "-100px" }}
           className="text-center mb-12 sm:mb-16"
         >
@@ -181,7 +181,7 @@ export default function Projects() {
             className="text-base sm:text-lg text-muted-foreground max-w-3xl mx-auto px-4"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.35, delay: 0.1 }}
             viewport={{ once: true }}
           >
             A showcase of my recent work, demonstrating expertise in mobile development, AI integration, and
@@ -192,7 +192,7 @@ export default function Projects() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
+          transition={{ duration: 0.3, delay: 0.05 }}
           viewport={{ once: true, margin: "-50px" }}
           className="relative max-w-xl mx-auto mb-8"
         >
@@ -203,7 +203,7 @@ export default function Projects() {
           <Input
             type="text"
             placeholder="Search projects by title, tech, or description..."
-            className="w-full pl-10 pr-4 py-2.5 rounded-full border border-input focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 shadow-sm hover:shadow-md"
+            className="w-full pl-10 pr-4 py-2.5 rounded-full border border-input focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 shadow-sm hover:shadow-md"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             aria-label="Search projects"
@@ -214,7 +214,7 @@ export default function Projects() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          transition={{ duration: 0.3, delay: 0.1 }}
           viewport={{ once: true, margin: "-50px" }}
           className="flex flex-wrap justify-center gap-2 mb-6"
         >
@@ -223,7 +223,7 @@ export default function Projects() {
               key={category}
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ delay: index * 0.05, duration: 0.3 }}
+              transition={{ delay: index * 0.03, duration: 0.2 }}
               viewport={{ once: true }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -232,7 +232,7 @@ export default function Projects() {
                 variant={selectedCategory === category ? "default" : "outline"}
                 size="sm"
                 onClick={() => setSelectedCategory(category)}
-                className="rounded-full transition-all duration-300"
+                className="rounded-full transition-all duration-200"
                 aria-pressed={selectedCategory === category}
               >
                 {category}
@@ -245,7 +245,7 @@ export default function Projects() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
+          transition={{ duration: 0.3, delay: 0.15 }}
           viewport={{ once: true, margin: "-50px" }}
           className="mb-8"
         >
@@ -272,7 +272,7 @@ export default function Projects() {
                   key={tech}
                   initial={{ opacity: 0, scale: 0.8 }}
                   whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: index * 0.03, duration: 0.3 }}
+                  transition={{ delay: index * 0.02, duration: 0.2 }}
                   viewport={{ once: true }}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -281,7 +281,7 @@ export default function Projects() {
                     variant={isSelected ? "default" : "outline"}
                     size="sm"
                     onClick={() => toggleTechnology(tech)}
-                    className="rounded-full transition-all duration-300 text-xs sm:text-sm"
+                    className="rounded-full transition-all duration-200 text-xs sm:text-sm"
                     aria-pressed={isSelected}
                   >
                     {tech}
@@ -340,7 +340,7 @@ export default function Projects() {
                 key={i}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1, duration: 0.5 }}
+                transition={{ delay: i * 0.05, duration: 0.3 }}
               >
                 <CardSkeleton />
               </motion.div>
@@ -352,8 +352,8 @@ export default function Projects() {
                   initial={{ opacity: 0, y: 40, scale: 0.95 }}
                   whileInView={{ opacity: 1, y: 0, scale: 1 }}
                   transition={{
-                    duration: 0.5,
-                    delay: index * 0.08,
+                    duration: 0.35,
+                    delay: index * 0.04,
                     ease: [0.25, 0.46, 0.45, 0.94],
                   }}
                   viewport={{ once: true, margin: "-50px" }}

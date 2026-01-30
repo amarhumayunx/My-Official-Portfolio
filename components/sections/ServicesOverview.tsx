@@ -160,7 +160,7 @@ export default function ServicesOverview() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
               <FluidTransition key={stat.label} delay={index * 0.1}>
-                <Card className="text-center hover:shadow-lg transition-all duration-300">
+                <Card className="text-center hover:shadow-lg transition-all duration-200">
                   <CardContent className="p-6">
                     <stat.icon className="w-8 h-8 text-primary mx-auto mb-4" />
                     <div className="text-3xl font-bold text-primary mb-2">{stat.number}</div>
@@ -190,7 +190,7 @@ export default function ServicesOverview() {
             {serviceCategories.map((service, index) => (
               <FluidTransition key={service.id} delay={index * 0.1}>
                 <MicroInteraction variant="lift" intensity="normal">
-                  <Card className="h-full hover:shadow-2xl transition-all duration-500 group border-0 shadow-lg overflow-hidden hover-lift">
+                  <Card className="h-full hover:shadow-2xl transition-all duration-300 group border-0 shadow-lg overflow-hidden hover-lift">
                     {/* Service Header */}
                     <div className={`h-2 bg-gradient-to-r ${service.color}`} />
 
@@ -304,7 +304,7 @@ export default function ServicesOverview() {
               },
             ].map((process, index) => (
               <FluidTransition key={process.step} delay={index * 0.1}>
-                <Card className="text-center hover:shadow-lg transition-all duration-300 group">
+                <Card className="text-center hover:shadow-lg transition-all duration-200 group">
                   <CardContent className="p-6">
                     <div className="text-4xl mb-4">{process.icon}</div>
                     <div className="text-sm font-bold text-primary mb-2">STEP {process.step}</div>

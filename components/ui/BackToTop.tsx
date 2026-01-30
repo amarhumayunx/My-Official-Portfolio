@@ -31,7 +31,7 @@ export default function BackToTop() {
   const scrollToTop = () => {
     const start = window.pageYOffset
     const startTime = performance.now()
-    const duration = 800
+    const duration = 450
 
     const easeInOutCubic = (t: number): number => {
       return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
