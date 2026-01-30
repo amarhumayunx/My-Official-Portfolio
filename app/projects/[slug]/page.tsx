@@ -33,20 +33,17 @@ export async function generateStaticParams() {
   }))
 }
 
-// Metadata for the dynamic page
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-  if (process.env.NODE_ENV === "development") {
-    console.log("Generating metadata for project slug:", params.slug)
-  }
-  const project = getProjectBySlug(params.slug)
+// Metadata for the dynamic page (Next 15+: params is a Promise)
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}) {
+  const { slug } = await params
+  const project = getProjectBySlug(slug)
 
   if (!project) {
-    if (process.env.NODE_ENV === "development") {
-      console.log("Project not found for metadata:", params.slug)
-    }
-    return {
-      title: "Project Not Found",
-    }
+    return { title: "Project Not Found" }
   }
 
   return {
@@ -61,23 +58,22 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       card: "summary_large_image",
       title: project.title,
       description: project.description,
-      creator: "@amarhumayunx", // Assuming your Twitter handle
+      creator: "@amarhumayunx",
       images: [project.image],
     },
   }
 }
 
-export default function ProjectDetailPage({ params }: { params: { slug: string } }) {
-  if (process.env.NODE_ENV === "development") {
-    console.log("Rendering ProjectDetailPage for slug:", params.slug)
-  }
-  const project = getProjectBySlug(params.slug)
+export default async function ProjectDetailPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}) {
+  const { slug } = await params
+  const project = getProjectBySlug(slug)
 
   if (!project) {
-    if (process.env.NODE_ENV === "development") {
-      console.log("Project not found during render:", params.slug)
-    }
-    notFound() // Render 404 page if project not found
+    notFound()
   }
 
   // Construct the full URL for sharing

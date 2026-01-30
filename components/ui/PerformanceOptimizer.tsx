@@ -6,15 +6,7 @@ export function PerformanceOptimizer() {
   useEffect(() => {
     // Preload critical resources
     const preloadResources = () => {
-      // Preload critical fonts
-      const fontLink = document.createElement("link")
-      fontLink.rel = "preload"
-      fontLink.as = "font"
-      fontLink.type = "font/woff2"
-      fontLink.crossOrigin = "anonymous"
-      document.head.appendChild(fontLink)
-
-      // Preconnect to external domains
+      // Preconnect to external domains (no font preload without a real href to avoid invalid request)
       const domains = [
         "https://fonts.googleapis.com",
         "https://fonts.gstatic.com",

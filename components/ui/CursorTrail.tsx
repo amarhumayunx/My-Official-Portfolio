@@ -4,6 +4,9 @@ import * as React from "react"
 import { motion, useMotionValue, useSpring } from "framer-motion"
 import { useLocalStorage } from "@/hooks/useLocalStorage"
 
+/** Throttle to ~120fps (8.33ms) to avoid excess re-renders while staying smooth */
+const TRAIL_THROTTLE_MS = 9
+
 interface CursorTrailProps {
   enabled?: boolean
   size?: number
@@ -17,22 +20,45 @@ export function CursorTrail({ enabled: propEnabled, size = 20, color = "rgba(59,
   const cursorY = useMotionValue(0)
   const springX = useSpring(cursorX, { stiffness: 500, damping: 28 })
   const springY = useSpring(cursorY, { stiffness: 500, damping: 28 })
+  const lastTrailUpdate = React.useRef(0)
+  const pending = React.useRef<{ x: number; y: number } | null>(null)
+  const rafId = React.useRef<number | null>(null)
 
   React.useEffect(() => {
     if (!enabled) return
+
+    const flushTrail = () => {
+      rafId.current = null
+      const p = pending.current
+      if (p) {
+        pending.current = null
+        setTrail((prev) => {
+          const next = [...prev, { x: p.x, y: p.y, id: Date.now() }]
+          return next.slice(-8) // Fewer points = fewer DOM nodes for 120 FPS
+        })
+      }
+    }
 
     const handleMouseMove = (e: MouseEvent) => {
       cursorX.set(e.clientX)
       cursorY.set(e.clientY)
 
-      setTrail((prev) => {
-        const newTrail = [...prev, { x: e.clientX, y: e.clientY, id: Date.now() }]
-        return newTrail.slice(-10) // Keep last 10 points
-      })
+      const now = performance.now()
+      if (now - lastTrailUpdate.current >= TRAIL_THROTTLE_MS) {
+        lastTrailUpdate.current = now
+        pending.current = { x: e.clientX, y: e.clientY }
+        if (rafId.current == null) rafId.current = requestAnimationFrame(flushTrail)
+      } else {
+        pending.current = { x: e.clientX, y: e.clientY }
+        if (rafId.current == null) rafId.current = requestAnimationFrame(flushTrail)
+      }
     }
 
-    window.addEventListener("mousemove", handleMouseMove)
-    return () => window.removeEventListener("mousemove", handleMouseMove)
+    window.addEventListener("mousemove", handleMouseMove, { passive: true })
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove)
+      if (rafId.current != null) cancelAnimationFrame(rafId.current)
+    }
   }, [enabled, cursorX, cursorY])
 
   if (!enabled) return null

@@ -107,6 +107,20 @@
   .animate-liquid {
     animation-timing-function: var(--ease-liquid);
   }
+  /* Particle float: GPU-only (transform + opacity) for 120 FPS */
+  .particle-float {
+    will-change: transform, opacity;
+    animation: particle-float ease-in-out infinite;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+  @keyframes particle-float {
+    0%, 100% { transform: translateZ(0) translateY(0); opacity: 0.2; }
+    50% { transform: translateZ(0) translateY(-28px); opacity: 0.5; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .particle-float { animation: none; opacity: 0.25; }
+  }
   /* All sections are now transparent - background shows through */
   .section-bg {
     @apply bg-transparent relative;
@@ -139,11 +153,11 @@
   text-rendering: optimizeLegibility;
 }
 
-/* Optimize animations with will-change */
+/* 120 FPS: GPU-friendly animations (transform/opacity only) */
 [data-animate],
 .animate-on-scroll {
   will-change: transform, opacity;
-  transform: translateZ(0); /* Force GPU acceleration */
+  transform: translateZ(0);
   backface-visibility: hidden;
   perspective: 1000px;
 }

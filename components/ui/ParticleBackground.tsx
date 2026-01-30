@@ -1,7 +1,9 @@
 "use client"
 
 import * as React from "react"
-import { motion } from "framer-motion"
+
+/** Lightweight particle count for 120 FPS (compositor-only CSS animations) */
+const PARTICLE_COUNT = 18
 
 interface Particle {
   id: number
@@ -16,40 +18,30 @@ export function ParticleBackground() {
   const [particles, setParticles] = React.useState<Particle[]>([])
 
   React.useEffect(() => {
-    const count = 50
-    const newParticles: Particle[] = Array.from({ length: count }, (_, i) => ({
+    const newParticles: Particle[] = Array.from({ length: PARTICLE_COUNT }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
       y: Math.random() * 100,
-      size: Math.random() * 4 + 2,
-      duration: Math.random() * 20 + 10,
-      delay: Math.random() * 5,
+      size: Math.random() * 3 + 2,
+      duration: 14 + Math.random() * 12,
+      delay: Math.random() * 4,
     }))
     setParticles(newParticles)
   }, [])
 
   return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10">
-      {particles.map((particle) => (
-        <motion.div
-          key={particle.id}
-          className="absolute rounded-full bg-primary/20"
+    <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10" aria-hidden="true">
+      {particles.map((p) => (
+        <div
+          key={p.id}
+          className="absolute rounded-full bg-primary/20 particle-float"
           style={{
-            left: `${particle.x}%`,
-            top: `${particle.y}%`,
-            width: `${particle.size}px`,
-            height: `${particle.size}px`,
-          }}
-          animate={{
-            y: [0, -30, 0],
-            x: [0, Math.random() * 20 - 10, 0],
-            opacity: [0.2, 0.5, 0.2],
-          }}
-          transition={{
-            duration: particle.duration,
-            repeat: Infinity,
-            delay: particle.delay,
-            ease: "easeInOut",
+            left: `${p.x}%`,
+            top: `${p.y}%`,
+            width: `${p.size}px`,
+            height: `${p.size}px`,
+            animationDuration: `${p.duration}s`,
+            animationDelay: `${p.delay}s`,
           }}
         />
       ))}

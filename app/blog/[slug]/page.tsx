@@ -2,30 +2,27 @@ export const dynamicParams = false // Keep this to ensure strict static generati
 
 import { getBlogPosts, getBlogPostBySlug } from "@/lib/blog-utils"
 import BlogPostPageClient from "./BlogPostPageClient"
-import { notFound } from "next/navigation" // Import notFound
+import { notFound } from "next/navigation"
 
 // Generate static params for all blog posts at build time
 export async function generateStaticParams() {
   const posts = getBlogPosts()
-  console.log(
-    "Generated slugs for blog posts (from generateStaticParams):",
-    posts.map((post) => post.slug),
-  )
   return posts.map((post) => ({
     slug: post.slug,
   }))
 }
 
-// Metadata for the dynamic page
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-  console.log("Generating metadata for blog slug:", params.slug)
-  const post = getBlogPostBySlug(params.slug)
+// Metadata for the dynamic page (Next 15+: params is a Promise)
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}) {
+  const { slug } = await params
+  const post = getBlogPostBySlug(slug)
 
   if (!post) {
-    console.log("Blog post not found for metadata:", params.slug)
-    return {
-      title: "Blog Post Not Found",
-    }
+    return { title: "Blog Post Not Found" }
   }
 
   return {
@@ -40,22 +37,24 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       card: "summary_large_image",
       title: post.title,
       description: post.description,
-      creator: "@amarhumayunx", // Assuming your Twitter handle
+      creator: "@amarhumayunx",
       images: [post.image],
     },
   }
 }
 
-// Main page component (Server Component)
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
-  console.log("Rendering BlogPostPage (Server Component) for slug:", params.slug)
-  const post = getBlogPostBySlug(params.slug) // Fetch data here in the Server Component
+// Main page component (Server Component) — Next 15+: params is a Promise
+export default async function BlogPostPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}) {
+  const { slug } = await params
+  const post = getBlogPostBySlug(slug)
 
   if (!post) {
-    console.log("Blog post not found during Server Component render:", params.slug)
-    notFound() // Trigger 404 if post is not found
+    notFound()
   }
 
-  // Pass the fetched post data directly to the Client Component
   return <BlogPostPageClient post={post} />
 }
