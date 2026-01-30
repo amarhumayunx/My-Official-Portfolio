@@ -273,18 +273,19 @@ export default function Navigation() {
   const liquidSpringFast = { type: "spring" as const, stiffness: 200, damping: 28 }
 
   return (
-    <motion.nav
-      initial={{ y: -80, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={liquidSpring}
-      style={{ willChange: "transform, opacity" }}
-      className="fixed top-0 left-0 right-0 z-50 px-3 sm:px-4 md:px-6 lg:px-8 py-2 sm:py-3"
-      aria-label="Primary"
-    >
+    <div className="fixed inset-x-0 top-0 z-50" style={{ isolation: "isolate" }}>
+      <motion.nav
+        initial={{ y: -80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={liquidSpring}
+        style={{ willChange: "transform, opacity" }}
+        className="w-full px-3 sm:px-4 md:px-6 lg:px-8 py-2 sm:py-3"
+        aria-label="Primary"
+      >
       <div
         className={[
           "max-w-7xl mx-auto rounded-xl sm:rounded-2xl transition-all duration-500 ease-[cubic-bezier(0.33,1,0.68,1)]",
-          "modal-bg backdrop-blur-lg",
+          "bg-black backdrop-blur-lg border border-white/20",
           scrolled
             ? "shadow-xl shadow-black/5 dark:shadow-black/20"
             : "",
@@ -462,5 +463,6 @@ export default function Navigation() {
         )}
       </AnimatePresence>
     </motion.nav>
+    </div>
   )
 }

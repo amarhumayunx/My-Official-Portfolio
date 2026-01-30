@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic"
 
-export const DynamicAnalyticsChart = dynamic(() => import("@/components/sections/Analytics"), {
+export const DynamicAnalyticsChart = dynamic(() => import("@/components/ui/ProjectAnalytics").then((m) => ({ default: m.ProjectAnalytics })), {
   loading: () => <div className="h-80 bg-muted animate-pulse rounded-lg" />,
-  ssr: false, // Analytics charts don't need SSR - safe in client component
+  ssr: false,
 })

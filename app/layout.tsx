@@ -13,7 +13,7 @@ import PerformanceMonitor from "@/components/debug/PerformanceMonitor"
 import { ScrollIndicator } from "@/components/layout/ScrollIndicator"
 import { PageLoadingBar } from "@/components/ui/PageLoadingBar"
 import { ScrollEnhancer } from "@/components/providers/ScrollEnhancer"
-import { FloatingActionButton } from "@/components/ui/FloatingActionButton"
+import { FloatingActionButtonWrapper } from "@/components/ui/FloatingActionButtonWrapper"
 import { ErrorBoundary } from "@/components/providers/ErrorBoundary"
 import { SkipNav } from "@/components/layout/SkipNav"
 import { CookieConsent } from "@/components/ui/CookieConsent"
@@ -249,7 +249,7 @@ export default function RootLayout({
                   </main>
                 </PageTransition>
               </Suspense>
-              <FloatingActionButton />
+              <FloatingActionButtonWrapper />
               <Footer />
               <BackToTop />
               <PerformanceMonitor />

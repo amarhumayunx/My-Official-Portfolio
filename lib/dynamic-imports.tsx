@@ -1,6 +1,5 @@
 import dynamic from "next/dynamic"
 import type { ComponentType } from "react"
-import { DynamicAnalyticsChart } from "./client-dynamic-imports"
 
 /**
  * Create a dynamically imported component with loading and error states
@@ -23,8 +22,6 @@ export const DynamicBlogList = dynamic(() => import("@/components/sections/BlogL
   loading: () => <div className="h-96 bg-muted animate-pulse rounded-lg" />,
   ssr: true,
 })
-
-export { DynamicAnalyticsChart }
 
 export const DynamicProjectShowcase = dynamic(() => import("@/components/sections/ProjectShowcase"), {
   loading: () => <div className="h-96 bg-muted animate-pulse rounded-lg" />,

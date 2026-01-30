@@ -20,10 +20,13 @@ class ErrorTracker {
   /**
    * Track an error
    */
-  trackError(error: Error | string, context?: Record<string, unknown>) {
+  trackError(error: Error | string | unknown, context?: Record<string, unknown>) {
+    const message =
+      error instanceof Error ? error.message : typeof error === "string" ? error : String(error ?? "Unknown error")
+    const stack = error instanceof Error ? error.stack : undefined
     const errorInfo: ErrorInfo = {
-      message: error instanceof Error ? error.message : error,
-      stack: error instanceof Error ? error.stack : undefined,
+      message: message || "Unknown error",
+      stack,
       url: typeof window !== "undefined" ? window.location.href : undefined,
       userAgent: typeof window !== "undefined" ? navigator.userAgent : undefined,
       timestamp: Date.now(),
@@ -39,7 +42,7 @@ class ErrorTracker {
 
     // Log to console in development
     if (process.env.NODE_ENV === "development") {
-      console.error("Error tracked:", errorInfo)
+      console.error("Error tracked:", message, context ?? errorInfo)
     }
 
     // In production, you would send to error tracking service (Sentry, LogRocket, etc.)
