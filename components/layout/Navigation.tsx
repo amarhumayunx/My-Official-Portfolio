@@ -284,10 +284,10 @@ export default function Navigation() {
       <div
         className={[
           "max-w-7xl mx-auto border rounded-xl sm:rounded-2xl transition-all duration-500 ease-[cubic-bezier(0.33,1,0.68,1)]",
-          "backdrop-blur-3xl supports-[backdrop-filter]:backdrop-blur-3xl",
+          "backdrop-blur-[48px] supports-[backdrop-filter]:backdrop-blur-[48px]",
           scrolled
-            ? "bg-white/60 dark:bg-zinc-900/60 border-white/25 dark:border-white/15 shadow-xl shadow-black/5 dark:shadow-black/20"
-            : "bg-white/50 dark:bg-zinc-900/50 border-white/20 dark:border-white/10",
+            ? "bg-white/45 dark:bg-zinc-900/45 border-white/25 dark:border-white/15 shadow-xl shadow-black/5 dark:shadow-black/20"
+            : "bg-white/35 dark:bg-zinc-900/35 border-white/20 dark:border-white/10",
         ].join(" ")}
       >
         <div className="px-3 sm:px-4 md:px-5 lg:px-6">
