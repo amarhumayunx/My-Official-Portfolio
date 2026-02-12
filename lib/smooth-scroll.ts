@@ -11,7 +11,7 @@ export interface ScrollOptions {
 }
 
 const DEFAULT_OFFSET = 80 // Navbar height
-const DEFAULT_DURATION = 620 // ms — longer for liquid-smooth feel
+const DEFAULT_DURATION = 820 // ms — longer for liquid-smooth feel
 
 // Liquid-like easing: smooth start and end (ease-out-quart style, feels like liquid deceleration)
 const easeOutQuart = (t: number): number => 1 - Math.pow(1 - t, 4)
@@ -109,7 +109,7 @@ export function handleHashNavigation(hash: string, options: ScrollOptions = {}):
   if (!hash) return
 
   const id = hash.replace("#", "")
-  
+
   // Small delay to ensure DOM is ready
   setTimeout(() => {
     scrollToSection(id, options)
@@ -123,7 +123,7 @@ export function initSmoothScroll(options: ScrollOptions = {}): () => void {
   const handleClick = (e: MouseEvent) => {
     const target = e.target as HTMLElement
     const anchor = target.closest('a[href^="#"]') as HTMLAnchorElement
-    
+
     if (!anchor) return
 
     const href = anchor.getAttribute("href")
