@@ -7,7 +7,7 @@ import { AnimatedCounter } from "@/components/ui/AnimatedCounter"
 export default function StatsSection() {
   const stats = [
     { label: "Projects Completed", value: 4, suffix: "+" },
-    { label: "GitHub Repositories", value: 25, suffix: "+" },
+    { label: "GitHub Repositories", value: 35, suffix: "+" },
     { label: "Years of Experience", value: 1, suffix: "+" },
   ]
 
