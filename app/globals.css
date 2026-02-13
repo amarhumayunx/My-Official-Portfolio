@@ -86,7 +86,7 @@
     /* Static gradient (no fixed attachment) for smooth scroll - gradient layer is in EnhancedBackground */
     background: hsl(var(--background));
     min-height: 100vh;
-    position: relative;
+    position: static;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;

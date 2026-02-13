@@ -213,7 +213,9 @@ export default function Navigation() {
           const element = document.getElementById(id)
           if (element) {
             const navbarHeight = 80
-            const elementPosition = element.getBoundingClientRect().top + window.pageYOffset
+            const scrollTop = window.scrollY || window.pageYOffset || 0
+            const elementRect = element.getBoundingClientRect()
+            const elementPosition = scrollTop + elementRect.top
             const offsetPosition = elementPosition - navbarHeight
             window.scrollTo({
               top: offsetPosition,
@@ -234,7 +236,9 @@ export default function Navigation() {
         isScrollingRef.current = false
 
         const navbarHeight = 80
-        const elementPosition = element.getBoundingClientRect().top + window.pageYOffset
+        const scrollTop = window.scrollY || window.pageYOffset || 0
+        const elementRect = element.getBoundingClientRect()
+        const elementPosition = scrollTop + elementRect.top
         const offsetPosition = elementPosition - navbarHeight
 
         // Use smooth scroll utility for better performance
