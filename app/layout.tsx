@@ -252,7 +252,7 @@ export default function RootLayout({
               <FloatingActionButtonWrapper />
               <Footer />
               <BackToTop />
-              <PerformanceMonitor />
+              {process.env.NODE_ENV === "development" && <PerformanceMonitor />}
               <Toaster />
               <CookieConsent />
               <PWARegister />

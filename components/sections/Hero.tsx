@@ -1,6 +1,6 @@
 "use client"
 
-import { motion, useScroll, useTransform } from "framer-motion"
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion"
 import { ArrowDown, Github, Linkedin, Mail, MapPin, User, Code, Smartphone, Download } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { TypewriterEffect } from "@/components/ui/TypewriterEffect"
@@ -13,6 +13,8 @@ import { scrollToSection } from "@/lib/smooth-scroll"
 export default function Hero() {
   const ref = useRef<HTMLElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
+  const reduceMotion = useReducedMotion()
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
@@ -24,22 +26,25 @@ export default function Hero() {
   })
   const contentY = useTransform(contentScrollYProgress, [0, 0.25, 0.5, 0.75, 1], ["-5%", "-2%", "0%", "2%", "5%"])
 
-  // Softer scroll-linked curve for liquid feel (more keyframes = smoother interpolation)
   const opacity = useTransform(scrollYProgress, [0, 0.3, 0.6, 1], [1, 0.85, 0.4, 0])
   const scale = useTransform(scrollYProgress, [0, 0.4, 0.8, 1], [1, 0.95, 0.88, 0.8])
 
   const scrollToAbout = () => scrollToSection("about", { duration: 620 })
+
+  // When reduced motion: skip scroll-linked effects to improve performance
+  const sectionStyle = reduceMotion ? undefined : { opacity, scale }
+  const contentStyle = reduceMotion ? undefined : { y: contentY }
 
   return (
     <motion.section
       ref={ref}
       id="home"
       className="min-h-screen flex items-center justify-center relative overflow-hidden px-4"
-      style={{ opacity, scale }}
+      style={sectionStyle}
     >
       {/* Background removed - using global fixed background */}
 
-      <div ref={contentRef} className="max-w-7xl mx-auto w-full section-padding text-center" style={{ y: contentY }}>
+      <div ref={contentRef} className="max-w-7xl mx-auto w-full section-padding text-center" style={contentStyle}>
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}

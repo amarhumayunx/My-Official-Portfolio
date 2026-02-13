@@ -57,7 +57,7 @@ export function LazySection({
   }, [rootMargin, threshold, loadComponent])
 
   return (
-    <div ref={wrapperRef} className={cn("w-full", className)}>
+    <div ref={wrapperRef} className={cn("w-full", className)} data-content-visibility>
       {!Component ? (
         <div className={cn(minHeight, "w-full")} aria-hidden="true" />
       ) : (

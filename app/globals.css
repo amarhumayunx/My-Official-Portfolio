@@ -76,10 +76,7 @@
     background-color: black;
   }
   
-  /* Smooth scrolling for all scrollable containers */
-  * {
-    scroll-behavior: smooth;
-  }
+  /* Smooth scrolling: html only — avoid * to prevent scroll lag */
   
   body {
     @apply bg-background text-foreground;
@@ -142,24 +139,17 @@
   }
 }
 
-/* Enhanced smooth scrolling with momentum and physics */
-/* Note: Smooth scrolling is now defined in @layer base html selector above */
-/* Additional optimizations for smooth scrolling */
+/* Note: Smooth scrolling on html only for 120 FPS — * scroll-behavior caused lag */
 
-/* GPU acceleration for smooth transforms */
-* {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
+/* 120 FPS: Apply will-change only when animating — avoid persistent will-change */
+[data-animate].in-view,
+.animate-on-scroll.in-view {
+  will-change: transform, opacity;
 }
-
-/* 120 FPS: GPU-friendly animations (transform/opacity only) */
 [data-animate],
 .animate-on-scroll {
-  will-change: transform, opacity;
   transform: translateZ(0);
   backface-visibility: hidden;
-  perspective: 1000px;
 }
 
 /* Smooth transitions for scroll-linked animations */
@@ -168,11 +158,9 @@
   -webkit-overflow-scrolling: touch;
 }
 
-/* Enhanced smooth scrolling for all scrollable elements */
+/* Smooth scroll on html only — * caused scroll lag on 120Hz */
 @media (prefers-reduced-motion: no-preference) {
-  html,
-  body,
-  * {
+  html {
     scroll-behavior: smooth;
   }
   
@@ -228,7 +216,6 @@ body {
 
 ::-webkit-scrollbar-track {
   @apply bg-background;
-  will-change: background-color;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -258,7 +245,6 @@ body {
 
 .glass-effect {
   @apply backdrop-blur-md bg-white/10 border border-white/20;
-  will-change: backdrop-filter;
 }
 
 .section-padding {
@@ -327,14 +313,13 @@ body {
   @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background transition-all duration-200;
 }
 
-/* Smooth transitions for all interactive elements — liquid */
+/* Smooth transitions — avoid transform:translateZ(0) on all elements (causes layer explosion) */
 button,
 a,
 input,
 textarea,
 select {
   transition: transform, opacity, background-color, color, box-shadow var(--duration-liquid) var(--ease-liquid);
-  transform: translateZ(0); /* GPU acceleration */
 }
 
 button:active,
@@ -543,21 +528,24 @@ button {
 
 /* Performance optimizations for smooth scrolling */
 @media (prefers-reduced-motion: no-preference) {
-  /* Smooth scroll with momentum - already defined in @layer base html selector */
-
   body {
     -webkit-font-smoothing: antialiased;
   }
 
-  /* GPU acceleration for animated elements */
+  /* GPU acceleration only for elements that animate on scroll/hover */
   [data-animate],
   .animate-on-scroll,
   .hover-lift,
   .hover-scale {
     transform: translateZ(0);
     backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    perspective: 1000px;
+  }
+}
+
+/* 120Hz displays: prefer smoother compositing */
+@media (update: fast) {
+  html {
+    scroll-behavior: smooth;
   }
 }
 
@@ -604,6 +592,12 @@ body {
 .card:hover,
 [class*="Card"]:hover {
   will-change: transform;
+}
+
+/* 120 FPS: Skip paint for off-screen content — improves scroll performance */
+[data-content-visibility] {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 400px;
 }
 
 /* Smooth backdrop blur transitions */
@@ -1007,6 +1001,58 @@ select:focus {
   }
   50% {
     background-position: 100% 100%, 0% 100%, 0% 0%, 100% 0%;
+  }
+}
+
+/* 120 FPS: Static gradient mesh — no animation = smooth scroll */
+.gradient-mesh-static {
+  background: 
+    radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.12) 0%, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.12) 0%, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.12) 0%, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(16, 185, 129, 0.12) 0%, transparent 50%);
+  transform: translateZ(0);
+  contain: strict;
+}
+.dark .gradient-mesh-static {
+  background: 
+    radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.2) 0%, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.2) 0%, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.2) 0%, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(16, 185, 129, 0.2) 0%, transparent 50%);
+}
+
+/* GPU-only blob animations — transform/opacity only for 120 FPS */
+.bg-blob-float {
+  will-change: transform;
+  transform: translateZ(0);
+  animation: blob-float 20s var(--ease-liquid) infinite;
+}
+.bg-blob-float-delayed {
+  will-change: transform;
+  transform: translateZ(0);
+  animation: blob-float 25s var(--ease-liquid) infinite 2s;
+}
+.bg-blob-rotate {
+  will-change: transform;
+  transform: translateZ(0);
+  animation: blob-rotate 35s var(--ease-liquid) infinite;
+}
+@keyframes blob-float {
+  0%, 100% { transform: translateZ(0) translate(0, 0) scale(1); }
+  33% { transform: translateZ(0) translate(60px, 40px) scale(1.08); }
+  66% { transform: translateZ(0) translate(-40px, -30px) scale(1.05); }
+}
+@keyframes blob-rotate {
+  0% { transform: translate(-50%, -50%) translateZ(0) rotate(0deg) scale(1); }
+  100% { transform: translate(-50%, -50%) translateZ(0) rotate(360deg) scale(1.08); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bg-blob-float,
+  .bg-blob-float-delayed,
+  .bg-blob-rotate {
+    animation: none;
+    will-change: auto;
   }
 }
 

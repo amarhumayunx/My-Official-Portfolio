@@ -334,7 +334,7 @@ export default function Navigation() {
                   return (
                     <button
                       key={item.name}
-                      ref={(el) => (itemRefs.current[idx] = el)}
+                      ref={(el) => { itemRefs.current[idx] = el }}
                       onClick={(e) => handleNavClick(e, item.href)}
                       data-testid={`nav-btn-${testId}`}
                       className={[
