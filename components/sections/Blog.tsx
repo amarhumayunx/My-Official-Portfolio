@@ -179,7 +179,7 @@ export default function Blog() {
   }, [])
 
   return (
-    <section id="blog" className="section-padding section-bg">
+    <section className="section-padding section-bg">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 50 }}

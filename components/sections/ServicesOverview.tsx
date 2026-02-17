@@ -174,7 +174,7 @@ export default function ServicesOverview() {
       </section>
 
       {/* Services Grid */}
-      <section id="services" className="section-padding section-bg">
+      <section className="section-padding section-bg">
         <div className="max-w-7xl mx-auto">
           <FluidTransition className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">

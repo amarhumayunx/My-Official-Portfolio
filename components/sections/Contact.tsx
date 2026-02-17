@@ -75,7 +75,7 @@ const quickActions = [
 
 export default function Contact() {
   return (
-    <section id="contact" className="section-padding section-bg">
+    <section className="section-padding section-bg">
       <div className="max-w-7xl mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 50 }}

@@ -39,7 +39,7 @@ export default function ProjectsCarousel() {
   const project = projects[currentIndex]
 
   return (
-    <section id="portfolio" className="section-padding section-bg">
+    <section className="section-padding section-bg">
       <div className="max-w-4xl mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

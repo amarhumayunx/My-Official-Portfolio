@@ -78,10 +78,10 @@ export default function About() {
   const proseY = useTransform(proseScrollYProgress, [0, 0.25, 0.5, 0.75, 1], ["-10%", "-5%", "0%", "5%", "10%"])
 
   return (
-    <section id="about" ref={sectionRef} className="section-padding section-bg">
+    <section ref={sectionRef} className="section-padding section-bg" aria-labelledby="about-heading">
       <div className="max-w-7xl mx-auto px-4">
         <FluidTransition className="text-center mb-12 sm:mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
+          <h2 id="about-heading" className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
             About <span className="gradient-text">Me</span>
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground max-w-3xl mx-auto px-4">

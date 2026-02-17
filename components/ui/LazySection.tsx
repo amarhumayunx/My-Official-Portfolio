@@ -10,6 +10,8 @@ type ComponentModule = { default: React.ComponentType<Record<string, unknown>> }
 interface LazySectionProps {
   /** Dynamic import of the section component - loads only when in view */
   loader: () => Promise<ComponentModule>
+  /** Section id for anchor links (e.g. "projects") - ensures #projects works before section loads */
+  id?: string
   /** Min height of placeholder to avoid layout shift (e.g. "400px", "50vh") */
   minHeight?: string
   /** Root margin for Intersection Observer - load a bit before visible (e.g. "200px") */
@@ -24,6 +26,7 @@ const defaultMinHeight = "min-h-[60vh]"
 
 export function LazySection({
   loader,
+  id,
   minHeight = defaultMinHeight,
   rootMargin = "400px",
   threshold = 0.01,
@@ -57,7 +60,7 @@ export function LazySection({
   }, [rootMargin, threshold, loadComponent])
 
   return (
-    <div ref={wrapperRef} className={cn("w-full", className)} data-content-visibility>
+    <div ref={wrapperRef} id={id} className={cn("w-full", className)} data-content-visibility>
       {!Component ? (
         <div className={cn(minHeight, "w-full")} aria-hidden="true" />
       ) : (

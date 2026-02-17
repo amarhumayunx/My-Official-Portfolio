@@ -120,7 +120,7 @@ export default function Skills() {
   }
 
   return (
-    <section id="skills" className="section-padding section-bg">
+    <section className="section-padding section-bg">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

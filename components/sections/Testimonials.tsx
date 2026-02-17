@@ -112,7 +112,7 @@ export default function Testimonials() {
   }
 
   return (
-    <section id="testimonials" className="section-padding section-bg">
+    <section className="section-padding section-bg">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 50 }}

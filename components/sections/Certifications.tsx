@@ -138,7 +138,7 @@ const certifications = [
 
 export default function Certifications() {
   return (
-    <section id="certifications" className="section-padding section-bg">
+    <section className="section-padding section-bg">
       <div className="max-w-7xl mx-auto px-4">
         <FluidTransition className="text-center mb-12 sm:mb-16">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
