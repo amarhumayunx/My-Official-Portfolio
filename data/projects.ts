@@ -49,6 +49,7 @@ export const projects: Project[] = [
     status: "Completed",
     image: "/images/balancebite-app.png",
     githubUrl: "https://github.com/amarhumayunx/balancebite",
+    liveDemoUrl: "https://balancebitex.vercel.app",
     categories: ["Mobile App", "AI/ML", "Health Tech"],
     challenges: [
       "Implementing accurate OCR for food labels with varying formats",
@@ -142,6 +143,7 @@ export const projects: Project[] = [
     status: "Completed",
     image: "/images/surah-yaseen-app.png",
     githubUrl: "https://github.com/amarhumayunx/surah-yaseen",
+    liveDemoUrl: "https://v0-surah-yaseenx.vercel.app",
     categories: ["Mobile App", "Religious", "Education"],
     challenges: [
       "Rendering complex Arabic typography correctly",
@@ -193,6 +195,7 @@ export const projects: Project[] = [
     status: "Completed",
     image: "/images/toolkit-app.png",
     githubUrl: "https://github.com/amarhumayunx/toolkit",
+    liveDemoUrl: "https://v0-toolkitx.vercel.app",
     categories: ["Mobile App", "Utility", "Productivity"],
     challenges: [
       "Integrating multiple functionalities smoothly",
@@ -365,6 +368,7 @@ export const projects: Project[] = [
     image:
       "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&h=600&q=80",
     githubUrl: "https://github.com/amarhumayunx/Love-Connect",
+    liveDemoUrl: "https://v0-loveconnectx.vercel.app",
     categories: ["Mobile App", "Social", "Dating"],
     challenges: [
       "Building interactive UI components for engaging user experience",
