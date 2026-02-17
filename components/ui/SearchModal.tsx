@@ -23,7 +23,7 @@ const searchResults: SearchResult[] = [
     title: "BalanceBite App",
     description: "AI-powered health and nutrition mobile app",
     type: "project",
-    href: "/projects/balancebite-mobile-app",
+    href: "/projects/balancebite",
     icon: Briefcase,
   },
   {

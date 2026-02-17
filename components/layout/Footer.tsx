@@ -37,10 +37,10 @@ const quickLinks = [
 ]
 
 const projects = [
-  { name: "BalanceBite App", href: "/projects/balancebite-mobile-app" },
-  { name: "SafeCrypt Manager", href: "/projects/safecrypt-password-manager" },
+  { name: "BalanceBite App", href: "/projects/balancebite" },
+  { name: "SafeCrypt Manager", href: "/projects/safecrypt" },
   { name: "Surah Yaseen App", href: "/projects/surah-yaseen-app" },
-  { name: "Toolkit Collection", href: "/projects/toolkit-mobile-app" },
+  { name: "Toolkit Collection", href: "/projects/toolkit-app" },
   { name: "Love Connect", href: "/projects/love-connect" },
 ]
 

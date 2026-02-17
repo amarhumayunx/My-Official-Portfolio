@@ -52,7 +52,7 @@ const portfolioProjects = [
     image: "/images/balancebite-app.png",
     technologies: ["Flutter", "AI/ML", "Firebase", "Provider"],
     features: ["AI Chatbot", "Meal Planning", "Progress Tracking"],
-    href: "/projects/balancebite-mobile-app",
+    href: "/projects/balancebite",
   },
   {
     name: "SafeCrypt",
@@ -60,7 +60,7 @@ const portfolioProjects = [
     image: "/images/safecrypt-app.png",
     technologies: ["Flutter", "Encryption", "Biometrics", "Hive"],
     features: ["AES-256 Encryption", "Biometric Auth", "Cross-platform Sync"],
-    href: "/projects/safecrypt-password-manager",
+    href: "/projects/safecrypt",
   },
   {
     name: "Surah Yaseen",

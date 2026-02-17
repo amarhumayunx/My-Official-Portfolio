@@ -20,7 +20,7 @@ export function FluidTransition({ children, delay = 0, className = "" }: FluidTr
         ...liquidSpringSoft,
         delay,
       }}
-      viewport={{ once: true, margin: "-50px", amount: 0.2 }}
+      viewport={{ once: true, margin: "-80px", amount: 0 }}
       style={{ willChange: "transform, opacity" }}
       className={className}
     >
